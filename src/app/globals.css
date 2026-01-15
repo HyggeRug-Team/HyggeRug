@@ -1,0 +1,51 @@
+/* src/app/globals.css */
+
+:root {
+  /* Paleta Base (Modo Claro) */
+  --bg-principal: #F9F7F2;  
+  --bg-secundario: #F2EBE5;  
+  --texto-principal: #1F1D1D; 
+  --texto-secundario: #7A5C55; 
+  
+  /* Colores de Acento (Comunes) */
+  --texto-hover: #5C5655;
+
+  /* Tipografía */
+  /* Usamos la variable definida en Next.js Font */
+  --font-body: var(--font-plus-jakarta);
+  --font-titles: var(--font-plus-jakarta);
+}
+
+/* Selector para Modo Oscuro */
+[data-theme='dark'] {
+  --bg-principal: #1A1614;   /* Carbón Café */
+  --bg-secundario: #2D241E;  /* Moca Profundo */
+  --texto-principal: #D9C5B2; /* Arena Pálida */
+  
+  --detalle-arcilla: #D9C5B2; 
+}
+
+body {
+  font-family: var(--font-body); /* Aplicamos la fuente globalmente */
+  background-color: var(--bg-principal);
+  color: var(--texto-principal);
+  transition: background-color 0.3s ease, color 0.3s ease;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.mainLayout {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+main {
+  flex: 1;
+}
+
+h1, h2, h3 {
+  font-family: var(--font-titles);
+  font-weight: 700; 
+}
