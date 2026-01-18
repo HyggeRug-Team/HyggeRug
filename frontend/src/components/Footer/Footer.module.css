@@ -5,6 +5,7 @@
   border-top: 1px solid var(--bg-secundario);
   background-color: #fff;
   margin-top: auto;
+  overflow: hidden;
 }
 
 /* --- Seccion de las columnas Logo, Tienda y Empresa --- */
@@ -23,7 +24,7 @@
 .footerContent {
   display: flex;
   flex-direction: column;
-  gap: 15px; 
+  gap: 15px;
 }
 
 .footerLogo {
@@ -173,15 +174,15 @@
 @media (max-width: 468px) {
   .footerSection {
     grid-template-columns: 1fr;
-    text-align: center;
   }
 
-  .footerLogo, .socialMedias {
-    justify-content: center;
+  .footerSlogan{
+    width: 80%;
   }
 
   .footerPolicy {
     flex-direction: column;
     gap: 10px;
+    width: 100%;
   }
 }
