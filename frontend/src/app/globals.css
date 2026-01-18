@@ -25,14 +25,18 @@
   --detalle-arcilla: #D9C5B2; 
 }
 
-body {
-  font-family: var(--font-body); /* Aplicamos la fuente globalmente */
-  background-color: var(--bg-secundario);
-  color: var(--texto-principal);
-  transition: background-color 0.3s ease, color 0.3s ease;
+html,body{
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  overflow: hidden;
+  background-color: var(--bg-principal);
+}
+
+body {
+  font-family: var(--font-body); /* Aplicamos la fuente globalmente */
+  color: var(--texto-principal);
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 .mainLayout {

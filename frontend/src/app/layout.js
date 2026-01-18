@@ -1,5 +1,4 @@
 // src/app/layout.js
-
 import { Plus_Jakarta_Sans } from 'next/font/google';
 import Footer from '../components/Footer/Footer';
 import './globals.css';
@@ -14,8 +13,9 @@ export default function RootLayout({ children }) {
   return (
     <html lang="es" className={plusJakartaSans.variable}>
       <body className="mainLayout">
-        {children}
-        
+        <main>
+          {children}
+        </main>
         <Footer />
       </body>
     </html>
