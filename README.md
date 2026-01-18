@@ -4,9 +4,9 @@ A continuación, puedes observar la comparativa de la interfaz según el tema se
 
 | Sección | Tema Claro (Light) | Tema Oscuro (Dark) |
 | :--- | :---: | :---: |
-| **Home Page** | ![Home Light](./resultado/hygge_rug_home_page_1.png) | ![Home Dark](./resultado/hygge_rug_home_page_2.png) |
-| **Rug Customizer** | ![Customizer Light](./resultado/rug_customizer_tool_1.png) | ![Customizer Dark](./resultado/rug_customizer_tool_2.png) |
-| **User Dashboard** | ![Dashboard Light](./resultado/user_account_dashboard_1.png) | ![Dashboard Dark](./resultado/user_account_dashboard_2.png) |
-| **Shopping Cart** | ![Cart Light](./resultado/your_shopping_cart_1.png) | ![Cart Dark](./resultado/your_shopping_cart_2.png) |
+| **Home Page** | ![Home Light](./frontend/resultado/hygge_rug_home_page_1.png) | ![Home Dark](./resultado/hygge_rug_home_page_2.png) |
+| **Rug Customizer** | ![Customizer Light](./frontend/resultado/rug_customizer_tool_1.png) | ![Customizer Dark](./resultado/rug_customizer_tool_2.png) |
+| **User Dashboard** | ![Dashboard Light](./frontend/resultado/user_account_dashboard_1.png) | ![Dashboard Dark](./resultado/user_account_dashboard_2.png) |
+| **Shopping Cart** | ![Cart Light](./frontend/resultado/your_shopping_cart_1.png) | ![Cart Dark](./resultado/your_shopping_cart_2.png) |
 
 ---
