@@ -16,7 +16,7 @@ const menuVariants = {
     height: "auto",
     opacity: 1,
     transition: {
-      type: "spring", bounce: 0.3, duration: 0.6,
+      type: "spring", bounce: 0.3, duration: 0.2,
       when: "beforeChildren", // Abre el contenedor antes de mostrar los hijos
       staggerChildren: 0.1 // CADA HIJO ENTRARÁ CON 0.1s DE RETRASO DEL ANTERIOR
     }
