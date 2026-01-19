@@ -5,7 +5,7 @@
   width: 100%;
   position: relative;
   border-top: 1px solid var(--bg-secundario);
-  background-color: #fff;
+  background-color: var(--bg-principal-componente);
   margin-top: auto;
   overflow: hidden;
 }
@@ -36,6 +36,10 @@
   gap: 15px;
 }
 
+.icon {
+  color: var(--texto-hover);
+}
+
 .footerLogo h2 {
   font-size: 20px;
   margin: 0;
@@ -45,7 +49,7 @@
 .footerSlogan {
   font-size: 14px;
   line-height: 1.6;
-  color: var(--texto-hover);
+  color: var(--texto-secundario);
   max-width: 320px;
 }
 
@@ -60,13 +64,13 @@
 .socialMedias a {
   display: flex;
   font-size: 20px;
-  color: var(--texto-hover);
+  color: var(--texto-secundario);
   transition: 0.3s all ease-in-out;
 }
 
 .socialMedias a:hover {
   transform: translateY(-3px);
-  color: var(--texto-secundario);
+  color: var(--texto-hover);
 }
 
 /* -- columna de la tienda,empresa y ayuda -- */
@@ -84,7 +88,7 @@
 .footerHelp h3 {
   font-size: 16px;
   margin-bottom: 5px;
-  color: #000;
+  color: var(--texto-principal);
   font-weight: 600;
 }
 
@@ -93,7 +97,7 @@
 .footerHelp a {
   font-size: 14px;
   text-decoration: none;
-  color: var(--texto-hover);
+  color: var(--texto-secundario);
   transition: 0.3s color ease;
 }
 

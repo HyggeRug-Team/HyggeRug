@@ -1,25 +1,54 @@
 /* src/app/globals.css */
 
 :root {
-  /* Paleta Base (Modo Claro) */
-  --bg-principal: #F9F7F2;  
-  --bg-secundario: #F2EBE5;  
-  --texto-principal: #1F1D1D; 
-  --texto-secundario: #7A5C55; 
-  
-  /* Colores de Acento (Comunes) */
-  --texto-hover: #5C5655;
+  /* --- Paleta Base (Modo Claro por defecto) --- */
+  --bg-principal: #f9f7f2;
+  --bg-secundario: #f2ebe5;
+  --bg-principal-componente: #fff;
+  --texto-principal: #1f1d1d;
+  --texto-secundario: #7a5c55;
+  --texto-hover: #5c5655;
+  --border-shadow: #00000016;
 
   /* Tipografía */
   --font-body: var(--font-plus-jakarta);
   --font-titles: var(--font-plus-jakarta);
 }
 
+/* --- MODO OSCURO (Preferencia de Sistema) --- */
+/* Solo aplica si el usuario NO ha elegido un tema manualmente */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) {
+    --bg-principal: #1a1614;
+    --bg-secundario: #2d241e;
+    --bg-principal-componente: #221E1C;
+    --texto-principal: #EBE5DE;
+    --texto-secundario: #ACA59F;
+    --texto-hover: #D98064;
+    --border-shadow: #5b5a5a2f;
+  }
+}
+
+/* --- MODO OSCURO (Forzado por botón) --- */
 [data-theme='dark'] {
-  --bg-principal: #1A1614; 
-  --bg-secundario: #2D241E; 
-  --texto-principal: #D9C5B2; 
-  --detalle-arcilla: #D9C5B2; 
+  --bg-principal: #1a1614;
+  --bg-secundario: #2d241e;
+  --bg-principal-componente: #221E1C;
+  --texto-principal: #EBE5DE;
+  --texto-secundario: #ACA59F;
+  --texto-hover: #D98064;
+  --border-shadow: #5b5a5a2f;
+}
+
+/* --- MODO CLARO (Forzado por botón) --- */
+[data-theme='light'] {
+  --bg-principal: #f9f7f2;
+  --bg-secundario: #f2ebe5;
+  --bg-principal-componente: #fff;
+  --texto-principal: #1f1d1d;
+  --texto-secundario: #7a5c55;
+  --texto-hover: #5c5655;
+  --border-shadow: #00000016;
 }
 
 /* RESET UNIVERSAL (Importante para evitar problemas de márgenes extraños) */
@@ -28,7 +57,8 @@
   min-width: 0; /* Evita que los flex items se desborden */
 }
 
-html, body {
+html,
+body {
   margin: 0;
   padding: 0;
   background-color: var(--bg-principal);
@@ -51,5 +81,5 @@ main {
   flex: 1;
   width: 100%;
   display: flex;
-  flex-direction: column; 
+  flex-direction: column;
 }

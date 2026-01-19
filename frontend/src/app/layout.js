@@ -1,6 +1,7 @@
 // src/app/layout.js
 import { Plus_Jakarta_Sans } from 'next/font/google';
 import Footer from '../components/Footer/Footer';
+import ThemeToggle from '../components/ThemeSwitch/ThemeToggle';
 import './globals.css';
 
 const plusJakartaSans = Plus_Jakarta_Sans({
@@ -15,6 +16,7 @@ export default function RootLayout({ children }) {
       <body className="mainLayout">
         <main>
           {children}
+          <ThemeToggle />
         </main>
         <Footer />
       </body>
