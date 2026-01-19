@@ -127,7 +127,7 @@
 .footerLegal a,
 .footerLegal p {
   font-size: 12px;
-  color: var(--texto-principal);
+  color: var(--texto-secundario);
   text-decoration: none;
   margin: 0;
   transition: 0.3s all ease;

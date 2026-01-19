@@ -2,7 +2,7 @@
 import { useState, useEffect } from "react"
 import { ThemeSwitcher } from "./ThemeSwitcher"
 
-const Example = () => {
+const ThemeToggle = () => {
   // Estado inicial
   const [theme, setTheme] = useState("system")
 
@@ -42,4 +42,4 @@ const Example = () => {
   )
 }
 
-export default Example
+export default ThemeToggle

@@ -19,7 +19,7 @@
 /* Solo aplica si el usuario NO ha elegido un tema manualmente */
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme]) {
-    --bg-principal: #1a1614;
+    --bg-principal: #2A2522;
     --bg-secundario: #2d241e;
     --bg-principal-componente: #221E1C;
     --texto-principal: #EBE5DE;
@@ -31,7 +31,7 @@
 
 /* --- MODO OSCURO (Forzado por botón) --- */
 [data-theme='dark'] {
-  --bg-principal: #1a1614;
+  --bg-principal: #2A2522;
   --bg-secundario: #2d241e;
   --bg-principal-componente: #221E1C;
   --texto-principal: #EBE5DE;
