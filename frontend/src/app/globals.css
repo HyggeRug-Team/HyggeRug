@@ -11,44 +11,45 @@
   --texto-hover: #5C5655;
 
   /* Tipografía */
-  /* Usamos la variable definida en Next.js Font */
   --font-body: var(--font-plus-jakarta);
   --font-titles: var(--font-plus-jakarta);
 }
 
-/* Selector para Modo Oscuro */
 [data-theme='dark'] {
-  --bg-principal: #1A1614;   /* Carbón Café */
-  --bg-secundario: #2D241E;  /* Moca Profundo */
-  --texto-principal: #D9C5B2; /* Arena Pálida */
-  
+  --bg-principal: #1A1614; 
+  --bg-secundario: #2D241E; 
+  --texto-principal: #D9C5B2; 
   --detalle-arcilla: #D9C5B2; 
 }
 
-html,body{
+/* RESET UNIVERSAL (Importante para evitar problemas de márgenes extraños) */
+* {
+  box-sizing: border-box;
+  min-width: 0; /* Evita que los flex items se desborden */
+}
+
+html, body {
   margin: 0;
   padding: 0;
-  box-sizing: border-box;
   background-color: var(--bg-principal);
+  font-family: var(--font-body);
 }
 
 body {
-  font-family: var(--font-body); /* Aplicamos la fuente globalmente */
   color: var(--texto-principal);
-  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
+/* Estructura Principal */
 .mainLayout {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
 }
 
+/* Hacemos que el <main> ocupe todo el espacio disponible sobrante */
 main {
   flex: 1;
-}
-
-h1, h2, h3 {
-  font-family: var(--font-titles);
-  font-weight: 700; 
+  width: 100%;
+  display: flex;
+  flex-direction: column; 
 }

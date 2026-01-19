@@ -1,3 +1,5 @@
+/* Footer.module.css */
+
 /* --- Componente completo "FOOTER" --- */
 .footerComponent {
   width: 100%;
@@ -12,8 +14,8 @@
 .footerSection {
   display: grid;
   grid-template-columns: 2fr 1fr 1fr 1fr;
-  width: 90%; 
-  max-width: 1280px; /* Tu nueva medida base */
+  width: 90%;
+  max-width: 1280px;
   margin: 0 auto;
   gap: 40px;
   padding: 40px 20px;
@@ -52,6 +54,7 @@
   display: flex;
   gap: 12px;
   margin-top: 5px;
+  transition: 0.3s all ease-in-out;
 }
 
 .socialMedias a {
@@ -81,7 +84,7 @@
 .footerHelp h3 {
   font-size: 16px;
   margin-bottom: 5px;
-  color: #000; 
+  color: #000;
   font-weight: 600;
 }
 
@@ -103,13 +106,13 @@
 /* -- fila de los derechos reservados y politica de privacidad y terminos de servicio -- */
 .footerLegal {
   width: 90%;
-  max-width: 1280px; /* Sincronizado exactamente con footerSection */
+  max-width: 1280px;
   margin: 0 auto;
-  padding: 40px 20px; /* Alineación perfecta con la sección superior */
+  padding: 40px 20px;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border-top: 1px solid var(--bg-secundario); 
+  border-top: 1px solid var(--bg-secundario);
 }
 
 .footerPolicy {
@@ -137,7 +140,7 @@
   .footerLegal {
     max-width: 90%;
   }
-  
+
   .footerSection {
     grid-template-columns: 1.5fr 1fr 1fr;
   }
@@ -162,8 +165,8 @@
     max-width: 100%;
     flex-direction: column-reverse;
     gap: 20px;
-    text-align: center;
     padding: 30px 20px;
+    align-items: flex-start;
   }
 
   .footerPolicy {
@@ -171,18 +174,34 @@
   }
 }
 
-@media (max-width: 468px) {
+@media (max-width: 469px) {
   .footerSection {
     grid-template-columns: 1fr;
   }
 
-  .footerSlogan{
-    width: 80%;
+  .footerLogo {
+    justify-content: center;
   }
 
-  .footerPolicy {
-    flex-direction: column;
+  .footerSlogan {
+    text-align: center;
+    width: 100%;
+  }
+
+  .socialMedias {
+    justify-content: center;
+  }
+
+  .socialMedias a {
+    font-size: 24px;
+  }
+
+  .footerLegal {
+    display: flex;
+    flex-direction: column-reverse;
     gap: 10px;
     width: 100%;
+    align-items: center;
+    text-align: center;
   }
 }

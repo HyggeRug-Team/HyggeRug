@@ -1,0 +1,47 @@
+/* 1. Contenedor Principal: Le damos forma de tarjeta */
+.dropdownWrapper {
+  width: 100%;
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+  margin: 10px auto;
+}
+
+/* 2. El encabezado (Título + Icono) */
+.dropdownTitle {
+  margin: 0;
+  padding: 16px 20px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  background-color: #fff;
+  color: var(--texto-principal);
+  font-size: 16px;
+  font-weight: 600;
+  transition: background-color 0.2s ease;
+}
+
+/* El icono de la flecha */
+.dropdownIcon {
+  font-size: 18px;
+  color: var(--texto-principal);
+}
+
+/* 3. La lista (UL) */
+.dropdownList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  background-color: var(--bg-principal);
+}
+
+/* 4. Los enlaces individuales (A) */
+.dropdownLink {
+  display: block; /* Importante: hace que todo el rectángulo sea clickeable */
+  padding: 12px 20px;
+  text-decoration: none;
+  color: var(--texto-secundario);
+  font-size: 14px;
+  transition: all 0.1s ease;
+}
