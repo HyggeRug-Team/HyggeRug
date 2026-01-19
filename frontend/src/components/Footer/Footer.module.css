@@ -5,7 +5,7 @@
   width: 100%;
   position: relative;
   border-top: 1px solid var(--bg-secundario);
-  background-color: var(--bg-principal-componente);
+  background-color: var(--bg-secundario);
   margin-top: auto;
   overflow: hidden;
 }
@@ -97,14 +97,14 @@
 .footerHelp a {
   font-size: 14px;
   text-decoration: none;
-  color: var(--texto-secundario);
+  color: var(--texto-before-hover);
   transition: 0.3s color ease;
 }
 
 .footerShop a:hover,
 .footerCompany a:hover,
 .footerHelp a:hover {
-  color: var(--texto-secundario);
+  color: var(--texto-after-hover);
 }
 
 /* -- fila de los derechos reservados y politica de privacidad y terminos de servicio -- */
@@ -116,7 +116,6 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border-top: 1px solid var(--bg-secundario);
 }
 
 .footerPolicy {
@@ -127,14 +126,14 @@
 .footerLegal a,
 .footerLegal p {
   font-size: 12px;
-  color: var(--texto-secundario);
+  color: var(--texto-before-hover);
   text-decoration: none;
   margin: 0;
   transition: 0.3s all ease;
 }
 
 .footerLegal a:hover {
-  color: var(--texto-secundario);
+  color: var(--texto-after-hover);
 }
 
 /* --- RESPONSIVE --- */

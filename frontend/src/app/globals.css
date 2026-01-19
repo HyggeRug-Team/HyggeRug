@@ -2,12 +2,13 @@
 
 :root {
   /* --- Paleta Base (Modo Claro por defecto) --- */
-  --bg-principal: #f9f7f2;
-  --bg-secundario: #f2ebe5;
-  --bg-principal-componente: #fff;
+  --bg-principal: #FCFBF7;
+  --bg-secundario: #F5F3EE;
+  --bg-footer-componente: #FFF;
   --texto-principal: #1f1d1d;
   --texto-secundario: #7a5c55;
-  --texto-hover: #5c5655;
+  --texto-before-hover: #7a5c55;
+  --texto-after-hover: #5d443f;
   --border-shadow: #00000016;
 
   /* Tipografía */
@@ -19,35 +20,35 @@
 /* Solo aplica si el usuario NO ha elegido un tema manualmente */
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme]) {
-    --bg-principal: #2A2522;
-    --bg-secundario: #2d241e;
-    --bg-principal-componente: #221E1C;
-    --texto-principal: #EBE5DE;
-    --texto-secundario: #ACA59F;
-    --texto-hover: #D98064;
+    --bg-principal: #18181b;
+    --bg-secundario: #27272a;
+    --texto-principal: #f4f4f5;
+    --texto-secundario: #9ca3af;
+    --texto-before-hover: #795c51;
+    --texto-after-hover: #5e463d;
     --border-shadow: #5b5a5a2f;
   }
 }
 
 /* --- MODO OSCURO (Forzado por botón) --- */
-[data-theme='dark'] {
-  --bg-principal: #2A2522;
-  --bg-secundario: #2d241e;
-  --bg-principal-componente: #221E1C;
-  --texto-principal: #EBE5DE;
-  --texto-secundario: #ACA59F;
-  --texto-hover: #D98064;
+[data-theme="dark"] {
+  --bg-principal: #18181b;
+  --bg-secundario: #27272a;
+  --texto-principal: #f4f4f5;
+  --texto-secundario: #9ca3af;
+  --texto-before-hover: #795c51;
+  --texto-after-hover: #5e463d;
   --border-shadow: #5b5a5a2f;
 }
 
 /* --- MODO CLARO (Forzado por botón) --- */
-[data-theme='light'] {
-  --bg-principal: #f9f7f2;
-  --bg-secundario: #f2ebe5;
-  --bg-principal-componente: #fff;
+[data-theme="light"] {
+  --bg-principal: #FCFBF7;
+  --bg-secundario: #F5F3EE;
   --texto-principal: #1f1d1d;
   --texto-secundario: #7a5c55;
-  --texto-hover: #5c5655;
+  --texto-before-hover: #7a5c55;
+  --texto-after-hover: #5d443f;
   --border-shadow: #00000016;
 }
 
