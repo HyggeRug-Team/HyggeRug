@@ -1,7 +1,7 @@
 import React from 'react'
 // Logo de Hygge
-// Tamaño por defecto de 40, si se quiere modificar llamar al componente <Logo size={200}/>
-function Logo({ size = 40 }) {
+// Tamaño por defecto de 30, si se quiere modificar llamar al componente <Logo size={200}/>
+function Logo({ size = 30 }) {
   return (
     <div className='div-logo'>
       <svg version="1.0" xmlns="http://www.w3.org/2000/svg"
@@ -91,9 +91,6 @@ function Logo({ size = 40 }) {
           c-3 19 -17 45 -29 56 -27 27 -127 58 -127 40z"/>
         </g>
       </svg>
-
-
-
     </div>
   )
 }

@@ -27,7 +27,7 @@ export const ThemeSwitcher = ({ value, onChange }) => {
           justifyContent: "center",
           cursor: "pointer",
           boxShadow: value === "light" ? "0 2px 5px rgba(0,0,0,0.1)" : "none",
-          transition: "all 0.2s"
+          transition: "all 0.8s"
         }}
         title="Modo Claro"
       >
@@ -48,7 +48,7 @@ export const ThemeSwitcher = ({ value, onChange }) => {
           justifyContent: "center",
           cursor: "pointer",
           boxShadow: value === "system" ? "0 2px 5px rgba(0,0,0,0.1)" : "none",
-          transition: "all 0.2s"
+          transition: "all 0.8s"
         }}
         title="Sistema"
       >
@@ -69,7 +69,7 @@ export const ThemeSwitcher = ({ value, onChange }) => {
           justifyContent: "center",
           cursor: "pointer",
           boxShadow: value === "dark" ? "0 2px 5px rgba(0,0,0,0.3)" : "none",
-          transition: "all 0.2s"
+          transition: "all 0.8s"
         }}
         title="Modo Oscuro"
       >

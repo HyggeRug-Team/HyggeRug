@@ -10,7 +10,13 @@
 .imageHeader{
     display: flex;
     align-items: center;
+    gap: 10px;
 }
+
+.imageHeader h1{
+    font-size: 20px;
+}
+
 .header nav{
     display: flex;
 }

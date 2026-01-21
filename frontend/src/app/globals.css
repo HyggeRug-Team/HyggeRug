@@ -1,59 +1,34 @@
 /* src/app/globals.css */
-
 :root {
-  /* --- Paleta Base (Modo Claro por defecto) --- */
-  --bg-principal: #fcfbf7;
-  --bg-secundario: #f5f3ee;
-  --bg-footer-componente: #fff;
-  --texto-principal: #1f1d1d;
-  --texto-secundario: #5C5655;
-  --texto-hover:#7a5c55;
-  --boton-before-hover: #7a5c55;
-  --boton-after-hover: #5d443f;
-  --border-shadow: #00000016;
+  /* Habilita el modo claro/oscuro nativo del navegador */
+  color-scheme: light dark;
 
-  /* Tipografía */
+  /* --- Definición de colores (Claro, Oscuro) --- */
+  /* La sintaxis es: light-dark(COLOR_CLARO, COLOR_OSCURO) */
+  --bg-principal: light-dark(#fcfbf7, #18181b);
+  --bg-secundario: light-dark(#f5f3ee, #27272a);
+  --bg-footer-componente: light-dark(#fff, #18181b);
+  
+  --texto-principal: light-dark(#1f1d1d, #f4f4f5);
+  --texto-secundario: light-dark(#5C5655, #9ca3af);
+  --texto-hover: light-dark(#7a5c55, #795c51);
+  
+  --boton-before-hover: light-dark(#7a5c55, #795c51);
+  --boton-after-hover: light-dark(#5d443f, #5e463d);
+  --border-shadow: light-dark(#00000016, #5b5a5a2f);
+
+  /* Tipografía (igual para ambos) */
   --font-body: var(--font-plus-jakarta);
   --font-titles: var(--font-plus-jakarta);
 }
 
-/* --- MODO OSCURO (Preferencia de Sistema) --- */
-/* Solo aplica si el usuario NO ha elegido un tema manualmente */
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme]) {
-    --bg-principal: #18181b;
-    --bg-secundario: #27272a;
-    --texto-principal: #f4f4f5;
-    --texto-secundario: #9ca3af;
-    --texto-hover: #795c51;
-    --boton-before-hover: #795c51;
-    --boton-after-hover: #5e463d;
-    --border-shadow: #5b5a5a2f;
-  }
-}
-
-/* --- MODO OSCURO (Forzado por botón) --- */
-[data-theme="dark"] {
-  --bg-principal: #18181b;
-  --bg-secundario: #27272a;
-  --texto-principal: #f4f4f5;
-  --texto-secundario: #9ca3af;
-  --texto-hover: #795c51;
-  --boton-before-hover: #795c51;
-  --boton-after-hover: #5e463d;
-  --border-shadow: #5b5a5a2f;
-}
-
-/* --- MODO CLARO (Forzado por botón) --- */
+/* --- CONTROL MANUAL --- */
+/* Esto fuerza el cambio de variables de arriba automáticamente */
 [data-theme="light"] {
-  --bg-principal: #fcfbf7;
-  --bg-secundario: #f5f3ee;
-  --texto-principal: #1f1d1d;
-  --texto-secundario: #5C5655;
-  --texto-hover:#7a5c55;
-  --boton-before-hover: #7a5c55;
-  --boton-after-hover: #5d443f;
-  --border-shadow: #00000016;
+  color-scheme: light;
+}
+[data-theme="dark"] {
+  color-scheme: dark;
 }
 
 /* RESET UNIVERSAL (Importante para evitar problemas de márgenes extraños) */
@@ -72,6 +47,11 @@ body {
 
 body {
   color: var(--texto-principal);
+  transition: background-color 0.8s ease, color 0.8s ease;
+}
+
+div, header, footer, nav, button {
+  transition: background-color 0.8s ease, border-color 0.8s ease, color 0.8s ease, box-shadow 0.8s ease;
 }
 
 /* Estructura Principal */

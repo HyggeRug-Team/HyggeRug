@@ -3,10 +3,10 @@
 import React, { useState, useEffect } from "react";
 import FooterDropdown from "./FooterDropdown";
 import styles from "./Footer.module.css";
+import Logo from "../Logo/Logo"
 import { FaFacebookF } from "react-icons/fa";
 import { AiFillInstagram } from "react-icons/ai";
 import { FaXTwitter } from "react-icons/fa6";
-import { FaRug } from "react-icons/fa6";
 
 function Footer() {
   const SECCIONES_FOOTER = [
@@ -63,7 +63,7 @@ function Footer() {
         <div className={styles.footerSection}>
           <div className={styles.footerContent}>
             <div className={styles.footerLogo}>
-              <FaRug className={styles.icon} size={30}/>
+              <Logo />
               <h2>Hygge Rug</h2>
             </div>
             <div className={styles.footerSlogan}>

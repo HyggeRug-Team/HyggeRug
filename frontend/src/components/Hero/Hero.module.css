@@ -1,7 +1,61 @@
-.heroContainer{
-  display: grid;
-  grid-template-columns: repeat(2,1fr);
+.heroContainer {
+  max-width: 1100px;
+  display: flex;
   justify-content: center;
+  gap: 20px;
   align-items: center;
+  margin: 0 auto;
+}
+
+.heroInfo {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
   padding: 20px;
+}
+
+.heroBanner {
+  width: fit-content;
+  border-radius: 12px;
+  padding: 2px 20px;
+  background-color: var(--texto-hover);
+}
+
+.heroTitle {
+  font-size: 60px;
+}
+
+.heroTitle span {
+  font-size: 60px;
+  color: var(--boton-before-hover);
+}
+
+.heroImage img {
+  display: flex;
+  justify-content: center;
+  flex: 1;
+  width: 100%;
+  margin: auto;
+  border-radius: 12px;
+  transform: rotate(5deg);
+}
+
+@media (max-width: 1024px) {
+  .heroContainer {
+    display: flex;
+    flex-direction: column-reverse;
+  }
+
+  .heroInfo{
+    text-align: center;
+  }
+
+  .heroBanner{
+    margin: auto;
+  }
+
+  .heroImage img {
+    width: 80%;
+    transform: rotate(0deg);
+  }
 }

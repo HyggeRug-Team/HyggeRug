@@ -1,9 +1,9 @@
 // src/app/layout.js
 import { Plus_Jakarta_Sans } from 'next/font/google';
+import './globals.css';
 import ThemeToggle from '../components/ThemeSwitch/ThemeToggle';
 import Hero from '../components/Hero/Hero'
 import Footer from '../components/Footer/Footer';
-import './globals.css';
 import Header from '@/components/Header/Header';
 
 const plusJakartaSans = Plus_Jakarta_Sans({

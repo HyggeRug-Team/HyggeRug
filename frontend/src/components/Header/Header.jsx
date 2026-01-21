@@ -11,7 +11,7 @@ function Header() {
   return (
     <header className={styles.header}>
         <div className={styles.imageHeader}>
-            <Logo size={100}/>
+            <Logo />
             <h1>Hygge Rug</h1>
         </div>
         <nav>
@@ -20,12 +20,12 @@ function Header() {
           <a href='#'>Nosotros</a>
         </nav>
         <div className={styles.buttonsMenu}>
-          <button><CiSearch size={40}/></button>
-          <button><CiShoppingCart size={40}/></button>
-          <button><MdAccountCircle size={40}/></button>
+          <button><CiSearch size={30}/></button>
+          <button><CiShoppingCart size={30}/></button>
+          <button><MdAccountCircle size={30}/></button>
         </div>
         <div className={styles.hamburgerButton}>
-          <RxHamburgerMenu size={40}/>
+          <RxHamburgerMenu size={30}/>
         </div>
     </header>
   )

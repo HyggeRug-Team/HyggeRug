@@ -6,7 +6,7 @@ function Hero() {
   return (
     <div className={styles.heroContainer}>
       <div className={styles.heroInfo}>
-        <span>NUEVA COLECCIÓN</span>
+        <span className={styles.heroBanner}>NUEVA COLECCIÓN</span>
         <h1 className={styles.heroTitle}>
           Alfombras a medida para tu <span>lugar feliz</span>
         </h1>
@@ -21,7 +21,7 @@ function Hero() {
         <span>Envío gratis en pedidos personalizados</span>
       </div>
       <div className={styles.heroImage}>
-        <img src="#" alt="Alfombra de la ultima colección" />
+        <img src="/ejemplo.webp" alt="Alfombra de la ultima colección" />
       </div>
     </div>
   );
