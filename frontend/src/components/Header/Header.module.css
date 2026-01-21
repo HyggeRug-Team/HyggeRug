@@ -1,0 +1,50 @@
+.header{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-left: 5vw;
+    padding-right: 5vw;
+    background-color: var(--bg-secundario);
+}
+.imageHeader{
+    display: flex;
+    align-items: center;
+}
+.header nav{
+    display: flex;
+}
+.header nav a{
+    text-decoration: none;
+    color: var(--texto-principal);
+    padding: 20px;
+}
+.buttonsMenu{
+    display: flex;
+    justify-content: space-between;
+    gap: 1vw;
+}
+.buttonsMenu button{
+    background-color: transparent;
+    border: 0;
+    color: var(--texto-principal);
+    cursor: pointer;
+
+}
+.hamburgerButton{
+    display: none;
+}
+@media (max-width: 1024px){
+    .imageHeader h1{
+        display: none;
+    }
+}
+@media (max-width: 768px){
+    .header nav{
+    display: none;
+    }
+    .hamburgerButton{
+        display: block;
+    }
+}
+

@@ -4,6 +4,7 @@ import ThemeToggle from '../components/ThemeSwitch/ThemeToggle';
 import Hero from '../components/Hero/Hero'
 import Footer from '../components/Footer/Footer';
 import './globals.css';
+import Header from '@/components/Header/Header';
 
 const plusJakartaSans = Plus_Jakarta_Sans({
   subsets: ['latin'],
@@ -15,6 +16,7 @@ export default function RootLayout({ children }) {
   return (
     <html lang="es" className={plusJakartaSans.variable}>
       <body className="mainLayout">
+        <Header/>
         <main>
           <ThemeToggle />
           <Hero />
