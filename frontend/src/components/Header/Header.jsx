@@ -20,12 +20,12 @@ function Header() {
           <a href='#'>Nosotros</a>
         </nav>
         <div className={styles.buttonsMenu}>
-          <button><CiSearch size={30}/></button>
-          <button><CiShoppingCart size={30}/></button>
-          <button><MdAccountCircle size={30}/></button>
+          <button><CiSearch size={35}/></button>
+          <button><CiShoppingCart size={35}/></button>
+          <button><MdAccountCircle size={35}/></button>
         </div>
         <div className={styles.hamburgerButton}>
-          <RxHamburgerMenu size={30}/>
+          <RxHamburgerMenu size={35}/>
         </div>
     </header>
   )
