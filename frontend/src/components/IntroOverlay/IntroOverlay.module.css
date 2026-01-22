@@ -1,0 +1,35 @@
+/* components/IntroOverlay/IntroOverlay.module.css */
+
+.overlayContainer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+}
+
+/* --- BORRADA LA CLASE .whiteBacking --- */
+
+.svgLayer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  fill: #000000; /* Color negro sólido de la pared */
+  /* Seguimos apuntando a la "E" */
+  transform-origin: 47% 50%;
+  will-change: transform;
+}
+
+.textStyle {
+  font-family: var(--font-plus-jakarta), sans-serif;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}

@@ -50,8 +50,14 @@ body {
   transition: background-color 0.8s ease, color 0.8s ease;
 }
 
-div, header, footer, nav, button {
+header, footer, nav, button {
   transition: background-color 0.8s ease, border-color 0.8s ease, color 0.8s ease, box-shadow 0.8s ease;
+}
+
+/* Asegura que el contenido esté debajo */
+main {
+  position: relative;
+  z-index: 1; 
 }
 
 /* Estructura Principal */
