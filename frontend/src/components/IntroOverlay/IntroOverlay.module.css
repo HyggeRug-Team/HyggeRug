@@ -28,7 +28,7 @@
 }
 
 .textStyle {
-  font-family: var(--font-plus-jakarta), sans-serif;
+  font-family: var(--font-plus-jakarta);
   font-weight: 800;
   text-transform: uppercase;
   letter-spacing: 0.1em;

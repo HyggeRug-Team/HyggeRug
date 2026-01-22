@@ -27,7 +27,7 @@ const IntroOverlay = () => {
           // Al final, hacemos un fade out rápido para que no haya cortes bruscos
           // si el zoom no ha salido del todo de la pantalla.
           exit={{ opacity: 0 }}
-          transition={{ duration: 0.5 }}
+          transition={{ duration: 0.8 }}
         >
           {/* YA NO HAY CAPA BLANCA AQUÍ.
              Directamente va el SVG máscara.
@@ -43,7 +43,7 @@ const IntroOverlay = () => {
             transition={{
               duration: 2.5,
               ease: [0.76, 0, 0.24, 1], // Curva cinematográfica
-              delay: 0.2 // Pequeña pausa inicial
+              delay: 0.8 // Pequeña pausa inicial
             }}
           >
             <defs>
