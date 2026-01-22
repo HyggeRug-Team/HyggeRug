@@ -113,7 +113,7 @@
   margin: auto;
   border-radius: 50px;
   transform: rotate(2deg);
-  transition: 0.5s all ease;
+  transition: 0.8s all ease;
 }
 
 .heroImage img:hover {
