@@ -1,11 +1,11 @@
 "use client"; 
 
-import Hero from '../components/Hero/Hero';
+import InfoComponent from '../components/InfoComponent/InfoComponent';
 
 export default function Home() {
   return (
     <>
-      <Hero />
+      <InfoComponent />
     </>
   );
 }

@@ -1,20 +1,21 @@
-.heroContainer {
-  max-width: 1100px;
+.infoContainer {
+  max-width: 1500px;
   display: flex;
   justify-content: center;
   gap: 20px;
   align-items: center;
+  padding: 50px;
   margin: 0 auto;
 }
 
-.heroInfo {
+.infoInfo {
   display: flex;
   flex-direction: column;
   flex: 1;
   padding: 5px;
 }
 
-.heroBanner {
+.infoBanner {
   display: flex;
   align-items: center;
   width: fit-content;
@@ -28,38 +29,39 @@
   background-color: #7a5c551a;
 }
 
-.heroTitle {
+.infoTitle {
+  max-width: 700px;
   line-height: 4rem;
   margin: 14px 0;
   font-size: 68px;
   font-weight: 900;
 }
 
-.heroTitle span {
+.infoTitle span {
   display: inline-block;
   overflow: hidden;
   margin-top: 10px;
   padding: 10px;
   font-size: 66px;
   color: var(--boton-before-hover);
-  border-radius: 52px 12px ;
+  border-radius: 52px 12px;
   background-color: #7a5c551a;
   transform: rotate(-4deg);
 }
 
-.heroInfo p{
+.infoInfo p {
   max-width: 450px;
   font-size: 18px;
   color: var(--texto-hover);
 }
 
-.heroButtons{
+.infoButtons {
   max-width: 450px;
   display: flex;
   gap: 30px;
 }
 
-.heroButtons a{
+.infoButtons a {
   font-size: 1rem;
   font-weight: 700;
   line-height: 1.5rem;
@@ -70,33 +72,33 @@
   transition: 0.3s all ease;
 }
 
-.heroButtons a:first-of-type{
+.infoButtons a:first-of-type {
   display: flex;
   gap: 10px;
-  color: #fff ;
+  color: #fff;
   background-color: var(--boton-before-hover);
 }
 
-.heroButtons a:first-of-type:hover{
+.infoButtons a:first-of-type:hover {
   background-color: var(--boton-after-hover);
 }
 
-.heroButtons a:first-of-type span{
+.infoButtons a:first-of-type span {
   display: flex;
   align-items: center;
   transition: 0.3s all ease;
 }
 
-.heroButtons a:first-of-type:hover span{
+.infoButtons a:first-of-type:hover span {
   transform: translateX(6px);
 }
 
-.heroButtons a:nth-of-type(2){
-  color: var(--texto-principal) ;
+.infoButtons a:nth-of-type(2) {
+  color: var(--texto-principal);
   background-color: var(--bg-footer-componente);
 }
 
-.heroSend{
+.infoSend {
   display: flex;
   align-items: center;
   gap: 5px;
@@ -105,38 +107,121 @@
   color: var(--texto-hover);
 }
 
-.heroImage img {
+.infoImage img {
   display: flex;
   justify-content: center;
   flex: 1;
-  width: 100%;
+  width: 90%;
   margin: auto;
   border-radius: 50px;
   transform: rotate(2deg);
   transition: 0.8s all ease;
 }
 
-.heroImage img:hover {
+.infoImage img:hover {
   box-shadow: 4px 4px 10px 4px var(--border-shadow);
   transform: rotate(0deg) scale(1.1);
 }
 
 @media (max-width: 1024px) {
-  .heroContainer {
+  .infoContainer {
     display: flex;
     flex-direction: column-reverse;
+    padding: 30px 20px;
   }
 
-  .heroInfo{
+  .infoInfo {
+    gap: 15px;
+    align-items: center;
     text-align: center;
   }
 
-  .heroBanner{
+  .infoTitle {
+    max-width: 450px;
+    font-size: 36px;
+    line-height: 2.5rem;
+    text-align: center;
+  }
+
+  .infoTitle span {
+    font-size: 36px;
+    padding: 5px 15px;
+    margin-top: 5px;
+  }
+
+  .infoInfo p {
+    font-size: 16px;
+  }
+
+  .infoBanner {
     margin: auto;
   }
 
-  .heroImage img {
-    width: 80%;
+  .infoImage img {
+    width: 100%;
+    max-width: 400px;
     transform: rotate(0deg);
+  }
+}
+
+@media (max-width: 768px) {
+  .infoContainer {
+    gap: 0px;
+  }
+
+  .infoTitle {
+    font-size: 48px;
+    line-height: 1.2;
+  }
+
+  .infoTitle span {
+    font-size: 46px; 
+  }
+
+  .infoButtons {
+    width: 100%;
+    justify-content: center; /* Centrar botones */
+    gap: 20px;
+  }
+
+  .infoImage img {
+    width: 100%;
+    max-width: 500px; /* Limitamos el tamaño de la imagen para que no sea gigante */
+    margin-bottom: 20px;
+  }
+}
+
+@media (max-width: 469px) {
+  .infoContainer {
+    padding: 20px 15px;
+  }
+
+  .infoTitle {
+    font-size: 28px;
+    line-height: 1.2;
+    margin: 10px 0;
+  }
+
+  .infoTitle span {
+    font-size: 28px;
+    padding: 5px 10px;
+    margin-top: 5px;
+    transform: rotate(-2deg);
+  }
+
+  .infoInfo p {
+    font-size: 15px;
+  }
+
+  .infoButtons {
+    flex-direction: column;
+    width: 100%;
+    gap: 15px;
+  }
+
+  .infoButtons a {
+    width: 100%;
+    justify-content: center;
+    padding: 12px 20px;
   }
 }

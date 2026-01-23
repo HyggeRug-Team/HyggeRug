@@ -1,9 +1,11 @@
 import { Plus_Jakarta_Sans } from 'next/font/google';
 import './globals.css';
+
+// Importa tus componentes existentes
 import Header from '@/components/Header/Header';
-import ThemeToggle from '@/components/ThemeSwitch/ThemeToggle';
-import Footer from '../components/Footer/Footer';
-import IntroOverlay from '../components/IntroOverlay/IntroOverlay'; // <--- Importar
+import Footer from '@/components/Footer/Footer'; // Ajusta si la ruta es diferente
+import IntroOverlay from '@/components/IntroOverlay/IntroOverlay';
+import Silk from '@/components/Background/Background';
 
 const plusJakartaSans = Plus_Jakarta_Sans({
   subsets: ['latin'],
@@ -11,29 +13,24 @@ const plusJakartaSans = Plus_Jakarta_Sans({
   variable: '--font-plus-jakarta',
 });
 
-export const metadata = {
-  title: "Hygge Rug",
-  description: "Alfombras de diseño",
-};
-
 export default function RootLayout({ children }) {
   return (
     <html lang="es" className={plusJakartaSans.variable}>
-      <body className="mainLayout">
-        
-        {/* 1. La Intro va PRIMERO y fuera de todo */}
-        <IntroOverlay />
+      <body className="mainLayout relative">
 
-        {/* 2. El contenido de la web se carga "debajo" visualmente */}
+        <Silk
+          speed={1.0}
+          scale={1}
+          color="#546149"
+          noiseIntensity={0.5}
+        />
+        <IntroOverlay />
         <Header />
-        <ThemeToggle/>
-        
         <main>
           {children}
         </main>
-        
         <Footer />
-        
+
       </body>
     </html>
   );
