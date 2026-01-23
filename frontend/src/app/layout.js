@@ -2,10 +2,7 @@ import { Plus_Jakarta_Sans } from 'next/font/google';
 import './globals.css';
 
 // Importa tus componentes existentes
-import Header from '@/components/Header/Header';
-import Footer from '@/components/Footer/Footer'; // Ajusta si la ruta es diferente
-import IntroOverlay from '@/components/IntroOverlay/IntroOverlay';
-import Silk from '@/components/Background/Background';
+import SilkBackground from '@/components/SilkBackground/SilkBackground';
 
 const plusJakartaSans = Plus_Jakarta_Sans({
   subsets: ['latin'],
@@ -18,19 +15,15 @@ export default function RootLayout({ children }) {
     <html lang="es" className={plusJakartaSans.variable}>
       <body className="mainLayout relative">
 
-        <Silk
+        <SilkBackground
           speed={1.0}
           scale={1}
           color="#546149"
           noiseIntensity={0.5}
         />
-        <IntroOverlay />
-        <Header />
         <main>
           {children}
         </main>
-        <Footer />
-
       </body>
     </html>
   );

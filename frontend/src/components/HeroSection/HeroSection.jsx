@@ -1,12 +1,12 @@
 "use client";
 import React from "react";
-import styles from "./InfoComponent.module.css";
+import styles from "./HeroSection.module.css";
 
 import { GoDotFill } from "react-icons/go";
 import { FaArrowRight } from "react-icons/fa";
 import { MdOutlineVerified } from "react-icons/md";
 
-function Hero() {
+function HeroSection() {
   return (
     <div className={styles.infoContainer}>
       <div className={styles.infoInfo}>
@@ -31,4 +31,5 @@ function Hero() {
   );
 }
 
-export default Hero;
+export default HeroSection;
+
