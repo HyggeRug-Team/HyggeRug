@@ -1,4 +1,5 @@
-import React from 'react'
+"use client";
+import React, { useState } from 'react';
 import Logo from '../Logo/Logo'
 import styles from "./Header.module.css";
 //Importación de los iconos usados
@@ -8,6 +9,12 @@ import { MdAccountCircle } from "react-icons/md";
 import { RxHamburgerMenu } from "react-icons/rx";
 
 function Header() {
+  // Estado por defecto en cerrado
+  const [isMenuOpen, setIsOpenMenu] = useState(false);
+  // Función para alternar entre estados
+  const toggleMenu = () => {
+    setIsOpenMenu(!isMenuOpen)
+  }
   return (
     <header className={styles.header}>
         <div className={styles.imageHeader}>
