@@ -1,5 +1,5 @@
 .header{
-    width: 100%;
+    width: 100vw;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -49,8 +49,15 @@
     .header nav{
     display: none;
     }
+    .buttonsMenu{
+        display: none;
+    }
     .hamburgerButton{
         display: block;
     }
+    .imageHeader h1{
+        display: block;
+    }
+    
 }
 
