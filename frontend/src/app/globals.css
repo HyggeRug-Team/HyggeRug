@@ -28,12 +28,18 @@
   min-width: 0; /* Evita que los flex items se desborden */
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 html,
 body {
   margin: 0;
   padding: 0;
   background-color: var(--bg-principal);
   font-family: var(--font-body);
+  overflow-x: hidden;
+  width: 100%;
 }
 
 body {

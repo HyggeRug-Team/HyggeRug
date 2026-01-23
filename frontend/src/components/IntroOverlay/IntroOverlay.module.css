@@ -1,35 +1,140 @@
-/* components/IntroOverlay/IntroOverlay.module.css */
-
 .overlayContainer {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  z-index: 9999;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  pointer-events: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    background: var(--bg-principal);
 }
 
-/* --- BORRADA LA CLASE .whiteBacking --- */
-
-.svgLayer {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  fill: #000000; /* Color negro sólido de la pared */
-  /* Seguimos apuntando a la "E" */
-  transform-origin: 47% 50%;
-  will-change: transform;
+/* Contenedor de los anillos de animación */
+.ringsContainer {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
-.textStyle {
-  font-family: var(--font-plus-jakarta);
-  font-weight: 800;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
+.ring {
+    position: absolute;
+    width: 300px;
+    height: 300px;
+    border: 2px solid var(--texto-hover);
+    border-radius: 50%;
+    box-shadow: 
+        0 0 30px rgba(212, 185, 150, 0.3),
+        inset 0 0 30px rgba(212, 185, 150, 0.2);
+}
+
+/* Contenido */
+.contentWrapper {
+    position: relative;
+    z-index: 10;
+    text-align: center;
+}
+
+.logoContainer {
+    position: relative;
+    margin-bottom: 20px;
+}
+
+.brandName {
+    font-size: 6rem;
+    font-weight: 700;
+    letter-spacing: 20px;
+    color: var(--texto-principal);
+    margin: 0;
+    text-shadow: 
+        0 0 40px rgba(212, 185, 150, 0.5),
+        0 10px 40px rgba(0,0,0,0.5);
+    position: relative;
+}
+
+.underline {
+    height: 4px;
+    width: 100%;
+    background: linear-gradient(90deg, 
+        transparent, 
+        var(--boton-before-hover) 20%,
+        var(--texto-hover) 50%,
+        var(--boton-after-hover) 80%,
+        transparent
+    );
+    margin: 30px auto 0;
+    box-shadow: 0 0 30px rgba(212, 185, 150, 0.6);
+    transform-origin: center;
+}
+
+.tagline {
+    margin-top: 40px;
+    font-size: 1.5rem;
+    letter-spacing: 4px;
+    color: var(--texto-secundario);
+    font-weight: 300;
+    text-transform: uppercase;
+}
+
+/* Círculo de revelación */
+.revealCircle {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: var(--bg-principal);
+    top: 50%;
+    left: 50%;
+    transform-origin: center;
+    margin-left: -10px;
+    margin-top: -10px;
+    box-shadow: 
+        0 0 100px rgba(212, 185, 150, 0.3),
+        inset 0 0 50px rgba(212, 185, 150, 0.2);
+}
+
+/* Partículas */
+.particles {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+}
+
+.particle {
+    width: 8px;
+    height: 8px;
+    background: radial-gradient(circle, var(--texto-hover), transparent);
+    border-radius: 50%;
+    box-shadow: 
+        0 0 15px rgba(212, 185, 150, 0.8),
+        0 0 30px rgba(212, 185, 150, 0.4);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .brandName {
+        font-size: 3.5rem;
+        letter-spacing: 10px;
+    }
+
+    .tagline {
+        font-size: 1rem;
+        letter-spacing: 2px;
+    }
+
+    .ring {
+        width: 200px;
+        height: 200px;
+    }
 }

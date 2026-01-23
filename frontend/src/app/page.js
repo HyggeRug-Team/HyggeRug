@@ -3,7 +3,8 @@
 import IntroOverlay from '@/components/IntroOverlay/IntroOverlay';
 import Header from '@/components/Header/Header';
 import Footer from '@/components/Footer/Footer'; 
-import HeroSection from '../components/HeroSection/HeroSection';
+import HeroSection from '@/components/HeroSection/HeroSection';
+import InfoSection from '@/components/InfoSection/InfoSection';
 
 export default function Home() {
   return (
@@ -11,6 +12,7 @@ export default function Home() {
       <IntroOverlay />
       <Header />
       <HeroSection />
+      <InfoSection />
       <Footer />
     </>
   );

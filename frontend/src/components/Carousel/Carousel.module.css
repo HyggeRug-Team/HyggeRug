@@ -1,0 +1,110 @@
+.carouselContainer {
+    position: relative;
+    width: 100%;
+}
+
+.carousel {
+    display: flex;
+    overflow-x: scroll;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    cursor: grab;
+    border-radius: 12px;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+}
+
+.carousel::-webkit-scrollbar {
+    display: none;
+}
+
+.carousel:active {
+    cursor: grabbing;
+}
+
+.slide {
+    min-width: 100%;
+    scroll-snap-align: start;
+    position: relative;
+    flex-shrink: 0;
+}
+
+.slide img {
+    width: 100%;
+    object-fit: cover;
+    display: block;
+    user-select: none;
+    pointer-events: none;
+}
+
+/* Badge de valoración */
+.ratingBadge {
+    position: absolute;
+    bottom: 60px;
+    left: 20px;
+    background: rgba(255, 255, 255, 0.825);
+    backdrop-filter: blur(10px);
+    padding: 12px 20px;
+    border-radius: 12px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+}
+
+.ratingNumber {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--bg-principal);
+}
+
+.stars {
+    display: flex;
+    gap: 2px;
+}
+
+.ratingLabel {
+    font-size: 0.7rem;
+    color: var(--bg-principal);
+    margin-top: 2px;
+}
+
+/* Dots de navegación */
+.dots {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background-color: rgba(212, 185, 150, 0.3);
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    padding: 0;
+}
+
+.dot:hover {
+    background-color: rgba(212, 185, 150, 0.5);
+    transform: scale(1.2);
+}
+
+.activeDot {
+    background-color: var(--texto-hover);
+    width: 24px;
+    border-radius: 5px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .ratingBadge {
+        bottom: 50px;
+        left: 50%;
+        transform: translateX(-50%);
+    }
+}
