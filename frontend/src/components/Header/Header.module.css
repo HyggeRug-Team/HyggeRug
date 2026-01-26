@@ -34,12 +34,14 @@
     justify-content: space-between;
     gap: 1vw;
 }
-.buttonsMenu button, .buttonMobileMenu{
+ .buttonMobileMenu{
     background-color: transparent;
     border: 0;
     color: var(--texto-principal);
     cursor: pointer;
-
+    /*Elimina un destello azul que aparecia al pulsar cualquier enlace del menu*/
+    -webkit-tap-highlight-color: transparent !important;
+    
 }
 .hamburgerButton{
     display: none;
@@ -78,13 +80,13 @@
 }
 .buttonMobileMenu a{
     margin: auto;
-    gap: 20px;
+    gap: 10px;
     align-items: center;
     display: flex;
     background-color: transparent;
     border: 0px;
-    font-size: 20px;
-    height: 90px;
+    font-size: 16px;
+    height: 60px;
     width: 70%;
     border-bottom: 1px solid var(--texto-hover);
     text-decoration: none;
@@ -92,8 +94,8 @@
 }
 .iconMobilMenu{
     background-color: var(--icono-principal-fuerte);
-    width: 45px;
-    height: 45px;
+    width: 35px;
+    height: 35px;
     display: flex;
     justify-content: center;
     align-items: center;
