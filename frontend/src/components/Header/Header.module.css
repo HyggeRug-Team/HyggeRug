@@ -3,14 +3,18 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding-left: 5vw;
-    padding-right: 5vw;
+    padding: 0 2vh;
+    height: 70px;
     background-color: var(--bg-secundario);
+    position: fixed;
+    top: 0;
+    z-index: 1000;
 }
 .imageHeader{
     display: flex;
     align-items: center;
     gap: 10px;
+    z-index: 1100;
 }
 
 .imageHeader h1{
@@ -30,7 +34,7 @@
     justify-content: space-between;
     gap: 1vw;
 }
-.buttonsMenu button{
+.buttonsMenu button, .buttonMobileMenu{
     background-color: transparent;
     border: 0;
     color: var(--texto-principal);
@@ -39,7 +43,93 @@
 }
 .hamburgerButton{
     display: none;
+    z-index: 1100;
 }
+.mobileMenu {
+    position: fixed;
+    top: 0;
+    left: 0;
+    padding-top: 70px;
+    width: 100%;
+    height: 100vh;
+    background-color: var(--bg-principal);
+    z-index: 1050; /* Entre el contenido y el botón de cerrar */
+
+    /* Animación inicial: invisible y un poco movido hacia arriba */
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-20px);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Cuando se activa */
+.mobileMenuActive {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.headerMobileMenu {
+    text-align: center;
+}
+.buttonMobileMenu{
+    display: block;
+    align-items: center;
+}
+.buttonMobileMenu a{
+    margin: auto;
+    gap: 20px;
+    align-items: center;
+    display: flex;
+    background-color: transparent;
+    border: 0px;
+    font-size: 20px;
+    height: 90px;
+    width: 70%;
+    border-bottom: 1px solid var(--texto-hover);
+    text-decoration: none;
+    color: white;
+}
+.iconMobilMenu{
+    background-color: var(--icono-principal-fuerte);
+    width: 45px;
+    height: 45px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50;
+}
+.cuteMessage{
+    bottom: 100;
+    width: 90%;
+    transform: translateX(-50%);
+    left: 50%;
+    position: absolute;
+}
+/* - Redes Sociales - */
+.socialMedias {
+  display: flex;
+  gap: 12px;
+  margin-top: 5px;
+  transition: 0.3s all ease-in-out;
+  bottom: 20px;
+  transform: translateX(-50%);
+  left: 50%;
+  position: absolute;
+}
+
+.socialMedias a {
+  display: flex;
+  font-size: 20px;
+  color: var(--texto-secundario);
+  transition: 0.3s all ease-in-out;
+}
+
+.socialMedias a:hover {
+  transform: translateY(-3px);
+  color: var(--texto-hover);
+}
+
 @media (max-width: 1024px){
     .imageHeader h1{
         display: none;

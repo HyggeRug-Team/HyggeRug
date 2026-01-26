@@ -1,0 +1,17 @@
+.CuteMessage{
+    margin: auto;
+    width: 80%;
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    background-color: var(--bg-secundario);
+    color: var(--texto-hover);
+    font-style: italic;
+    padding: 10px;
+    border: 1px solid var(--icono-principal-fuerte);
+    border-radius: 15px;
+}
+.CuteMessage svg{
+    margin-left: 10px;
+    color: var(--icono-principal-fuerte);
+}

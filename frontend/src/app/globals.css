@@ -17,9 +17,12 @@
   
   --border-shadow: #C2A68326;
 
+  /*Iconos y resalte*/
+  --icono-principal-fuerte:#C9561D;
   /* TIPOGRAFÍA */
   --font-body: var(--font-plus-jakarta);
   --font-titles: var(--font-plus-jakarta);
+
 }
 
 /* RESET UNIVERSAL (Importante para evitar problemas de márgenes extraños) */
