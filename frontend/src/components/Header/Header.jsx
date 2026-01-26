@@ -42,10 +42,10 @@ function Header() {
   // Lista de enlaces para menu desplegable en movil
   const MENU_ITEMS = [
     { id: 1, label: "Inicio", url: "/", icon: <GoHome size={24} /> },
-    { id: 2, label: "Personalizar", url: "/personalizar", icon: <IoBrushOutline size={24} /> },
-    { id: 3, label: "Tienda", url: "/tienda", icon: <IoBagOutline size={24} /> },
-    { id: 4, label: "Cuenta", url: "/cuenta", icon: <MdAccountCircle size={24} /> },
-    { id: 5, label: "Carrito", url: "/carrito", icon: <CiShoppingCart size={24} /> },
+    { id: 2, label: "Personalizar", url: "/personalizar", icon: <IoBrushOutline size={20} /> },
+    { id: 3, label: "Tienda", url: "/tienda", icon: <IoBagOutline size={20} /> },
+    { id: 4, label: "Cuenta", url: "/cuenta", icon: <MdAccountCircle size={20} /> },
+    { id: 5, label: "Carrito", url: "/carrito", icon: <CiShoppingCart size={20} /> },
   ];
   return (
     <header className={styles.header}>
