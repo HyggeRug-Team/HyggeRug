@@ -1,4 +1,4 @@
-.overlayContainer {
+.overlay {
     position: fixed;
     top: 0;
     left: 0;
@@ -6,135 +6,76 @@
     height: 100vh;
     z-index: 9999;
     display: flex;
-    align-items: center;
-    justify-content: center;
+    flex-direction: column;
     overflow: hidden;
-    background: var(--bg-principal);
 }
 
-/* Contenedor de los anillos de animación */
-.ringsContainer {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+.panelTop,
+.panelBottom {
     width: 100%;
-    height: 100%;
+    height: 50vh; /* Forzar mitad de pantalla */
+    background-color: #000; /* Negro para contraste total */
     display: flex;
-    align-items: center;
     justify-content: center;
-}
-
-.ring {
-    position: absolute;
-    width: 300px;
-    height: 300px;
-    border: 2px solid var(--texto-hover);
-    border-radius: 50%;
-    box-shadow: 
-        0 0 30px rgba(212, 185, 150, 0.3),
-        inset 0 0 30px rgba(212, 185, 150, 0.2);
-}
-
-/* Contenido */
-.contentWrapper {
     position: relative;
-    z-index: 10;
-    text-align: center;
+    overflow: hidden;
+    z-index: 100;
 }
 
-.logoContainer {
-    position: relative;
-    margin-bottom: 20px;
+.panelTop {
+    border-bottom: 2px solid var(--texto-hover);
+    align-items: flex-end; /* Texto abajo */
 }
 
-.brandName {
-    font-size: 6rem;
-    font-weight: 700;
-    letter-spacing: 20px;
-    color: var(--texto-principal);
-    margin: 0;
-    text-shadow: 
-        0 0 40px rgba(212, 185, 150, 0.5),
-        0 10px 40px rgba(0,0,0,0.5);
-    position: relative;
+.panelBottom {
+    border-top: 2px solid var(--texto-hover);
+    align-items: flex-start; /* Texto arriba */
 }
 
-.underline {
-    height: 4px;
+.textContainer {
     width: 100%;
-    background: linear-gradient(90deg, 
-        transparent, 
-        var(--boton-before-hover) 20%,
-        var(--texto-hover) 50%,
-        var(--boton-after-hover) 80%,
-        transparent
-    );
-    margin: 30px auto 0;
-    box-shadow: 0 0 30px rgba(212, 185, 150, 0.6);
-    transform-origin: center;
+    max-width: 1200px;
+    padding: 0 5vw;
+    display: flex;
+    justify-content: center;
+    overflow: visible; /* Permitir que las sombras se vean */
+    height: 18vw; /* Altura fija para contener el texto gigante */
 }
 
-.tagline {
-    margin-top: 40px;
-    font-size: 1.5rem;
-    letter-spacing: 4px;
-    color: var(--texto-secundario);
-    font-weight: 300;
-    text-transform: uppercase;
+.brandText {
+    font-family: var(--font-titles);
+    font-size: 18vw; /* Un poco más pequeño para asegurar que entra horizontalmente */
+    line-height: 0.75;
+    color: #fff;
+    margin: 0;
+    white-space: nowrap;
+    text-shadow: 0 0 50px rgba(255,255,255,0.1);
 }
 
-/* Círculo de revelación */
-.revealCircle {
+.outline {
+    color: transparent;
+    -webkit-text-stroke: 4px #fff;
+    /* Efecto "Hueco" para la parte inferior */
+}
+
+.energyLine {
     position: absolute;
-    width: 20px;
-    height: 20px;
-    border-radius: 50%;
-    background: var(--bg-principal);
     top: 50%;
-    left: 50%;
-    transform-origin: center;
-    margin-left: -10px;
-    margin-top: -10px;
-    box-shadow: 
-        0 0 100px rgba(212, 185, 150, 0.3),
-        inset 0 0 50px rgba(212, 185, 150, 0.2);
-}
-
-/* Partículas */
-.particles {
-    position: absolute;
-    top: 0;
     left: 0;
     width: 100%;
-    height: 100%;
-    pointer-events: none;
+    height: 4px;
+    background: #fff;
+    transform: translateY(-50%);
+    z-index: 20;
+    box-shadow: 0 0 30px var(--texto-resalte);
 }
 
-.particle {
-    width: 8px;
-    height: 8px;
-    background: radial-gradient(circle, var(--texto-hover), transparent);
-    border-radius: 50%;
-    box-shadow: 
-        0 0 15px rgba(212, 185, 150, 0.8),
-        0 0 30px rgba(212, 185, 150, 0.4);
-}
-
-/* Responsive */
 @media (max-width: 768px) {
-    .brandName {
-        font-size: 3.5rem;
-        letter-spacing: 10px;
+    .brandText {
+        font-size: 20vw;
     }
-
-    .tagline {
-        font-size: 1rem;
-        letter-spacing: 2px;
-    }
-
-    .ring {
-        width: 200px;
-        height: 200px;
+    
+    .outline {
+        -webkit-text-stroke: 2px #fff;
     }
 }

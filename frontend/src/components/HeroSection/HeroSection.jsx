@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import styles from "./HeroSection.module.css";
 import SplitText from "../SplitText/SplitText";
+import { FaShoppingCart, FaArrowRight } from "react-icons/fa";
 
 // Callback cuando termina la animación
 const handleAnimationComplete = () => {
@@ -8,56 +9,98 @@ const handleAnimationComplete = () => {
 };
 
 function HeroSection() {
-  const [key, setKey] = useState(0);
   const [scrollY, setScrollY] = useState(0);
   const heroRef = useRef(null);
 
-  // Reiniciar animación cada 15 segundos
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setKey((prevKey) => prevKey + 1);
-    }, 15000);
-
-    return () => clearInterval(interval);
-  }, []);
-
-  // Efecto parallax al hacer scroll
   useEffect(() => {
     const handleScroll = () => {
       setScrollY(window.scrollY);
     };
-
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
   return (
-    <div 
-      ref={heroRef}
-      className={styles.heroContainer}
-      style={{
-        transform: `translateY(${scrollY * 0.5}px)`
-      }}
-    >
-      <div className={styles.heroBackground}></div>
-      <div className={styles.overlay}></div>
-      <div className={styles.content}>
-        <SplitText
-          key={key}
-          text="El arte del confort bajo tus pies"
-          className={styles.heroTitle}
-          delay={50}
-          duration={1.25}
-          ease="power3.out"
-          splitType="chars"
-          from={{ opacity: 0, y: 40 }}
-          to={{ opacity: 1, y: 0 }}
-          threshold={0.1}
-          rootMargin="-100px"
-          textAlign="center"
-          onLetterAnimationComplete={handleAnimationComplete}
-          tag="h1"
-        />
+    <div ref={heroRef} className={styles.heroContainer}>
+      
+      {/* Fondo Tipográfico "Tejido" (Restaurado para textura) */}
+      <div className={styles.typoPattern}>
+        <div className={styles.scrollingTextRow}>
+          <span>HYGGE RUG &nbsp; HYGGE RUG &nbsp; HYGGE RUG &nbsp; HYGGE RUG &nbsp;</span>
+          <span>HYGGE RUG &nbsp; HYGGE RUG &nbsp; HYGGE RUG &nbsp; HYGGE RUG &nbsp;</span>
+        </div>
+        <div className={styles.scrollingTextRowReverse}>
+          <span>SOFT & TUFT &nbsp; SOFT & TUFT &nbsp; SOFT & TUFT &nbsp; SOFT & TUFT &nbsp;</span>
+          <span>SOFT & TUFT &nbsp; SOFT & TUFT &nbsp; SOFT & TUFT &nbsp; SOFT & TUFT &nbsp;</span>
+        </div>
+        <div className={styles.scrollingTextRow}>
+          <span>HAND MADE &nbsp; HAND MADE &nbsp; HAND MADE &nbsp; HAND MADE &nbsp;</span>
+          <span>HAND MADE &nbsp; HAND MADE &nbsp; HAND MADE &nbsp; HAND MADE &nbsp;</span>
+        </div>
+         <div className={styles.scrollingTextRowReverse}>
+          <span>URBAN STYLE &nbsp; URBAN STYLE &nbsp; URBAN STYLE &nbsp; URBAN STYLE &nbsp;</span>
+          <span>URBAN STYLE &nbsp; URBAN STYLE &nbsp; URBAN STYLE &nbsp; URBAN STYLE &nbsp;</span>
+        </div>
+      </div>
+
+      <div className={styles.gridContainer}>
+        {/* Lado Izquierdo: Copywriting agresivo y claro */}
+        <div className={styles.leftColumn}>
+          <div className={styles.badgeNew}>
+            <span>NUEVA COLECCIÓN 2026</span>
+          </div>
+          
+          <h1 className={styles.mainTitle}>
+            <span className={styles.line1}>ALFOMBRAS</span>
+            <br />
+            <span className={styles.line2}>CON</span>
+            <span className={styles.line3}>ACTITUD</span>
+          </h1>
+          
+          <p className={styles.description}>
+            Arte hecho a mano para pisar. Olvida las alfombras aburridas de tu abuela. 
+            Hacemos <strong>Tufting Urbano</strong> con diseños que gritan estilo.
+          </p>
+
+          <div className={styles.ctaWrapper}>
+            <a href="#shop" className={styles.btnPrimary}>
+              <span>COMPRAR AHORA</span>
+              <FaShoppingCart size={18} />
+            </a>
+            <a href="#custom" className={styles.btnSecondary}>
+              <span>PERSONALIZAR</span>
+              <FaArrowRight size={18} />
+            </a>
+          </div>
+          
+          <div className={styles.trustIndicators}>
+            <span>★ 100% Hecho a Mano</span>
+            <span>★ Envio Gratis ES</span>
+          </div>
+        </div>
+
+        {/* Lado Derecho: La Alfombra 'Hero' */}
+        <div className={styles.rightColumn}>
+          <div className={styles.imageShowcase}>
+            {/* Círculo de fondo vibrante */}
+            <div className={styles.blobBack}></div>
+            
+            {/* Alfombra principal */}
+            <div className={styles.floatingRug}>
+              <img 
+                src="/rug-gorillaz.png" 
+                alt="Alfombra Tufting Gorillaz" 
+                className={styles.realRugImg} 
+              />
+              
+              {/* Etiqueta de precio flotante estilo Sticker */}
+              <div className={styles.stickerPrice}>
+                <span className={styles.currency}>€</span>
+                <span className={styles.amount}>89</span>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );

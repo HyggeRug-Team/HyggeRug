@@ -1,7 +1,18 @@
 "use client";
 import React, { useEffect, useRef, useState } from "react";
 import styles from "./InfoSection.module.css";
-import { FaArrowRight } from "react-icons/fa";
+import { 
+  FaArrowRight, 
+  FaHeart, 
+  FaRulerCombined, 
+  FaLeaf, 
+  FaPiggyBank, 
+  FaTruck, 
+  FaUndo, 
+  FaHeadset,
+  FaImages,
+  FaHandHoldingHeart
+} from "react-icons/fa";
 import Carousel from "../Carousel/Carousel";
 
 function InfoSection() {
@@ -9,9 +20,11 @@ function InfoSection() {
   const [isVisible, setIsVisible] = useState(false);
 
   const carouselImages = [
-    "/carousel-1.png",
-    "/carousel-2.png",
-    "/carousel-3.png"
+    "/rug-mario.png",
+    "/rug-gorillaz.png",
+    "/rug-julieta.png",
+    "/rug-irene.png",
+    "/rug-shield.png"
   ];
 
   // Observer para detectar visibilidad
@@ -47,30 +60,87 @@ function InfoSection() {
         
         {/* Contenido de texto */}
         <div className={styles.textContent}>
-          <span className={styles.badge}>NUEVA COLECCIÓN</span>
+          <div className={styles.badge}>
+            <FaHeart className={styles.badgeIconSmall} /> 
+            <span>HECHO CON AMOR (Y PACIENCIA)</span>
+          </div>
           <h2 className={styles.heading}>
-            Alfombras a medida para tu lugar feliz
+            No es solo una alfombra, es el alma de la fiesta 🎉
           </h2>
           <p className={styles.description}>
-            Porque tu suelo también merece un abrazo. Diseña una alfombra que se 
-            adapte perfectamente a tu espacio (y a tu rollo).
+            ¿Tienes un rincón soso en casa? ¿Tu salón parece una sala de espera? Tranquilo, tenemos la solución.
+            Diseños que entran por los ojos y texturas que enamoran al tacto. 
+            Prepárate para que tus visitas te pregunten <i>"¿De dónde sacaste eso?"</i>.
           </p>
           
           <div className={styles.buttons}>
-            <a href="#" className={styles.primaryButton}>
-              <span>Empezar a diseñar</span>
+            <a href="#crear" className={styles.primaryButton}>
+              <span>Diseñar mi Obra de Arte</span>
               <FaArrowRight className={styles.arrow} />
             </a>
-            <a href="#" className={styles.secondaryButton}>
-              Ver catálogo
+            <a href="#galeria" className={styles.secondaryButton}>
+              <FaImages />
+              <span>Inspirarme un poco</span>
             </a>
           </div>
 
-          <div className={styles.shipping}>
-            <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
-              <path d="M8 0C3.6 0 0 3.6 0 8s3.6 8 8 8 8-3.6 8-8-3.6-8-8-8zm3.5 6.1L7.1 11c-.2.2-.5.2-.7 0l-2-2c-.2-.2-.2-.5 0-.7s.5-.2.7 0l1.6 1.6 4-4.5c.2-.2.5-.2.7 0 .3.2.3.5.1.7z"/>
-            </svg>
-            <span>Envío gratis en pedidos personalizados</span>
+          {/* Grid de características */}
+          <div className={styles.featuresGrid}>
+            <div className={styles.feature}>
+              <div className={styles.featureIcon}>
+                <FaHandHoldingHeart />
+              </div>
+              <div className={styles.featureText}>
+                <h4>Hecho por Humanos</h4>
+                <p>Sin fábricas humeantes. Solo manos expertas y mucho cariño.</p>
+              </div>
+            </div>
+
+            <div className={styles.feature}>
+              <div className={styles.featureIcon}>
+                <FaRulerCombined />
+              </div>
+              <div className={styles.featureText}>
+                <h4>A tu Medida (Literal)</h4>
+                <p>¿Tu salón es raro? No pasa nada, nos adaptamos a todo.</p>
+              </div>
+            </div>
+
+            <div className={styles.feature}>
+              <div className={styles.featureIcon}>
+                <FaLeaf />
+              </div>
+              <div className={styles.featureText}>
+                <h4>Ovejas Felices</h4>
+                <p>Lana 100% natural. Tan suave que querrás abrazarla.</p>
+              </div>
+            </div>
+
+            <div className={styles.feature}>
+              <div className={styles.featureIcon}>
+                <FaPiggyBank />
+              </div>
+              <div className={styles.featureText}>
+                <h4>Sin Vender un Riñón</h4>
+                <p>Lujo asiático a precio de "me lo llevo puesto".</p>
+              </div>
+            </div>
+          </div>
+
+          {/* Badges adicionales */}
+          <div className={styles.extraBadges}>
+            <div className={styles.extraBadge}>
+              <FaTruck className={styles.badgeIcon} />
+              <span className={styles.badgeText}>Envío Ninja (Gratis)</span>
+            </div>
+            <div className={styles.extraBadge}>
+              <FaUndo className={styles.badgeIcon} />
+              <span className={styles.badgeText}>Devolución sin Dramas</span>
+            </div>
+            <div className={styles.extraBadge}>
+              <FaHeadset className={styles.badgeIcon} />
+              <span className={styles.badgeText}>Hablamos Humano</span>
+            </div>
           </div>
         </div>
 
@@ -81,8 +151,8 @@ function InfoSection() {
           showDots={true}
           showRating={true}
           ratingValue="4.9"
-          ratingLabel="Valoración Clientes"
-          height="500px"
+          ratingLabel="Fans Incondicionales"
+          height="550px"
         />
 
       </div>

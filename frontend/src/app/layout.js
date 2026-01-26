@@ -13,14 +13,7 @@ const plusJakartaSans = Plus_Jakarta_Sans({
 export default function RootLayout({ children }) {
   return (
     <html lang="es" className={plusJakartaSans.variable}>
-      <body className="mainLayout relative">
-
-        <SilkBackground
-          speed={1.0}
-          scale={1}
-          color="#546149"
-          noiseIntensity={0.5}
-        />
+      <body className="mainLayout">
         <main>
           {children}
         </main>

@@ -68,8 +68,8 @@ function Footer() {
             </div>
             <div className={styles.footerSlogan}>
               <p>
-                Llevando el arte escandinavo del confort a suelos de todas
-                partes. Tejidas a mano, de origen ético y diseñadas por ti.
+                Llevamos el confort extremo a suelos tristes de todo el mundo. 
+                Hechas a mano (sin robots malvados), con lana feliz y diseñadas por ti... o por tu gato.
               </p>
             </div>
             <div className={styles.socialMedias}>
@@ -123,10 +123,12 @@ function Footer() {
           )}
         </div>
         <div className={styles.footerLegal}>
-          <p>© 2026 Hygge Rug Inc. Hecho con amor (y lana).</p>
-          <div className={styles.footerPolicy}>
-            <a href="/privacy-policy">Política de Privacidad</a>
-            <a href="/terms-of-service">Términos de Servicio</a>
+          <div className={styles.footerLegalContent}>
+            <p>© 2026 Hygge Rug Inc. Hecho con amor (y lana).</p>
+            <div className={styles.footerPolicy}>
+              <a href="/privacy-policy">Política de Privacidad</a>
+              <a href="/terms-of-service">Términos de Servicio</a>
+            </div>
           </div>
         </div>
       </footer>
