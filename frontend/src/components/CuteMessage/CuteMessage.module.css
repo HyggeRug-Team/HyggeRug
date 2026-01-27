@@ -1,17 +1,31 @@
-.CuteMessage{
-    margin: auto;
-    width: 80%;
+.CuteMessage {
+    margin: 20px auto;
+    width: fit-content;
     display: flex;
-    gap: 10px;
+    gap: 15px;
     align-items: center;
-    background-color: var(--bg-secundario);
+    background-color: var(--bg-principal);
     color: var(--texto-hover);
-    font-style: italic;
-    padding: 10px;
-    border: 1px solid var(--icono-principal-fuerte);
-    border-radius: 15px;
+    padding: 12px 25px;
+    border: 3px dashed var(--texto-resalte);
+    border-radius: 20px;
+    box-shadow: 6px 6px 0px #000;
+    transition: all 0.3s;
+    transform: rotate(1deg);
 }
-.CuteMessage svg{
-    margin-left: 10px;
-    color: var(--icono-principal-fuerte);
+
+.CuteMessage:hover {
+    transform: rotate(-1deg) scale(1.05);
+    background-color: var(--bg-secundario);
+    box-shadow: 8px 8px 0px #000;
+}
+
+.CuteMessage svg {
+    color: var(--texto-resalte);
+}
+
+.text {
+    font-weight: 800;
+    font-size: 1.1rem;
+    letter-spacing: 0.5px;
 }

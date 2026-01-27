@@ -31,6 +31,7 @@ const SplitText = ({
     onCompleteRef.current = onLetterAnimationComplete;
   }, [onLetterAnimationComplete]);
 
+  // Para que no se rompa nada, esperamos a que las fuentes carguen
   useEffect(() => {
     if (document.fonts.status === 'loaded') {
       setFontsLoaded(true);
@@ -44,7 +45,8 @@ const SplitText = ({
   useGSAP(
     () => {
       if (!ref.current || !text || !fontsLoaded) return;
-      // Prevenir re-animación si ya se completó
+      
+      // Si ya se ha animado, no volvemos a dar la turra
       if (animationCompletedRef.current) return;
       const el = ref.current;
 

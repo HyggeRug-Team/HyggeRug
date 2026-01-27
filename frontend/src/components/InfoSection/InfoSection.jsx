@@ -27,7 +27,7 @@ function InfoSection() {
     "/rug-shield.png"
   ];
 
-  // Observer para detectar visibilidad
+  // Para que aparezca cuando el usuario haga scroll hasta aquí
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {

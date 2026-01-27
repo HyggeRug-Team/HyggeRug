@@ -8,74 +8,128 @@
     display: flex;
     flex-direction: column;
     overflow: hidden;
+    background-color: #000;
 }
 
+/* Paneles con textura de 'Tejido Grueso' */
 .panelTop,
 .panelBottom {
     width: 100%;
-    height: 50vh; /* Forzar mitad de pantalla */
-    background-color: #000; /* Negro para contraste total */
+    height: 50vh; 
+    background-color: #111;
     display: flex;
     justify-content: center;
     position: relative;
     overflow: hidden;
     z-index: 100;
+    /* Textura de lana densa (tufting) */
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.7' numOctaves='5' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.15'/%3E%3C/svg%3E");
+    /* Sombra interna para dar profundidad de tejido */
+    box-shadow: inset 0 0 100px rgba(0,0,0,0.8);
 }
 
 .panelTop {
-    border-bottom: 2px solid var(--texto-hover);
-    align-items: flex-end; /* Texto abajo */
+    align-items: flex-end; 
+    border-bottom: 4px dashed rgba(255,255,255,0.1);
 }
 
 .panelBottom {
-    border-top: 2px solid var(--texto-hover);
-    align-items: flex-start; /* Texto arriba */
+    align-items: flex-start; 
+    border-top: 4px dashed rgba(255,255,255,0.1);
 }
 
-.textContainer {
-    width: 100%;
-    max-width: 1200px;
-    padding: 0 5vw;
+/* Marca de costura central decorativa (X) */
+.decoX {
+    position: absolute;
+    color: var(--texto-resalte);
+    font-size: 3rem;
+    font-weight: 900;
+    opacity: 0.3;
+    filter: drop-shadow(0 0 10px var(--texto-resalte));
+}
+
+.textWrapper {
     display: flex;
-    justify-content: center;
-    overflow: visible; /* Permitir que las sombras se vean */
-    height: 18vw; /* Altura fija para contener el texto gigante */
+    padding-bottom: 30px;
+    padding-top: 30px;
+    z-index: 150;
+    perspective: 1000px; /* Para efecto 3D en las letras */
 }
 
-.brandText {
+/* Letras estilo PARCHE BORDADO */
+.brandLetter {
     font-family: var(--font-titles);
-    font-size: 18vw; /* Un poco más pequeño para asegurar que entra horizontalmente */
-    line-height: 0.75;
+    font-size: 16vw; 
+    line-height: 1;
     color: #fff;
-    margin: 0;
-    white-space: nowrap;
-    text-shadow: 0 0 50px rgba(255,255,255,0.1);
+    display: inline-block;
+    position: relative;
+    margin: 0 4px;
+    /* Sombra de relieve de bordado */
+    text-shadow: 
+        6px 6px 0px var(--texto-resalte),
+        10px 10px 30px rgba(0,0,0,0.6);
+}
+
+/* Costura blanca alrededor de las letras (Pespunte) */
+.brandLetter::after {
+    content: attr(data-letter);
+    position: absolute;
+    top: 0;
+    left: 0;
+    color: transparent;
+    -webkit-text-stroke: 2px rgba(255,255,255,0.3);
+    z-index: -1;
+    transform: scale(1.05);
 }
 
 .outline {
-    color: transparent;
-    -webkit-text-stroke: 4px #fff;
-    /* Efecto "Hueco" para la parte inferior */
+    color: var(--texto-hover);
+    /* No usamos transparencia aquí para que parezca hilo sólido amarillo */
+    -webkit-text-stroke: 2px #000;
 }
 
-.energyLine {
+/* Línea de energía estilo "HILO TRENZADO" */
+.energyLineVibrate {
     position: absolute;
     top: 50%;
     left: 0;
     width: 100%;
-    height: 4px;
-    background: #fff;
+    height: 10px;
+    background: repeating-linear-gradient(
+        45deg,
+        var(--texto-resalte) 0,
+        var(--texto-resalte) 10px,
+        #fff 10px,
+        #fff 20px,
+        var(--texto-hover) 20px,
+        var(--texto-hover) 30px
+    );
+    background-size: 42px 100%;
+    animation: threadSlide 0.5s linear infinite;
+    z-index: 200;
     transform: translateY(-50%);
-    z-index: 20;
-    box-shadow: 0 0 30px var(--texto-resalte);
+    box-shadow: 0 0 30px rgba(255, 0, 85, 0.4);
+    opacity: 0.9;
 }
 
+@keyframes threadSlide {
+    0% { background-position: 0 0; }
+    100% { background-position: 42px 0; }
+}
+
+
 @media (max-width: 768px) {
-    .brandText {
+    .brandLetter {
         font-size: 20vw;
+        margin: 0 2px;
     }
     
     .outline {
-        -webkit-text-stroke: 2px #fff;
+        -webkit-text-stroke: 1.5px #000;
+    }
+
+    .decoX {
+        font-size: 2rem;
     }
 }

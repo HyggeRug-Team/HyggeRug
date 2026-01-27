@@ -1,3 +1,27 @@
+.carouselWrapper {
+    position: relative;
+    width: 100%;
+    padding: 30px;
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 40px;
+}
+
+/* Marcadores de costura (X) */
+.stitchTL, .stitchTR, .stitchBL, .stitchBR {
+    position: absolute;
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+    color: var(--texto-resalte);
+    opacity: 0.6;
+    font-weight: 900;
+}
+
+.stitchTL { top: 15px; left: 15px; }
+.stitchTR { top: 15px; right: 15px; }
+.stitchBL { bottom: 15px; left: 15px; }
+.stitchBR { bottom: 15px; right: 15px; }
+
 .carouselContainer {
     position: relative;
     width: 100%;
@@ -10,8 +34,7 @@
     scrollbar-width: none;
     -ms-overflow-style: none;
     cursor: grab;
-    border-radius: 12px;
-    box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+    border-radius: 30px;
 }
 
 .carousel::-webkit-scrollbar {
@@ -27,6 +50,15 @@
     scroll-snap-align: start;
     position: relative;
     flex-shrink: 0;
+    padding: 0 10px;
+}
+
+.imageInner {
+    position: relative;
+    border-radius: 25px;
+    overflow: hidden;
+    border: 4px solid #000;
+    box-shadow: 20px 20px 60px rgba(0,0,0,0.5);
 }
 
 .slide img {
@@ -35,76 +67,141 @@
     display: block;
     user-select: none;
     pointer-events: none;
+    transition: transform 0.5s ease;
 }
 
-/* Badge de valoración */
-.ratingBadge {
+.imageInner:hover img {
+    transform: scale(1.05);
+}
+
+/* Flechas de navegación estilo Urban */
+.navBtn {
     position: absolute;
-    bottom: 60px;
-    left: 20px;
-    background: rgba(255, 255, 255, 0.825);
-    backdrop-filter: blur(10px);
-    padding: 12px 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 50px;
+    height: 50px;
+    background: var(--texto-principal);
+    color: var(--texto-principal-oscuro);
+    border: 3px solid var(--texto-principal-oscuro);
     border-radius: 12px;
+    font-size: 1.5rem;
+    font-weight: 900;
+    cursor: pointer;
+    z-index: 20;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 5px 5px 0px var(--texto-principal-oscuro);
+    transition: all 0.2s;
+}
+
+.navBtn:hover {
+    background: var(--texto-hover);
+    transform: translateY(-50%) translate(-2px, -2px);
+    box-shadow: 7px 7px 0px var(--texto-principal-oscuro);
+}
+
+.navBtn:active {
+    transform: translateY(-50%) translate(0, 0);
+    box-shadow: 0px 0px 0px var(--texto-principal-oscuro);
+}
+
+.prevBtn { left: -25px; }
+.nextBtn { right: -25px; }
+
+/* Etiqueta de valoración (Etiqueta física colgante) */
+.ratingLabelTag {
+    position: absolute;
+    top: -20px;
+    right: 20px;
+    background: var(--texto-principal);
+    color: var(--texto-principal-oscuro);
+    padding: 15px 20px;
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 4px;
-    box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+    transform: rotate(5deg);
+    border: 2px solid var(--texto-principal-oscuro);
+    box-shadow: 5px 5px 20px rgba(0,0,0,0.3);
+    z-index: 25;
 }
 
-.ratingNumber {
-    font-size: 1.5rem;
-    font-weight: 700;
-    color: var(--bg-principal);
+.tagHole {
+    width: 6px;
+    height: 6px;
+    background: var(--texto-principal-oscuro);
+    border-radius: 50%;
+    position: absolute;
+    top: 8px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+
+.ratingValue {
+    font-family: var(--font-titles);
+    font-size: 1.8rem;
+    line-height: 1;
+    margin-top: 5px;
 }
 
 .stars {
     display: flex;
     gap: 2px;
+    color: var(--texto-hover);
 }
 
-.ratingLabel {
-    font-size: 0.7rem;
-    color: var(--bg-principal);
-    margin-top: 2px;
+.tagText {
+    font-size: 0.65rem;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    opacity: 0.6;
 }
 
-/* Dots de navegación */
+/* Dots asimétricos estilo botones de costura */
 .dots {
     display: flex;
     justify-content: center;
-    gap: 10px;
-    margin-top: 20px;
+    gap: 15px;
+    margin-top: 30px;
 }
 
 .dot {
-    width: 10px;
-    height: 10px;
+    width: 12px;
+    height: 12px;
     border-radius: 50%;
-    background-color: rgba(212, 185, 150, 0.3);
-    border: none;
+    background-color: #333;
+    border: 2px solid #555;
     cursor: pointer;
-    transition: all 0.3s ease;
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     padding: 0;
 }
 
 .dot:hover {
-    background-color: rgba(212, 185, 150, 0.5);
-    transform: scale(1.2);
+    transform: scale(1.3);
+    border-color: #fff;
 }
 
 .activeDot {
-    background-color: var(--texto-hover);
-    width: 24px;
-    border-radius: 5px;
+    background-color: var(--texto-resalte);
+    border-color: #000;
+    transform: scale(1.5);
+    box-shadow: 0 0 10px rgba(255, 0, 85, 0.4);
 }
 
-/* Responsive */
 @media (max-width: 768px) {
-    .ratingBadge {
-        bottom: 50px;
-        left: 50%;
-        transform: translateX(-50%);
+    .navBtn {
+        width: 40px;
+        height: 40px;
+        font-size: 1.2rem;
+    }
+    .prevBtn { left: -10px; }
+    .nextBtn { right: -10px; }
+    .ratingLabelTag {
+        padding: 10px 15px;
+        right: 10px;
     }
 }

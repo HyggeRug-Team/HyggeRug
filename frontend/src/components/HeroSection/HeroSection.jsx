@@ -3,15 +3,16 @@ import styles from "./HeroSection.module.css";
 import SplitText from "../SplitText/SplitText";
 import { FaShoppingCart, FaArrowRight } from "react-icons/fa";
 
-// Callback cuando termina la animación
+// Por si queremos hacer algo cuando acabe de cargar
 const handleAnimationComplete = () => {
-  console.log('¡Todas las letras han sido animadas!');
+  console.log('¡Listo!');
 };
 
 function HeroSection() {
   const [scrollY, setScrollY] = useState(0);
   const heroRef = useRef(null);
 
+  // Un poco de scroll listener por si acaso
   useEffect(() => {
     const handleScroll = () => {
       setScrollY(window.scrollY);
@@ -23,7 +24,7 @@ function HeroSection() {
   return (
     <div ref={heroRef} className={styles.heroContainer}>
       
-      {/* Fondo Tipográfico "Tejido" (Restaurado para textura) */}
+      {/* Ese patrón de texto que se mueve de fondo, muy pro */}
       <div className={styles.typoPattern}>
         <div className={styles.scrollingTextRow}>
           <span>HYGGE RUG &nbsp; HYGGE RUG &nbsp; HYGGE RUG &nbsp; HYGGE RUG &nbsp;</span>

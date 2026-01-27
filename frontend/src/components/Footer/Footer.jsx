@@ -40,20 +40,16 @@ function Footer() {
   ];
 
   const [isMobile, setIsMobile] = useState(false);
-  //Funcion para actualizar el estado del tamaño del width de la pantalla
+  
+  // Para saber si estamos en móvil y cambiar el layout
   useEffect(() => {
-    // 2. Función para actualizar el estado
     const handleResize = () => {
       setIsMobile(window.innerWidth <= 480);
     };
 
-    // Ejecutar al montar para saber el tamaño inicial
     handleResize();
-
-    // 3. Escuchar el cambio de tamaño de pantalla
     window.addEventListener("resize", handleResize);
 
-    // Limpiar el evento al desmontar
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 

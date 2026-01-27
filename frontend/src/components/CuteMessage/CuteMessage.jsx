@@ -1,10 +1,8 @@
-// Se usa para todos los mensajes del estilo de: "Tu gato lo va a amar" y esas cosass
+// Típico mensajito cuqui de: "A tu gato le va a flipar" o cosas así
 import React from 'react'
 import styles from './CuteMessage.module.css';
 
-// Recibe el icono que debemos importar en el componente donde se vaya a usar y el texto
-// <CuteMessage Icon={IconoImportado} text="Texto de ejemplo"
-// Icon empieza por mayuscula por que es un componente
+// Le pasas el icono y el texto y listo el parche
 function CuteMessage({Icon, text}) {
   return (
     <div className={styles.CuteMessage}>

@@ -80,11 +80,9 @@ const SilkPlane = forwardRef(function SilkPlane({ uniforms }, ref) {
     }
   }, [ref, viewport]);
 
-  // --- AQUÍ ESTÁ EL CAMBIO CLAVE PARA LA ANIMACIÓN ---
+  // Animación constante basada en el reloj de Three.js
   useFrame((state) => {
     if (ref.current && ref.current.material) {
-      // Usamos el tiempo transcurrido total (segundos reales)
-      // Esto hace que la animación sea constante y no dependa de cálculos manuales pequeños
       ref.current.material.uniforms.uTime.value = state.clock.getElapsedTime();
     }
   });
@@ -102,7 +100,8 @@ const SilkPlane = forwardRef(function SilkPlane({ uniforms }, ref) {
 });
 SilkPlane.displayName = 'SilkPlane';
 
-const SilkBackground = ({ speed = 0.5, scale = 1, color = '#b3d09b', noiseIntensity = 1.5, rotation = 0 }) => {
+// El fondo de seda que le da el toque premium
+const SilkBackground = ({ speed = 0.5, scale = 1, color = '#2C2E33', noiseIntensity = 1.5, rotation = 0 }) => {
   const meshRef = useRef();
 
   const uniforms = useMemo(
