@@ -1,110 +1,129 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useRef } from "react";
 import styles from "./HeroSection.module.css";
-import SplitText from "../SplitText/SplitText";
 import { FaShoppingCart, FaArrowRight } from "react-icons/fa";
-
-// Por si queremos hacer algo cuando acabe de cargar
-const handleAnimationComplete = () => {
-  console.log('¡Listo!');
-};
+import { motion } from "framer-motion";
 
 function HeroSection() {
-  const [scrollY, setScrollY] = useState(0);
-  const heroRef = useRef(null);
+  const containerRef = useRef(null);
 
-  // Un poco de scroll listener por si acaso
-  useEffect(() => {
-    const handleScroll = () => {
-      setScrollY(window.scrollY);
-    };
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+  // Animaciones
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: { 
+      opacity: 1,
+      transition: { staggerChildren: 0.15, delayChildren: 0.3 }
+    }
+  };
+
+  const fadeInUp = {
+    hidden: { opacity: 0, y: 30 },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: "easeOut" } }
+  };
+
+  const slideInRight = {
+    hidden: { opacity: 0, x: 100 },
+    visible: { opacity: 1, x: 0, transition: { duration: 1, ease: "backOut" } }
+  };
 
   return (
-    <div ref={heroRef} className={styles.heroContainer}>
+    <section ref={containerRef} className={styles.heroWrapper}>
       
-      {/* Ese patrón de texto que se mueve de fondo, muy pro */}
-      <div className={styles.typoPattern}>
-        <div className={styles.scrollingTextRow}>
-          <span>HYGGE RUG &nbsp; HYGGE RUG &nbsp; HYGGE RUG &nbsp; HYGGE RUG &nbsp;</span>
-          <span>HYGGE RUG &nbsp; HYGGE RUG &nbsp; HYGGE RUG &nbsp; HYGGE RUG &nbsp;</span>
+      {/* --- FONDO DE TEXTO CINÉTICO --- */}
+      <div className={styles.kineticBackground}>
+        <div className={styles.tickerRow} style={{ "--speed": "40s" }}>
+          <span>HYGGE RUG • HYGGE RUG • HYGGE RUG • HYGGE RUG • HYGGE RUG • HYGGE RUG •&nbsp;</span>
+          <span>HYGGE RUG • HYGGE RUG • HYGGE RUG • HYGGE RUG • HYGGE RUG • HYGGE RUG •&nbsp;</span>
         </div>
-        <div className={styles.scrollingTextRowReverse}>
-          <span>SOFT & TUFT &nbsp; SOFT & TUFT &nbsp; SOFT & TUFT &nbsp; SOFT & TUFT &nbsp;</span>
-          <span>SOFT & TUFT &nbsp; SOFT & TUFT &nbsp; SOFT & TUFT &nbsp; SOFT & TUFT &nbsp;</span>
+        <div className={styles.tickerRowReverse} style={{ "--speed": "50s" }}>
+          <span>TUFTING RUGS • ART PIECES • BOLD DESIGN •&nbsp;</span>
+          <span>TUFTING RUGS • ART PIECES • BOLD DESIGN •&nbsp;</span>
         </div>
-        <div className={styles.scrollingTextRow}>
-          <span>HAND MADE &nbsp; HAND MADE &nbsp; HAND MADE &nbsp; HAND MADE &nbsp;</span>
-          <span>HAND MADE &nbsp; HAND MADE &nbsp; HAND MADE &nbsp; HAND MADE &nbsp;</span>
-        </div>
-         <div className={styles.scrollingTextRowReverse}>
-          <span>URBAN STYLE &nbsp; URBAN STYLE &nbsp; URBAN STYLE &nbsp; URBAN STYLE &nbsp;</span>
-          <span>URBAN STYLE &nbsp; URBAN STYLE &nbsp; URBAN STYLE &nbsp; URBAN STYLE &nbsp;</span>
+        <div className={styles.tickerRow} style={{ "--speed": "45s" }}>
+          <span>CUSTOM MADE • 100% WOOL • HANDTUFTED • UNIQUE TEXTURE •&nbsp;</span>
+          <span>CUSTOM MADE • 100% WOOL • HANDTUFTED • UNIQUE TEXTURE •&nbsp;</span>
         </div>
       </div>
 
-      <div className={styles.gridContainer}>
-        {/* Lado Izquierdo: Copywriting agresivo y claro */}
-        <div className={styles.leftColumn}>
-          <div className={styles.badgeNew}>
-            <span>NUEVA COLECCIÓN 2026</span>
-          </div>
-          
-          <h1 className={styles.mainTitle}>
-            <span className={styles.line1}>ALFOMBRAS</span>
-            <br />
-            <span className={styles.line2}>CON</span>
-            <span className={styles.line3}>ACTITUD</span>
-          </h1>
-          
-          <p className={styles.description}>
-            Arte hecho a mano para pisar. Olvida las alfombras aburridas de tu abuela. 
-            Hacemos <strong>Tufting Urbano</strong> con diseños que gritan estilo.
-          </p>
+      <motion.div 
+        className={styles.mainLayout}
+        initial="hidden"
+        animate="visible"
+        variants={containerVariants}
+      >
+        {/* --- CABECERA VACÍA (Manteniendo estructura por si acaso) --- */}
+        <div className={styles.topBar}></div>
 
-          <div className={styles.ctaWrapper}>
-            <a href="#shop" className={styles.btnPrimary}>
-              <span>COMPRAR AHORA</span>
-              <FaShoppingCart size={18} />
-            </a>
-            <a href="#custom" className={styles.btnSecondary}>
-              <span>PERSONALIZAR</span>
-              <FaArrowRight size={18} />
-            </a>
-          </div>
-          
-          <div className={styles.trustIndicators}>
-            <span>★ 100% Hecho a Mano</span>
-            <span>★ Envio Gratis ES</span>
-          </div>
-        </div>
+        {/* --- CONTENIDO CENTRAL --- */}
+        <div className={styles.centerHero}>
+          <motion.div className={styles.titleBlock} variants={fadeInUp}>
+            <h1 className={styles.megaTitle}>
+              <span className={styles.accentText}>TUFTING</span>
+              <br />
+              <span className={styles.outlineText}>RUGS</span>
+            </h1>
+            <p className={styles.descriptionText}>
+              Arte urbano para tu suelo. Diseñamos y creamos alfombras personalizadas 
+              con lana premium y una textura que redefine la comodidad.
+            </p>
+          </motion.div>
 
-        {/* Lado Derecho: La Alfombra 'Hero' */}
-        <div className={styles.rightColumn}>
-          <div className={styles.imageShowcase}>
-            {/* Círculo de fondo vibrante */}
-            <div className={styles.blobBack}></div>
-            
-            {/* Alfombra principal */}
-            <div className={styles.floatingRug}>
-              <img 
+          <motion.div 
+            className={styles.visualBlock}
+            variants={slideInRight}
+          >
+            <div className={styles.imageContainer}>
+              {/* Badge movido DENTRO de la tarjeta para que vaya pegado a ella */}
+              <motion.div variants={fadeInUp} className={styles.badgeNearCard}>
+                <span className={styles.badgePulse}></span>
+                <span>EDICIÓN LIMITADA 2026</span>
+              </motion.div>
+
+              <div className={styles.glowEffect}></div>
+              <motion.img 
                 src="/rug-gorillaz.png" 
-                alt="Alfombra Tufting Gorillaz" 
-                className={styles.realRugImg} 
+                alt="Main Rug" 
+                className={styles.mainRugImg}
+                whileHover={{ rotate: 8, scale: 1.05 }}
+                transition={{ type: "spring", stiffness: 200 }}
               />
               
-              {/* Etiqueta de precio flotante estilo Sticker */}
-              <div className={styles.stickerPrice}>
-                <span className={styles.currency}>€</span>
-                <span className={styles.amount}>89</span>
-              </div>
+              <motion.div 
+                className={styles.sticker}
+                animate={{ rotate: [15, 12, 18, 15] }}
+                transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+              >
+                <span className={styles.stickerLabel}>OFERTA</span>
+                <span className={styles.stickerPrice}>89€</span>
+              </motion.div>
             </div>
-          </div>
+          </motion.div>
         </div>
+
+        {/* --- BLOQUE INFERIOR --- */}
+        <div className={styles.bottomHero}>
+          <motion.div className={styles.ctaGroup} variants={fadeInUp}>
+            <a href="#shop" className={styles.primaryBtn}>
+              <FaShoppingCart />
+              <span>VER COLECCIÓN</span>
+            </a>
+            <a href="#custom" className={styles.secondaryBtn}>
+              <span>ENLACE PERSONALIZADO</span>
+              <FaArrowRight />
+            </a>
+          </motion.div>
+        </div>
+
+      </motion.div>
+
+      <div className={styles.sideDecoration}>
+        <span>SCROLL TO EXPLORE</span>
+        <div className={styles.line}></div>
       </div>
-    </div>
+
+    </section>
   );
 }
 
 export default HeroSection;
+
+
