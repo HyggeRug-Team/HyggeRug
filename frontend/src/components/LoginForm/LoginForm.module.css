@@ -1,0 +1,15 @@
+.primaryButton{
+    width: 60%;
+    margin: auto;
+}
+.loginForm{
+    margin: auto;
+    display: grid;
+    grid-template: auto;
+    gap: 30px;
+    border: 1px solid white;
+    width: 60%;
+}
+.loginForm label{
+    width: 100%;
+}

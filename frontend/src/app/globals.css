@@ -11,6 +11,7 @@
 
   --texto-principal: #ffffff;
   --texto-secundario: #e0e0e0; /* Más claro para leer mejor */
+  --texto-principal-oscuro: #000000;
 
   /* Acentos */
   --texto-hover: #FFD700; /* Amarillo */

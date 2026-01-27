@@ -1,0 +1,22 @@
+/*El ancho es del 100% porque creo que es la mejor forma de ajustar el ancho, simplemente metelo en otro div y le das el tamaño que quieras*/
+.btnPrimary {
+    width: 100%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    padding: 16px 32px;
+    background-color: var(--texto-hover);
+    color: var(--texto-principal-oscuro);
+    font-weight: 800;
+    text-decoration: none;
+    border-radius: 12px;
+    box-shadow: 6px 6px 0px var(--texto-principal-oscuro);
+    transition: transform 0.2s;
+    border: 2px solid var(--texto-principal-oscuro);
+}
+
+.btnPrimary:hover {
+    transform: translate(-2px, -2px);
+    background-color: var(--texto-principal);
+}

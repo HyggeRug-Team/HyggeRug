@@ -157,7 +157,7 @@
 
 .btnPrimary:hover {
     transform: translate(-2px, -2px);
-    background-color: #fff;
+    background-color: var(--texto-principal);
 }
 
 .btnSecondary {
