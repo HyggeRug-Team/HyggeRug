@@ -14,8 +14,8 @@
   display: flex;
   align-items: center;
   gap: 5px;
-  background-color: var(--bg-principal-componente);
-  color: var(--texto-principal);
+  background-color: var(--primary-component-bg);
+  color: var(--primary-text);
   font-size: 16px;
   font-weight: 600;
   transition: background-color 0.2s ease;
@@ -24,7 +24,7 @@
 /* El icono de la flecha */
 .dropdownIcon {
   font-size: 18px;
-  color: var(--texto-principal);
+  color: var(--primary-text);
 }
 
 /* 3. La lista (UL) */
@@ -32,7 +32,7 @@
   list-style: none;
   padding: 0;
   margin: 0;
-  background-color: var(--bg-principal);
+  background-color: var(--primary-bg);
 }
 
 /* 4. Los enlaces individuales (A) */
@@ -40,7 +40,7 @@
   display: block; /* Importante: hace que todo el rectángulo sea clickeable */
   padding: 12px 20px;
   text-decoration: none;
-  color: var(--texto-secundario);
+  color: var(--secondary-text);
   font-size: 14px;
   transition: all 0.1s ease;
 }

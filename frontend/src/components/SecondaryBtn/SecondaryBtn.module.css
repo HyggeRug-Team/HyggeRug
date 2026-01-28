@@ -1,0 +1,20 @@
+/*El ancho es del 100% porque creo que es la mejor forma de ajustar el ancho, simplemente metelo en otro div y le das el tamaño que quieras*/
+.secondaryBtn {
+    display: inline-flex;
+    align-items: center;
+    gap: 15px;
+    padding: 22px 45px;
+    background-color: transparent;
+    color: var(--primary-text);
+    font-weight: 700;
+    text-decoration: none;
+    border-radius: 15px;
+    border: 3px dashed rgba(255,255,255,0.3);
+    transition: all 0.3s;
+}
+
+.secondaryBtn:hover {
+    border-color: var(--primary-text);
+    background: rgba(255,255,255,0.05);
+    transform: scale(1.05);
+}

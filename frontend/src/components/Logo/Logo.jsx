@@ -9,7 +9,7 @@ function Logo({ size = 35 }) {
         preserveAspectRatio="xMidYMid meet">
 
         <g transform="translate(0.000000,195.000000) scale(0.100000,-0.100000)"
-          fill = 'var(--texto-principal)' stroke="none">
+          fill = 'var(--primary-text)' stroke="none">
           <path d="M940 1585 c-26 -14 -73 -96 -86 -147 l-6 -28 46 6 c47 7 136 -11 136
           -27 0 -5 -31 -9 -68 -9 -38 0 -91 -7 -118 -15 -67 -20 -66 -21 -45 28 34 78
           50 137 37 137 -14 0 -49 -36 -63 -65 -6 -11 -13 -51 -17 -89 l-7 -69 58 7 c31

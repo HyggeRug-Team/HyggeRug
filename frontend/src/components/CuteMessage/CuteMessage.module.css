@@ -4,10 +4,10 @@
     display: flex;
     gap: 15px;
     align-items: center;
-    background-color: var(--bg-principal);
-    color: var(--texto-hover);
+    background-color: var(--primary-bg);
+    color: var(--hover-text);
     padding: 12px 25px;
-    border: 3px dashed var(--texto-resalte);
+    border: 3px dashed var(--highlight-text);
     border-radius: 20px;
     box-shadow: 6px 6px 0px #000;
     transition: all 0.3s;
@@ -16,12 +16,12 @@
 
 .CuteMessage:hover {
     transform: rotate(-1deg) scale(1.05);
-    background-color: var(--bg-secundario);
+    background-color: var(--secondary-bg);
     box-shadow: 8px 8px 0px #000;
 }
 
 .CuteMessage svg {
-    color: var(--texto-resalte);
+    color: var(--highlight-text);
 }
 
 .text {

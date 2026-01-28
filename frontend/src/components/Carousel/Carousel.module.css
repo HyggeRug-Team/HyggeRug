@@ -12,7 +12,7 @@
     position: absolute;
     font-family: Arial, sans-serif;
     font-size: 14px;
-    color: var(--texto-resalte);
+    color: var(--highlight-text);
     opacity: 0.6;
     font-weight: 900;
 }
@@ -81,9 +81,9 @@
     transform: translateY(-50%);
     width: 50px;
     height: 50px;
-    background: var(--texto-principal);
-    color: var(--texto-principal-oscuro);
-    border: 3px solid var(--texto-principal-oscuro);
+    background: var(--primary-text);
+    color: var(--dark-primary-text);
+    border: 3px solid var(--dark-primary-text);
     border-radius: 12px;
     font-size: 1.5rem;
     font-weight: 900;
@@ -92,19 +92,19 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    box-shadow: 5px 5px 0px var(--texto-principal-oscuro);
+    box-shadow: 5px 5px 0px var(--dark-primary-text);
     transition: all 0.2s;
 }
 
 .navBtn:hover {
-    background: var(--texto-hover);
+    background: var(--hover-text);
     transform: translateY(-50%) translate(-2px, -2px);
-    box-shadow: 7px 7px 0px var(--texto-principal-oscuro);
+    box-shadow: 7px 7px 0px var(--dark-primary-text);
 }
 
 .navBtn:active {
     transform: translateY(-50%) translate(0, 0);
-    box-shadow: 0px 0px 0px var(--texto-principal-oscuro);
+    box-shadow: 0px 0px 0px var(--dark-primary-text);
 }
 
 .prevBtn { left: -25px; }
@@ -115,15 +115,15 @@
     position: absolute;
     top: -20px;
     right: 20px;
-    background: var(--texto-principal);
-    color: var(--texto-principal-oscuro);
+    background: var(--primary-text);
+    color: var(--dark-primary-text);
     padding: 15px 20px;
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 4px;
     transform: rotate(5deg);
-    border: 2px solid var(--texto-principal-oscuro);
+    border: 2px solid var(--dark-primary-text);
     box-shadow: 5px 5px 20px rgba(0,0,0,0.3);
     z-index: 25;
 }
@@ -131,7 +131,7 @@
 .tagHole {
     width: 6px;
     height: 6px;
-    background: var(--texto-principal-oscuro);
+    background: var(--dark-primary-text);
     border-radius: 50%;
     position: absolute;
     top: 8px;
@@ -150,7 +150,7 @@
 .stars {
     display: flex;
     gap: 2px;
-    color: var(--texto-hover);
+    color: var(--hover-text);
 }
 
 .tagText {
@@ -186,7 +186,7 @@
 }
 
 .activeDot {
-    background-color: var(--texto-resalte);
+    background-color: var(--highlight-text);
     border-color: #000;
     transform: scale(1.5);
     box-shadow: 0 0 10px rgba(255, 0, 85, 0.4);

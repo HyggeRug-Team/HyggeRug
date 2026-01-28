@@ -41,11 +41,11 @@
 /* Marca de costura central decorativa (X) */
 .decoX {
     position: absolute;
-    color: var(--texto-resalte);
+    color: var(--highlight-text);
     font-size: 3rem;
     font-weight: 900;
     opacity: 0.3;
-    filter: drop-shadow(0 0 10px var(--texto-resalte));
+    filter: drop-shadow(0 0 10px var(--highlight-text));
 }
 
 .textWrapper {
@@ -67,7 +67,7 @@
     margin: 0 4px;
     /* Sombra de relieve de bordado */
     text-shadow: 
-        6px 6px 0px var(--texto-resalte),
+        6px 6px 0px var(--highlight-text),
         10px 10px 30px rgba(0,0,0,0.6);
 }
 
@@ -84,7 +84,7 @@
 }
 
 .outline {
-    color: var(--texto-hover);
+    color: var(--hover-text);
     /* No usamos transparencia aquí para que parezca hilo sólido amarillo */
     -webkit-text-stroke: 2px #000;
 }
@@ -98,12 +98,12 @@
     height: 10px;
     background: repeating-linear-gradient(
         45deg,
-        var(--texto-resalte) 0,
-        var(--texto-resalte) 10px,
+        var(--highlight-text) 0,
+        var(--highlight-text) 10px,
         #fff 10px,
         #fff 20px,
-        var(--texto-hover) 20px,
-        var(--texto-hover) 30px
+        var(--hover-text) 20px,
+        var(--hover-text) 30px
     );
     background-size: 42px 100%;
     animation: threadSlide 0.5s linear infinite;

@@ -1,12 +1,12 @@
 import React from 'react'
 import styles from './LoginForm.module.css'
-import PrimaryButton from '../PrimaryButton/PrimaryButton';
+import PrimaryButton from '../PrimaryBtn/PrimaryBtn';
 import { FaGoogle } from "react-icons/fa";
 function LoginForm() {
   return (
     <>
       <h1>Iniciar sesión </h1>
-      <div className={styles.primaryButton}>
+      <div className={styles.googleButton}>
         <PrimaryButton 
           text={'Iniciar sesión con Google'}
           url={'#'}

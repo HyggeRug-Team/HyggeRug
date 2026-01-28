@@ -4,22 +4,22 @@
 :root {
   color-scheme: light dark;
 
-  /* Colores Urban/Pop - Definidos y sólidos */
-  --bg-principal: #2C2E33; /* Gris Carbón */
-  --bg-secundario: #363940; 
-  --bg-footer-componente: #1F2124;
+  /* Urban/Pop Colors - Solid and Defined */
+  --primary-bg: #2C2E33; /* Carbon Grey */
+  --secondary-bg: #363940; 
+  --footer-bg: #1F2124;
 
-  --texto-principal: #ffffff;
-  --texto-secundario: #e0e0e0; /* Más claro para leer mejor */
-  --texto-principal-oscuro: #000000;
+  --primary-text: #ffffff;
+  --secondary-text: #e0e0e0; /* Lighter for better readability */
+  --dark-primary-text: #000000;
 
-  /* Acentos */
-  --texto-hover: #FFD700; /* Amarillo */
-  --texto-resalte: #FF0055; /* Rosa */
+  /* Accents */
+  --hover-text: #FFD700; /* Yellow */
+  --highlight-text: #FF0055; /* Pink */
 
-  /* Variables de UI */
-  --boton-before-hover: #6C5DD3;
-  --boton-after-hover: #FFD700;
+  /* UI Variables */
+  --button-before-hover: #6C5DD3;
+  --button-after-hover: #FFD700;
   
   --font-titles: 'Rubik Bubbles', system-ui, cursive; 
   --font-body: 'Rubik', sans-serif;
@@ -46,9 +46,9 @@ body {
   padding: 0;
   overflow-x: hidden;
   position: relative;
-  background-color: var(--bg-principal);
+  background-color: var(--primary-bg);
   font-family: var(--font-body);
-  color: var(--texto-principal);
+  color: var(--primary-text);
   /* Textura de "hilo" o ruido suave global */
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.05'/%3E%3C/svg%3E");
 }
@@ -83,17 +83,17 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 ::-webkit-scrollbar-track {
-    background: var(--bg-principal);
+    background: var(--primary-bg);
 }
 
 ::-webkit-scrollbar-thumb {
-    background-color: var(--texto-resalte);
+    background-color: var(--highlight-text);
     border-radius: 10px;
-    border: 2px solid var(--bg-principal);
+    border: 2px solid var(--primary-bg);
 }
 
 ::selection {
-  background-color: var(--texto-resalte); /* Rosa chillón */
+  background-color: var(--highlight-text); /* Hot pink */
   color: #fff;
   text-shadow: 2px 2px 0px #000;
 }

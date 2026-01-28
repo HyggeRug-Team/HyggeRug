@@ -2,7 +2,7 @@
     width: 100%;
     overflow: hidden; 
     padding: 60px 5%; /* Padding reducido para que ocupe menos */
-    background-color: var(--bg-secundario);
+    background-color: var(--secondary-bg);
     position: relative;
     border-top: 6px dashed rgba(255,255,255,0.05); /* Pespunte superior sutil */
 }
@@ -40,14 +40,14 @@
     display: flex;
     align-items: center;
     gap: 8px;
-    background: var(--bg-principal);
-    color: var(--texto-hover);
+    background: var(--primary-bg);
+    color: var(--hover-text);
     padding: 6px 15px;
     border-radius: 8px;
     font-size: 0.75rem;
     font-weight: 800;
     width: fit-content;
-    border: 2px dashed var(--texto-hover);
+    border: 2px dashed var(--hover-text);
     transform: rotate(-1deg);
 }
 
@@ -55,14 +55,14 @@
     font-family: var(--font-titles);
     font-size: 2.5rem; 
     line-height: 1.1;
-    color: var(--texto-principal);
+    color: var(--primary-text);
     margin: 0;
 }
 
 .description {
     font-size: 1rem;
     line-height: 1.4;
-    color: var(--texto-secundario);
+    color: var(--secondary-text);
     max-width: 500px;
     margin-bottom: 5px;
 }
@@ -79,19 +79,19 @@
     align-items: center;
     gap: 10px;
     padding: 12px 25px;
-    background: var(--texto-principal);
-    color: var(--texto-principal-oscuro);
+    background: var(--primary-text);
+    color: var(--dark-primary-text);
     text-decoration: none;
     font-weight: 900;
     border-radius: 12px;
-    border: 2px solid var(--texto-principal-oscuro);
-    box-shadow: 4px 4px 0px var(--texto-resalte);
+    border: 2px solid var(--dark-primary-text);
+    box-shadow: 4px 4px 0px var(--highlight-text);
     transition: 0.3s;
 }
 
 .primaryButton:hover {
     transform: translate(-2px, -2px);
-    box-shadow: 6px 6px 0px var(--texto-resalte);
+    box-shadow: 6px 6px 0px var(--highlight-text);
 }
 
 .secondaryButton {
@@ -100,7 +100,7 @@
     gap: 10px;
     padding: 12px 25px;
     background: transparent;
-    color: var(--texto-principal);
+    color: var(--primary-text);
     text-decoration: none;
     font-weight: 700;
     border-radius: 12px;
@@ -133,7 +133,7 @@
 }
 
 .feature:hover {
-    border-color: var(--texto-hover);
+    border-color: var(--hover-text);
     transform: scale(1.02);
     background: rgba(0, 0, 0, 0.4);
 }
@@ -145,9 +145,9 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    background: var(--bg-principal);
+    background: var(--primary-bg);
     border-radius: 10px;
-    color: var(--texto-hover);
+    color: var(--hover-text);
     font-size: 1.2rem;
     border: 1px solid #333;
 }
@@ -155,7 +155,7 @@
 .featureText h4 {
     font-family: var(--font-titles);
     font-size: 1.1rem;
-    color: var(--texto-principal);
+    color: var(--primary-text);
     margin: 0;
 }
 
@@ -187,7 +187,7 @@
 }
 
 .extraBadge .badgeIcon {
-    color: var(--texto-resalte);
+    color: var(--highlight-text);
 }
 
 /* --- ESTADOS DE CARGA / ANIMACIÓN --- */

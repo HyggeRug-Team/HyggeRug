@@ -2,6 +2,8 @@ import React, { useRef } from "react";
 import styles from "./HeroSection.module.css";
 import { FaShoppingCart, FaArrowRight } from "react-icons/fa";
 import { motion } from "framer-motion";
+import PrimaryBtn from "../PrimaryBtn/PrimaryBtn.jsx";
+import SecondaryBtn from "../SecondaryBtn/SecondaryBtn.jsx";
 
 function HeroSection() {
   const containerRef = useRef(null);
@@ -102,19 +104,11 @@ function HeroSection() {
         {/* --- BLOQUE INFERIOR --- */}
         <div className={styles.bottomHero}>
           <motion.div className={styles.ctaGroup} variants={fadeInUp}>
-            <a href="#shop" className={styles.primaryBtn}>
-              <FaShoppingCart />
-              <span>VER COLECCIÓN</span>
-            </a>
-            <a href="#custom" className={styles.secondaryBtn}>
-              <span>ENLACE PERSONALIZADO</span>
-              <FaArrowRight />
-            </a>
+            <PrimaryBtn text="COMPRAR AHORA" url="#shop" Icon={FaShoppingCart}/>
+            <SecondaryBtn text="ENLACE PERSONALIZADO" url="#custom" Icon={FaArrowRight}/>
           </motion.div>
         </div>
-
       </motion.div>
-
       <div className={styles.sideDecoration}>
         <span>SCROLL TO EXPLORE</span>
         <div className={styles.line}></div>
