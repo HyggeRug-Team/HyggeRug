@@ -1,0 +1,1 @@
+Esta carpeta es el estándar en Next.js para guardar "Librerías" o configuraciones de base de datos
