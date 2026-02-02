@@ -33,7 +33,7 @@ export async function POST(request) {
     });
 
     // 5. Guardamos el token en una COOKIE
-    // Esto es lo que el Middleware revisará en cada página
+    // Esto es lo que el Proxy revisará en cada página
     const cookieStore = await cookies();
     cookieStore.set('session_token', token, {
       httpOnly: true, // Seguridad: el navegador no puede tocarla con JS

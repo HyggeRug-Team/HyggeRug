@@ -1,8 +1,8 @@
-// middleware.js
+// proxy.js antes middleware.js
 import { NextResponse } from 'next/server';
 import { jwtVerify } from 'jose'; 
 
-export async function middleware(request) {
+export async function proxy(request) {
   // 1. Obtenemos la cookie de sesion que es el token
   const token = request.cookies.get('session_token')?.value;
 
