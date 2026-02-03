@@ -1,36 +1,44 @@
 // proxy.js antes middleware.js
 import { NextResponse } from 'next/server';
-import { jwtVerify } from 'jose'; 
+import { jwtVerify } from 'jose';
 
 export async function proxy(request) {
-  // 1. Obtenemos la cookie de sesion que es el token
+  //1. Guardamos el token
   const token = request.cookies.get('session_token')?.value;
+  // 2. Guardamos si la sesion es correcta
+  let okToken = false;
 
-  // 2. Identificamos la ruta a la que quiere acceder 
+  // Comprobamos si el token es valido si existe
+  if (token) {
+    // El try es necesario porque jwtVerify reponde con una excepción si no es correcto
+    try {
+      // 1. 
+      // Guardamos la variable guardada en .env.local y la convertimos a binario (jose solo usa unit8Array)
+      const secret = new TextEncoder().encode(process.env.JWT_SECRET);
+      await jwtVerify(token, secret);
+      okToken = true;
+    } catch (error) {
+      response.cookies.delete('session_token');
+      console.log("Token corrupto: instrucción de borrado añadida a la respuesta.");
+    }
+  }
+
+  // Identificamos la ruta a la que quiere acceder para filtrar el trafico sin sesion
   const { pathname } = request.nextUrl;
 
-  // 3. Si quiere entrar en la carpeta dashboard
-  if (pathname.startsWith('/dashboard')) {
-    
-    // Si no hay token, lo mandamos al login (/auth)
-    if (!token) {
-      return NextResponse.redirect(new URL('/auth', request.url));
-    }
+  // Si quiere entrar en la carpeta dashboard con un token invalido
+  if (pathname.startsWith('/dashboard') && !okToken) {
+    // Guardo la respuesta de redirigir a auth 
+    const response = NextResponse.redirect(new URL('/auth', request.url));
+    // Si el token existe, es decir que es un token invalido se añade a la respuesta borrar la cookie
+    if (token) response.cookies.delete('session_token'); 
+    return response;
+  }
 
-    try {
-      // Si hay token, usamos el "molde" para verificar el sello
-      // Recuerda: usamos TextEncoder porque la llave debe ser binaria
-      const secret = new TextEncoder().encode(process.env.JWT_SECRET);
-      
-      // Intentamos verificar. Si el token es falso o expiró, saltará al catch
-      await jwtVerify(token, secret);
-      
-      // Si el sello es auténtico, ¡adelante!
-      return NextResponse.next();
-    } catch (error) {
-      // Si el carnet es falso, lo expulsamos al login
-      console.log("Token inválido o expirado");
-      return NextResponse.redirect(new URL('/auth', request.url));
+  // Si un usuario con sesion intenta entrar en /auth se le redirige a dashboard
+  if (pathname.startsWith('/auth')) {
+    if (okToken) {
+      return NextResponse.redirect(new URL('/dashboard', request.url))
     }
   }
 
@@ -41,5 +49,5 @@ export async function proxy(request) {
 // CONFIGURACIÓN: Aquí le decimos al guardia qué pasillos vigilar
 export const config = {
   // Vigila /dashboard y cualquier cosa que haya dentro
-  matcher: ['/dashboard/:path*'], 
+  matcher: ['/dashboard/:path*', '/auth'],
 };

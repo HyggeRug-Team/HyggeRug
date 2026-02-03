@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { db } from '@/lib/db'; // Tu conexión a MySQL
 import bcrypt from 'bcryptjs';
+import { SignJWT } from 'jose'; // Para crear el token
 
 export async function POST(request) {
   try {
@@ -33,16 +34,35 @@ export async function POST(request) {
     const hashedPassword = await bcrypt.hash(password, salt);
 
     // 5. INSERTAMOS en la base de datos
-    // Ajustamos los nombres a tu script: nickname, email, password_hash y auth_provider
-    await db.query(
+    // Guardamos la respuesta que da mysql que en ella lleva el id del usuario que se ha añadido para crear despues la sesion
+    const [result] = await db.query(
       'INSERT INTO users (nickname, email, password_hash, auth_provider) VALUES (?, ?, ?, ?)',
       [nickname, email, hashedPassword, 'credentials'] // 'credentials' porque no es de Google
     );
+    const userId = result.insertId;
+    // A. Creamos el token (igual que en el login)
+    const secret = new TextEncoder().encode(process.env.JWT_SECRET);
+    const token = await new SignJWT({ userId: userId, email, nickname })
+      .setProtectedHeader({ alg: 'HS256' })
+      .setExpirationTime('2h') // Duración de la sesión
+      .sign(secret);
 
-    return NextResponse.json(
-      { message: '¡Usuario creado con éxito! Ya puedes iniciar sesión.' },
+    // B. Creamos la respuesta de éxito
+    const response = NextResponse.json(
+      { message: '¡Usuario creado e iniciado sesión con éxito!' },
       { status: 201 }
     );
+
+    // C. Guardamos el token en la cookie "session_token"
+    response.cookies.set('session_token', token, {
+      httpOnly: true, // Por seguridad, para que no se acceda desde JS
+      secure: process.env.NODE_ENV === 'production', // Solo HTTPS en producción
+      sameSite: 'lax',
+      path: '/',
+      maxAge: 7200, // 2 horas en segundos
+    });
+
+    return response;
 
   } catch (error) {
     console.error('Error en el registro:', error);

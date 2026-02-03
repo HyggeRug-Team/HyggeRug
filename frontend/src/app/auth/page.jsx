@@ -1,25 +1,17 @@
 'use client';
 import React, { useState } from 'react';
 import Header from '../../components/Header/Header';
-import LoginForm from '../../components/LoginForm/LoginForm';
-import RegisterForm from '../../components/RegisterForm/RegisterForm';
+import AuthForm from '../../components/AuthForm/AuthForm';
+import styles from './auth.module.css';
 
-export default function AuthPage() {
-  const [esLogin, setEsLogin] = useState(true); // Estado para alternar
-
+export default function AuthPage(){
   return (
     <>
       <Header />
       <div></div>
       
-      <main >
-        {esLogin ? <LoginForm /> : <RegisterForm />}
-
-        <button 
-          onClick={() => setEsLogin(!esLogin)}
-        >
-          {esLogin ? '¿No tienes cuenta? Regístrate aquí' : '¿Ya tienes cuenta? Inicia sesión'}
-        </button>
+      <main>
+        <AuthForm/>
       </main>
     </>
   );

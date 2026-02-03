@@ -4,6 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { usePathname } from 'next/navigation';
 import Logo from '../Logo/Logo'
 import styles from "./Header.module.css";
+import Link from 'next/link'
 //Importación de los iconos usados
 import { CiSearch } from "react-icons/ci";
 import { CiShoppingCart } from "react-icons/ci";
@@ -49,11 +50,12 @@ function Header() {
   }, []);
   // Lista de enlaces para menu desplegable en movil
   const MENU_ITEMS = [
-    { id: 1, label: "Inicio", url: "/", icon: <GoHome size={24} /> },
-    { id: 2, label: "Personalizar", url: "/personalizar", icon: <IoBrushOutline size={20} /> },
-    { id: 3, label: "Tienda", url: "/tienda", icon: <IoBagOutline size={20} /> },
-    { id: 4, label: "Cuenta", url: "/cuenta", icon: <MdAccountCircle size={20} /> },
-    { id: 5, label: "Carrito", url: "/carrito", icon: <CiShoppingCart size={20} /> },
+    { id: 1, label: "Inicio", url: "/", icon: GoHome },
+    { id: 2, label: "Personalizar", url: "/personalizar", icon: IoBrushOutline },
+    { id: 3, label: "Tienda", url: "/tienda", icon: IoBagOutline },
+    { id: 6, label: "Buscar", url: "/buscar", icon: CiSearch },
+    { id: 5, label: "Carrito", url: "/carrito", icon: CiShoppingCart },
+    { id: 4, label: "Cuenta", url: "/dashboard", icon: MdAccountCircle },
   ];
   return (
     <header className={styles.header}>
@@ -70,9 +72,17 @@ function Header() {
             <a href='#'>Nosotros</a>
           </nav>
           <div className={styles.buttonsMenu}>
-            <button><CiSearch size={35} /></button>
-            <button><CiShoppingCart size={35} /></button>
-            <button><MdAccountCircle size={35} /></button>
+            {MENU_ITEMS.filter(item => [4,5,6].includes(item.id)).map((item) => {
+              // IMPORTANTE: En React, las variables de componentes deben empezar por MAYÚSCULA
+              const Icono = item.icon;
+              return (
+                <Link href={item.url} key={item.id} title={item.label}>
+                  <button className={styles.iconBtn}>
+                    <Icono size={35} />
+                  </button>
+                </Link>
+              );
+            })}
           </div>
           {/*Cuando se pulse el estado del menu cambia*/}
           <div className={styles.hamburgerButton} onClick={toggleMenu}>
@@ -88,19 +98,22 @@ function Header() {
 
             {/*Botones del menú desplegable*/}
             <div className={styles.buttonMobileMenu}>
-              {MENU_ITEMS.map((item) => (
-                <a
-                  key={item.id}
-                  href={item.url}
-                  className={styles.menuButton}
-                  onClick={() => setIsOpenMenu(false)}
-                >
-                  <div className={styles.iconMobilMenu}>
-                    {item.icon}
-                  </div>
-                  <span>{item.label}</span>
-                </a>
-              ))}
+              {MENU_ITEMS.map((item) => {
+                const IconoMovil = item.icon; // Extraemos la referencia
+                return (
+                  <Link
+                    key={item.id}
+                    href={item.url}
+                    className={styles.menuButton}
+                    onClick={() => setIsOpenMenu(false)} // Cierra el menú al hacer clic
+                  >
+                    <div className={styles.iconMobilMenu}>
+                      <IconoMovil size={24} />
+                    </div>
+                    <span>{item.label}</span>
+                  </Link>
+                );
+              })}
             </div>
             <div className={styles.cuteMessage}>
               <CuteMessage Icon={FaRegHeart} text="Hecho a mano directo a tu corazón" />
