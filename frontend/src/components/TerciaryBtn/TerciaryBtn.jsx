@@ -1,18 +1,19 @@
-// El componente ocupa el 100% del ancho por lo que hay que meterlo en un div con el tamaño que queramos
-// Es la mejor forma que he encontrado de poder controlar el ancho del boton y que no siempre sea el mismo
+// TerciaryBtn.jsx
 import React from 'react'
 import styles from './TerciaryBtn.module.css'
 
-function PrimaryButton({text, url, Icon}) {
+function TerciaryButton({ text, url = "#", Icon, onClick }) {
     return (
-        <>
-            <a href={url} className={styles.primaryBtn}>
-                {Icon && <Icon size={18} />}
-                <span>{text}</span>
-            </a>
-        </>
+        <a 
+            href={url} 
+            className={styles.terciaryBtn} // Asegúrate de que en el CSS se llame así
+            onClick={onClick}
+        >
+            {/* En el Terciario he mantenido el icono a la izquierda como en tu código original */}
+            {Icon && <Icon size={18} />}
+            <span>{text}</span>
+        </a>
     )
 }
 
-
-export default PrimaryButton
+export default TerciaryButton
