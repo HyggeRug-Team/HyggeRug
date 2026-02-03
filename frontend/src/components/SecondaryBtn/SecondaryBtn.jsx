@@ -1,16 +1,18 @@
-// El componente ocupa el 100% del ancho por lo que hay que meterlo en un div con el tamaño que queramos
-// Es la mejor forma que he encontrado de poder controlar el ancho del boton y que no siempre sea el mismo
+// SecondaryBtn.jsx
 import React from 'react'
 import styles from './SecondaryBtn.module.css'
 
-function SecondaryButton({text, url, Icon}) {
+function SecondaryButton({ text, url = "#", Icon, onClick }) {
     return (
-        <>
-            <a href={url} className={styles.secondaryBtn}>
+            <a 
+                href={url} 
+                className={styles.secondaryBtn} 
+                onClick={onClick} // Añadimos esto
+            >
                 <span>{text}</span>
                 {Icon && <Icon size={18} />}
             </a>
-        </>
+
     )
 }
 

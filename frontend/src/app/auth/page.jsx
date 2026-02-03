@@ -7,12 +7,8 @@ import styles from './auth.module.css';
 export default function AuthPage(){
   return (
     <>
-      <Header />
-      <div></div>
-      
-      <main>
-        <AuthForm/>
-      </main>
+      <Header styles={styles.header} />
+        <AuthForm styles={styles.authForm}/> 
     </>
   );
 }

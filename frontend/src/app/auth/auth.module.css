@@ -1,4 +1,3 @@
-.esLoginBtn{
-    display: flex;
-    width: 70%;
+.authForm{
+    padding: 50px;
 }

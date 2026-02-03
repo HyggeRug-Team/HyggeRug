@@ -4,6 +4,7 @@ import { useRouter } from 'next/navigation';
 import styles from './AuthForm.module.css';
 import PrimaryButton from '../PrimaryBtn/PrimaryBtn';
 import { FaGoogle } from "react-icons/fa";
+import TerciaryButton from '../TerciaryBtn/TerciaryBtn';
 
 export default function AuthForm() {
     // Inicializar router que es para redirigir, como un Header o href 
@@ -68,57 +69,60 @@ export default function AuthForm() {
 
     return (
         <div className={styles.authWrapper}>
-            <h1>{isLogin ? 'Iniciar sesión' : 'Crear cuenta'}</h1>
-
-            <div className={styles.googleButton}>
-                <PrimaryButton
-                    text={isLogin ? 'Entrar con Google' : 'Registrarse con Google'}
-                    url={'#'}
-                    Icon={FaGoogle}
-                />
+            <div className={styles.imgWrapper}>
+                <h1>{isLogin ? 'Iniciar sesión' : 'Crear cuenta'}</h1>
             </div>
+            <div className={styles.formWrapper}>
+                <div className={styles.googleButton}>
+                    <PrimaryButton
+                        text={isLogin ? 'Entrar con Google' : 'Registrarse con Google'}
+                        url={'#'}
+                        Icon={FaGoogle}
+                    />
+                </div>
 
-            {/*Es el texto de error o correcto*/}
-            {mensaje.texto && (
-                <p className={`${styles.message} ${styles[mensaje.tipo]}`}>
-                    {mensaje.texto}
-                </p>
-            )}
+                {/*Es el texto de error o correcto*/}
+                {mensaje.texto && (
+                    <p className={`${styles.message} ${styles[mensaje.tipo]}`}>
+                        {mensaje.texto}
+                    </p>
+                )}
 
-            <form className={styles.authForm} onSubmit={handleSubmit}>
-                {/*Si no es login si pide el nombre, los && hacen que si la condición no se cumple directamente deje de leer ese codigo */}
-                {!isLogin &&
+                <form className={styles.authForm} onSubmit={handleSubmit}>
+                    {/*Si no es login si pide el nombre, los && hacen que si la condición no se cumple directamente deje de leer ese codigo */}
+                    {!isLogin &&
+                        <label>
+                            {isLogin ? 'Nombre de usuario:' : '¿Cómo te llamamos? (Nickname):'}
+                            <input type='text' name='nickname' value={formData.nickname} onChange={handleChange} required />
+                        </label>
+                    }
                     <label>
-                        {isLogin ? 'Nombre de usuario:' : '¿Cómo te llamamos? (Nickname):'}
-                        <input type='text' name='nickname' value={formData.nickname} onChange={handleChange} required />
+                        Correo electrónico:
+                        <input type='email' name='email' value={formData.email} onChange={handleChange} required />
                     </label>
-                }
-                <label>
-                    Correo electrónico:
-                    <input type='email' name='email' value={formData.email} onChange={handleChange} required />
-                </label>
 
-                <label>
-                    {isLogin ? 'Contraseña:' : 'Crea una contraseña:'}
-                    <input type='password' name='password' value={formData.password} onChange={handleChange} required />
-                </label>
+                    <label>
+                        {isLogin ? 'Contraseña:' : 'Crea una contraseña:'}
+                        <input type='password' name='password' value={formData.password} onChange={handleChange} required />
+                    </label>
 
-                {/* BOTÓN 1: El de enviar el formulario (Submit) */}
-                <button type='submit' className={styles.submitBtn}>
-                    {isLogin ? 'Entrar' : 'Registrarme'}
-                </button>
-            </form>
+                    {/* BOTÓN 1: El de enviar el formulario (Submit) */}
+                    <button type='submit' className={styles.submitBtn}>
+                        {isLogin ? 'Entrar' : 'Registrarme'}
+                    </button>
+                </form>
 
-            {/* BOTÓN 2: El de cambiar de modo (Fuera del <form>) */}
-            <div className={styles.toggleContainer}>
-                <span>{isLogin ? '¿No tienes cuenta?' : '¿Ya tienes cuenta?'}</span>
-                <button
-                    type="button" // Importante: type="button" para que NO envíe el formulario
-                    className={styles.linkBtn}
-                    onClick={() => SetIsLogin(!isLogin)}
-                >
-                    {isLogin ? 'Regístrate aquí' : 'Inicia sesión'}
-                </button>
+                {/* BOTÓN 2: El de cambiar de modo (Fuera del <form>) */}
+                <div className={styles.toggleContainer}>
+                    
+                    <p>{isLogin ? '¿No tienes cuenta?' : '¿Ya tienes cuenta?'}</p>
+                    
+                    <TerciaryButton
+                        className={styles.terciaryBtn}
+                        text={isLogin ? 'Regístrate aquí' : 'Inicia sesión'}
+                        onClick={() => SetIsLogin(!isLogin)}
+                    />
+                </div>
             </div>
         </div>
     );
