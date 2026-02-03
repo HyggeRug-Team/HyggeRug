@@ -2,7 +2,7 @@
 import { cookies } from 'next/headers';
 import { verifySession } from '@/lib/auth';
 import { redirect } from 'next/navigation';
-
+import LogoutBtn from '@/components/LogoutBtn/LogoutBtn';
 export default async function DashboardPage() {
   const cookieStore = await cookies();
   const token = cookieStore.get('session_token')?.value;
@@ -15,6 +15,7 @@ export default async function DashboardPage() {
     redirect('/auth');
   }
 
+
   return (
     <main style={{ padding: '40px', textAlign: 'center' }}>
       <h1>Bienvenido a tu panel, {session.nickname} 🧶</h1>
@@ -24,6 +25,7 @@ export default async function DashboardPage() {
       <div style={{ marginTop: '20px' }}>
         <a href="/" style={{ color: 'brown' }}>Volver a la tienda</a>
       </div>
+      <LogoutBtn/>
     </main>
   );
 }

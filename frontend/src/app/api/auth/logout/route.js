@@ -1,11 +1,14 @@
 import { NextResponse } from 'next/server';
-import { cookies } from 'next/headers';
 
 export async function POST() {
-  const cookieStore = await cookies();
-  
-  // Borramos la cookie dándole una fecha de expiración pasada
-  cookieStore.delete('session_token');
+  // 1. Creamos la respuesta primero
+  const response = NextResponse.json({ 
+    message: 'Sesión cerrada con éxito' 
+  });
 
-  return NextResponse.json({ message: 'Sesión cerrada con éxito' });
+  // 2. Borramos la cookie directamente en la respuesta
+  // Esto fuerza al navegador a recibir la cabecera "Set-Cookie" de borrado
+  response.cookies.delete('session_token');
+
+  return response;
 }
