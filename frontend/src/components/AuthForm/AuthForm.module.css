@@ -20,10 +20,14 @@
     border-radius: 20px;
 }
 .formWrapper{
-    width: 70%;
+    width: 40%;
+    padding: 30px;
     margin: auto;
     display: grid;
     gap: 40px;
+    border-radius: 20px;
+    border: 1px dashed var(--secondary-text);
+    background-color: var(--primary-bg);
 }
 .authForm{
     display: grid;
@@ -106,6 +110,11 @@
     color: var(--dark-primary-text);
 }
 .toggleContainer p{
+    margin:0px auto 20px ;
     font-size: larger;
     color: var(--secondary-text);
+}
+.terciaryBtn{
+    margin: auto;
+    width: 60%
 }

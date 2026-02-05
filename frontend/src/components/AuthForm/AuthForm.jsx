@@ -5,6 +5,7 @@ import styles from './AuthForm.module.css';
 import PrimaryButton from '../PrimaryBtn/PrimaryBtn';
 import { FaGoogle } from "react-icons/fa";
 import TerciaryButton from '../TerciaryBtn/TerciaryBtn';
+import { IoPersonAddOutline } from "react-icons/io5";
 
 export default function AuthForm() {
     // Inicializar router que es para redirigir, como un Header o href 
@@ -144,12 +145,13 @@ export default function AuthForm() {
                 <div className={styles.toggleContainer}>
 
                     <p>{isLogin ? '¿No tienes cuenta?' : '¿Ya tienes cuenta?'}</p>
-
-                    <TerciaryButton
-                        className={styles.terciaryBtn}
-                        text={isLogin ? 'Regístrate aquí' : 'Inicia sesión'}
-                        onClick={() => SetIsLogin(!isLogin)}
-                    />
+                    <div className={styles.terciaryBtn}>
+                        <TerciaryButton
+                            Icon={IoPersonAddOutline}
+                            text={isLogin ? 'Regístrate aquí' : 'Inicia sesión'}
+                            onClick={() => SetIsLogin(!isLogin)}
+                        />
+                    </div>
                 </div>
             </div>
         </div>
