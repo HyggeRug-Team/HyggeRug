@@ -2,6 +2,7 @@
 import React, { useState } from 'react';
 import Header from '../../components/Header/Header';
 import AuthForm from '../../components/AuthForm/AuthForm';
+import Footer from '@/components/Footer/Footer'
 import styles from './auth.module.css';
 
 export default function AuthPage(){

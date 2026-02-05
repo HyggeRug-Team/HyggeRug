@@ -61,7 +61,9 @@ function Header() {
     <header className={styles.header}>
       <div className={styles.imageHeader}>
         <Logo />
-        <h1>Hygge Rug</h1>
+        <Link href="/" style={{cursor: 'pointer' }}>
+          <h1>Hygge Rug</h1>
+        </Link>
       </div>
       {/*Si la ruta no es ninguna de las del isAuthPage va a dibujar todo el header, si no simplemente saldrá el logo*/}
       {!isAuthPage && (

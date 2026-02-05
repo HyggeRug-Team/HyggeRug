@@ -35,13 +35,70 @@
     border-radius: 20px;
     border: 1px dashed var(--secondary-text);
     background-color: var(--primary-bg);
+}/* Contenedor para que el label sepa dónde flotar */
+.inputGroup {
+    position: relative;
+    margin-top: 15px;
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+    z-index: 0;
 }
-.authForm label{
-    display: grid;
-    grid-template-columns: auto;
-}
-.authForm input{
 
+.authForm input {
+    border: 1px dashed var(--secondary-text);
+    background-color: transparent;           
+    height: 40px;                            
+    font-size: larger;                       
+    font-size: larger;                      
+    padding: 0 10px;
+    outline: none;
+    width: 100%;
+    transition: all 0.3s ease;
+    z-index: 1;
+}
+
+/* El Label ahora vive "encima" del input */
+.authForm label {
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    pointer-events: none;
+    color: var(--secondary-text);
+    background-color: var(--primary-bg); 
+    padding: 0 5px;
+    z-index: 2;
+}
+
+/* EFECTO: Cuando pulsas o hay texto */
+.authForm input:focus + label,
+.authForm input:not(:placeholder-shown) + label {
+    top: 0;
+    font-size: small;
+    color: var(--button-after-hover);
+}
+
+/* Cambio visual al escribir */
+.authForm input:focus {
+    border-style: solid; /* Pasa de dashed a solid para indicar que estás escribiendo */
+    border-color: var(--button-after-hover);
+}
+.submitBtn{
+    border: 1px dashed var(--secondary-text);
+    background-color: transparent;
+    height: 40px;
+    font-size: larger;  
+    cursor: pointer;    
+    transition: transform 0.2s ease-in-out
+}
+.submitBtn:hover{
+    transform: rotate(-2deg) scale(1.15);
+    background-color: var(--button-after-hover);
+    color: var(--dark-primary-text);
+    border: 1px dashed var(--dark-primary-text);
+    box-shadow: 20px 10px 5px 0px rgba(0, 0, 0, 0.5);
 }
 .toggleContainer {
     display: grid;

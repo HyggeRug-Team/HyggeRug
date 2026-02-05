@@ -60,6 +60,11 @@ h1, h2, h3, h4, h5, h6 {
   /* Stroke sutil para definición */
   -webkit-text-stroke: 1px rgba(0,0,0,0.2);
 }
+/*Quitar el estilo por defecto a todos los a*/
+a {
+    text-decoration: none; /* Quita el subrayado */
+    color: inherit;       /* Hace que el color sea el mismo que el del texto de alrededor */
+}
 
 /* Bordes de costura globales */
 .tufted-border {

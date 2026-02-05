@@ -89,24 +89,52 @@ export default function AuthForm() {
                 )}
 
                 <form className={styles.authForm} onSubmit={handleSubmit}>
-                    {/*Si no es login si pide el nombre, los && hacen que si la condición no se cumple directamente deje de leer ese codigo */}
-                    {!isLogin &&
-                        <label>
-                            {isLogin ? 'Nombre de usuario:' : '¿Cómo te llamamos? (Nickname):'}
-                            <input type='text' name='nickname' value={formData.nickname} onChange={handleChange} required />
+                    {/* Campo Nickname (Solo en registro) */}
+                    {!isLogin && (
+                        <div className={styles.inputGroup}>
+                            <input
+                                type='text'
+                                id='nickname'
+                                name='nickname'
+                                value={formData.nickname}
+                                onChange={handleChange}
+                                placeholder=" "
+                                required
+                            />
+                            <label htmlFor='nickname'>¿Cómo te llamamos? (Nickname):</label>
+                        </div>
+                    )}
+
+                    {/* Campo Correo */}
+                    <div className={styles.inputGroup}>
+                        <input
+                            type='email'
+                            id='email'
+                            name='email'
+                            value={formData.email}
+                            onChange={handleChange}
+                            placeholder=" "
+                            required
+                        />
+                        <label htmlFor='email'>Correo electrónico:</label>
+                    </div>
+
+                    {/* Campo Contraseña */}
+                    <div className={styles.inputGroup}>
+                        <input
+                            type='password'
+                            id='password'
+                            name='password'
+                            value={formData.password}
+                            onChange={handleChange}
+                            placeholder=" "
+                            required
+                        />
+                        <label htmlFor='password'>
+                            {isLogin ? 'Contraseña:' : 'Crea una contraseña:'}
                         </label>
-                    }
-                    <label>
-                        Correo electrónico:
-                        <input type='email' name='email' value={formData.email} onChange={handleChange} required />
-                    </label>
+                    </div>
 
-                    <label>
-                        {isLogin ? 'Contraseña:' : 'Crea una contraseña:'}
-                        <input type='password' name='password' value={formData.password} onChange={handleChange} required />
-                    </label>
-
-                    {/* BOTÓN 1: El de enviar el formulario (Submit) */}
                     <button type='submit' className={styles.submitBtn}>
                         {isLogin ? 'Entrar' : 'Registrarme'}
                     </button>
@@ -114,9 +142,9 @@ export default function AuthForm() {
 
                 {/* BOTÓN 2: El de cambiar de modo (Fuera del <form>) */}
                 <div className={styles.toggleContainer}>
-                    
+
                     <p>{isLogin ? '¿No tienes cuenta?' : '¿Ya tienes cuenta?'}</p>
-                    
+
                     <TerciaryButton
                         className={styles.terciaryBtn}
                         text={isLogin ? 'Regístrate aquí' : 'Inicia sesión'}
