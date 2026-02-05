@@ -1,4 +1,3 @@
-// proxy.js antes middleware.js
 import { NextResponse } from 'next/server';
 import { jwtVerify } from 'jose';
 
@@ -14,9 +13,19 @@ export async function proxy(request) {
     try {
       // 1. 
       // Guardamos la variable guardada en .env.local y la convertimos a binario (jose solo usa unit8Array)
-      const secret = new TextEncoder().encode(process.env.JWT_SECRET);
-      await jwtVerify(token, secret);
-      okToken = true;
+      
+      // --- CORRECCIÓN AQUÍ ---
+      const secretKey = process.env.JWT_SECRET;
+      
+      if (!secretKey) {
+        console.error("Error: La variable JWT_SECRET no está definida en el entorno.");
+      } else {
+        const secret = new TextEncoder().encode(secretKey);
+        await jwtVerify(token, secret);
+        okToken = true;
+      }
+      // -----------------------
+
     } catch (error) {
     //   response.cookies.delete('session_token');
       console.log("Token corrupto: instrucción de borrado añadida a la respuesta.");
