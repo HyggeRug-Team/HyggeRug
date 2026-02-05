@@ -1,0 +1,91 @@
+.mobileMenu {
+    position: fixed;
+    top: 0;
+    left: 0;
+    padding-top: 70px;
+    width: 100%;
+    height: 100vh;
+    background-color: var(--primary-bg);
+    z-index: 1050; /* Entre el contenido y el botón de cerrar */
+
+    /* Animación inicial: invisible y un poco movido hacia arriba */
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-20px);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Cuando se activa */
+.mobileMenuActive {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.headerMobileMenu {
+    text-align: center;
+}
+
+.buttonMobileMenu {
+    display: block;
+    align-items: center;
+    /* Elimina un destello azul que aparecia al pulsar cualquier enlace del menu */
+    -webkit-tap-highlight-color: transparent !important;
+}
+
+.menuButton {
+    margin: auto;
+    gap: 10px;
+    align-items: center;
+    display: flex;
+    background-color: transparent;
+    border: 0px;
+    font-size: 16px;
+    height: 60px;
+    width: 70%;
+    border-bottom: 1px solid var(--hover-text);
+    text-decoration: none;
+    color: white;
+}
+
+.iconMobilMenu {
+    background-color: var(--strong-primary-icon);
+    width: 35px;
+    height: 35px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+}
+
+.cuteMessage {
+    bottom: 100px;
+    width: 90%;
+    transform: translateX(-50%);
+    left: 50%;
+    position: absolute;
+}
+
+/* - Redes Sociales - */
+.socialMedias {
+    display: flex;
+    gap: 12px;
+    margin-top: 5px;
+    transition: 0.3s all ease-in-out;
+    bottom: 20px;
+    transform: translateX(-50%);
+    left: 50%;
+    position: absolute;
+}
+
+.socialMedias a {
+    display: flex;
+    font-size: 20px;
+    color: var(--secondary-text);
+    transition: 0.3s all ease-in-out;
+}
+
+.socialMedias a:hover {
+    transform: translateY(-3px);
+    color: var(--hover-text);
+}

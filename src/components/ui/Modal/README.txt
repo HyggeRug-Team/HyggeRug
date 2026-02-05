@@ -1,0 +1,1 @@
+Ventana modal/dialog superpuesta.
