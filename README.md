@@ -32,3 +32,5 @@ src/
 │
 └── proxy.js                # Middleware de protección de rutas
 ```
+
+# 
