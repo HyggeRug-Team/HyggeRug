@@ -3,8 +3,8 @@ import Logo from '@/components/common/Logo/Logo';
 import styles from './auth.module.css';
 
 /**
- * Layout centrado para login y registro
- * Sin Header ni Footer completos, solo logo
+ * Aquí realizamos el layout centrado para las páginas de login y registro.
+ * Esto se encarga de mostrar solo el logo y el formulario, sin distracciones.
  */
 export default function AuthLayout({ children }) {
   return (

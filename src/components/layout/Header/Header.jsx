@@ -13,6 +13,7 @@ import { RxHamburgerMenu } from "react-icons/rx";
 import { IoMdClose } from "react-icons/io";
 import { GoHome } from "react-icons/go";
 import { IoBrushOutline, IoBagOutline } from "react-icons/io5";
+import { motion } from 'framer-motion';
 
 function Header() {
   const [isMenuOpen, setIsOpenMenu] = useState(false);

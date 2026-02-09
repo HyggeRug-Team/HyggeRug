@@ -13,8 +13,6 @@ export async function proxy(request) {
     try {
       // 1. 
       // Guardamos la variable guardada en .env.local y la convertimos a binario (jose solo usa unit8Array)
-      
-      // --- CORRECCIÓN AQUÍ ---
       const secretKey = process.env.JWT_SECRET;
       
       if (!secretKey) {

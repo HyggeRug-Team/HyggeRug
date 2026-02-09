@@ -1,7 +1,7 @@
 .section {
     width: 100%;
     overflow: hidden; 
-    padding: 60px 5%; /* Padding reducido para que ocupe menos */
+    padding: 80px 5% 60px; /* Aquí realizamos un ajuste para que pegue bien con el Hero */
     background-color: var(--secondary-bg);
     position: relative;
     border-top: 6px dashed rgba(255,255,255,0.05); /* Pespunte superior sutil */
@@ -86,7 +86,6 @@
     border-radius: 12px;
     border: 2px solid var(--dark-primary-text);
     box-shadow: 4px 4px 0px var(--highlight-text);
-    transition: 0.3s;
 }
 
 .primaryButton:hover {
@@ -105,7 +104,6 @@
     font-weight: 700;
     border-radius: 12px;
     border: 2px dashed rgba(255,255,255,0.2);
-    transition: 0.3s;
 }
 
 .secondaryButton:hover {
@@ -127,9 +125,9 @@
     gap: 12px;
     padding: 15px;
     background: rgba(0, 0, 0, 0.2);
-    border: 2px dashed #444; 
+    border: 2px dashed var(--grey-800); 
     border-radius: 16px;
-    transition: 0.3s;
+    will-change: transform, opacity, box-shadow;
 }
 
 .feature:hover {
@@ -149,7 +147,7 @@
     border-radius: 10px;
     color: var(--hover-text);
     font-size: 1.2rem;
-    border: 1px solid #333;
+    border: 1px solid var(--grey-800);
 }
 
 .featureText h4 {
@@ -178,11 +176,11 @@
     align-items: center;
     gap: 6px;
     padding: 6px 14px;
-    background: #111;
-    border: 1px solid #333;
+    background: var(--grey-900);
+    border: 1px solid var(--grey-800);
     border-radius: 50px;
     font-size: 0.75rem;
-    color: #999;
+    color: var(--grey-400);
     font-weight: 700;
 }
 
@@ -190,17 +188,7 @@
     color: var(--highlight-text);
 }
 
-/* --- ESTADOS DE CARGA / ANIMACIÓN --- */
-.section {
-    opacity: 0;
-    transform: translateY(30px);
-    transition: all 0.8s ease-out;
-}
-
-.visible {
-    opacity: 1;
-    transform: translateY(0);
-}
+/* Las animaciones ahora las controla Framer Motion en el .jsx */
 
 /* --- RESPONSIVE --- */
 @media (max-width: 1024px) {

@@ -1,4 +1,4 @@
-// SecondaryBtn.jsx
+// Aquí realizamos nuestro botón secundario para acciones que no son las principales
 import React from 'react'
 import styles from './SecondaryBtn.module.css'
 

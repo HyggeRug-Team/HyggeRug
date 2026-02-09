@@ -1,18 +1,22 @@
 'use client';
 import React, { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import styles from './AuthForm.module.css';
 import PrimaryButton from '@/components/ui/Buttons/PrimaryBtn/PrimaryBtn';
+import TerciaryButton from '@/components/ui/Buttons/TerciaryBtn/TerciaryBtn';
 import { FaGoogle } from 'react-icons/fa';
+import { IoPersonAddOutline } from 'react-icons/io5';
 
 export default function AuthForm() {
+  // Aquí activamos el router para poder movernos por la web como si fuera un menú
   const router = useRouter();
 
-  // Estado para alternar entre Login (true) y Registro (false)
+  // Aquí controlamos si el usuario quiere entrar o crearse una cuenta nueva
   const [isLogin, setIsLogin] = useState(true);
 
-  // Estados del formulario
+  // Aquí guardamos los datos del formulario para mandarlos luego a la base de datos
   const [formData, setFormData] = useState({
     nickname: '',
     email: '',
@@ -20,25 +24,26 @@ export default function AuthForm() {
     confirmPassword: ''
   });
 
-  // Mensajes de error o exito
+  // Esto se encarga de avisar al usuario si todo ha ido bien o si ha habido algún fallo
   const [mensaje, setMensaje] = useState({ texto: '', tipo: '' });
   const [isLoading, setIsLoading] = useState(false);
 
-  // Manejador de cambios en los inputs
+  // Aquí vamos actualizando los datos conforme el usuario va escribiendo en cada casilla
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
 
-  // Funcion para alternar vista
+  // Esto se encarga de cambiar entre el formulario de entrar y el de registro
   const toggleView = () => {
     setIsLogin(!isLogin);
     setMensaje({ texto: '', tipo: '' }); // Limpiar mensajes al cambiar
   };
 
-  // Envio del formulario
+  // Aquí realizamos el envío de los datos cuando se pulsa el botón principal
   const handleSubmit = async (e) => {
     e.preventDefault();
+    // Aquí limpiamos los mensajes que hubiera de antes
     setMensaje({ texto: '', tipo: '' });
 
     // Validaciones especificas de registro
@@ -50,28 +55,34 @@ export default function AuthForm() {
     setIsLoading(true);
 
     try {
-      // Determinamos el endpoint segun la accion
+      // Aquí decidimos a qué parte de nuestra API vamos a llamar
       const endpoint = isLogin ? '/api/auth/login' : '/api/auth/register';
       
+      // Aquí hacemos la llamada mágica al servidor y esperamos su respuesta
       const response = await fetch(endpoint, {
         method: 'POST',
+        // Esto se encarga de decirle al servidor que le mandamos un JSON
         headers: { 'Content-Type': 'application/json' },
+        // Aquí convertimos nuestros datos a texto para que el servidor los entienda
         body: JSON.stringify(formData),
       });
 
+      // Aquí procesamos lo que nos ha dicho el servidor para ver qué ha pasado
       const data = await response.json();
 
       if (response.ok) {
+        // Si todo ha salido perfecto, le damos la bienvenida al usuario
         setMensaje({ 
-          texto: isLogin ? '¡Bienvenido de nuevo!' : '¡Cuenta creada con éxito!', 
+          texto: isLogin ? '¡Bienvenido!' : '¡Cuenta creada!', 
           tipo: 'success' 
         });
         
-        // Redirigir al dashboard tras un leve retraso
+        // Aquí esperamos un poquito para que el usuario lea el mensaje y luego lo mandamos al dashboard
         setTimeout(() => {
           router.push('/dashboard');
         }, 1000);
       } else {
+        // Si algo ha salido mal, aquí le explicamos qué ha pasado
         setMensaje({ texto: data.error, tipo: 'error' });
       }
     } catch (err) {
@@ -83,122 +94,150 @@ export default function AuthForm() {
 
   return (
     <div className={styles.authForm}>
-      <h2>{isLogin ? 'Iniciar Sesión' : 'Crear Cuenta'}</h2>
-      <p className={styles.subtitle}>
-        {isLogin ? '¡Qué bueno verte otra vez!' : '¡Únete a la familia Hygge Rug!'}
-      </p>
+      <h1>{isLogin ? 'Iniciar sesión' : 'Crear cuenta'}</h1>
 
-      {/* Botón Google (opcional) */}
       <div className={styles.googleButton}>
         <PrimaryButton
-          text={isLogin ? "Acceder con Google" : "Registrarse con Google"}
+          text={isLogin ? "Entrar con Google" : "Registrarse con Google"}
           url={'#'}
           Icon={FaGoogle}
         />
       </div>
 
-      <div className={styles.divider}>
-        <span>o</span>
-      </div>
-
-      {/* Mensaje de error o éxito */}
-      {mensaje.texto && (
-        <p className={`${styles.message} ${styles[mensaje.tipo]}`}>
-          {mensaje.texto}
-        </p>
-      )}
+      <AnimatePresence mode="wait">
+        {mensaje.texto && (
+          <motion.p 
+            key={mensaje.texto}
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 0.9 }}
+            className={`${styles.message} ${styles[mensaje.tipo]}`}
+          >
+            {mensaje.texto}
+          </motion.p>
+        )}
+      </AnimatePresence>
 
       <form onSubmit={handleSubmit}>
-        
-        {/* Campo Nickname (Solo visible en Registro) */}
-        {!isLogin && (
-          <div className={styles.inputGroup}>
+        <AnimatePresence mode="popLayout">
+          {/* Campo Nickname (Solo en registro) */}
+          {!isLogin && (
+            <motion.div 
+              key="nickname"
+              initial={{ opacity: 0, height: 0, marginBottom: 0 }}
+              animate={{ opacity: 1, height: 'auto', marginBottom: 25 }}
+              exit={{ opacity: 0, height: 0, marginBottom: 0 }}
+              className={styles.inputGroup}
+            >
+              <input
+                type='text'
+                id='nickname'
+                name='nickname'
+                value={formData.nickname}
+                onChange={handleChange}
+                placeholder=" "
+                required={!isLogin}
+                minLength={3}
+              />
+              <label htmlFor='nickname'>¿Cómo te llamamos? (Nickname):</label>
+            </motion.div>
+          )}
+
+          {/* Campo Correo (Siempre visible pero con layout animado) */}
+          <motion.div layout className={styles.inputGroup} key="email">
             <input
-              type='text'
-              id='nickname'
-              name='nickname'
-              value={formData.nickname}
+              type='email'
+              id='email'
+              name='email'
+              value={formData.email}
               onChange={handleChange}
               placeholder=" "
-              required={!isLogin}
-              minLength={3}
+              required
             />
-            <label htmlFor='nickname'>¿Cómo te llamamos? (Nickname)</label>
-          </div>
-        )}
+            <label htmlFor='email'>Correo electrónico:</label>
+          </motion.div>
 
-        {/* Email */}
-        <div className={styles.inputGroup}>
-          <input
-            type='email'
-            id='email'
-            name='email'
-            value={formData.email}
-            onChange={handleChange}
-            placeholder=" "
-            required
-          />
-          <label htmlFor='email'>Correo electrónico</label>
-        </div>
-
-        {/* Contraseña */}
-        <div className={styles.inputGroup}>
-          <input
-            type='password'
-            id='password'
-            name='password'
-            value={formData.password}
-            onChange={handleChange}
-            placeholder=" "
-            required
-            minLength={6}
-          />
-          <label htmlFor='password'>Contraseña</label>
-        </div>
-
-        {/* Confirmar contraseña (Solo Registro) */}
-        {!isLogin && (
-          <div className={styles.inputGroup}>
+          {/* Campo Contraseña */}
+          <motion.div layout className={styles.inputGroup} key="password">
             <input
               type='password'
-              id='confirmPassword'
-              name='confirmPassword'
-              value={formData.confirmPassword}
+              id='password'
+              name='password'
+              value={formData.password}
               onChange={handleChange}
               placeholder=" "
-              required={!isLogin}
+              required
+              minLength={6}
             />
-            <label htmlFor='confirmPassword'>Confirma contraseña</label>
-          </div>
-        )}
-
-        {/* Términos (Solo Registro) */}
-        {!isLogin && (
-          <div className={styles.terms}>
-            <input type="checkbox" id="terms" required />
-            <label htmlFor="terms">
-              Acepto los <Link href="/terms">términos y condiciones</Link>
+            <label htmlFor='password'>
+              {isLogin ? 'Contraseña:' : 'Crea una contraseña:'}
             </label>
-          </div>
-        )}
+          </motion.div>
 
-        <button 
+          {/* Confirmar contraseña (Solo Registro) */}
+          {!isLogin && (
+            <motion.div 
+              key="confirmPassword"
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: 'auto' }}
+              exit={{ opacity: 0, height: 0 }}
+              className={styles.inputGroup}
+            >
+              <input
+                type='password'
+                id='confirmPassword'
+                name='confirmPassword'
+                value={formData.confirmPassword}
+                onChange={handleChange}
+                placeholder=" "
+                required={!isLogin}
+              />
+              <label htmlFor='confirmPassword'>Confirma contraseña:</label>
+            </motion.div>
+          )}
+
+          {/* Términos (Solo Registro) */}
+          {!isLogin && (
+            <motion.div 
+              key="terms"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className={styles.terms}
+            >
+              <div className={styles.checkboxWrapper}>
+                <input type="checkbox" id="terms" required />
+                <label htmlFor="terms">
+                  Acepto los <Link href="/terms">términos y condiciones</Link>
+                </label>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+
+        <motion.button 
+          layout
           type='submit' 
           className={styles.submitBtn}
           disabled={isLoading}
+          whileTap={{ scale: 0.98 }}
         >
-          {isLoading ? 'Procesando...' : (isLogin ? 'Entrar' : 'Registrarme')}
-        </button>
+          {isLogin ? 'Entrar' : 'Registrarme'}
+        </motion.button>
       </form>
 
-      {/* Toggle para cambiar entre Login y Registro */}
+      {/* BOTÓN 2: El de cambiar de modo (Fuera del <form>) */}
       <div className={styles.toggleContainer}>
         <p>
           {isLogin ? '¿No tienes cuenta?' : '¿Ya tienes cuenta?'}
         </p>
-        <button onClick={toggleView} className={styles.toggleBtn}>
-          {isLogin ? 'Regístrate aquí' : 'Inicia sesión'}
-        </button>
+        <div className={styles.terciaryBtn}>
+          <TerciaryButton
+            Icon={IoPersonAddOutline}
+            text={isLogin ? 'Regístrate aquí' : 'Inicia sesión'}
+            onClick={toggleView}
+          />
+        </div>
       </div>
     </div>
   );

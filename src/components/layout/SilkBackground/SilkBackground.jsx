@@ -54,16 +54,17 @@ void main() {
   vec2  uv         = rotateUvs(vUv * uScale, uRotation);
   vec2  tex        = uv * uScale;
   
-  // CORRECCIÓN VISUAL: Ajuste en cómo se aplica la velocidad
-  float tOffset    = uTime * uSpeed; 
+  // Aquí realizamos el ajuste de la velocidad para que el efecto sea fluido y parezca que "respira"
+  float tOffset    = uTime * uSpeed * (1.0 + 0.1 * sin(uTime * 0.2)); 
 
-  tex.y += 0.03 * sin(8.0 * tex.x - tOffset);
+  tex.y += 0.05 * sin(5.0 * tex.x - tOffset * 0.5);
+  tex.x += 0.03 * cos(4.0 * tex.y + tOffset * 0.3);
 
   float pattern = 0.6 +
-                  0.4 * sin(5.0 * (tex.x + tex.y +
-                                   cos(3.0 * tex.x + 5.0 * tex.y) +
-                                   0.02 * tOffset) +
-                           sin(20.0 * (tex.x + tex.y - 0.1 * tOffset)));
+                  0.3 * sin(4.0 * (tex.x + tex.y +
+                                   cos(2.5 * tex.x + 4.0 * tex.y) +
+                                   0.01 * tOffset) +
+                            sin(15.0 * (tex.x + tex.y - 0.05 * tOffset)));
 
   vec4 col = vec4(uColor, 1.0) * vec4(pattern) - rnd / 15.0 * uNoiseIntensity;
   col.a = 1.0;
@@ -80,7 +81,7 @@ const SilkPlane = forwardRef(function SilkPlane({ uniforms }, ref) {
     }
   }, [ref, viewport]);
 
-  // Animación constante basada en el reloj de Three.js
+  // Aquí realizamos una animación constante basada en el reloj de Three.js
   useFrame((state) => {
     if (ref.current && ref.current.material) {
       ref.current.material.uniforms.uTime.value = state.clock.getElapsedTime();
@@ -100,7 +101,7 @@ const SilkPlane = forwardRef(function SilkPlane({ uniforms }, ref) {
 });
 SilkPlane.displayName = 'SilkPlane';
 
-// El fondo de seda que le da el toque premium
+// Aquí montamos el fondo de seda que le da el toque premium a toda la web
 const SilkBackground = ({ speed = 0.5, scale = 1, color = '#2C2E33', noiseIntensity = 1.5, rotation = 0 }) => {
   const meshRef = useRef();
 

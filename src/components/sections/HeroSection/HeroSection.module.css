@@ -6,7 +6,7 @@
     overflow: hidden;
     display: flex;
     flex-direction: column;
-    padding: 100px 5% 40px;
+    padding: 100px 5% 0; /* Aquí realizamos que no haya hueco abajo */
     background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.03'/%3E%3C/svg%3E");
 }
 
@@ -32,7 +32,7 @@
     font-size: 15rem;
     line-height: 0.8;
     color: transparent;
-    -webkit-text-stroke: 2px #fff;
+    -webkit-text-stroke: 2px var(--white);
     text-transform: uppercase;
 }
 
@@ -60,6 +60,7 @@
     margin: 0 auto;
     height: 100%;
     flex: 1;
+    padding-bottom: 60px; /* Aquí realizamos un espacio extra abajo para que los botones respiren */
 }
 
 /* TOP BAR */
@@ -89,8 +90,8 @@
     position: absolute;
     top: -12px;
     left: 15px;
-    background: #000;
-    color: #fff;
+    background: var(--black);
+    color: var(--white);
     padding: 6px 14px;
     border-radius: 6px;
     font-size: 0.7rem;
@@ -126,7 +127,7 @@
 }
 
 .accentText {
-    color: #fff;
+    color: var(--white);
     text-shadow: 10px 10px 0px var(--highlight-text);
 }
 
@@ -136,9 +137,9 @@
 }
 
 .descriptionText {
-    font-size: 1.2rem;
+    font-size: 1.1rem;
     line-height: 1.6;
-    color: var(--secondary-text);
+    color: var(--grey-400);
     max-width: 450px;
     font-weight: 300;
 }
@@ -154,79 +155,174 @@
 
 .imageContainer {
     position: relative;
-    width: 90%;
+    width: 100%;
     max-width: 550px;
-    background: rgba(255, 255, 255, 0.03);
-    padding: 20px;
-    border-radius: 24px;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(10px);
-    box-shadow: 0 40px 80px rgba(0,0,0,0.5);
-    transition: transform 0.3s ease;
+    background: var(--grey-900);
+    border-radius: 40px;
+    padding: 30px;
+    border: 2px solid var(--grey-800);
+    box-shadow: 
+        0 60px 100px rgba(0,0,0,0.8),
+        inset 0 0 40px rgba(255,255,255,0.02);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    transition: all 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
+    will-change: transform, opacity;
 }
 
-.imageContainer:hover {
-    transform: translateY(-5px);
-    border-color: rgba(255, 255, 255, 0.2);
+/* Etiqueta de la marca (Sewn Label) */
+.studioLabel {
+    position: absolute;
+    top: 30px;
+    left: 40px;
+    background: var(--white);
+    color: var(--black);
+    padding: 12px 18px;
+    border-radius: 2px;
+    z-index: 10;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    border: 2px solid var(--white);
+}
+
+/* Puntadas alrededor de la etiqueta */
+.studioLabel::before {
+    content: '';
+    position: absolute;
+    inset: -6px;
+    border: 2px dashed rgba(255,255,255,0.3);
+    pointer-events: none;
+}
+
+.labelHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 2px solid var(--black);
+    padding-bottom: 4px;
+    margin-bottom: 8px;
+    gap: 30px;
+}
+
+.labelTitle {
+    font-size: 0.6rem;
+    font-weight: 900;
+    letter-spacing: 2px;
+}
+
+.labelYear {
+    font-size: 0.5rem;
+    font-weight: 800;
+}
+
+.pieceName {
+    display: block;
+    font-family: var(--font-titles);
+    font-size: 1.2rem;
+    line-height: 1;
+    margin-bottom: 6px;
+}
+
+.labelMeta {
+    display: flex;
+    flex-direction: column;
+    font-size: 0.5rem;
+    font-weight: 900;
+    opacity: 0.6;
+    letter-spacing: 1px;
 }
 
 .glowEffect {
     position: absolute;
-    inset: -15%;
+    inset: -10%;
     background: radial-gradient(circle, var(--highlight-text) 0%, transparent 70%);
-    opacity: 0.15;
-    filter: blur(50px);
-    z-index: -1;
+    opacity: 0.1;
+    filter: blur(80px);
+    z-index: 1;
+    pointer-events: none;
+}
+
+.mainRugImgWrapper {
+    width: 100%;
+    padding: 20px;
+    position: relative;
+    z-index: 2;
+    margin-top: 60px;
 }
 
 .mainRugImg {
     width: 100%;
     height: auto;
-    filter: drop-shadow(20px 30px 40px rgba(0,0,0,0.5));
-    border: 10px solid #fff;
-    border-radius: 8px;
-    transform: rotate(4deg);
-    transition: transform 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    filter: drop-shadow(0 30px 60px rgba(0,0,0,0.8));
+    transform: rotate(3deg) translateZ(0); /* Forzado a GPU */
+    transition: transform 0.8s cubic-bezier(0.23, 1, 0.32, 1);
+    will-change: transform;
 }
 
 .imageContainer:hover .mainRugImg {
-    transform: rotate(0deg) scale(1.02);
+    transform: rotate(0deg) scale(1.05);
 }
 
-.sticker {
+.rugTextureOverlay {
     position: absolute;
-    top: -20px;
-    right: -20px;
-    width: 110px;
-    height: 110px;
-    background: #000;
-    color: #fff;
-    border-radius: 50%;
+    inset: 0;
+    background: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.08'/%3E%3C/svg%3E");
+    z-index: 3;
+    pointer-events: none;
+    border-radius: inherit;
+}
+
+/* Etiqueta colgante de precio (Craft Tag) */
+.tuftedPriceTag {
+    position: absolute;
+    bottom: 40px;
+    right: 30px;
+    background: var(--highlight-text);
+    color: var(--white);
+    padding: 15px 12px 10px;
+    border-radius: 4px;
     display: flex;
     flex-direction: column;
-    justify-content: center;
     align-items: center;
-    font-weight: 900;
-    transform: rotate(15deg);
-    border: 3px dashed var(--hover-text);
-    box-shadow: 15px 15px 35px rgba(0,0,0,0.4);
-    z-index: 10;
+    box-shadow: 10px 15px 40px rgba(0,0,0,0.5);
+    z-index: 20;
+    min-width: 100px;
 }
 
-.stickerLabel { font-size: 0.7rem; opacity: 0.7; letter-spacing: 1px; }
-.stickerPrice { font-size: 2.4rem; line-height: 1; color: var(--hover-text); }
+.tagHole {
+    width: 8px;
+    height: 8px;
+    background: var(--grey-900);
+    border-radius: 50%;
+    box-shadow: inset 0 2px 4px rgba(0,0,0,0.5);
+    margin-bottom: 5px;
+}
+
+.tagLabel {
+    font-size: 0.5rem;
+    font-weight: 900;
+    opacity: 0.8;
+    letter-spacing: 1px;
+    margin-bottom: -5px;
+}
+
+.tagPrice {
+    font-family: var(--font-titles);
+    font-size: 2.8rem;
+    line-height: 1;
+    text-shadow: 2px 2px 0px rgba(0,0,0,0.2);
+}
 
 /* BOTTOM HERO & BOTONES */
 .bottomHero {
     display: flex;
     justify-content: flex-start;
-    margin-top: 60px;
+    margin-top: 40px; /* Aquí realizamos que suban un poco más */
 }
 
 .ctaGroup {
     display: grid;
-    grid-template-columns: repeat(2,1fr);
-    flex-wrap: wrap;
+    grid-template-columns: repeat(2, 1fr);
     gap: 30px;
 }
 

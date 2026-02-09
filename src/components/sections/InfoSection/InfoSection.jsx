@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useRef, useState } from "react";
+import React from "react";
 import styles from "./InfoSection.module.css";
 import { 
   FaArrowRight, 
@@ -13,12 +13,14 @@ import {
   FaImages,
   FaHandHoldingHeart
 } from "react-icons/fa";
+import { motion } from "framer-motion";
 import Carousel from '@/components/ui/Carousel/Carousel';
 
+/**
+ * Aquí montamos la sección de información con animaciones "perfectas".
+ * Esto se encarga de usar Framer Motion para que todo entre de forma escalonada y suave.
+ */
 function InfoSection() {
-  const sectionRef = useRef(null);
-  const [isVisible, setIsVisible] = useState(false);
-
   const carouselImages = [
     "/rug-mario.png",
     "/rug-gorillaz.png",
@@ -27,138 +29,166 @@ function InfoSection() {
     "/rug-shield.png"
   ];
 
-  // Para que aparezca cuando el usuario haga scroll hasta aquí
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            setIsVisible(true);
-          }
-        });
-      },
-      { threshold: 0.1 }
-    );
-
-    if (sectionRef.current) {
-      observer.observe(sectionRef.current);
-    }
-
-    return () => {
-      if (sectionRef.current) {
-        observer.unobserve(sectionRef.current);
+  // Configuración de la animación del contenedor (Stagger)
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: { 
+        staggerChildren: 0.08,
+        delayChildren: 0.05
       }
-    };
-  }, []);
+    }
+  };
+
+  // Animación para los elementos individuales
+  const itemVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: { 
+      opacity: 1, 
+      y: 0, 
+      transition: { type: "spring", stiffness: 200, damping: 20 } /* Snappier 0.3s feel */
+    }
+  };
+
+  // Animación específica para las tarjetas de características
+  const cardVariants = {
+    hidden: { opacity: 0, scale: 0.95 },
+    visible: { 
+      opacity: 1, 
+      scale: 1, 
+      transition: { type: "spring", stiffness: 250, damping: 22 } 
+    }
+  };
+
+  // Animación para que el carrusel entre desde la derecha
+  const slideInRight = {
+    hidden: { opacity: 0, x: 30 },
+    visible: { 
+      opacity: 1, 
+      x: 0, 
+      transition: { duration: 0.4, ease: [0.23, 1, 0.32, 1] } 
+    }
+  };
 
   return (
-    <section 
-      ref={sectionRef}
-      className={`${styles.section} ${isVisible ? styles.visible : ''}`}
+    <motion.section 
+      className={styles.section}
+      initial="hidden"
+      whileInView="visible"
+      viewport={{ once: false, amount: 0.1 }}
+      variants={containerVariants}
     >
       <div className={styles.container}>
         
-        {/* Contenido de texto */}
+        {/* Aquí realizamos todo el contenido de texto que explica quiénes somos */}
         <div className={styles.textContent}>
-          <div className={styles.badge}>
+          <motion.div className={styles.badge} variants={itemVariants}>
             <FaHeart className={styles.badgeIconSmall} /> 
             <span>HECHO CON AMOR (Y PACIENCIA)</span>
-          </div>
-          <h2 className={styles.heading}>
+          </motion.div>
+          <motion.h2 className={styles.heading} variants={itemVariants}>
             No es solo una alfombra, es el alma de la fiesta 🎉
-          </h2>
-          <p className={styles.description}>
+          </motion.h2>
+          <motion.p className={styles.description} variants={itemVariants}>
             ¿Tienes un rincón soso en casa? ¿Tu salón parece una sala de espera? Tranquilo, tenemos la solución.
             Diseños que entran por los ojos y texturas que enamoran al tacto. 
             Prepárate para que tus visitas te pregunten <i>"¿De dónde sacaste eso?"</i>.
-          </p>
+          </motion.p>
           
           <div className={styles.buttons}>
-            <a href="#crear" className={styles.primaryButton}>
+            <motion.a 
+              href="#crear" 
+              className={styles.primaryButton}
+              variants={itemVariants}
+              whileHover={{ scale: 1.05, y: -4 }}
+              whileTap={{ scale: 0.98 }}
+              transition={{ type: "spring", stiffness: 400, damping: 25 }}
+            >
               <span>Diseñar mi Obra de Arte</span>
               <FaArrowRight className={styles.arrow} />
-            </a>
-            <a href="#galeria" className={styles.secondaryButton}>
+            </motion.a>
+            <motion.a 
+              href="#galeria" 
+              className={styles.secondaryButton}
+              variants={itemVariants}
+              whileHover={{ scale: 1.05, y: -4 }}
+              whileTap={{ scale: 0.98 }}
+              transition={{ type: "spring", stiffness: 400, damping: 25 }}
+            >
               <FaImages />
               <span>Inspirarme un poco</span>
-            </a>
+            </motion.a>
           </div>
 
-          {/* Grid de características */}
+          {/* Aquí realizamos el grid de características con un efecto de pop suave */}
           <div className={styles.featuresGrid}>
-            <div className={styles.feature}>
-              <div className={styles.featureIcon}>
-                <FaHandHoldingHeart />
-              </div>
-              <div className={styles.featureText}>
-                <h4>Hecho por Humanos</h4>
-                <p>Sin fábricas humeantes. Solo manos expertas y mucho cariño.</p>
-              </div>
-            </div>
-
-            <div className={styles.feature}>
-              <div className={styles.featureIcon}>
-                <FaRulerCombined />
-              </div>
-              <div className={styles.featureText}>
-                <h4>A tu Medida (Literal)</h4>
-                <p>¿Tu salón es raro? No pasa nada, nos adaptamos a todo.</p>
-              </div>
-            </div>
-
-            <div className={styles.feature}>
-              <div className={styles.featureIcon}>
-                <FaLeaf />
-              </div>
-              <div className={styles.featureText}>
-                <h4>Ovejas Felices</h4>
-                <p>Lana 100% natural. Tan suave que querrás abrazarla.</p>
-              </div>
-            </div>
-
-            <div className={styles.feature}>
-              <div className={styles.featureIcon}>
-                <FaPiggyBank />
-              </div>
-              <div className={styles.featureText}>
-                <h4>Sin Vender un Riñón</h4>
-                <p>Lujo asiático a precio de "me lo llevo puesto".</p>
-              </div>
-            </div>
+            {[
+              { icon: <FaHandHoldingHeart />, title: "Hecho por Humanos", desc: "Sin fábricas humeantes. Solo manos expertas y mucho cariño." },
+              { icon: <FaRulerCombined />, title: "A tu Medida (Literal)", desc: "¿Tu salón es raro? No pasa nada, nos adaptamos a todo." },
+              { icon: <FaLeaf />, title: "Ovejas Felices", desc: "Lana 100% natural. Tan suave que querrás abrazarla." },
+              { icon: <FaPiggyBank />, title: "Sin Vender un Riñón", desc: "Lujo asiático a precio de \"me lo llevo puesto\"." }
+            ].map((f, i) => (
+              <motion.div 
+                key={i} 
+                className={styles.feature}
+                variants={cardVariants}
+                whileHover={{ 
+                  y: -5, 
+                  scale: 1.01,
+                  boxShadow: "0 10px 20px rgba(0,0,0,0.3)"
+                }}
+                transition={{ type: "spring", stiffness: 500, damping: 30 }}
+              >
+                <div className={styles.featureIcon}>{f.icon}</div>
+                <div className={styles.featureText}>
+                  <h4>{f.title}</h4>
+                  <p>{f.desc}</p>
+                </div>
+              </motion.div>
+            ))}
           </div>
 
-          {/* Badges adicionales */}
+          {/* Aquí realizamos los badges inferiores con micro-interacciones */}
           <div className={styles.extraBadges}>
-            <div className={styles.extraBadge}>
-              <FaTruck className={styles.badgeIcon} />
-              <span className={styles.badgeText}>Envío Ninja (Gratis)</span>
-            </div>
-            <div className={styles.extraBadge}>
-              <FaUndo className={styles.badgeIcon} />
-              <span className={styles.badgeText}>Devolución sin Dramas</span>
-            </div>
-            <div className={styles.extraBadge}>
-              <FaHeadset className={styles.badgeIcon} />
-              <span className={styles.badgeText}>Hablamos Humano</span>
-            </div>
+            {[
+              { icon: <FaTruck />, text: "Envío Ninja (Gratis)" },
+              { icon: <FaUndo />, text: "Devolución sin Dramas" },
+              { icon: <FaHeadset />, text: "Hablamos Humano" }
+            ].map((b, i) => (
+              <motion.div 
+                key={i} 
+                className={styles.extraBadge}
+                variants={itemVariants}
+                whileHover={{ scale: 1.1, color: "var(--hover-text)" }}
+              >
+                {/* Clonamos el icono para aplicarle la clase de estilo */}
+                {React.cloneElement(b.icon, { className: styles.badgeIcon })}
+                <span className={styles.badgeText}>{b.text}</span>
+              </motion.div>
+            ))}
           </div>
         </div>
 
-        {/* Carrusel de imágenes */}
-        <Carousel 
-          images={carouselImages}
-          autoPlayInterval={15000}
-          showDots={true}
-          showRating={true}
-          ratingValue="4.9"
-          ratingLabel="Fans Incondicionales"
-          height="550px"
-        />
+        {/* Esto se encarga de mostrar nuestro carrusel de trabajos realizados con su propia entrada */}
+        <motion.div 
+          className={styles.carouselContainerWrapper}
+          variants={slideInRight}
+        >
+          <Carousel 
+            images={carouselImages}
+            autoPlayInterval={15000}
+            showDots={true}
+            showRating={true}
+            ratingValue="4.9"
+            ratingLabel="Fans Incondicionales"
+            height="550px"
+          />
+        </motion.div>
 
       </div>
-    </section>
+    </motion.section>
   );
 }
 
 export default InfoSection;
-

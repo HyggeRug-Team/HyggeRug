@@ -1,5 +1,5 @@
-// El componente ocupa el 100% del ancho por lo que hay que meterlo en un div con el tamaño que queramos
-// Es la mejor forma que he encontrado de poder controlar el ancho del boton y que no siempre sea el mismo
+// Aquí realizamos el botón principal de la web. Ocupa el 100% del ancho para que podamos controlarlo desde fuera.
+// Esto se encarga de ser flexible y que no siempre tenga el mismo tamaño.
 import React from 'react'
 import styles from './PrimaryBtn.module.css'
 

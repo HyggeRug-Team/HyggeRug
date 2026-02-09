@@ -8,9 +8,12 @@ export const db = mysql.createPool({
     waitForConnections: true,
     connectionLimit: 10,
     queueLimit: 0,
-    ssl: {
-        minVersion: 'TLSv1.2',
-        rejectUnauthorized: true
-    },
+    // SSL solo si no estamos en localhost (para producción)
+    ...(process.env.DB_HOST !== 'localhost' && {
+        ssl: {
+            minVersion: 'TLSv1.2',
+            rejectUnauthorized: true
+        }
+    }),
     timezone: 'Z'
 }); 

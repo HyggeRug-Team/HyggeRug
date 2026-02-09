@@ -1,5 +1,7 @@
 "use client";
 import React, { useState, useRef, useEffect } from "react";
+import { motion } from "framer-motion";
+import Image from "next/image";
 import styles from "./Carousel.module.css";
 
 function Carousel({ 
@@ -17,7 +19,7 @@ function Carousel({
   const [scrollLeft, setScrollLeft] = useState(0);
   const carouselRef = useRef(null);
 
-// El carrusel de toda la vida pero con esteroides para que mole
+// Aquí montamos el carrusel de toda la vida pero con esteroides para que mole
   useEffect(() => {
     if (!autoPlayInterval) return;
     
@@ -29,7 +31,7 @@ function Carousel({
     return () => clearInterval(interval);
   }, [currentSlide, images.length, autoPlayInterval]);
 
-  // Aquí manejamos el arrastre con el ratón, para que sea táctil también en PC
+  // Aquí realizamos la gestión del arrastre con el ratón, para que sea táctil también en PC
   const handleMouseDown = (e) => {
     setIsDragging(true);
     setStartX(e.clientX);
@@ -44,7 +46,7 @@ function Carousel({
     const distance = x - startX;
     const newScrollLeft = scrollLeft - distance;
     
-    // Que no se nos vaya de las manos el scroll
+    // Esto se encarga de que no se nos vaya de las manos el scroll
     const maxScroll = carouselRef.current.scrollWidth - carouselRef.current.clientWidth;
     carouselRef.current.scrollLeft = Math.max(0, Math.min(newScrollLeft, maxScroll));
   };
@@ -69,7 +71,7 @@ function Carousel({
     }
   };
 
-  // Función para saltar a un slide concreto
+  // Esta función se encarga de saltar a un slide concreto
   const goToSlide = (index) => {
     setCurrentSlide(index);
     const slideWidth = carouselRef.current.offsetWidth;
@@ -81,28 +83,32 @@ function Carousel({
 
   return (
     <div className={styles.carouselWrapper}>
-      {/* Esas míticas marcas de costura en las esquinas */}
+      {/* Aquí ponemos esas míticas marcas de costura en las esquinas */}
       <div className={styles.stitchTL}>✕</div>
       <div className={styles.stitchTR}>✕</div>
       <div className={styles.stitchBL}>✕</div>
       <div className={styles.stitchBR}>✕</div>
 
       <div className={styles.carouselContainer}>
-        {/* Flechas de navegación que se ven de lejos */}
-        <button 
+        {/* Aquí tenemos las flechas de navegación que se ven de lejos */}
+        <motion.button 
+          whileHover={{ scale: 1.1 }}
+          whileTap={{ scale: 0.9 }}
           className={`${styles.navBtn} ${styles.prevBtn}`} 
           onClick={() => goToSlide((currentSlide - 1 + images.length) % images.length)}
           aria-label="Anterior"
         >
           ←
-        </button>
-        <button 
+        </motion.button>
+        <motion.button 
+          whileHover={{ scale: 1.1 }}
+          whileTap={{ scale: 0.9 }}
           className={`${styles.navBtn} ${styles.nextBtn}`} 
           onClick={() => goToSlide((currentSlide + 1) % images.length)}
           aria-label="Siguiente"
         >
           →
-        </button>
+        </motion.button>
 
         <div 
           ref={carouselRef}
@@ -114,19 +120,30 @@ function Carousel({
         >
           {images.map((image, index) => (
             <div key={index} className={styles.slide}>
-              <div className={styles.imageInner}>
-                <img 
+              <motion.div 
+                className={styles.imageInner}
+                animate={{ 
+                  scale: currentSlide === index ? 1 : 0.9,
+                  opacity: currentSlide === index ? 1 : 0.6,
+                  filter: currentSlide === index ? "brightness(1)" : "brightness(0.7)"
+                }}
+                transition={{ duration: 0.5 }}
+              >
+                <Image 
                   src={image} 
                   alt={`Slide ${index + 1}`}
-                  style={{ height }}
+                  width={600}
+                  height={550}
+                  className={styles.carouselImg}
                   draggable={false}
+                  quality={85}
                 />
-              </div>
+              </motion.div>
             </div>
           ))}
         </div>
 
-        {/* La etiqueta de valoración, parece que la puedes tocar */}
+        {/* Esto se encarga de la etiqueta de valoración, parece que la puedes tocar */}
         {showRating && (
           <div className={styles.ratingLabelTag}>
             <div className={styles.tagHole}></div>
@@ -142,7 +159,7 @@ function Carousel({
           </div>
         )}
 
-        {/* Los puntitos de abajo, estilo botones de ropa */}
+        {/* Aquí realizamos los puntitos de abajo, estilo botones de ropa */}
         {showDots && (
           <div className={styles.dots}>
             {images.map((_, index) => (

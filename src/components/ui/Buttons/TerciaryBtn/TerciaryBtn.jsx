@@ -1,4 +1,4 @@
-// TerciaryBtn.jsx
+// Aquí realizamos el botón terciario, que suele ser más pequeño o para enlaces menos importantes
 import React from 'react'
 import styles from './TerciaryBtn.module.css'
 

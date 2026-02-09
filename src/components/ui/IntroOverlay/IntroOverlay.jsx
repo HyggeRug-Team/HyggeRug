@@ -6,18 +6,12 @@ import styles from './IntroOverlay.module.css';
 const IntroOverlay = () => {
   const [isVisible, setIsVisible] = useState(true);
 
-  // Dividimos los textos para animar letra por letra (Staggered effect)
-  const brandTop = "HYGGE".split("");
-  const brandBottom = "RUG".split("");
-
   useEffect(() => {
-    // Bloqueamos el scroll para que no se muevan mientras ven la intro
     document.body.style.overflow = "hidden";
-    
     const timer = setTimeout(() => {
       setIsVisible(false);
       document.body.style.overflow = "";
-    }, 1800);
+    }, 3200);
 
     return () => {
       clearTimeout(timer);
@@ -25,97 +19,137 @@ const IntroOverlay = () => {
     };
   }, []);
 
+  const brand = "HYGGERUG".split("");
+  
+  const letterVariants = {
+    initial: { y: 40, opacity: 0, scale: 0.8, rotateX: -90 },
+    animate: (i) => ({
+      y: 0,
+      opacity: 1,
+      scale: 1,
+      rotateX: 0,
+      transition: { 
+        type: "spring", 
+        stiffness: 300, 
+        damping: 20, 
+        delay: 0.5 + (i * 0.08) 
+      }
+    }),
+    exit: (i) => ({
+      y: -100,
+      opacity: 0,
+      filter: "blur(20px)",
+      transition: { duration: 0.4, delay: i * 0.02 }
+    })
+  };
+
   return (
-    <AnimatePresence mode="wait">
+    <AnimatePresence>
       {isVisible && (
-        <motion.div
-          className={styles.overlay}
+        <motion.div 
+          className={styles.mainContainer}
           initial={{ opacity: 1 }}
-          exit={{ opacity: 0, scale: 1.1, filter: "blur(10px)", transition: { duration: 0.4 } }} 
+          exit={{ 
+            opacity: 0,
+            transition: { duration: 1, ease: [0.76, 0, 0.24, 1] } 
+          }}
         >
-          {/* Panel Superior estilo alfombra que sube */}
+          {/* Fondo de Seda Fluida (Recuperado) - Visual y Optimizado */}
+          <div className={styles.silkBackdrop}>
+            {[...Array(6)].map((_, i) => (
+              <motion.div 
+                key={i}
+                className={styles.silkStream}
+                animate={{ 
+                  x: ["-100%", "100%"],
+                  opacity: [0, 0.2, 0]
+                }}
+                transition={{ 
+                  duration: 4 + i, 
+                  repeat: Infinity, 
+                  ease: "linear",
+                  delay: i * 0.6
+                }}
+                style={{ top: `${i * 20}%` }}
+              />
+            ))}
+            <div className={styles.gridOverlay} />
+          </div>
+
+          <div className={styles.contentHero}>
+              {/* Bloques de Datos HUD en Español */}
+              <div className={styles.hudDynamic}>
+                  <motion.div 
+                    className={styles.hudCorner}
+                    initial={{ opacity: 0, x: -20 }}
+                    animate={{ opacity: 0.5, x: 0 }}
+                    transition={{ delay: 1.2 }}
+                  >
+                      <span>MODO_ESTUDIO: ACTIVO</span>
+                      <span>ID_RASTREO: {Math.random().toString(36).substring(7).toUpperCase()}</span>
+                  </motion.div>
+                  <motion.div 
+                    className={styles.hudCorner}
+                    initial={{ opacity: 0, x: 20 }}
+                    animate={{ opacity: 0.5, x: 0 }}
+                    transition={{ delay: 1.2 }}
+                  >
+                      <span>COORD_X: 40.41N</span>
+                      <span>CALIDAD_TEJIDO: 98%</span>
+                  </motion.div>
+              </div>
+
+              {/* Revelación de Marca */}
+              <div className={styles.brandCore}>
+                  <div className={styles.lettersGrid}>
+                    {brand.map((l, i) => (
+                      <motion.span
+                        key={i}
+                        className={styles.kineticLetter}
+                        custom={i}
+                        variants={letterVariants}
+                        initial="initial"
+                        animate="animate"
+                      >
+                        {l}
+                      </motion.span>
+                    ))}
+                  </div>
+                  
+                  {/* El Sello Circular HDR */}
+                  <motion.div 
+                    className={styles.rotatingSeal}
+                    initial={{ scale: 0, rotate: -180, opacity: 0 }}
+                    animate={{ scale: 1, rotate: 0, opacity: 1 }}
+                    transition={{ 
+                      type: "spring", 
+                      stiffness: 400, 
+                      damping: 30, 
+                      delay: 1.5 
+                    }}
+                  >
+                    <svg viewBox="0 0 100 100" className={styles.sealSvg}>
+                      <path id="circlePath" d="M 50, 50 m -35, 0 a 35,35 0 1,1 70,0 a 35,35 0 1,1 -70,0 " fill="none" />
+                      <text fill="var(--highlight-text)" fontSize="7.5" fontWeight="900">
+                        <textPath xlinkHref="#circlePath">
+                            CALIDAD PREMIUM • HECHO A MANO EN MADRID • HYGGE RUG •
+                        </textPath>
+                      </text>
+                    </svg>
+                    <div className={styles.sealCenter}>HR</div>
+                  </motion.div>
+              </div>
+          </div>
+
           <motion.div 
-            className={styles.panelTop}
-            initial={{ y: 0 }}
-            exit={{ y: "-100%", transition: { duration: 0.6, ease: [0.76, 0, 0.24, 1] } }}
-          >
-            {/* Esas míticas marcas de costura en las esquinas */}
-             <motion.div 
-              className={styles.decoX} 
-              animate={{ rotate: 360 }} 
-              transition={{ duration: 10, repeat: Infinity, ease: "linear" }}
-              style={{ top: '10%', left: '5%' }}
-            >✕</motion.div>
-
-            <div className={styles.textWrapper}>
-              {brandTop.map((letter, i) => (
-                <motion.span
-                  key={i}
-                  className={styles.brandLetter}
-                  data-letter={letter}
-                  initial={{ y: 100, opacity: 0, rotate: -20 }}
-                  animate={{ y: 0, opacity: 1, rotate: 0 }}
-                  transition={{ 
-                    type: "spring", 
-                    stiffness: 300, 
-                    damping: 15, 
-                    delay: i * 0.05 
-                  }}
-                >
-                  {letter}
-                </motion.span>
-              ))}
-            </div>
-          </motion.div>
-
-          {/* Panel Inferior estilo alfombra que baja */}
-          <motion.div 
-            className={styles.panelBottom}
-            initial={{ y: 0 }}
-            exit={{ y: "100%", transition: { duration: 0.6, ease: [0.76, 0, 0.24, 1] } }}
-          >
-            <motion.div 
-              className={styles.decoX} 
-              animate={{ rotate: -360 }} 
-              transition={{ duration: 8, repeat: Infinity, ease: "linear" }}
-              style={{ bottom: '10%', right: '5%' }}
-            >✕</motion.div>
-
-            <div className={styles.textWrapper}>
-              {brandBottom.map((letter, i) => (
-                <motion.span
-                  key={i}
-                  className={`${styles.brandLetter} ${styles.outline}`}
-                  data-letter={letter}
-                  initial={{ y: -100, opacity: 0, rotate: 20 }}
-                  animate={{ y: 0, opacity: 1, rotate: 0 }}
-                  transition={{ 
-                    type: "spring", 
-                    stiffness: 300, 
-                    damping: 15, 
-                    delay: 0.3 + (i * 0.05) 
-                  }}
-                >
-                  {letter}
-                </motion.span>
-              ))}
-            </div>
-          </motion.div>
-
-          {/* La línea de hilo vibrante */}
-          <motion.div 
-            className={styles.energyLineVibrate}
-            initial={{ scaleX: 0 }}
-            animate={{ 
-              scaleX: 1,
-              y: ["-50%", "-49%", "-51%", "-50%"] 
-            }}
-            exit={{ scaleX: 0, opacity: 0 }}
-            transition={{ 
-              scaleX: { duration: 0.5 },
-              y: { duration: 0.1, repeat: Infinity } 
-            }}
+            className={styles.energyPulse}
+            initial={{ opacity: 0, scale: 0 }}
+            animate={{ opacity: [0, 0.4, 0], scale: [0.8, 1.2, 1.5] }}
+            transition={{ duration: 1.5, delay: 2.2, ease: "easeOut" }}
           />
+
+          <div className={styles.vignette} />
+          <div className={styles.grainLayer} />
         </motion.div>
       )}
     </AnimatePresence>
