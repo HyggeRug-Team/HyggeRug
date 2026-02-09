@@ -2,9 +2,9 @@
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import styles from './AuthForm.module.css';
-import PrimaryButton from '../PrimaryBtn/PrimaryBtn';
+import PrimaryButton from '@/components/ui/Buttons/PrimaryBtn/PrimaryBtn';
 import { FaGoogle } from "react-icons/fa";
-import TerciaryButton from '../TerciaryBtn/TerciaryBtn';
+import TerciaryButton from '@/components/ui/Buttons/TerciaryBtn/TerciaryBtn';
 import { IoPersonAddOutline } from "react-icons/io5";
 
 export default function AuthForm() {
