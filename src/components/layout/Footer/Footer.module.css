@@ -1,13 +1,11 @@
 .footerComponent {
   width: 100%;
   position: relative;
-  /* Borde superior estilo "Costura" */
   border-top: 6px dashed var(--secondary-bg);
   background-color: var(--primary-bg);
   margin-top: auto;
   overflow: hidden;
   color: var(--primary-text);
-  /* Textura de fondo sutil de tejido */
   background-image: radial-gradient(rgba(255,255,255,0.02) 1.5px, transparent 1.5px);
   background-size: 25px 25px;
 }
@@ -19,17 +17,17 @@
   width: 90%;
   max-width: 1400px;
   margin: 0 auto;
-  gap: 60px;
-  padding: 80px 20px;
+  gap: clamp(30px, 5vw, 60px);
+  padding: clamp(50px, 10vh, 100px) 20px;
   position: relative;
   z-index: 1;
 }
 
-/* -- columna de Hypper Rug -- */
+/* -- columna de Hygge Rug -- */
 .footerContent {
   display: flex;
   flex-direction: column;
-  gap: 25px;
+  gap: clamp(15px, 2vw, 25px);
 }
 
 .footerLogo {
@@ -41,7 +39,7 @@
 
 .footerLogo h2 {
   font-family: var(--font-titles);
-  font-size: 2.5rem;
+  font-size: clamp(1.8rem, 4vw, 2.8rem);
   margin: 0;
   font-weight: 400;
   color: var(--hover-text);
@@ -50,12 +48,12 @@
 }
 
 .footerSlogan {
-  font-size: 1.1rem;
+  font-size: clamp(0.9rem, 1.2vw, 1.1rem);
   line-height: 1.6;
   color: var(--secondary-text);
   max-width: 350px;
   font-weight: 500;
-  border-left: 4px dashed var(--highlight-text); /* Side stitch */
+  border-left: 4px dashed var(--highlight-text);
   padding-left: 15px;
 }
 
@@ -70,12 +68,12 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 50px;
-  height: 50px;
-  font-size: 24px;
+  width: clamp(45px, 5vw, 55px);
+  height: clamp(45px, 5vw, 55px);
+  font-size: clamp(20px, 2vw, 24px);
   color: var(--dark-primary-text);
   background-color: var(--primary-text);
-  border-radius: 12px; /* Patch shape */
+  border-radius: 12px;
   transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
   border: 3px solid var(--dark-primary-text);
   box-shadow: 4px 4px 0px var(--secondary-text);
@@ -87,27 +85,27 @@
   box-shadow: 6px 6px 0px var(--highlight-text);
 }
 
-/* -- columna de la tienda,empresa y ayuda -- */
+/* -- columna de la tienda, empresa y ayuda -- */
 .footerShop,
 .footerCompany,
 .footerHelp {
   display: flex;
   flex-direction: column;
-  gap: 18px;
+  gap: clamp(12px, 1.5vw, 18px);
 }
 
 .footerShop h3,
 .footerCompany h3,
 .footerHelp h3 {
   font-family: var(--font-body);
-  font-size: 1.2rem;
-  margin-bottom: 15px;
+  font-size: clamp(1rem, 1.2vw, 1.2rem);
+  margin-bottom: 10px;
   color: var(--primary-text);
   font-weight: 800;
   text-transform: uppercase;
   letter-spacing: 2px;
-  border-bottom: 2px dashed rgba(255,255,255,0.2); /* Costura inferior */
-  padding-bottom: 10px;
+  border-bottom: 2px dashed rgba(255,255,255,0.2);
+  padding-bottom: 8px;
   display: inline-block;
   width: fit-content;
 }
@@ -115,7 +113,7 @@
 .footerShop a,
 .footerCompany a,
 .footerHelp a {
-  font-size: 1rem;
+  font-size: clamp(0.85rem, 1vw, 1rem);
   text-decoration: none;
   color: var(--secondary-text);
   transition: all 0.2s ease;
@@ -148,16 +146,17 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+    gap: 20px;
 }
 
 .footerPolicy {
   display: flex;
-  gap: 30px;
+  gap: clamp(15px, 3vw, 30px);
 }
 
 .footerLegal a,
 .footerLegal p {
-  font-size: 0.9rem;
+  font-size: clamp(0.75rem, 0.9vw, 0.9rem);
   color: #888;
   text-decoration: none;
   margin: 0;
@@ -169,12 +168,19 @@
   text-decoration: underline;
 }
 
+/* --- RESPONSIVE IMPROVEMENTS --- */
 
-/* --- RESPONSIVE --- */
+@media (max-width: 1100px) {
+  .footerSection {
+    grid-template-columns: 1.5fr 1fr 1fr 1fr;
+    gap: 30px;
+  }
+}
 
 @media (max-width: 1024px) {
   .footerSection {
     grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto auto;
     gap: 40px;
   }
   
@@ -182,6 +188,7 @@
       grid-column: 1 / -1;
       align-items: center;
       text-align: center;
+      margin-bottom: 20px;
   }
 
   .footerSlogan {
@@ -192,10 +199,17 @@
   }
 }
 
+@media (max-width: 768px) {
+  .footerSection {
+    grid-template-columns: 1fr 1fr;
+    padding: 60px 20px;
+  }
+}
+
 @media (max-width: 600px) {
   .footerSection {
     grid-template-columns: 1fr;
-    padding: 60px 20px;
+    gap: 40px;
   }
 
   .footerLegalContent {
@@ -206,10 +220,13 @@
   
   .footerPolicy {
       flex-direction: column;
-      gap: 10px;
+      gap: 12px;
+      align-items: center;
   }
-  
-  .footerLogo h2 {
-      font-size: 2rem;
-  }
+}
+
+@media (max-width: 480px) {
+    .footerSection {
+        padding: 50px 15px;
+    }
 }

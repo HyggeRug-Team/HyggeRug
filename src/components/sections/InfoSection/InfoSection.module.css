@@ -192,6 +192,10 @@
 
 /* --- RESPONSIVE --- */
 @media (max-width: 1024px) {
+    .heading { font-size: clamp(2.5rem, 5vw, 3.5rem); }
+}
+
+@media (max-width: 768px) {
     .container {
         grid-template-columns: 1fr;
         gap: 40px;
@@ -202,9 +206,13 @@
     .buttons, .extraBadges { justify-content: center; }
 }
 
-@media (max-width: 600px) {
-    .heading { font-size: 2rem; }
+@media (max-width: 480px) {
+    .heading { font-size: clamp(1.8rem, 8vw, 2.5rem); }
+    .description { font-size: clamp(0.85rem, 4vw, 1rem); }
     .featuresGrid { grid-template-columns: 1fr; }
-    .buttons { flex-direction: column; width: 100%; }
+    .buttons { flex-direction: column; width: 100%; gap: 10px; }
+    .primaryButton, .secondaryButton { width: 100%; justify-content: center; padding: 14px; }
+    .extraBadges { flex-wrap: wrap; }
+    .badge { font-size: 0.65rem; }
 }
 

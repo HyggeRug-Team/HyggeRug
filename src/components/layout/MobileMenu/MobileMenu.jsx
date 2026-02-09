@@ -54,4 +54,3 @@ export default function MobileMenu({ isOpen, menuItems, onClose }) {
     </div>
   );
 }
-

@@ -165,8 +165,39 @@
     pointer-events: none;
 }
 
+/* RESPONSIVE - Standardized Breakpoints */
+@media (max-width: 1024px) {
+    .kineticLetter { font-size: clamp(4rem, 12vw, 7.5rem); }
+}
+
 @media (max-width: 768px) {
-    .hudDynamic { inset: 20px; align-items: flex-start; }
-    .kineticLetter { text-shadow: 6px 6px 0px var(--highlight-text); }
-    .rotatingSeal { width: 120px; height: 120px; }
+    .hudDynamic { inset: 30px 40px; }
+    .kineticLetter { font-size: clamp(3rem, 10vw, 6rem); }
+}
+
+@media (max-width: 480px) {
+    .hudDynamic { 
+        inset: 20px;
+        flex-direction: column; 
+        gap: 8px;
+        align-items: flex-start;
+    }
+    .hudCorner { font-size: clamp(0.4rem, 2vw, 0.5rem); letter-spacing: 1px; }
+
+    .kineticLetter { 
+        text-shadow: 4px 4px 0px var(--highlight-text);
+        font-size: clamp(2rem, 15vw, 4rem);
+    }
+    .lettersGrid { margin-bottom: 30px; }
+
+    .rotatingSeal { 
+        width: clamp(80px, 20vw, 100px); 
+        height: clamp(80px, 20vw, 100px); 
+        margin-top: -10px;
+    }
+    .sealCenter {
+        width: 32px;
+        height: 32px;
+        font-size: clamp(0.7rem, 3vw, 0.8rem);
+    }
 }

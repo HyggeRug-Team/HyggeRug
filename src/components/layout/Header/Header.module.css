@@ -1,67 +1,128 @@
-.header{
+.header {
     width: 100%;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 0 2vh;
-    height: 70px;
+    padding: 0 clamp(1vh, 5vw, 5%);
+    height: clamp(60px, 8vh, 80px); /* Fluid height */
     background-color: var(--secondary-bg);
     position: fixed;
     top: 0;
     z-index: 1000;
+    transition: all 0.3s ease;
 }
-.imageHeader{
+
+.imageHeader {
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: clamp(8px, 2vw, 15px);
     z-index: 1100;
 }
 
-.imageHeader h1{
-    font-size: 20px;
+.imageHeader h1 {
+    font-size: clamp(1rem, 2.5vw, 1.4rem);
+    margin: 0;
+    white-space: nowrap;
 }
 
-.header nav{
+.header nav {
     display: flex;
+    align-items: center;
+    gap: clamp(10px, 2vw, 40px);
 }
-.header nav a{
+
+.header nav a {
     text-decoration: none;
     color: var(--primary-text);
-    padding: 20px;
+    padding: 10px clamp(10px, 1.5vw, 20px);
+    font-weight: 500;
+    font-size: clamp(0.8rem, 1.2vw, 0.95rem);
+    transition: color 0.3s ease;
 }
-.buttonsMenu{
+
+.header nav a:hover {
+    color: var(--hover-text);
+}
+
+.buttonsMenu {
     display: flex;
+    align-items: center;
     justify-content: space-between;
-    gap: 1vw;
+    gap: clamp(8px, 1.5vw, 20px);
 }
-.buttonsMenu button{
+
+.buttonsMenu button {
     background-color: transparent;
     border: 0;
     cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--primary-text);
+    padding: 5px;
+    transition: transform 0.2s ease, color 0.2s ease;
 }
 
-.hamburgerButton{
+.buttonsMenu button:hover {
+    color: var(--highlight-text);
+    transform: scale(1.1);
+}
+
+.hamburgerButton {
     display: none;
     z-index: 1100;
+    cursor: pointer;
+    color: var(--primary-text);
 }
 
-@media (max-width: 1024px){
-    .imageHeader h1{
-        display: none;
+/* RESPONSIVE IMPROVEMENTS */
+
+@media (max-width: 1100px) {
+    .header nav a {
+        padding: 10px 12px;
     }
 }
-@media (max-width: 768px){
-    .header nav{
-    display: none;
+
+@media (max-width: 1024px) {
+    /* En lugar de ocultar el h1 de golpe, permitimos que se vea pero con cuidado */
+    .header nav {
+        gap: 15px;
     }
-    .buttonsMenu{
+}
+
+@media (max-width: 900px) {
+    /* Punto intermedio crítico: aquí es donde suele romperse el menú horizontal */
+    .imageHeader h1 {
+        display: none; /* Ahora sí lo ocultamos si el espacio es muy pequeño */
+    }
+}
+
+@media (max-width: 768px) {
+    .header {
+        height: 70px; /* Altura fija para el modo móvil original */
+    }
+    
+    .header nav,
+    .buttonsMenu {
         display: none;
     }
-    .hamburgerButton{
-        display: block;
-    }
-    .imageHeader h1{
+    
+    .hamburgerButton {
         display: block;
     }
     
+    .imageHeader h1 {
+        display: block; /* En móvil vuelve a aparecer porque el nav ya no estorba */
+        font-size: 1.1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .imageHeader h1 {
+        font-size: 1rem;
+    }
+    
+    .header {
+        padding: 0 15px;
+    }
 }
