@@ -34,7 +34,7 @@ export default function RootLayout({ children }) {
       lang="es" 
       className={`${plusJakartaSans.variable} ${rubik.variable} ${rubikBubbles.variable}`}
     >
-      <body className="mainLayout">
+      <body>
         <SilkBackground />
         {children}
       </body>

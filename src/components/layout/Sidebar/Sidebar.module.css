@@ -1,0 +1,94 @@
+.sidebarContent {
+  display: grid;
+  grid-template-rows: 92% 8%;
+  background-color: var(--primary-bg);
+  height: 100%;
+}
+
+/* Contenedor que agrupa Logo y Menú */
+.topSection {
+  display: flex;
+  flex-direction: column;
+  padding-top: 4vh;
+  margin-left: 50px;
+}
+
+/* LOGO */
+.logoContainer {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin: 0 0 4vh 0; 
+  padding: 0;
+}
+
+.logoContainer h2 {
+  font-family: var(--font-titles, serif);
+  margin: 0;
+}
+
+/* MENÚ: Solo maneja el listado de enlaces */
+.sidebarMenu {
+  display: flex;
+  flex-direction: column;
+  gap: 2vh;
+}
+
+/* --- ESTADO BASE DEL ENLACE --- */
+.sidebarMenu a {
+  display: flex;
+  align-items: center;
+  width: 80%;
+  padding: 12px 20px;
+  border-radius: 12px;
+  gap: 15px;
+  text-decoration: none;
+  color: var(--primary-text, #5a5a5a);
+  font-weight: 500;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.sidebarMenu a svg {
+  transition: transform 0.3s ease, color 0.3s ease;
+  color: #888;
+}
+
+.sidebarMenu a:hover {
+  background-color: var(--button-after-hover, #f5f3ef);
+  color: #111; 
+  transform: translateX(8px); 
+}
+
+.sidebarMenu a:hover svg {
+  color: #111; 
+  transform: scale(1.15);
+}
+
+/* --- ESTADO ACTIVE (Al hacer clic) --- */
+.sidebarMenu a:active {
+  transform: translateX(4px) scale(0.98); 
+}
+/* LOGOUT */
+.logout {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-radius: 12px;
+  padding: 10px 30px;
+  background-color: var(--button-before-hover, #eaeaea);
+  margin: 0 20px 20px 20px;
+  cursor: pointer;
+}
+
+.logout img {
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.logout p {
+  margin: 0;
+  font-weight: bold;
+  font-size: 0.9rem;
+}
