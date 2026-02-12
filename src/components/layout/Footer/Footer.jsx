@@ -41,7 +41,7 @@ function Footer() {
 
   const [isMobile, setIsMobile] = useState(false);
   
-  // Para saber si estamos en móvil y cambiar el layout
+  // Detectamos si estamos en móvil para cambiar el layout
   useEffect(() => {
     const handleResize = () => {
       setIsMobile(window.innerWidth <= 480);

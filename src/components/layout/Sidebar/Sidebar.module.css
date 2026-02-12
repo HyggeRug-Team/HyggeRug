@@ -1,94 +1,186 @@
+/* ============================================
+   SIDEBAR MEJORADO - Estilos Premium
+   ============================================ */
+
 .sidebarContent {
   display: grid;
   grid-template-rows: 92% 8%;
   background-color: var(--primary-bg);
   height: 100%;
+  border-right: 1px solid rgba(255, 255, 255, 0.03);
+  position: relative;
+  overflow: hidden;
 }
 
-/* Contenedor que agrupa Logo y Menú */
+/* Textura de fondo sutil (ruido) */
+.sidebarContent::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.03'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ========== SECCIÓN SUPERIOR ========== */
 .topSection {
   display: flex;
   flex-direction: column;
   padding-top: 4vh;
-  margin-left: 50px;
+  margin-left: 40px; /* Ajustado para mejor equilibrio */
+  position: relative;
+  z-index: 1;
 }
 
-/* LOGO */
+/* --- Logo --- */
 .logoContainer {
   display: flex;
+  justify-content: center;
   align-items: center;
-  gap: 15px;
-  margin: 0 0 4vh 0; 
+  margin: 0 0 5vh 0; 
   padding: 0;
 }
 
-.logoContainer h2 {
-  font-family: var(--font-titles, serif);
-  margin: 0;
-}
-
-/* MENÚ: Solo maneja el listado de enlaces */
+/* ========== MENÚ DE NAVEGACIÓN ========== */
 .sidebarMenu {
   display: flex;
   flex-direction: column;
-  gap: 2vh;
+  gap: 10px; /* Menos espacio entre items */
 }
 
-/* --- ESTADO BASE DEL ENLACE --- */
+/* --- Enlaces (Base) --- */
 .sidebarMenu a {
   display: flex;
   align-items: center;
-  width: 80%;
-  padding: 12px 20px;
-  border-radius: 12px;
-  gap: 15px;
+  width: 90%; /* Ocupa casi todo el ancho disponible */
+  padding: 14px 20px;
+  border-radius: 16px 0 0 16px; /* Borde redondeado solo a la izquierda */
+  gap: 16px;
   text-decoration: none;
-  color: var(--primary-text, #5a5a5a);
+  color: var(--grey-400);
   font-weight: 500;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  font-size: 0.95rem;
+  transition: all 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+  position: relative;
+  border-right: 3px solid transparent; /* Preparado para el estado activo */
 }
 
+/* Iconos */
 .sidebarMenu a svg {
-  transition: transform 0.3s ease, color 0.3s ease;
-  color: #888;
+  transition: all 0.4s ease;
+  color: var(--grey-500);
+  font-size: 1.1rem;
 }
 
+/* --- HOVER (Sutil y Elegante) --- */
 .sidebarMenu a:hover {
-  background-color: var(--button-after-hover, #f5f3ef);
-  color: #111; 
-  transform: translateX(8px); 
+  background: linear-gradient(90deg, rgba(255, 255, 255, 0.03) 0%, transparent 100%);
+  color: var(--white);
+  padding-left: 25px; /* Pequeño desplazamiento a la derecha */
 }
 
 .sidebarMenu a:hover svg {
-  color: #111; 
-  transform: scale(1.15);
+  color: var(--hover-text);
+  transform: scale(1.1);
 }
 
-/* --- ESTADO ACTIVE (Al hacer clic) --- */
-.sidebarMenu a:active {
-  transform: translateX(4px) scale(0.98); 
+/* --- ACTIVE (Estado seleccionado) --- */
+.active {
+  background: linear-gradient(90deg, rgba(255, 0, 85, 0.08) 0%, transparent 100%) !important;
+  color: var(--white) !important;
+  border-right-color: var(--highlight-text) !important; /* Línea indicadora a la derecha */
 }
-/* LOGOUT */
+
+/* Brillo "Glow" en el estado activo */
+.active::after {
+  content: '';
+  position: absolute;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: var(--highlight-text);
+  box-shadow: -5px 0 15px var(--highlight-text);
+}
+
+.active svg {
+  color: var(--highlight-text) !important;
+  filter: drop-shadow(0 0 8px rgba(255, 0, 85, 0.4));
+}
+
+/* ========== SECCIÓN INFERIOR ========== */
 .logout {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  border-radius: 12px;
-  padding: 10px 30px;
-  background-color: var(--button-before-hover, #eaeaea);
+  border-radius: 16px;
+  padding: 12px 20px;
+  background: rgba(255, 255, 255, 0.03);
   margin: 0 20px 20px 20px;
   cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  position: relative;
+  z-index: 1;
+  backdrop-filter: blur(5px);
+}
+
+.logout:hover {
+  background: rgba(255, 255, 255, 0.06);
+  transform: translateY(-2px);
+  border-color: var(--highlight-text);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
 }
 
 .logout img {
-  width: 35px;
-  height: 35px;
+  width: 40px;
+  height: 40px;
   border-radius: 50%;
   object-fit: cover;
+  border: 2px solid var(--highlight-text); /* Borde destacado para la foto */
 }
 
 .logout p {
-  margin: 0;
-  font-weight: bold;
+  margin: 0 0 0 12px;
+  font-weight: 600;
   font-size: 0.9rem;
+  color: var(--white);
+  flex: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.logoutButton {
+  background: transparent;
+  border: none;
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--grey-400);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-left: 8px;
+}
+
+.logoutButton:hover {
+  background: rgba(255, 0, 85, 0.1);
+  color: var(--highlight-text);
+  transform: translateX(2px); /* Movimiento sutil a la derecha */
+}
+
+/* Responsive */
+@media (max-width: 1200px) {
+  .topSection { margin-left: 20px; }
+  .sidebarMenu a { font-size: 0.9rem; padding: 12px 15px; }
+}
+
+@media (max-width: 992px) {
+  .sidebarMenu a span { display: none; } /* En tablet solo iconos si es muy estrecho, o ajustar */
+  .sidebarContent { /* Ajuste tablet normal */
+      grid-template-rows: auto 80px;
+  }
 }

@@ -1,0 +1,17 @@
+/* ============================================
+   DEVOLUCIONES PAGE - CSS
+   ============================================
+   Estilos específicos para la gestión de devoluciones. */
+
+.container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.pageTitle {
+  font-family: var(--font-titles);
+  color: var(--primary-text);
+  font-size: 2rem;
+  margin-bottom: 30px;
+}

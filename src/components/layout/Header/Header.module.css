@@ -75,7 +75,7 @@
     color: var(--primary-text);
 }
 
-/* RESPONSIVE IMPROVEMENTS */
+/* MEJORAS RESPONSIVE */
 
 @media (max-width: 1100px) {
     .header nav a {
@@ -84,7 +84,7 @@
 }
 
 @media (max-width: 1024px) {
-    /* En lugar de ocultar el h1 de golpe, permitimos que se vea pero con cuidado */
+    /* En lugar de ocultar el h1 de golpe, permitimos que se vea con cuidado */
     .header nav {
         gap: 15px;
     }
@@ -93,13 +93,13 @@
 @media (max-width: 900px) {
     /* Punto intermedio crítico: aquí es donde suele romperse el menú horizontal */
     .imageHeader h1 {
-        display: none; /* Ahora sí lo ocultamos si el espacio es muy pequeño */
+        display: none; /* Lo ocultamos si el espacio es muy pequeño */
     }
 }
 
 @media (max-width: 768px) {
     .header {
-        height: 70px; /* Altura fija para el modo móvil original */
+        height: 70px; /* Altura fija para el modo móvil */
     }
     
     .header nav,
@@ -112,7 +112,7 @@
     }
     
     .imageHeader h1 {
-        display: block; /* En móvil vuelve a aparecer porque el nav ya no estorba */
+        display: block; /* En móvil vuelve a aparecer porque el nav ya no molesta */
         font-size: 1.1rem;
     }
 }

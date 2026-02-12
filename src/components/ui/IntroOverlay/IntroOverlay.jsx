@@ -54,7 +54,7 @@ const IntroOverlay = () => {
             transition: { duration: 1, ease: [0.76, 0, 0.24, 1] } 
           }}
         >
-          {/* Fondo de Seda Fluida (Recuperado) - Visual y Optimizado */}
+          {/* Creamos el Fondo de Seda Fluida - Visual y Optimizado */}
           <div className={styles.silkBackdrop}>
             {[...Array(6)].map((_, i) => (
               <motion.div 
@@ -115,29 +115,6 @@ const IntroOverlay = () => {
                       </motion.span>
                     ))}
                   </div>
-                  
-                  {/* El Sello Circular HDR */}
-                  <motion.div 
-                    className={styles.rotatingSeal}
-                    initial={{ scale: 0, rotate: -180, opacity: 0 }}
-                    animate={{ scale: 1, rotate: 0, opacity: 1 }}
-                    transition={{ 
-                      type: "spring", 
-                      stiffness: 400, 
-                      damping: 30, 
-                      delay: 1.5 
-                    }}
-                  >
-                    <svg viewBox="0 0 100 100" className={styles.sealSvg}>
-                      <path id="circlePath" d="M 50, 50 m -35, 0 a 35,35 0 1,1 70,0 a 35,35 0 1,1 -70,0 " fill="none" />
-                      <text fill="var(--highlight-text)" fontSize="7.5" fontWeight="900">
-                        <textPath xlinkHref="#circlePath">
-                            CALIDAD PREMIUM • HECHO A MANO EN MADRID • HYGGE RUG •
-                        </textPath>
-                      </text>
-                    </svg>
-                    <div className={styles.sealCenter}>HR</div>
-                  </motion.div>
               </div>
           </div>
 

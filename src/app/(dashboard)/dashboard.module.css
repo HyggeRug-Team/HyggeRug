@@ -1,9 +1,122 @@
-.dashboardLayout{
+/* ============================================
+   DASHBOARD LAYOUT - Estructura Principal
+   ============================================
+   
+   Definimos el layout de dos columnas para el dashboard:
+   - Sidebar: Ancho fijo de 280px en desktop
+   - Main: Ocupa el resto del espacio disponible
+   
+   Implementamos un diseño responsive que adapta
+   la estructura según el tamaño de la pantalla.
+============================================ */
+
+/* --- Contenedor Principal del Dashboard --- */
+/* Distribuimos el espacio horizontalmente con ancho fijo para el sidebar */
+.dashboardLayout {
   display: grid;
-  grid-template-columns: 15% 85%;
+  grid-template-columns: 280px 1fr;
   height: 100vh;
+  background-color: var(--primary-bg);
+  overflow: hidden;
 }
 
-.dashboardLayout main{
-  padding: 20px;
+/* --- Área de Contenido Principal --- */
+/* Aquí se renderiza el contenido dinámico de cada página */
+.dashboardLayout main {
+  padding: 40px 60px;
+  overflow-y: auto;
+  background: linear-gradient(
+    135deg,
+    var(--primary-bg) 0%,
+    var(--secondary-bg) 100%
+  );
+  position: relative;
 }
+
+/* Añadimos un efecto de textura sutil al fondo */
+.dashboardLayout main::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: 
+    radial-gradient(
+      circle at 20% 50%,
+      rgba(255, 0, 85, 0.03) 0%,
+      transparent 50%
+    ),
+    radial-gradient(
+      circle at 80% 80%,
+      rgba(255, 215, 1, 0.03) 0%,
+      transparent 50%
+    );
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Aseguramos que el contenido esté por encima del efecto de fondo */
+.dashboardLayout main > * {
+  position: relative;
+  z-index: 1;
+}
+
+/* Personalizamos la scrollbar del área de contenido */
+.dashboardLayout main::-webkit-scrollbar {
+  width: 8px;
+}
+
+.dashboardLayout main::-webkit-scrollbar-track {
+  background: var(--primary-bg);
+}
+
+.dashboardLayout main::-webkit-scrollbar-thumb {
+  background: var(--highlight-text);
+  border-radius: 4px;
+}
+
+.dashboardLayout main::-webkit-scrollbar-thumb:hover {
+  background: var(--hover-text);
+}
+
+/* ========== RESPONSIVE DESIGN ========== */
+
+/* Tablets grandes y pantallas medianas */
+@media (max-width: 1200px) {
+  .dashboardLayout {
+    grid-template-columns: 250px 1fr;
+  }
+
+  .dashboardLayout main {
+    padding: 30px 40px;
+  }
+}
+
+/* Tablets */
+@media (max-width: 992px) {
+  .dashboardLayout {
+    grid-template-columns: 220px 1fr;
+  }
+
+  .dashboardLayout main {
+    padding: 25px 30px;
+  }
+}
+
+/* Móviles y tablets pequeñas */
+@media (max-width: 768px) {
+  .dashboardLayout {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto 1fr;
+  }
+
+  .dashboardLayout main {
+    padding: 20px;
+  }
+}
+
+/* Móviles pequeños */
+@media (max-width: 480px) {
+  .dashboardLayout main {
+    padding: 15px;
+  }
+}
+

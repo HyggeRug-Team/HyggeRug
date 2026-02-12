@@ -16,7 +16,7 @@
   --hover-text: rgb(255, 215, 1); /* Yellow (Near-Gold, prevents normalization to 'gold' keyword) */
   --highlight-text: #FF0055; /* Pink */
 
-  /* Aquí realizamos la gestión de las variables de la interfaz */
+  /* Aquí gestionamos las variables de la interfaz */
   --button-before-hover: #6C5DD3;
   --button-after-hover: rgb(255, 215, 1);
   
@@ -69,16 +69,16 @@ h1, h2, h3, h4, h5, h6 {
   font-family: var(--font-titles);
   letter-spacing: 2px;
   font-weight: 400;
-  /* Esto se encarga de darle un stroke sutil para que las letras se vean mejor */
+  /* Le damos un stroke sutil para que las letras se vean mejor */
   -webkit-text-stroke: 1px rgba(0,0,0,0.2);
 }
-/* Aquí realizamos la limpieza de los estilos por defecto de los enlaces */
+/* Limpiamos los estilos por defecto de los enlaces */
 a {
-    text-decoration: none; /* Quita el subrayado */
-    color: inherit;       /* Hace que el color sea el mismo que el del texto de alrededor */
+    text-decoration: none; /* Quitamos el subrayado */
+    color: inherit;       /* Hacemos que el color sea el mismo que el del texto de alrededor */
 }
 
-/* Esto se encarga de los bordes de costura globales que tanto nos gustan */
+/* Creamos los bordes de costura globales que tanto nos gustan */
 .tufted-border {
   border: 4px dashed rgba(255, 255, 255, 0.2);
   border-radius: 24px;
@@ -94,7 +94,7 @@ a {
   pointer-events: none;
 }
 
-/* Aquí realizamos la scrollbar personalizada con estilo de 'hilo' */
+/* Personalizamos la scrollbar con estilo de 'hilo' */
 ::-webkit-scrollbar {
     width: 10px;
 }

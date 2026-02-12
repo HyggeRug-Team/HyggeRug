@@ -1,0 +1,22 @@
+/* ============================================
+   ALERTAS PAGE - CSS
+   ============================================ */
+
+.container {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.pageTitle {
+  font-family: var(--font-titles);
+  color: var(--primary-text);
+  font-size: 2rem;
+  margin-bottom: 30px;
+}
+
+.alertsList {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}

@@ -6,7 +6,7 @@ import styles from "./Header.module.css";
 import Link from 'next/link';
 import MobileMenu from '@/components/layout/MobileMenu/MobileMenu';
 
-//Importación de los iconos usados
+// Importamos los iconos que usamos
 import { CiSearch, CiShoppingCart } from "react-icons/ci";
 import { MdAccountCircle } from "react-icons/md";
 import { RxHamburgerMenu } from "react-icons/rx";
@@ -18,7 +18,7 @@ import { motion } from 'framer-motion';
 function Header() {
   const [isMenuOpen, setIsOpenMenu] = useState(false);
   const pathname = usePathname();
-  // Si está en la página de autenticación única
+  // Verificamos si estamos en la página de autenticación única
   const isAuthPage = pathname === '/auth';
 
   const toggleMenu = () => {
@@ -50,9 +50,6 @@ function Header() {
     <header className={styles.header}>
       <div className={styles.imageHeader}>
         <Logo />
-        <Link href="/" style={{cursor: 'pointer' }}>
-          <h1>Hygge Rug</h1>
-        </Link>
       </div>
       
       {!isAuthPage && (
@@ -80,7 +77,7 @@ function Header() {
             {isMenuOpen ? <IoMdClose size={35} /> : <RxHamburgerMenu size={35} />}
           </div>
 
-          {/* Componente MobileMenu separado */}
+          {/* Separamos el Componente MobileMenu */}
           <MobileMenu 
             isOpen={isMenuOpen} 
             menuItems={MENU_ITEMS} 

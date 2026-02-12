@@ -1,44 +1,97 @@
+/* src/components/common/Logo/Logo.module.css */
+
 .logoContainer {
-    position: relative;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  /* El tamaño se controla desde el style inline en JS, pero aquí definimos la estructura base */
+  transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  cursor: pointer;
+  user-select: none;
 }
 
-.logoLink {
-    text-decoration: none;
-    display: block;
-    width: fit-content;
+.logoContainer:hover {
+  transform: scale(1.05) rotate(-2deg);
 }
 
-.sealSvg {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    will-change: transform;
+/* Base de la etiqueta (Felpa blanca) */
+.logoLabel {
+  background: var(--white);
+  color: var(--black);
+  padding: 0.4em 0.8em;
+  border-radius: 0.2em; /* Radio pequeño para parecer etiqueta textil */
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  /* Sombra dura desplazada (Estilo Pop) */
+  box-shadow: 0.15em 0.15em 0px var(--highlight-text); 
+  border: 0.05em solid var(--black);
 }
 
-.animated .sealSvg {
-    animation: rotateLogo 20s linear infinite;
+/* Efecto de costura interna */
+.logoLabel::after {
+  content: '';
+  position: absolute;
+  inset: 0.1em;
+  border: 0.05em dashed rgba(0,0,0,0.2);
+  border-radius: 0.1em;
+  pointer-events: none;
 }
 
-@keyframes rotateLogo {
-    from { transform: rotate(0deg); }
-    to { transform: rotate(360deg); }
+/* Texto Principal "HYGGE" */
+.logoTextMain {
+  font-family: var(--font-titles, 'Rubik Bubbles', cursive);
+  font-size: 1em; /* Relativo al contenedor */
+  line-height: 0.9;
+  letter-spacing: 0.02em;
+  color: var(--black);
+  text-transform: uppercase;
+  position: relative;
+  z-index: 2;
 }
 
-.sealCenter {
-    width: 40%;
-    height: 40%;
-    background: var(--white);
-    color: var(--black);
-    border-radius: 50%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-family: var(--font-titles);
-    font-size: clamp(0.6rem, 2vw, 1.2rem);
-    font-weight: 900;
-    box-shadow: 0 0 10px rgba(0,0,0,0.3);
-    z-index: 2;
+/* Texto Secundario "RUG" */
+.logoTextSub {
+  font-family: 'Rubik', sans-serif;
+  font-size: 0.35em;
+  font-weight: 900;
+  letter-spacing: 0.3em;
+  color: var(--highlight-text);
+  margin-top: 0.1em;
+  text-transform: uppercase;
+  width: 100%;
+  text-align: center;
+  border-top: 0.05em solid var(--black);
+  padding-top: 0.1em;
+}
+
+/* Variante simple (Sólo HR) */
+.logoCircle {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background: var(--highlight-text);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-titles);
+  color: var(--white);
+  font-size: 0.5em;
+  border: 0.05em dashed rgba(255,255,255,0.5);
+  box-shadow: 0 0.1em 0.2em rgba(0,0,0,0.3);
+}
+
+/* Decoración "Hilo Suelto" (Opcional, para dar toque artesanal) */
+.thread {
+  position: absolute;
+  top: -0.2em;
+  right: -0.2em;
+  width: 0.4em;
+  height: 0.4em;
+  border-right: 0.05em solid var(--highlight-text);
+  border-top: 0.05em solid var(--highlight-text);
+  border-radius: 0 0.2em 0 0;
+  opacity: 0.6;
 }

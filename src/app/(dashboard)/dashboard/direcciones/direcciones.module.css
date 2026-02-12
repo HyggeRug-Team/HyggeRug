@@ -1,0 +1,22 @@
+/* ============================================
+   DIRECCIONES PAGE - CSS
+   ============================================ */
+
+.container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.pageTitle {
+  font-family: var(--font-titles);
+  color: var(--primary-text);
+  font-size: 2rem;
+  margin-bottom: 30px;
+}
+
+.addressGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 20px;
+}

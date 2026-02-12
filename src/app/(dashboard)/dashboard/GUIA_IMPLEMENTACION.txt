@@ -1,0 +1,76 @@
+GUÍA DE IMPLEMENTACIÓN - SECCIONES DEL DASHBOARD
+================================================
+
+Aquí detallamos lo que hemos planificado para cada una de las nuevas secciones del dashboard.
+El objetivo es mantener la consistencia visual y la funcionalidad en todas las páginas.
+
+1. RESUMEN (/dashboard/resumen) [YA IMPLEMENTADO]
+-------------------------------------------------
+Esta es nuestra página principal. Muestra la bienvenida y widgets de estado rápido.
+Ya tenemos la estructura base con los 4 widgets principales.
+
+2. MIS PEDIDOS (/dashboard/pedidos)
+-----------------------------------
+En esta sección implementaremos un listado completo del historial de pedidos.
+- Tabla o lista de tarjetas con: ID de pedido, Fecha, Estado (En camino, Entregado,Enviado), Total.
+- Filtros por estado o fecha.
+- Al hacer clic en un pedido, deberíamos ir a una vista de detalle (/dashboard/pedidos/[id]).
+- Usar los mismos badges de estado que en el Resumen.
+
+3. DEVOLUCIONES (/dashboard/devoluciones)
+-----------------------------------------
+Aquí gestionaremos las solicitudes de devolución.
+- Pestañas: "Solicitar Devolución" y "Historial".
+- Formulario para seleccionar un pedido y motivo de devolución.
+- Lista de estado de las devoluciones en curso.
+
+4. MIS DIRECCIONES (/dashboard/direcciones)
+-------------------------------------------
+CRUD completo para las direcciones de envío.
+- Grid de tarjetas con las direcciones guardadas.
+- Botón "Añadir Nueva Dirección".
+- Botones "Editar" y "Eliminar" en cada tarjeta.
+- Opción para marcar una como "Predeterminada".
+
+5. DETALLES DE LA CUENTA (/dashboard/cuenta)
+--------------------------------------------
+Formulario para editar la información personal.
+- Editar Nombre, Apellido, Email.
+- Cambiar Contraseña.
+- Subir/Cambiar foto de perfil (Avatar).
+
+6. MÉTODOS DE PAGO (/dashboard/pagos)
+-------------------------------------
+Gestión segura de tarjetas y métodos de pago.
+- Lista de tarjetas guardadas (mostrar solo últimos 4 dígitos y marca).
+- Botón para añadir nueva tarjeta (integración con Stripe/Pasarela).
+- Aviso de seguridad visible.
+
+7. LISTA DE DESEOS (/dashboard/deseos)
+--------------------------------------
+Grid visual de productos favoritos.
+- Reutilizar el componente `ProductCard` de la tienda pero con opción de "Quitar de favoritos".
+- Botón "Mover al carrito" directo.
+- Si está vacía, mostrar un mensaje animando a explorar la tienda.
+
+8. MIS ALERTAS (/dashboard/alertas)
+-----------------------------------
+Centro de notificaciones.
+- Lista de avisos: "Tu pedido ha sido enviado", "Bajada de precio en tu wishlist", etc.
+- Opción para marcar como leídas o borrar todas.
+
+9. AYUDA (/dashboard/ayuda)
+---------------------------
+Recursos de soporte para el usuario.
+- FAQ desplegables (Acordeón).
+- Formulario de contacto directo.
+- Enlaces a políticas de envío y devolución.
+- Información sobre cuidados de las alfombras (Tufting Care).
+
+NOTAS GENERALES DE DISEÑO
+-------------------------
+- Mantener siempre el `page.module.css` específico para cada sección o reutilizar clases de utilidad si creamos un `dashboard-common.css`.
+- Todos los títulos deben usar la fuente `Rubik Bubbles` o la de títulos definida.
+- Usar siempre los bordes `dashed` para mantener la identidad "Tufting".
+- Las animaciones de entrada (`framer-motion`) deberían ser suaves en cada cambio de página.
+
