@@ -5,7 +5,7 @@ import { redirect } from "next/navigation";
 import styles from "./resumen.module.css";
 import Link from "next/link";
 // Importamos el Widget Real del Tiempo
-import WeatherWidget from "@/components/dashboard/WeatherWidget/WeatherWidget"; 
+import WeatherWidget from "@/components/ui/WeatherWidget/WeatherWidget"; 
 import { 
   FaCubes, 
   FaHeart, 
