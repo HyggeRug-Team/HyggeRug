@@ -34,9 +34,9 @@ import LogoutBtn from "@/components/ui/Buttons/LogoutBtn/LogoutBtn";
  * Utilizamos React Icons (fa6) para mantener consistencia visual en todos los
  * iconos del menú, y aplicamos transiciones suaves para mejorar la interactividad.
  */
-function Sidebar() {
+function Sidebar({user}) {
   const pathname = usePathname();
-
+  const avatarUrl = user?.profileImage || "/profile-default.png";
   // Función para determinar si un enlace está activo
   const isActive = (path) => {
     return pathname.startsWith(path) ? styles.active : "";
@@ -102,7 +102,7 @@ function Sidebar() {
       {/* Ocupamos el 8% restante del alto total */}
       {/* Mostramos el perfil del usuario y opción de logout */}
       <div className={styles.logout}>
-        <img src="#" alt="Perfil" />
+        <img src={avatarUrl} alt="Perfil" />
         <p>Usuario</p>
         {/* Usamos el LogoutBtn con solo el icono, sin texto */}
         <LogoutBtn 

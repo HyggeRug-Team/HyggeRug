@@ -8,7 +8,40 @@ import PrimaryButton from '@/components/ui/Buttons/PrimaryBtn/PrimaryBtn';
 import TerciaryButton from '@/components/ui/Buttons/TerciaryBtn/TerciaryBtn';
 import { FaGoogle } from 'react-icons/fa';
 import { IoPersonAddOutline } from 'react-icons/io5';
+// Función para el boton de inicio de sesión de google
+const handleGoogleLogin = () => {
+  // State aleatorio para seguridad
+  var randomState = Math.random().toString(36).substring(2);
+  // Lo guardamos como cookie que dura 10 minutos 
+  // SameSite es un parametro de seguridad que permite o no que acceda desde otro sitio para evitar ataques
+  document.cookie = `oauth_state=${randomState}; max-age=600; path=/; SameSite=Lax`;
+  // Direccion de google
+  const rootUrl = "https://accounts.google.com/o/oauth2/v2/auth";
 
+  // Parametros que pide google
+  const options = {
+    // La URL que configuraste en la consola (localhost o vercel)
+    redirect_uri: process.env.NEXT_PUBLIC_GOOGLE_REDIRECT_URI,
+    client_id: process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID,
+    access_type: "offline",
+    response_type: "code",
+    prompt: "consent",
+
+    // Qué datos queremos pedirle (Email y Perfil)
+    scope: [
+      "https://www.googleapis.com/auth/userinfo.profile",
+      "https://www.googleapis.com/auth/userinfo.email",
+    ].join(" "),
+    // Un código aleatorio para evitar ataques, se guarda en una cookie y se verifica cuando google lo devuelve si este codigo es el mismo que ha devuelto
+    state: randomState,
+  };
+
+  // 3. Convertimos los parámetros en una cadena de texto (query string)
+  const qs = new URLSearchParams(options).toString();
+
+  // 4. ¡Redirigimos!
+  window.location.href = `${rootUrl}?${qs}`;
+};
 export default function AuthForm() {
   // Aquí activamos el router para poder movernos por la web como si fuera un menú
   const router = useRouter();
@@ -57,7 +90,7 @@ export default function AuthForm() {
     try {
       // Aquí decidimos a qué parte de nuestra API vamos a llamar
       const endpoint = isLogin ? '/api/auth/login' : '/api/auth/register';
-      
+
       // Aquí hacemos la llamada mágica al servidor y esperamos su respuesta
       const response = await fetch(endpoint, {
         method: 'POST',
@@ -72,11 +105,11 @@ export default function AuthForm() {
 
       if (response.ok) {
         // Si todo ha salido perfecto, le damos la bienvenida al usuario
-        setMensaje({ 
-          texto: isLogin ? '¡Bienvenido!' : '¡Cuenta creada!', 
-          tipo: 'success' 
+        setMensaje({
+          texto: isLogin ? '¡Bienvenido!' : '¡Cuenta creada!',
+          tipo: 'success'
         });
-        
+
         // Aquí esperamos un poquito para que el usuario lea el mensaje y luego lo mandamos al dashboard
         setTimeout(() => {
           router.push('/dashboard');
@@ -99,14 +132,18 @@ export default function AuthForm() {
       <div className={styles.googleButton}>
         <PrimaryButton
           text={isLogin ? "Entrar con Google" : "Registrarse con Google"}
-          url={'#'}
           Icon={FaGoogle}
+          // Evitamos que el boton haga cosas que no debe
+          onClick={(e) => {
+            e.preventDefault();
+            handleGoogleLogin();
+          }}
         />
       </div>
 
       <AnimatePresence mode="wait">
         {mensaje.texto && (
-          <motion.p 
+          <motion.p
             key={mensaje.texto}
             initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
@@ -122,7 +159,7 @@ export default function AuthForm() {
         <AnimatePresence mode="popLayout">
           {/* Campo Nickname (Solo en registro) */}
           {!isLogin && (
-            <motion.div 
+            <motion.div
               key="nickname"
               initial={{ opacity: 0, height: 0, marginBottom: 0 }}
               animate={{ opacity: 1, height: 'auto', marginBottom: 25 }}
@@ -176,7 +213,7 @@ export default function AuthForm() {
 
           {/* Confirmar contraseña (Solo Registro) */}
           {!isLogin && (
-            <motion.div 
+            <motion.div
               key="confirmPassword"
               initial={{ opacity: 0, height: 0 }}
               animate={{ opacity: 1, height: 'auto' }}
@@ -198,7 +235,7 @@ export default function AuthForm() {
 
           {/* Términos (Solo Registro) */}
           {!isLogin && (
-            <motion.div 
+            <motion.div
               key="terms"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
@@ -215,9 +252,9 @@ export default function AuthForm() {
           )}
         </AnimatePresence>
 
-        <motion.button 
+        <motion.button
           layout
-          type='submit' 
+          type='submit'
           className={styles.submitBtn}
           disabled={isLoading}
           whileTap={{ scale: 0.98 }}

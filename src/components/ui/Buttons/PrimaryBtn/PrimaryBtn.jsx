@@ -3,10 +3,10 @@
 import React from 'react'
 import styles from './PrimaryBtn.module.css'
 
-function PrimaryButton({text, url, Icon}) {
+function PrimaryButton({text, url, Icon, onClick}) {
     return (
         <>
-            <a href={url} className={styles.primaryBtn}>
+            <a href={url} className={styles.primaryBtn} onClick={onClick}>
                 {Icon && <Icon size={18} />}
                 <span>{text}</span>
             </a>

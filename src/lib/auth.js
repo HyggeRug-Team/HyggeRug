@@ -38,3 +38,12 @@ export async function verifySession(token) {
     return null;
   }
 }
+
+// FUNCIÓN PARA OBTENER LOS DATOS DEL USUARIO ACTUAL
+export async function getSession() {
+  const cookieStore = await cookies();
+  const token = cookieStore.get('session_token')?.value; // 'session_token' debe ser el nombre que pusiste en el login
+  
+  if (!token) return null;
+  return await verifySession(token);
+}
