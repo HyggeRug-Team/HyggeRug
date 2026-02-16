@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import { db } from '@/lib/db'; // Tu conexión a MySQL
 import bcrypt from 'bcryptjs';
 import { SignJWT } from 'jose'; // Para crear el token
+import { sendWelcomeEmail } from '@/lib/mailer';
 
 export async function POST(request) {
   try {
@@ -40,6 +41,16 @@ export async function POST(request) {
       [nickname, email, hashedPassword, 'credentials'] // 'credentials' porque no es de Google
     );
     const userId = result.insertId;
+
+    // Enviamos email de bienvenida
+    try {
+        await sendWelcomeEmail(email, nickname);
+        console.log(`✅ Correo de bienvenida enviado a: ${email}`);
+    } catch (mailError) {
+        // Logueamos el error pero no cortamos el registro
+        console.error('❌ Error enviando email:', mailError);
+    }
+
     // A. Creamos el token (igual que en el login)
     const secret = new TextEncoder().encode(process.env.JWT_SECRET);
     const token = await new SignJWT({ userId: userId, email, nickname })

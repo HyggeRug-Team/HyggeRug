@@ -3,6 +3,8 @@ import { db } from '@/lib/db'; // conexión a BD
 import { createSession } from '@/lib/auth'; // Generar sesion
 import { cookies } from 'next/headers';
 import { put } from '@vercel/blob'; // Para guardar las imagenes
+import { sendWelcomeEmail } from "@/lib/mailer"; // Para enviar el email de bienvenida
+
 export async function GET(request) {
     // Google devuelve dos datos, uno es el codigo necesario para pedir mas datos (code) y el codigo que le dimos antes para comprobar si la solicitud es nuestra (state)
     const { searchParams } = new URL(request.url);
@@ -40,7 +42,8 @@ export async function GET(request) {
             headers: { Authorization: `Bearer ${tokens.access_token}` },
         });
         const googleUser = await userResponse.json();
-        // googleUser contiene: email, name (nickname), sub (google_id)
+        // googleUser contiene: email, name (nickname), sub (google_id), picture
+
         // 4. Buscamos si el usuario ya existe por su email
         const [rows] = await db.query('SELECT * FROM users WHERE email = ?', [googleUser.email]);
         let user = rows[0];
@@ -73,10 +76,23 @@ export async function GET(request) {
                 [googleUser.name, googleUser.email, 'google', googleUser.sub, vercelBlobUrl]
             );
 
+            // ACTUALIZACIÓN: Guardamos todos los datos en la variable 'user' para la sesión
             user = {
                 user_id: result.insertId,
-                nickname: googleUser.name
+                nickname: googleUser.name,
+                profile_image: vercelBlobUrl // Importante para que se vea en el Dashboard nada más registrarse
             };
+
+            // Enviamos email de bienvenida
+            try {
+                // ACTUALIZACIÓN: Usamos googleUser.email y googleUser.name (antes email/nickname no existían)
+                await sendWelcomeEmail(googleUser.email, googleUser.name);
+                console.log(`✅ Correo de bienvenida enviado a: ${googleUser.email}`);
+            } catch (mailError) {
+                // Logueamos el error pero no cortamos el registro
+                console.error('❌ Error enviando email:', mailError);
+            }
+
             console.log("🆕 Nuevo usuario con foto en Vercel Blob:", googleUser.email);
         } else {
             // 6. Si ya existe, comprobamos si le falta el google_id o la imagen
@@ -93,10 +109,14 @@ export async function GET(request) {
                 const vercelBlobUrl = await uploadProfileImage(googleUser.picture, user.nickname);
                 updateFields.push('profile_image = ?');
                 queryParams.push(vercelBlobUrl);
+                user.profile_image = vercelBlobUrl; // Actualizamos la variable local
             } else {
                 // Si ya existe, vamos a actualizar su foto de perfil 
                 // cada vez que haga login para tener la versión más reciente
                 const nuevaFotoVercel = await uploadProfileImage(googleUser.picture, user.nickname);
+                
+                // ACTUALIZACIÓN: Guardamos la nueva foto en la variable 'user' para que el token la lleve
+                user.profile_image = nuevaFotoVercel;
 
                 await db.query(
                     'UPDATE users SET profile_image = ?, google_id = ?, auth_provider = "google" WHERE user_id = ?',
@@ -119,10 +139,11 @@ export async function GET(request) {
         // --- CREACIÓN DE SESIÓN (IGUAL QUE EN TU LOGIN) ---
 
         // 7. Generamos tu JWT usando tu función createSession
+        // Nota: Asegúrate de que createSession use los mismos nombres de campo que esperas en el Sidebar
         const token = await createSession({
             userId: user.user_id,
             nickname: user.nickname,
-            profileImage: user.profile_image
+            profileImage: user.profile_image // Verificamos que lleve la URL de Vercel Blob
         });
 
         // 8. Creamos la respuesta y guardamos la COOKIE
