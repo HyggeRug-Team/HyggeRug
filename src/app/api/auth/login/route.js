@@ -30,7 +30,7 @@ export async function POST(request) {
     const token = await createSession({
       userId: user.user_id,
       nickname: user.nickname,
-      profileImage :
+      profileImage
     });
 
     // 5. Guardamos el token en una COOKIE

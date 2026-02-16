@@ -1,5 +1,7 @@
 import styles from "./cuenta.module.css";
 import React from 'react';
+import StatsCards from "@/components/ui/Card/StatsCard";
+import { AiFillAccountBook } from "react-icons/ai";
 
 export const metadata = {
   title: "Mi Cuenta | Hygge Rug",
@@ -17,7 +19,12 @@ export default function CuentaPage() {
       <h1 className={styles.pageTitle}>Detalles de la Cuenta</h1>
       
       <div className={styles.formsContainer}>
-        {/* Formularios de edición */}
+        <StatsCards 
+        bigText="15"
+        smallText="Compras"
+        color="var(--button-before-hover)"
+        Icon={AiFillAccountBook}
+        />
       </div>
     </div>
   );

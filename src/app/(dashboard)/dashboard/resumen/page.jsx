@@ -4,6 +4,7 @@ import { verifySession } from "@/lib/auth";
 import { redirect } from "next/navigation";
 import styles from "./resumen.module.css";
 import Link from "next/link";
+import StatsCards from "@/components/ui/Card/StatsCard";
 // Importamos el Widget Real del Tiempo
 import WeatherWidget from "@/components/ui/WeatherWidget/WeatherWidget"; 
 import { 
@@ -17,6 +18,7 @@ import {
   FaChevronRight,
   FaStore // Icono de Tienda
 } from "react-icons/fa6";
+import { ST } from "next/dist/shared/lib/utils";
 
 export const metadata = {
   title: "Resumen | Hygge Rug",
@@ -70,6 +72,13 @@ export default async function ResumenPage() {
       <section className={styles.statsGrid}>
         
         {/* Tarjeta Púrpura */}
+        <StatsCards
+        bigText="12"
+        smallText="Pedidos Totales"
+        color="var(--button-before-hover)"
+        Icon={FaCubes}
+        />
+        {/* Boton antiguo
         <div className={`${styles.statCard} ${styles.purpleCard}`}>
           <div className={styles.statInfo}>
             <h3>12</h3>
@@ -78,30 +87,24 @@ export default async function ResumenPage() {
           <div className={styles.statIconWrapper}>
             <FaCubes />
           </div>
-        </div>
+        </div> */}
 
         {/* Tarjeta Rosa */}
-        <div className={`${styles.statCard} ${styles.pinkCard}`}>
-          <div className={styles.statInfo}>
-            <h3>5</h3>
-            <p>En Favoritos</p>
-          </div>
-          <div className={styles.statIconWrapper}>
-            <FaHeart />
-          </div>
-        </div>
+        <StatsCards
+        bigText="5"
+        smallText="En favoritos"
+        color="var(--highlight-text)"
+        Icon={FaHeart}
+        />
+        
 
         {/* Tarjeta Amarilla */}
-        <div className={`${styles.statCard} ${styles.yellowCard}`}>
-          <div className={styles.statInfo}>
-            <h3>1,250</h3>
-            <p>Puntos Hygge</p>
-          </div>
-          <div className={styles.statIconWrapper}>
-            <FaStar />
-          </div>
-        </div>
-
+        <StatsCards
+        bigText="1,250"
+        smallText="Puntos Hygge"
+        color="var(--hover-text)"
+        Icon={FaStar}
+        />
       </section>
 
 
