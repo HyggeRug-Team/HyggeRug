@@ -1,0 +1,10 @@
+{
+    "workbench.editor.customLabels.enabled": true,
+    "workbench.editor.customLabels.patterns": {
+        "*/src/components/ui/Containers/SectionWrapper/SectionWrapper.module.css": "WRAP CSS",
+        "*/src/components/ui/Containers/SectionWrapper/SectionWrapper.jsx": "WRAP",
+        "*/src/components/dashboard/UserDetails/UserDetails.module.css": "User CSS",
+        "*/src/components/dashboard/UserDetails/UserDetails.jsx": "User",
+        "*/src/app/(dashboard)/dashboard/cuenta/page.jsx": "Page users"
+    }
+}

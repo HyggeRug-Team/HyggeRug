@@ -1,0 +1,15 @@
+.wrapContainer{
+  /* 1. Primero el color */
+  background-color: #1a1a1a; 
+  
+  /* 2. Después la imagen */
+  background-image: url("data:image/svg+xml;base64,...");
+  
+  background-repeat: repeat;
+  background-size: 150px 150px;
+  
+  /* Tu estilo de antes */
+  border-radius: 30px;
+  padding: 40px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}

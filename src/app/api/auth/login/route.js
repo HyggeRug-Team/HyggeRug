@@ -10,6 +10,7 @@ export async function POST(request) {
 
     // 1. Buscamos al usuario por su email
     const [rows] = await db.query('SELECT * FROM users WHERE email = ?', [email]);
+    // Se coge el 0 porque la segunda son metadatos de la consulta que no sirven para nada
     const user = rows[0];
 
     // 2. ¿El usuario existe?
@@ -26,11 +27,15 @@ export async function POST(request) {
     }
 
     // 4. ¡ÉXITO! Creamos el Token (Payload)
-    // Guardamos el ID y el Nickname dentro del token
     const token = await createSession({
       userId: user.user_id,
       nickname: user.nickname,
-      profileImage
+      profileImage: user.profile_image,
+      email: user.email,
+      role: user.role,
+      hyggePoints: user.hygge_points,
+      // Esto si es == google no mostramos el cambiar contraseña por ejemplo
+      authProvider: user.auth_provider,
     });
 
     // 5. Guardamos el token en una COOKIE
@@ -40,7 +45,7 @@ export async function POST(request) {
       httpOnly: true, // Seguridad: el navegador no puede tocarla con JS
       secure: process.env.NODE_ENV === 'production', // Solo HTTPS en producción
       sameSite: 'lax',
-      maxAge: 60 * 60 * 2, // 2 horas de vida
+      maxAge: 60 * 60 * 24 * 15, // 15 dias de vida
       path: '/',
     });
 
