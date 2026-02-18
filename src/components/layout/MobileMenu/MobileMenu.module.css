@@ -1,21 +1,27 @@
+
 .mobileMenu {
     position: fixed;
     top: 0;
     left: 0;
-    padding-top: 70px;
+    padding-top: 100px;
     width: 100%;
     height: 100vh;
-    background-color: var(--primary-bg);
-    z-index: 1050; /* Entre el contenido y el botón de cerrar */
-
-    /* Animación inicial: invisible y un poco movido hacia arriba */
+    z-index: 1050;
+    
+    background: rgba(0, 0, 0, 0.85);
+    backdrop-filter: blur(25px);
+    
     opacity: 0;
     visibility: hidden;
-    transform: translateY(-20px);
-    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    transform: translateY(10px);
+    transition: all 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+    
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    overflow-y: auto;
 }
 
-/* Cuando se activa */
 .mobileMenuActive {
     opacity: 1;
     visibility: visible;
@@ -24,68 +30,118 @@
 
 .headerMobileMenu {
     text-align: center;
+    margin-bottom: 40px;
+    padding: 0 20px;
+}
+
+.headerMobileMenu h2 {
+    font-family: var(--font-titles);
+    font-size: 2.5rem;
+    color: var(--white);
+    margin-bottom: 5px;
+    text-shadow: 2px 2px 0px rgba(0,0,0,0.5);
+}
+
+.headerMobileMenu h4 {
+    color: var(--grey-400);
+    font-weight: 400;
+    font-size: 0.9rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    font-family: var(--font-body);
+    opacity: 0.8;
 }
 
 .buttonMobileMenu {
-    display: block;
-    align-items: center;
-    /* Elimina un destello azul que aparecia al pulsar cualquier enlace del menu */
-    -webkit-tap-highlight-color: transparent !important;
-}
-
-.menuButton {
-    margin: auto;
-    gap: 10px;
-    align-items: center;
     display: flex;
-    background-color: transparent;
-    border: 0px;
-    font-size: 16px;
-    height: 60px;
-    width: 70%;
-    border-bottom: 1px solid var(--hover-text);
-    text-decoration: none;
-    color: white;
+    flex-direction: column;
+    width: 100%;
+    max-width: 400px;
+    padding: 0 30px;
 }
 
+/* --- ESTILO ENLACE --- */
+.menuButton {
+    display: flex;
+    align-items: center;
+    gap: 25px;
+    padding: 20px 10px;
+    
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05); 
+    
+    text-decoration: none;
+    color: var(--white);
+    transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    position: relative;
+    overflow: hidden;
+}
+
+.menuButton:active, .menuButton:hover {
+    padding-left: 25px; 
+    color: var(--highlight-text);
+    background: linear-gradient(90deg, rgba(255,255,255,0.03), transparent);
+    border-bottom-color: var(--hover-text); 
+}
+
+/* --- ICONO --- */
 .iconMobilMenu {
-    background-color: var(--strong-primary-icon);
-    width: 35px;
-    height: 35px;
+    width: 30px;
+    height: 30px;
     display: flex;
     justify-content: center;
     align-items: center;
-    border-radius: 50%;
+    color: var(--grey-300);
+    font-size: 1.5rem;
+    transition: color 0.3s ease;
 }
 
+.menuButton:active .iconMobilMenu,
+.menuButton:hover .iconMobilMenu {
+    color: var(--hover-text);
+    transform: scale(1.1);
+}
+
+.menuButton span {
+    font-family: var(--font-titles);
+    font-size: 1.8rem; 
+    font-weight: 500;
+    letter-spacing: 0.5px;
+}
+
+
+/* Mensaje inferior */
 .cuteMessage {
-    bottom: 100px;
-    width: 90%;
-    transform: translateX(-50%);
-    left: 50%;
-    position: absolute;
+    margin-top: auto;
+    margin-bottom: 30px;
+    width: 100%;
+    text-align: center;
+    opacity: 0.5;
+    font-size: 0.85rem;
+    color: var(--grey-400);
+    letter-spacing: 1px;
 }
 
 /* - Redes Sociales - */
 .socialMedias {
     display: flex;
-    gap: 12px;
-    margin-top: 5px;
-    transition: 0.3s all ease-in-out;
-    bottom: 20px;
-    transform: translateX(-50%);
-    left: 50%;
-    position: absolute;
+    gap: 30px;
+    margin-bottom: 50px;
+    padding-top: 20px;
+    width: 100%;
+    justify-content: center;
 }
 
 .socialMedias a {
     display: flex;
-    font-size: 20px;
-    color: var(--secondary-text);
-    transition: 0.3s all ease-in-out;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.4rem;
+    color: var(--grey-400); 
+    transition: all 0.3s ease;
 }
 
 .socialMedias a:hover {
-    transform: translateY(-3px);
-    color: var(--hover-text);
+    transform: translateY(-5px);
+    color: var(--highlight-text); 
+    filter: drop-shadow(0 0 10px var(--highlight-text));
 }

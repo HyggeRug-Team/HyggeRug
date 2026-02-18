@@ -1,0 +1,77 @@
+/* Estilos para las tarjetas que destacan nuestros puntos fuertes */
+
+.featureCard {
+    /* Diseñamos la tarjeta como si fuera un parche de tela refinado */
+    background-color: var(--card-bg);
+    background: linear-gradient(145deg, #1a1a1a, #0d0d0d);
+    border: 2px solid rgba(255,255,255,0.1); 
+    border-radius: 24px;
+    padding: 35px;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    z-index: 1;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Simulamos una costura interna para el estilo textil */
+.featureCard::before {
+    content: '';
+    position: absolute;
+    top: 8px;
+    left: 8px;
+    right: 8px;
+    bottom: 8px;
+    border: 1px dashed rgba(255, 255, 255, 0.1);
+    border-radius: 18px;
+    pointer-events: none;
+    z-index: 2;
+    transition: border-color 0.3s ease;
+}
+
+.featureCard:hover {
+    transform: translateY(-8px);
+    border-color: var(--highlight-text); 
+    box-shadow: 0 20px 40px rgba(0,0,0,0.7), 0 0 0 1px var(--highlight-text);
+}
+
+.featureCard:hover::before {
+    border-color: rgba(255, 255, 255, 0.2);
+}
+
+.featureCard::after {
+    content: '';
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: var(--grey-400);
+    box-shadow: inset 2px 2px 5px rgba(0,0,0,0.5);
+    border: 2px solid rgba(255,255,255,0.2);
+}
+
+.featureIcon {
+    font-size: 3.5rem;
+    color: var(--hover-text); 
+    margin-bottom: 25px;
+    filter: drop-shadow(0 4px 6px rgba(0,0,0,0.5));
+}
+
+.featureTitle {
+    font-size: 1.6rem;
+    margin-bottom: 15px;
+    color: var(--white);
+    font-weight: 700;
+    font-family: var(--font-titles);
+}
+
+.featureDesc {
+    color: var(--grey-300);
+    line-height: 1.6;
+    font-size: 1.05rem;
+}

@@ -1,142 +1,153 @@
+/* Footer.module.css - Estilo 'Glass Pop' Coherente */
+
 .footerComponent {
-  width: 100%;
-  position: relative;
-  border-top: 6px dashed var(--secondary-bg);
-  background-color: var(--primary-bg);
-  margin-top: auto;
-  overflow: hidden;
-  color: var(--primary-text);
-  background-image: radial-gradient(rgba(255,255,255,0.02) 1.5px, transparent 1.5px);
-  background-size: 25px 25px;
+    width: 100%;
+    position: relative;
+    margin-top: auto;
+    overflow: hidden;
+    color: var(--primary-text);
+    
+    /* Fondo Glass Dark Transparente */
+    background: rgba(5, 5, 5, 0.6);
+    backdrop-filter: blur(15px);
+    border-top: 1px solid rgba(255, 255, 255, 0.1); 
+    
+    /* Pequeño glow superior */
+    box-shadow: 0 -10px 30px rgba(0,0,0,0.5);
 }
 
-/* --- Seccion de las columnas Logo, Tienda y Empresa --- */
 .footerSection {
-  display: grid;
-  grid-template-columns: 2fr 1fr 1fr 1fr;
-  width: 90%;
-  max-width: 1400px;
-  margin: 0 auto;
-  gap: clamp(30px, 5vw, 60px);
-  padding: clamp(50px, 10vh, 100px) 20px;
-  position: relative;
-  z-index: 1;
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr;
+    width: 90%;
+    max-width: 1400px;
+    margin: 0 auto;
+    gap: clamp(30px, 5vw, 60px);
+    padding: clamp(60px, 10vh, 80px) 20px 40px;
+    position: relative;
+    z-index: 1;
 }
 
-/* -- columna de Hygge Rug -- */
+/* -- Columna Marca -- */
 .footerContent {
-  display: flex;
-  flex-direction: column;
-  gap: clamp(15px, 2vw, 25px);
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
 }
 
 .footerLogo {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  gap: 15px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
 }
 
 .footerLogo h2 {
-  font-family: var(--font-titles);
-  font-size: clamp(1.8rem, 4vw, 2.8rem);
-  margin: 0;
-  font-weight: 400;
-  color: var(--hover-text);
-  text-shadow: 3px 3px 0px var(--dark-primary-text);
-  -webkit-text-stroke: 1px rgba(255, 255, 255, 0.1);
+    font-family: var(--font-titles);
+    font-size: 2.5rem;
+    color: var(--white);
+    margin: 0;
+    font-weight: 400;
+    text-shadow: 3px 3px 0px var(--highlight-text);
+}
+
+.sloganTitle {
+    font-family: var(--font-titles);
+    font-size: 1.8rem;
+    color: var(--white);
+    margin-bottom: 10px;
+    letter-spacing: 0.5px;
 }
 
 .footerSlogan {
-  font-size: clamp(0.9rem, 1.2vw, 1.1rem);
-  line-height: 1.6;
-  color: var(--secondary-text);
-  max-width: 350px;
-  font-weight: 500;
-  border-left: 4px dashed var(--highlight-text);
-  padding-left: 15px;
+    font-size: 1rem;
+    line-height: 1.6;
+    color: var(--grey-400);
+    max-width: 350px;
+    font-weight: 400;
+    
+    border-left: 3px solid var(--hover-text); 
+    padding-left: 15px;
 }
 
-/* - Redes Sociales - Estilo Parches */
+/* - Redes Sociales - */
 .socialMedias {
-  display: flex;
-  gap: 15px;
-  margin-top: 10px;
+    display: flex;
+    gap: 15px;
+    margin-top: 15px;
 }
 
 .socialMedias a {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: clamp(45px, 5vw, 55px);
-  height: clamp(45px, 5vw, 55px);
-  font-size: clamp(20px, 2vw, 24px);
-  color: var(--dark-primary-text);
-  background-color: var(--primary-text);
-  border-radius: 12px;
-  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-  border: 3px solid var(--dark-primary-text);
-  box-shadow: 4px 4px 0px var(--secondary-text);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 45px;
+    height: 45px;
+    font-size: 1.2rem;
+    color: var(--white);
+    background-color: rgba(255, 255, 255, 0.05);
+    border-radius: 12px;
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    
+    border: 1px solid rgba(255,255,255,0.2);
+    box-shadow: 0 4px 0px rgba(0,0,0,0.5);
 }
 
 .socialMedias a:hover {
-  transform: translate(-3px, -3px) rotate(5deg);
-  background-color: var(--hover-text);
-  box-shadow: 6px 6px 0px var(--highlight-text);
+    transform: translate(-3px, -3px) rotate(5deg);
+    background-color: var(--highlight-text);
+    border-color: var(--highlight-text);
+    box-shadow: 4px 4px 0px #000;
+    color: var(--white);
 }
 
-/* -- columna de la tienda, empresa y ayuda -- */
+/* -- Columnas Links -- */
 .footerShop,
 .footerCompany,
 .footerHelp {
-  display: flex;
-  flex-direction: column;
-  gap: clamp(12px, 1.5vw, 18px);
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
 }
 
 .footerShop h3,
 .footerCompany h3,
 .footerHelp h3 {
-  font-family: var(--font-body);
-  font-size: clamp(1rem, 1.2vw, 1.2rem);
-  margin-bottom: 10px;
-  color: var(--primary-text);
-  font-weight: 800;
-  text-transform: uppercase;
-  letter-spacing: 2px;
-  border-bottom: 2px dashed rgba(255,255,255,0.2);
-  padding-bottom: 8px;
-  display: inline-block;
-  width: fit-content;
+    font-family: var(--font-titles);
+    font-size: 1.2rem;
+    margin-bottom: 5px;
+    color: var(--white);
+    font-weight: 400;
+    letter-spacing: 1px;
+    text-shadow: 2px 2px 0px rgba(0,0,0,0.5);
 }
 
 .footerShop a,
 .footerCompany a,
 .footerHelp a {
-  font-size: clamp(0.85rem, 1vw, 1rem);
-  text-decoration: none;
-  color: var(--secondary-text);
-  transition: all 0.2s ease;
-  font-weight: 500;
-  display: inline-block;
-  width: fit-content;
+    font-size: 0.95rem;
+    text-decoration: none;
+    color: var(--grey-400);
+    transition: all 0.2s ease;
+    font-weight: 400;
+    display: inline-block;
+    width: fit-content;
 }
 
 .footerShop a:hover,
 .footerCompany a:hover,
 .footerHelp a:hover {
-  color: var(--hover-text);
-  transform: translateX(5px) rotate(-1deg);
-  text-shadow: 0 0 10px rgba(255, 215, 0, 0.3);
+    color: var(--hover-text);
+    transform: translateX(5px);
+    text-shadow: 0 0 10px rgba(255, 215, 0, 0.4);
 }
 
-/* -- fila de los derechos reservados -- */
+/* -- Legal Bottom -- */
 .footerLegal {
-  width: 100%;
-  border-top: 1px dashed rgba(255,255,255,0.1);
-  padding: 30px 0;
-  margin-top: 40px;
-  background: rgba(0,0,0,0.2);
+    width: 100%;
+    border-top: 1px solid rgba(255,255,255,0.05);
+    padding: 30px 0;
+    margin-top: 20px;
+    background: rgba(0,0,0,0.2);
 }
 
 .footerLegalContent {
@@ -150,25 +161,23 @@
 }
 
 .footerPolicy {
-  display: flex;
-  gap: clamp(15px, 3vw, 30px);
+    display: flex;
+    gap: 30px;
 }
 
 .footerLegal a,
 .footerLegal p {
-  font-size: clamp(0.75rem, 0.9vw, 0.9rem);
-  color: #888;
-  text-decoration: none;
-  margin: 0;
-  transition: 0.3s all ease;
+    font-size: 0.85rem;
+    color: var(--grey-500);
+    text-decoration: none;
+    margin: 0;
+    transition: 0.3s all ease;
 }
 
 .footerLegal a:hover {
-  color: var(--primary-text);
-  text-decoration: underline;
+    color: var(--white);
+    text-decoration: underline;
 }
-
-/* --- RESPONSIVE IMPROVEMENTS --- */
 
 @media (max-width: 1100px) {
   .footerSection {
@@ -196,6 +205,11 @@
       padding-left: 0;
       max-width: 600px;
       margin: 0 auto;
+      text-align: center;
+  }
+  
+  .socialMedias {
+      justify-content: center;
   }
 }
 
@@ -210,18 +224,23 @@
   .footerSection {
     grid-template-columns: 1fr;
     gap: 40px;
+    text-align: left; 
+  }
+
+  .footerShop, .footerCompany, .footerHelp {
+      align-items: flex-start; 
   }
 
   .footerLegalContent {
     flex-direction: column-reverse;
     gap: 20px;
-    text-align: center;
+    text-align: left;
   }
   
   .footerPolicy {
       flex-direction: column;
-      gap: 12px;
-      align-items: center;
+      gap: 10px;
+      align-items: flex-start; 
   }
 }
 

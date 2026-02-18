@@ -1,0 +1,105 @@
+/* Estilos para nuestra carta de alfombra interactiva */
+.rugPatch {
+    position: absolute;
+    /* Definimos el tamaño de la carta */
+    width: 280px; 
+    height: 380px; 
+    
+    /* Forma base y fondo de la carta */
+    border-radius: 12px; 
+    background-color: #f4f4f0;
+    /* Añadimos una textura sutil de ruido para simular tela */
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.08'/%3E%3C/svg%3E");
+    
+    /* Capas de sombra para dar profundidad 3D */
+    box-shadow: 
+        0 1px 3px rgba(0,0,0,0.1),
+        0 15px 35px -5px rgba(0,0,0,0.4),
+        0 0 0 1px rgba(0,0,0,0.05);
+    
+    transform-origin: center bottom;
+    cursor: pointer;
+    will-change: transform; 
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 16px 16px 50px 16px;
+    backface-visibility: hidden; 
+    transition: box-shadow 0.3s ease;
+}
+
+/* Efecto de costura de hilo alrededor */
+.rugPatch::after {
+    content: '';
+    position: absolute;
+    top: 6px; left: 6px; right: 6px; bottom: 6px;
+    border: 2px dashed rgba(0,0,0,0.15);
+    border-radius: 8px;
+    pointer-events: none;
+    z-index: 2;
+}
+
+.rugPatch:hover {
+    z-index: 50 !important;
+    box-shadow: 
+        0 20px 50px -10px rgba(0,0,0,0.6),
+        0 0 0 4px var(--highlight-text);
+}
+
+/* Marco interior (el recorte donde va la imagen) */
+.patchInner {
+    width: 100%;
+    height: 100%;
+    border-radius: 4px;
+    background: #111;
+    overflow: hidden;
+    position: relative;
+    box-shadow: inset 0 2px 6px rgba(0,0,0,0.3);
+    z-index: 3;
+}
+
+.rugImage {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1); 
+    will-change: transform;
+}
+
+.rugPatch:hover .rugImage {
+    transform: scale(1.1); 
+}
+
+/* Etiqueta de texto simplificada */
+.fabricTag {
+    position: absolute;
+    bottom: 20px;
+    left: 0;
+    width: 100%;
+    text-align: center;
+    z-index: 4;
+    pointer-events: none;
+}
+
+.tagText {
+    font-size: 1.8rem; /* La fuente Bubbles necesita ser más grande para leerse bien */
+    color: #000; 
+    font-family: var(--font-rubik-bubbles);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    
+    -webkit-text-stroke: 1px #fff;
+    text-shadow: 2px 2px 0px rgba(0,0,0,0.2);
+}
+
+@media (max-width: 1024px) {
+    .rugPatch { width: 220px; height: 300px; }
+}
+
+@media (max-width: 768px) {
+    .rugPatch {
+        width: 180px;
+        height: 260px;
+        padding: 8px 8px 30px 8px;
+    }
+}

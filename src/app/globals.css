@@ -1,36 +1,43 @@
-/* src/app/globals.css */
+/* src/app/globals.css - Estilo 'Tufting Pop' Vibrante */
 
 :root {
   color-scheme: light dark;
 
-  /* Aquí definimos los colores urbanos y pop de nuestra marca */
-  --primary-bg: #2C2E33; /* Carbon Grey */
-  --secondary-bg: #363940; 
-  --footer-bg: #1F2124;
+  /* Colores Base - Negro Puro (Contrast Pop) */
+  --primary-bg: #000000;
+  --secondary-bg: #0a0a0a; 
+  --card-bg: #111111;
+  
+  --footer-bg: #050505;
 
+  /* Texto */
   --primary-text: #ffffff;
-  --secondary-text: #e0e0e0; /* Lighter for better readability */
+  --secondary-text: #dddddd; 
   --dark-primary-text: #000000;
 
-  /* Accents */
-  --hover-text: rgb(255, 215, 1); /* Yellow (Near-Gold, prevents normalization to 'gold' keyword) */
-  --highlight-text: #FF0055; /* Pink */
+  /* Accent Colors - VIBRANTES ORIGINALES */
+  --highlight-text: #FF0055; /* Rosa Neón */
+  --hover-text: #FFD701; /* Amarillo Dorado */
+  --accent-purple: #6C5DD3; /* Morado Profundo */
+  --accent-cyan: #00F0FF; /* Cyan Radiante */
 
-  /* Aquí gestionamos las variables de la interfaz */
-  --button-before-hover: #6C5DD3;
-  --button-after-hover: rgb(255, 215, 1);
+  /* UI Variables */
+  --button-primary: var(--highlight-text);
+  --button-text: #ffffff;
   
+  /* Fuentes */
   --font-titles: var(--font-rubik-bubbles), system-ui, cursive; 
-  --font-body: var(--font-rubik), sans-serif;
+  --font-body: var(--font-rubik), 'Segoe UI', sans-serif;
 
-  --border-radius-main: 16px;
-  --border-radius-button: 9999px;
-
-  /* Black & White Utilities */
+  /* Sombras y Volumen "Tufting" */
+  --tuft-shadow: 0 10px 40px -5px rgba(0,0,0,0.8);
+  --pop-shadow: 5px 5px 0px rgba(0,0,0,1); /* Sombra dura estilo gráfico */
+  
+  /* Utilities */
   --white: #ffffff;
   --black: #000000;
   
-  /* Semantic Greys */
+  /* Greys */
   --grey-100: #f5f5f5;
   --grey-200: #eeeeee;
   --grey-300: #e0e0e0;
@@ -42,61 +49,51 @@
   --grey-900: #212121;
 }
 
-/* RESET ESTRICTO */
+/* RESET */
 * {
   box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
 html {
   width: 100%;
-  overflow-x: hidden; /* Clave para evitar huecos */
-  scrollbar-gutter: stable; /* Evita que la web "salte" al aparecer la barra */
+  overflow-x: hidden;
+  scroll-behavior: smooth;
 }
 
 body {
   width: 100%;
-  max-width: 100vw;
-  margin: 0;
-  padding: 0;
-  overflow-x: hidden;
+  min-height: 100vh;
+  overflow-x: hidden; 
   position: relative;
-  background-color: var(--primary-bg);
+  /* Fondo transparente para mostrar el SilkBackground */
+  background-color: transparent !important;
+  
   font-family: var(--font-body);
   color: var(--primary-text);
+  -webkit-font-smoothing: antialiased;
+  line-height: 1.6;
 }
 
+/* Títulos con estilo Pop / Cartoon */
 h1, h2, h3, h4, h5, h6 {
   font-family: var(--font-titles);
-  letter-spacing: 2px;
+  letter-spacing: 0.5px;
   font-weight: 400;
-  /* Le damos un stroke sutil para que las letras se vean mejor */
-  -webkit-text-stroke: 1px rgba(0,0,0,0.2);
+  color: var(--white);
+  /* Sombra sólida característica */
+  text-shadow: 3px 3px 0px rgba(0,0,0,0.8); 
 }
-/* Limpiamos los estilos por defecto de los enlaces */
+
 a {
-    text-decoration: none; /* Quitamos el subrayado */
-    color: inherit;       /* Hacemos que el color sea el mismo que el del texto de alrededor */
+  text-decoration: none;
+  color: inherit;
 }
 
-/* Creamos los bordes de costura globales que tanto nos gustan */
-.tufted-border {
-  border: 4px dashed rgba(255, 255, 255, 0.2);
-  border-radius: 24px;
-  position: relative;
-}
-
-.tufted-border::after {
-  content: '';
-  position: absolute;
-  inset: -8px;
-  border: 2px solid rgba(255, 255, 255, 0.05);
-  border-radius: 30px;
-  pointer-events: none;
-}
-
-/* Personalizamos la scrollbar con estilo de 'hilo' */
+/* Scrollbar personalizada */
 ::-webkit-scrollbar {
-    width: 10px;
+    width: 12px;
 }
 
 ::-webkit-scrollbar-track {
@@ -104,13 +101,16 @@ a {
 }
 
 ::-webkit-scrollbar-thumb {
-    background-color: var(--highlight-text);
+    background-color: var(--grey-800);
     border-radius: 10px;
-    border: 2px solid var(--primary-bg);
+    border: 3px solid var(--primary-bg);
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background-color: var(--highlight-text);
 }
 
 ::selection {
-  background-color: var(--highlight-text); /* Hot pink */
+  background-color: var(--highlight-text);
   color: #fff;
-  text-shadow: 2px 2px 0px #000;
 }

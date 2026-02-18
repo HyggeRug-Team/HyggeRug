@@ -1,0 +1,80 @@
+/* Estilos para nuestra línea de tiempo que cuenta el proceso */
+.processTimeline {
+    display: flex;
+    flex-direction: column;
+    gap: 40px; 
+    position: relative;
+    margin-left: 20px;
+}
+
+/* Simulamos una línea de lana que conecta todo el proceso */
+.processTimeline::before {
+    content: '';
+    position: absolute;
+    top: 25px;
+    bottom: 25px;
+    left: 29px;
+    width: 6px;
+    background: repeating-linear-gradient(
+      0deg,
+      var(--highlight-text),
+      var(--highlight-text) 10px,
+      #000 10px,
+      #000 20px
+    ); /* Creamos un patrón de hilo bicolor usando gradientes */
+    border-radius: 4px;
+}
+
+.timelineStep {
+    position: relative;
+    padding: 20px 0 20px 90px;
+}
+
+.stepNumber {
+    position: absolute;
+    left: 0;
+    top: 20px;
+    width: 64px;
+    height: 64px;
+    background: var(--hover-text); 
+    /* Recortamos la forma para que parezca un parche */
+    clip-path: polygon(
+      0% 15%, 15% 15%, 15% 0%, 85% 0%, 85% 15%, 100% 15%, 
+      100% 85%, 85% 85%, 85% 100%, 15% 100%, 15% 85%, 0% 85%
+    );
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 900;
+    font-size: 1.8rem;
+    color: #000;
+    z-index: 2;
+    box-shadow: 4px 4px 0px rgba(0,0,0,1);
+    filter: drop-shadow(4px 4px 0px rgba(0,0,0,1));
+}
+
+.stepTitle {
+    font-size: 2rem;
+    color: var(--white);
+    margin-bottom: 10px;
+    font-family: var(--font-titles);
+}
+
+.stepDesc {
+    color: var(--grey-200);
+    font-size: 1.1rem;
+    max-width: 650px;
+    background: rgba(255,255,255,0.05);
+    padding: 15px 20px;
+    border-radius: 12px;
+    border-left: 4px solid var(--highlight-text);
+}
+
+@media (max-width: 768px) {
+    .processTimeline { margin-left: 0; }
+    .processTimeline::before { left: 18px; } /* Ajustamos la posición de la línea en móviles para que cuadre bien */
+    
+    .stepNumber { left: 0; width: 40px; height: 40px; font-size: 1.2rem; top: 25px;}
+    .timelineStep { padding-left: 60px; padding-top: 10px; padding-bottom: 20px; }
+    .stepTitle { font-size: 1.5rem; }
+}

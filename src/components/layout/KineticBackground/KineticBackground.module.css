@@ -1,0 +1,45 @@
+/* Estilos para nuestro fondo cinético - VERSIÓN CSS PURO (0% LAGG) */
+
+.kineticContainer {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1; 
+    pointer-events: none;
+    overflow: hidden;
+    /* Perspectiva para evitar borrosidad en transformaciones 3D */
+    perspective: 1000px;
+}
+
+.floatingWord {
+    position: absolute;
+    white-space: nowrap;
+    font-family: var(--font-rubik-bubbles), "Impact", sans-serif;
+    color: transparent;
+    
+    /* Borde blanco (Tufting outline) estilo CSS */
+    -webkit-text-stroke: 2px rgba(255, 255, 255, 0.15);
+    
+    /* Sombra simulada para profundidad */
+    text-shadow: 4px 4px 0px rgba(0,0,0,0.2);
+    
+    /* Animación acelerada por hardware */
+    will-change: transform;
+    animation-name: floatRight;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+    
+    /* Oculto por defecto hasta que inicie */
+    opacity: 0.8;
+}
+
+@keyframes floatRight {
+    from {
+        transform: translate3d(-100%, 0, 0) rotate(0deg);
+    }
+    to {
+        transform: translate3d(100vw, 0, 0) rotate(0deg);
+    }
+}

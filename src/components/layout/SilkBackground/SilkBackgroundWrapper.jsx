@@ -1,12 +1,17 @@
 'use client';
-import dynamic from 'next/dynamic';
+import styles from './SilkBackground.module.css';
 
-/**
- * Aquí realizamos el wrapper para cargar el fondo WebGL (Three.js) solo en el cliente.
- * Esto se encarga de que la web cargue súper rápido sin problemas en el servidor.
- */
-const SilkBackground = dynamic(() => import('./SilkBackground'), {
-  ssr: false,
-});
-
-export default SilkBackground;
+/* 
+  Fondo optimizado con CSS puro - Mucho más ligero que Three.js
+  Nosotros priorizamos el rendimiento sin sacrificar la estética
+*/
+export default function SilkBackground() {
+  return (
+    <div className={styles.silkBg}>
+      <div className={styles.gradient1}></div>
+      <div className={styles.gradient2}></div>
+      <div className={styles.gradient3}></div>
+      <div className={styles.noise}></div>
+    </div>
+  );
+}

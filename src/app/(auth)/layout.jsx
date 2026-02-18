@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import Logo from '@/components/common/Logo/Logo';
+import Logo from "@/components/ui/Logo/Logo";
 import styles from './auth.module.css';
 
 /**

@@ -16,24 +16,9 @@ import {
   FaQuestion,
   FaArrowRightFromBracket,
 } from "react-icons/fa6";
-import Logo from "@/components/common/Logo/Logo";
-import LogoutBtn from "@/components/ui/Buttons/LogoutBtn/LogoutBtn";
+import Logo from "@/components/ui/Logo/Logo";
+import LogoutButton from "@/components/ui/Buttons/LogoutButton/LogoutButton";
 
-/**
- * Componente Sidebar - Barra lateral del Dashboard
- * 
- * Este componente implementamos la navegación principal del panel de usuario.
- * Estructuramos el sidebar en dos secciones principales:
- * 
- * 1. Sección Superior (92%): Contiene el logo de la marca y el menú de navegación
- *    con todos los enlaces a las diferentes secciones del dashboard.
- * 
- * 2. Sección Inferior (8%): Muestra la información del usuario actual y el botón
- *    de cierre de sesión para una experiencia de usuario intuitiva.
- * 
- * Utilizamos React Icons (fa6) para mantener consistencia visual en todos los
- * iconos del menú, y aplicamos transiciones suaves para mejorar la interactividad.
- */
 function Sidebar({user}) {
   const pathname = usePathname();
   const avatarUrl = user?.profileImage || "/profile-default.png";
@@ -46,18 +31,15 @@ function Sidebar({user}) {
     <div className={styles.sidebarContent}>
       
       {/* ========== SECCIÓN SUPERIOR ========== */}
-      {/* Ocupamos el 92% del alto total del sidebar */}
       <div className={styles.topSection}>
         
         {/* --- Logo y Título de la Marca --- */}
-        {/* Mostramos el logo estilo etiqueta cosida */}
         <div className={styles.logoContainer}>
           <Logo size={140} />
         </div>
 
         {/* --- Menú de Navegación Principal --- */}
         {/* Listamos todas las opciones disponibles en el dashboard */}
-        {/* Cada enlace incluye un icono descriptivo y texto para mejor UX */}
         <nav className={styles.sidebarMenu}>
           <Link href="/dashboard/resumen" className={isActive("/dashboard/resumen")}>
             <FaBookOpen size={18} />
@@ -99,13 +81,12 @@ function Sidebar({user}) {
       </div>
 
       {/* ========== SECCIÓN INFERIOR ========== */}
-      {/* Ocupamos el 8% restante del alto total */}
       {/* Mostramos el perfil del usuario y opción de logout */}
       <div className={styles.logout}>
         <img src={avatarUrl} alt="Perfil" />
         <p>Usuario</p>
         {/* Usamos el LogoutBtn con solo el icono, sin texto */}
-        <LogoutBtn 
+        <LogoutButton 
           icon={<FaArrowRightFromBracket size={18} />} 
           text={null}
           className={styles.logoutButton}

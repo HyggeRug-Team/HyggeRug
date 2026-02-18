@@ -1,1 +1,0 @@
-Indicador de carga animado.

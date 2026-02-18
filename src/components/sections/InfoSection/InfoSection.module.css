@@ -1,218 +1,155 @@
-.section {
-    width: 100%;
-    overflow: hidden; 
-    padding: 80px 5% 60px; /* Aquí realizamos un ajuste para que pegue bien con el Hero */
-    background-color: var(--secondary-bg);
-    position: relative;
-    border-top: 6px dashed rgba(255,255,255,0.05); /* Pespunte superior sutil */
-}
+/* ===== ESTILOS PARA LA SECCIÓN DE INFORMACIÓN CON TOQUE ARTESANAL ===== */
 
-.section::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    opacity: 0.05;
-    pointer-events: none;
-    /* Textura de tejido para dar profundidad */
-    background-image: radial-gradient(rgba(255,255,255,0.4) 1px, transparent 1px);
-    background-size: 15px 15px;
+.infoSection {
+    width: 100%;
+    padding: clamp(80px, 10vh, 120px) 20px;
+    position: relative;
+    overflow: hidden;
+    background: transparent;
 }
 
 .container {
-    max-width: 1300px;
+    max-width: 1200px;
     margin: 0 auto;
-    display: grid;
-    grid-template-columns: 1fr 0.9fr; 
-    gap: 50px;
-    align-items: center;
-    position: relative;
-    z-index: 1;
-}
-
-/* --- BLOQUE DE TEXTO --- */
-.textContent {
     display: flex;
     flex-direction: column;
-    gap: 15px; 
+    gap: 120px;
+    position: relative;
+    z-index: 10;
 }
 
-.badge {
+/* --- CABECERAS (Ahora gestionadas por componentes independientes) --- */
+.ctaBtnContainer {
     display: flex;
-    align-items: center;
-    gap: 8px;
-    background: var(--primary-bg);
-    color: var(--hover-text);
-    padding: 6px 15px;
-    border-radius: 8px;
-    font-size: 0.75rem;
-    font-weight: 800;
-    width: fit-content;
-    border: 2px dashed var(--hover-text);
-    transform: rotate(-1deg);
+    justify-content: center;
+    margin-top: 30px;
 }
 
-.heading {
-    font-family: var(--font-titles);
-    font-size: 2.5rem; 
-    line-height: 1.1;
-    color: var(--primary-text);
-    margin: 0;
+.highlight {
+    color: var(--hover-text); 
+    position: relative;
+    white-space: nowrap;
+    /* Subrayado ondulado estilo lana */
+    text-decoration: underline;
+    text-decoration-style: wavy;
+    text-decoration-color: var(--highlight-text);
+    text-decoration-thickness: 3px;
+    text-underline-offset: 8px;
 }
 
-.description {
-    font-size: 1rem;
-    line-height: 1.4;
-    color: var(--secondary-text);
-    max-width: 500px;
-    margin-bottom: 5px;
-}
-
-/* --- ACCIONES --- */
-.buttons {
-    display: flex;
-    gap: 15px;
-    margin-bottom: 20px;
-}
-
-.primaryButton {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding: 12px 25px;
-    background: var(--primary-text);
-    color: var(--dark-primary-text);
-    text-decoration: none;
-    font-weight: 900;
-    border-radius: 12px;
-    border: 2px solid var(--dark-primary-text);
-    box-shadow: 4px 4px 0px var(--highlight-text);
-}
-
-.primaryButton:hover {
-    transform: translate(-2px, -2px);
-    box-shadow: 6px 6px 0px var(--highlight-text);
-}
-
-.secondaryButton {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding: 12px 25px;
-    background: transparent;
-    color: var(--primary-text);
-    text-decoration: none;
-    font-weight: 700;
-    border-radius: 12px;
-    border: 2px dashed rgba(255,255,255,0.2);
-}
-
-.secondaryButton:hover {
-    background: rgba(255,255,255,0.05);
-    border-style: solid;
-}
-
-/* --- CUADRÍCULA DE FEATURES --- */
+/* --- DISEÑO DE LA CUADRÍCULA DE CARACTERÍSTICAS --- */
 .featuresGrid {
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 15px;
-    margin-top: 10px;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 40px;
 }
 
-.feature {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    padding: 15px;
-    background: rgba(0, 0, 0, 0.2);
-    border: 2px dashed var(--grey-800); 
-    border-radius: 16px;
-    will-change: transform, opacity, box-shadow;
+/* --- DISEÑO DE LA SECCIÓN DEL PROCESO --- */
+.processSection {
+    position: relative;
 }
 
-.feature:hover {
-    border-color: var(--hover-text);
-    transform: scale(1.02);
-    background: rgba(0, 0, 0, 0.4);
-}
 
-.featureIcon {
+/* --- ESTILOS ESPECÍFICOS PARA EL CONTENIDO DE LA GALERÍA --- */
+/* El contenedor lo maneja el componente Loop, aquí definimos las cartas */
+.marqueeCard {
+    /* Estilos para las tarjetas dentro del loop infinito */
+    width: 300px;
+    height: 380px;
     flex-shrink: 0;
-    width: 40px;
-    height: 40px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: var(--primary-bg);
-    border-radius: 10px;
-    color: var(--hover-text);
-    font-size: 1.2rem;
-    border: 1px solid var(--grey-800);
+    border-radius: 20px;
+    overflow: hidden;
+    position: relative;
+    border: 4px solid #fff;
+    box-shadow: 5px 5px 0px rgba(0,0,0,0.5);
+    transition: transform 0.3s ease;
+    background: #000;
 }
 
-.featureText h4 {
-    font-family: var(--font-titles);
-    font-size: 1.1rem;
-    color: var(--primary-text);
-    margin: 0;
+.marqueeCard:hover {
+    transform: scale(1.05) rotate(2deg);
+    border-color: var(--hover-text);
+    box-shadow: 8px 8px 0px var(--hover-text);
+    z-index: 10;
 }
 
-.featureText p {
-    font-size: 0.8rem;
-    color: #888;
-    margin: 0;
-    line-height: 1.2;
+.galleryImage {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
 }
 
-/* --- BADGES ADICIONALES --- */
-.extraBadges {
-    display: flex;
-    gap: 10px;
-    margin-top: 15px;
+.marqueeCard:hover .galleryImage {
+    transform: scale(1.1);
 }
 
-.extraBadge {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    padding: 6px 14px;
-    background: var(--grey-900);
-    border: 1px solid var(--grey-800);
-    border-radius: 50px;
-    font-size: 0.75rem;
-    color: var(--grey-400);
+.galleryOverlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: linear-gradient(to top, #000 0%, transparent 100%);
+    padding: 20px;
+    transform: translateY(100%);
+    transition: transform 0.3s ease;
+}
+
+.marqueeCard:hover .galleryOverlay {
+    transform: translateY(0);
+}
+
+.galleryStyle {
+    color: #fff;
     font-weight: 700;
+    font-size: 1.2rem;
+    text-transform: uppercase;
+    background: var(--highlight-text);
+    padding: 5px 15px;
+    border-radius: 20px;
+    box-shadow: 3px 3px 0px #000;
 }
 
-.extraBadge .badgeIcon {
-    color: var(--highlight-text);
+
+/* --- DISEÑO DE LA CUADRÍCULA DE TESTIMONIOS --- */
+.testimonialsGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 40px;
 }
 
-/* Las animaciones ahora las controla Framer Motion en el .jsx */
 
-/* --- RESPONSIVE --- */
-@media (max-width: 1024px) {
-    .heading { font-size: clamp(2.5rem, 5vw, 3.5rem); }
-}
-
+/* AJUSTES RESPONSIVE PARA MÓVILES */
 @media (max-width: 768px) {
-    .container {
-        grid-template-columns: 1fr;
-        gap: 40px;
-        text-align: center;
-    }
-    .textContent { align-items: center; }
-    .featuresGrid { width: 100%; text-align: left; }
-    .buttons, .extraBadges { justify-content: center; }
-}
+  .infoSection { padding: 60px 20px; }
+  
+  .sectionTitle {
+      font-size: clamp(2rem, 8vw, 3rem); 
+  }
+  
+  .featuresGrid { grid-template-columns: 1fr; }
+  
+  .processTimeline { margin-left: 0; }
+  .processTimeline::before { left: 18px; } /* Ajuste línea */
+  
+  .stepNumber { left: 0; width: 40px; height: 40px; font-size: 1.2rem; top: 25px;}
+  .timelineStep { padding-left: 60px; padding-top: 10px; padding-bottom: 20px; }
+  .stepTitle { font-size: 1.5rem; }
+  
+  .testimonialCard { padding: 30px 20px; margin-top: 15px; }
+  
+  .finalCta { 
+      padding: 40px 20px; 
+      border-radius: 20px;
+  }
 
-@media (max-width: 480px) {
-    .heading { font-size: clamp(1.8rem, 8vw, 2.5rem); }
-    .description { font-size: clamp(0.85rem, 4vw, 1rem); }
-    .featuresGrid { grid-template-columns: 1fr; }
-    .buttons { flex-direction: column; width: 100%; gap: 10px; }
-    .primaryButton, .secondaryButton { width: 100%; justify-content: center; padding: 14px; }
-    .extraBadges { flex-wrap: wrap; }
-    .badge { font-size: 0.65rem; }
+  /* Ajustes previos */
+  .ctaIcon { font-size: 3.5rem; }
+  .ctaTitle { font-size: 2.2rem; }
+  .ctaButton { 
+      width: 100%; 
+      justify-content: center;
+      padding: 16px;
+      font-size: 1.1rem;
+  }
 }
-

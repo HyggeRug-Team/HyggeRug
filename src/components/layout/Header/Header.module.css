@@ -1,128 +1,137 @@
+/* Definimos los estilos principales de nuestro Header y sus ajustes responsive */
+
 .header {
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0 clamp(1vh, 5vw, 5%);
-    height: clamp(60px, 8vh, 80px); /* Fluid height */
-    background-color: var(--secondary-bg);
-    position: fixed;
-    top: 0;
-    z-index: 1000;
-    transition: all 0.3s ease;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 90px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 50px;
+  z-index: 1000;
+  
+  /* Aquí aplicamos el estilo visual base con un toque moderno */
+  background: rgba(0, 0, 0, 0.6); 
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.scrolled {
+  background: rgba(0, 0, 0, 0.9);
+  height: 70px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.5);
 }
 
 .imageHeader {
-    display: flex;
-    align-items: center;
-    gap: clamp(8px, 2vw, 15px);
-    z-index: 1100;
+  display: flex;
+  align-items: center;
+  z-index: 1001; 
 }
 
-.imageHeader h1 {
-    font-size: clamp(1rem, 2.5vw, 1.4rem);
-    margin: 0;
-    white-space: nowrap;
+/* Navegación central  */
+/* Centramos la navegación de forma absoluta para que quede perfecta siempre */
+.nav {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  gap: 60px; 
+  
+  background: transparent;
+  padding: 0;
+  border: none;
+  width: max-content; /* Asegura que no ocupe todo el ancho */
 }
 
-.header nav {
-    display: flex;
-    align-items: center;
-    gap: clamp(10px, 2vw, 40px);
+.navLink {
+  color: var(--white);
+  text-decoration: none;
+  font-family: var(--font-titles);
+  font-size: 1.2rem; /* Un poco más grande para leer mejor */
+  font-weight: 500;
+  position: relative;
+  transition: all 0.3s ease;
+  letter-spacing: 1px;
+  text-shadow: 2px 2px 0px rgba(0,0,0,0.5);
 }
 
-.header nav a {
-    text-decoration: none;
-    color: var(--primary-text);
-    padding: 10px clamp(10px, 1.5vw, 20px);
-    font-weight: 500;
-    font-size: clamp(0.8rem, 1.2vw, 0.95rem);
-    transition: color 0.3s ease;
+.navLink:hover {
+  color: var(--hover-text); 
+  transform: translateY(-2px);
+  text-shadow: 3px 3px 0px var(--highlight-text);
 }
 
-.header nav a:hover {
-    color: var(--hover-text);
-}
-
+/* Botones derecha */
 .buttonsMenu {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: clamp(8px, 1.5vw, 20px);
+  display: flex;
+  gap: 20px;
+  align-items: center;
 }
 
-.buttonsMenu button {
-    background-color: transparent;
-    border: 0;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: var(--primary-text);
-    padding: 5px;
-    transition: transform 0.2s ease, color 0.2s ease;
+.iconBtn {
+  background: transparent;
+  border: none;
+  color: var(--white);
+  cursor: pointer;
+  padding: 8px;
+  border-radius: 50%;
+  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.buttonsMenu button:hover {
-    color: var(--highlight-text);
-    transform: scale(1.1);
+.iconBtn:hover {
+  color: var(--hover-text);
+  transform: scale(1.2) rotate(5deg);
+  filter: drop-shadow(0 0 8px var(--highlight-text));
 }
 
 .hamburgerButton {
-    display: none;
-    z-index: 1100;
-    cursor: pointer;
-    color: var(--primary-text);
+  display: none;
+  background: transparent;
+  border: none;
+  color: var(--white);
+  cursor: pointer;
+  z-index: 1100;
 }
 
-/* MEJORAS RESPONSIVE */
-
-@media (max-width: 1100px) {
-    .header nav a {
-        padding: 10px 12px;
-    }
-}
-
+  /* Ajustes para que nuestro diseño se vea genial en móviles y tablets */
 @media (max-width: 1024px) {
-    /* En lugar de ocultar el h1 de golpe, permitimos que se vea con cuidado */
-    .header nav {
-        gap: 15px;
-    }
-}
-
-@media (max-width: 900px) {
-    /* Punto intermedio crítico: aquí es donde suele romperse el menú horizontal */
-    .imageHeader h1 {
-        display: none; /* Lo ocultamos si el espacio es muy pequeño */
-    }
+  .header {
+    padding: 0 30px;
+  }
+  
+  /* Ocultamos la navegación principal en pantallas pequeñas */
+  .nav { display: none !important; }
+  
+  /* Mantener iconos derecha visibles en Tablet si caben, si no ocultarlos */
+  /* .buttonsMenu { display: none !important; }  <-- Opcional según diseño */
 }
 
 @media (max-width: 768px) {
-    .header {
-        height: 70px; /* Altura fija para el modo móvil */
-    }
-    
-    .header nav,
-    .buttonsMenu {
-        display: none;
-    }
-    
-    .hamburgerButton {
-        display: block;
-    }
-    
-    .imageHeader h1 {
-        display: block; /* En móvil vuelve a aparecer porque el nav ya no molesta */
-        font-size: 1.1rem;
-    }
-}
+  .header {
+    padding: 0 20px;
+    height: 70px;
+  }
 
-@media (max-width: 480px) {
-    .imageHeader h1 {
-        font-size: 1rem;
-    }
-    
-    .header {
-        padding: 0 15px;
-    }
+  /* Asegurar ocultación agresiva en móvil */
+  .nav { display: none !important; }
+  .buttonsMenu { display: none !important; }
+  
+  .hamburgerButton {
+    display: flex; 
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    width: 40px;
+    height: 40px;
+  }
 }

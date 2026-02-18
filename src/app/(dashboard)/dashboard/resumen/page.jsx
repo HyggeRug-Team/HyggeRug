@@ -1,10 +1,9 @@
-// src/app/(dashboard)/dashboard/resumen/page.jsx
 import { cookies } from "next/headers";
 import { verifySession } from "@/lib/auth";
 import { redirect } from "next/navigation";
 import styles from "./resumen.module.css";
 import Link from "next/link";
-import StatsCards from "@/components/ui/Card/StatsCard";
+import StatsCards from "@/components/ui/Cards/StatsCard/StatsCard";
 // Importamos el Widget Real del Tiempo
 import WeatherWidget from "@/components/ui/WeatherWidget/WeatherWidget"; 
 import { 

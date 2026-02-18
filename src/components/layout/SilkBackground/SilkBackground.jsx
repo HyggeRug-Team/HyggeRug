@@ -1,6 +1,5 @@
 'use client';
 
-/* eslint-disable react/no-unknown-property */
 import { Canvas, useFrame, useThree } from '@react-three/fiber';
 import { forwardRef, useRef, useMemo, useLayoutEffect } from 'react';
 import { Color } from 'three';
@@ -122,10 +121,11 @@ const SilkBackground = ({ speed = 0.5, scale = 1, color = '#2C2E33', noiseIntens
       position: 'fixed',
       top: 0,
       left: 0,
-      width: '100vw',
-      height: '100vh',
+      width: '100%',
+      height: '100%',
       zIndex: -1,
-      pointerEvents: 'none'
+      pointerEvents: 'none',
+      overflow: 'hidden'
     }}>
       <Canvas dpr={[1, 1.5]} frameloop="always" resize={{ scroll: false }}>
         <SilkPlane ref={meshRef} uniforms={uniforms} />

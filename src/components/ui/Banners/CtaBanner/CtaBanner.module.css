@@ -1,0 +1,66 @@
+
+.finalCta {
+    background: #0F0F0F;
+    background-image: 
+        radial-gradient(rgba(255,255,255,0.03) 15%, transparent 16%),
+        radial-gradient(rgba(255,255,255,0.03) 15%, transparent 16%);
+    background-size: 20px 20px;
+    background-position: 0 0, 10px 10px;
+    
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 30px;
+    padding: 80px 40px;
+    text-align: center;
+    position: relative;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.6);
+    color: var(--white);
+    margin-top: 60px;
+    overflow: hidden;
+}
+
+.finalCta::before {
+    content: '';
+    position: absolute;
+    top: 12px; bottom: 12px; left: 12px; right: 12px;
+    border: 2px dashed rgba(255, 255, 255, 0.1);
+    border-radius: 20px;
+    pointer-events: none;
+}
+
+.ctaIcon {
+    font-size: 4rem;
+    color: var(--highlight-text); 
+    margin-bottom: 20px;
+    filter: drop-shadow(0 4px 10px rgba(0,0,0,0.5));
+}
+
+.ctaTitle {
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    text-shadow: 2px 2px 0px rgba(0,0,0,0.5);
+    margin-bottom: 25px;
+}
+
+.ctaText {
+    font-size: 1.15rem;
+    font-weight: 500;
+    margin-bottom: 45px;
+    color: var(--grey-300);
+    letter-spacing: 0.5px;
+}
+
+.ctaBtnContainer {
+    display: flex;
+    justify-content: center;
+    margin-top: 30px;
+    position: relative;
+    z-index: 10;
+}
+
+@media (max-width: 768px) {
+    .finalCta { 
+        padding: 40px 20px; 
+        border-radius: 20px;
+    }
+    .ctaIcon { font-size: 3.5rem; }
+    .ctaTitle { font-size: 2.2rem; }
+}

@@ -1,0 +1,46 @@
+
+/* Estilos para nuestro componente Marquee de desplazamiento infinito */
+
+.marqueeContainer {
+    width: 100%;
+    overflow: hidden;
+    position: relative;
+    white-space: nowrap;
+    mask-image: linear-gradient(
+        to right,
+        transparent,
+        black 10%,
+        black 90%,
+        transparent
+    );
+    -webkit-mask-image: linear-gradient(
+        to right,
+        transparent,
+        black 10%,
+        black 90%,
+        transparent
+    );
+}
+
+.marqueeTrack {
+    display: inline-flex;
+    gap: 40px;
+    animation-name: scrollLoop;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+    width: max-content;
+}
+
+.marqueeContent {
+    display: flex;
+    gap: 40px;
+}
+
+@keyframes scrollLoop {
+    0% {
+        transform: translateX(0);
+    }
+    100% {
+        transform: translateX(calc(-50% - 20px));
+    }
+}

@@ -2,7 +2,7 @@
 import React from 'react';
 import Link from 'next/link';
 import styles from './MobileMenu.module.css';
-import CuteMessage from '@/components/common/CuteMessage/CuteMessage';
+import CuteMessage from "@/components/ui/CuteMessage/CuteMessage";
 import { FaFacebookF, FaRegHeart } from "react-icons/fa";
 import { AiFillInstagram } from "react-icons/ai";
 import { FaXTwitter } from "react-icons/fa6";

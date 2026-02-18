@@ -1,46 +1,55 @@
-/* 1. Contenedor Principal: Le damos forma de tarjeta */
+
 .dropdownWrapper {
   width: 100%;
   border-radius: 12px;
-  box-shadow: 2px 2px 10px 2px var(--border-shadow);
   overflow: hidden;
-  margin: 10px auto;
+  margin: 10px 0; 
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.02);
 }
 
-/* 2. El encabezado (Título + Icono) */
 .dropdownTitle {
   margin: 0;
   padding: 16px 20px;
   display: flex;
   align-items: center;
-  gap: 5px;
-  background-color: var(--primary-component-bg);
-  color: var(--primary-text);
-  font-size: 16px;
-  font-weight: 600;
-  transition: background-color 0.2s ease;
+  justify-content: space-between;
+  background-color: transparent;
+  color: var(--white);
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  text-align: left; 
+  font-family: var(--font-titles);
+  letter-spacing: 0.5px;
 }
 
-/* El icono de la flecha */
 .dropdownIcon {
-  font-size: 18px;
-  color: var(--primary-text);
+  font-size: 1.2rem;
+  color: var(--highlight-text); 
 }
 
-/* 3. La lista (UL) */
 .dropdownList {
   list-style: none;
   padding: 0;
   margin: 0;
-  background-color: var(--primary-bg);
+  background-color: rgba(0, 0, 0, 0.2);
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
 }
 
-/* 4. Los enlaces individuales (A) */
 .dropdownLink {
-  display: block; /* Importante: hace que todo el rectángulo sea clickeable */
-  padding: 12px 20px;
+  display: block; 
+  padding: 12px 25px;
   text-decoration: none;
-  color: var(--secondary-text);
-  font-size: 14px;
-  transition: all 0.1s ease;
+  color: var(--grey-400);
+  font-size: 0.95rem;
+  transition: all 0.2s ease;
+  text-align: left; 
+}
+
+.dropdownLink:hover {
+  background-color: rgba(255, 255, 255, 0.05);
+  color: var(--white);
+  padding-left: 30px; 
+  color: var(--hover-text);
 }

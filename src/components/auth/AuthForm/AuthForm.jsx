@@ -4,8 +4,8 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import styles from './AuthForm.module.css';
-import PrimaryButton from '@/components/ui/Buttons/PrimaryBtn/PrimaryBtn';
-import TerciaryButton from '@/components/ui/Buttons/TerciaryBtn/TerciaryBtn';
+import PrimaryButton from '@/components/ui/Buttons/PrimaryButton/PrimaryButton';
+import TertiaryButton from '@/components/ui/Buttons/TertiaryButton/TertiaryButton';
 import { FaGoogle } from 'react-icons/fa';
 import { IoPersonAddOutline } from 'react-icons/io5';
 // Función para el boton de inicio de sesión de google
@@ -269,7 +269,7 @@ export default function AuthForm() {
           {isLogin ? '¿No tienes cuenta?' : '¿Ya tienes cuenta?'}
         </p>
         <div className={styles.terciaryBtn}>
-          <TerciaryButton
+          <TertiaryButton
             Icon={IoPersonAddOutline}
             text={isLogin ? 'Regístrate aquí' : 'Inicia sesión'}
             onClick={toggleView}

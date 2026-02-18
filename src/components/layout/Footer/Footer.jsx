@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from "react";
 import FooterDropdown from "./FooterDropdown";
 import styles from "./Footer.module.css";
-import Logo from '@/components/common/Logo/Logo';
+import Logo from "@/components/ui/Logo/Logo";
 import { FaFacebookF } from "react-icons/fa";
 import { AiFillInstagram } from "react-icons/ai";
 import { FaXTwitter } from "react-icons/fa6";
@@ -58,11 +58,9 @@ function Footer() {
       <footer className={styles.footerComponent}>
         <div className={styles.footerSection}>
           <div className={styles.footerContent}>
-            <div className={styles.footerLogo}>
-              <Logo />
-              <h2>Hygge Rug</h2>
-            </div>
+  
             <div className={styles.footerSlogan}>
+              <h3 className={styles.sloganTitle}>Hygge Rug</h3>
               <p>
                 Llevamos el confort extremo a suelos tristes de todo el mundo. 
                 Hechas a mano (sin robots malvados), con lana feliz y diseñadas por ti... o por tu gato.

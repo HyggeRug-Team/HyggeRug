@@ -1,0 +1,55 @@
+/* Estilos para el encabezado de las secciones, limpio y centrado */
+.sectionHeader {
+    text-align: center;
+    max-width: 800px;
+    margin: 0 auto 60px;
+}
+
+.sectionBadge {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: var(--highlight-text);
+    padding: 8px 25px;
+    border-radius: 255px 15px 225px 15px / 15px 225px 15px 255px;
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: var(--white);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 25px;
+    box-shadow: 4px 4px 0px #000; 
+    border: 2px dashed #000; /* Simulamos costura con borde dashed */
+}
+
+.badgeIcon {
+    font-size: 1.1rem;
+    color: #000;
+}
+
+.sectionTitle {
+    font-size: clamp(2.5rem, 5vw, 4.5rem);
+    line-height: 1.1;
+    margin-bottom: 25px;
+    color: var(--white);
+    text-shadow: 4px 4px 0px rgba(0,0,0,1); 
+    font-family: var(--font-titles);
+}
+
+.highlight {
+    color: var(--hover-text); 
+    position: relative;
+    white-space: nowrap;
+    text-decoration: underline;
+    text-decoration-style: wavy;
+    text-decoration-color: var(--highlight-text);
+    text-decoration-thickness: 3px;
+    text-underline-offset: 8px;
+}
+
+.sectionText {
+    font-size: 1.2rem;
+    color: var(--grey-200);
+    line-height: 1.7;
+    font-weight: 500;
+}

@@ -1,6 +1,6 @@
 import styles from "./cuenta.module.css";
 import React from 'react';
-import StatsCards from "@/components/ui/Card/StatsCard";
+import StatsCards from "@/components/ui/Cards/StatsCard/StatsCard";
 import { AiFillAccountBook } from "react-icons/ai";
 import UserDetails from "@/components/dashboard/UserDetails/UserDetails";
 

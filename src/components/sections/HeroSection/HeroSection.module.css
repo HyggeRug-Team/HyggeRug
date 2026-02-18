@@ -1,366 +1,141 @@
+/* Estilos para nuestra Hero Section */
+
 .heroWrapper {
     position: relative;
     width: 100%;
     min-height: 100vh;
-    background-color: var(--primary-bg);
-    overflow: hidden;
+    height: auto; 
     display: flex;
-    flex-direction: column;
-    padding: clamp(80px, 12vh, 120px) 5% 0; /* Fluid padding to match header */
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.03'/%3E%3C/svg%3E");
-}
-
-/* --- TEXTO DE FONDO --- */
-.kineticBackground {
-    position: absolute;
-    inset: 0;
-    display: flex;
-    flex-direction: column;
     justify-content: center;
-    gap: 20px;
-    opacity: 0.04;
-    pointer-events: none;
-    user-select: none;
-    transform: rotate(-10deg) scale(1.5);
-    z-index: 0;
-}
-
-.tickerRow, .tickerRowReverse {
-    display: flex;
-    white-space: nowrap;
-    font-family: var(--font-titles);
-    font-size: clamp(6rem, 25vw, 15rem); 
-    line-height: 0.8;
-    color: transparent;
-    -webkit-text-stroke: 1px var(--white);
-    text-transform: uppercase;
-}
-
-@keyframes scroll {
-    from { transform: translateX(0); }
-    to { transform: translateX(-50%); }
-}
-
-@keyframes scrollReverse {
-    from { transform: translateX(-50%); }
-    to { transform: translateX(0); }
-}
-
-.tickerRow { animation: scroll var(--speed) linear infinite; }
-.tickerRowReverse { animation: scrollReverse var(--speed) linear infinite; }
-
-/* --- CONTENEDOR PRINCIPAL --- */
-.mainLayout {
-    position: relative;
-    z-index: 10;
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    max-width: 1400px;
-    margin: 0 auto;
-    height: 100%;
-    flex: 1;
-    padding-bottom: clamp(40px, 8vh, 80px);
-}
-
-/* TOP BAR */
-.topBar {
-    display: flex;
-    justify-content: space-between;
     align-items: center;
-    margin-bottom: clamp(20px, 5vh, 40px);
-}
+    padding-top: 100px;
+    padding-bottom: 40px;
 
-@keyframes pulseGlow {
-    0% { transform: scale(1); opacity: 1; }
-    50% { transform: scale(1.5); opacity: 0.5; }
-    100% { transform: scale(1); opacity: 1; }
-}
-
-.badgePulse {
-    width: 8px;
-    height: 8px;
-    background: var(--highlight-text);
-    border-radius: 50%;
-    box-shadow: 0 0 10px var(--highlight-text);
-    animation: pulseGlow 2s infinite;
-}
-
-.badgeNearCard {
-    position: absolute;
-    top: -12px;
-    left: 15px;
-    background: var(--black);
-    color: var(--white);
-    padding: 6px 14px;
-    border-radius: 6px;
-    font-size: clamp(0.6rem, 1.5vw, 0.75rem);
-    font-weight: 800;
-    letter-spacing: 1.5px;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    border: 1px solid rgba(255,255,255,0.2);
-    z-index: 25;
-    transform: rotate(-3deg);
-    box-shadow: 5px 5px 15px rgba(0,0,0,0.3);
-}
-
-/* CENTER HERO */
-.centerHero {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    align-items: center;
-    gap: clamp(20px, 5vw, 60px);
-    flex: 1;
-}
-
-.titleBlock {
-    position: relative;
-    z-index: 2;
-}
-
-.megaTitle {
-    font-size: clamp(4rem, 11vw, 11rem);
-    line-height: 0.82;
-    margin-bottom: clamp(20px, 4vh, 35px);
-}
-
-.accentText {
-    color: var(--white);
-    text-shadow: clamp(5px, 1.2vw, 12px) clamp(5px, 1.2vw, 12px) 0px var(--highlight-text);
-}
-
-.outlineText {
-    color: transparent;
-    -webkit-text-stroke: clamp(1px, 0.3vw, 3px) var(--hover-text);
-}
-
-.descriptionText {
-    font-size: clamp(0.95rem, 1.1vw, 1.2rem);
-    line-height: 1.6;
-    color: var(--grey-400);
-    max-width: 480px;
-    font-weight: 300;
-}
-
-/* BLOQUE VISUAL (TARJETA IMAGEN) */
-.visualBlock {
-    position: relative;
-    width: 100%;
-    display: flex;
-    justify-content: flex-end;
-}
-
-.imageContainer {
-    position: relative;
-    width: 100%;
-    max-width: 550px;
-    background: var(--grey-900);
-    border-radius: clamp(20px, 4vw, 45px);
-    padding: clamp(15px, 3vw, 35px);
-    border: 2px solid var(--grey-800);
-    box-shadow: 
-        0 60px 100px rgba(0,0,0,0.8),
-        inset 0 0 40px rgba(255,255,255,0.02);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    transition: all 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
-}
-
-/* Etiqueta de la marca (Sewn Label) */
-.studioLabel {
-    position: absolute;
-    top: 30px;
-    left: clamp(20px, 5vw, 40px);
-    background: var(--white);
-    color: var(--black);
-    padding: 12px 18px;
-    border-radius: 2px;
-    z-index: 10;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-    border: 2px solid var(--white);
-}
-
-.studioLabel::before {
-    content: '';
-    position: absolute;
-    inset: -6px;
-    border: 2px dashed rgba(255,255,255,0.3);
-    pointer-events: none;
-}
-
-.labelHeader {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    border-bottom: 3px solid var(--black);
-    padding-bottom: 4px;
-    margin-bottom: 8px;
-    gap: clamp(15px, 4vw, 35px);
-}
-
-.labelTitle {
-    font-size: 0.65rem;
-    font-weight: 1000;
-    letter-spacing: 2.5px;
-}
-
-.labelYear {
-    font-size: 0.55rem;
-    font-weight: 800;
-}
-
-.pieceName {
-    display: block;
-    font-family: var(--font-titles);
-    font-size: clamp(0.9rem, 1.5vw, 1.3rem);
-    line-height: 1;
-    margin-bottom: 6px;
-}
-
-.labelMeta {
-    display: flex;
-    flex-direction: column;
-    font-size: 0.55rem;
-    font-weight: 950;
-    opacity: 0.7;
-    letter-spacing: 1.2px;
-}
-
-.mainRugImgWrapper {
-    width: 100%;
-    padding: clamp(10px, 2vw, 25px);
-    position: relative;
-    z-index: 2;
-    margin-top: clamp(40px, 6vw, 70px);
-}
-
-.mainRugImg {
-    width: 100%;
-    height: auto;
-    filter: drop-shadow(0 30px 60px rgba(0,0,0,0.8));
-    transform: rotate(3deg);
-    transition: transform 0.8s cubic-bezier(0.23, 1, 0.32, 1);
-}
-
-.imageContainer:hover .mainRugImg {
-    transform: rotate(0deg) scale(1.05);
-}
-
-/* Etiqueta colgante de precio (Craft Tag) */
-.tuftedPriceTag {
-    position: absolute;
-    bottom: clamp(20px, 4vw, 45px);
-    right: clamp(15px, 3vw, 35px);
-    background: var(--highlight-text);
-    color: var(--white);
-    padding: clamp(10px, 2vw, 18px) clamp(8px, 1.5vw, 14px);
-    border-radius: 4px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    box-shadow: 10px 15px 40px rgba(0,0,0,0.5);
-    z-index: 20;
-    min-width: clamp(80px, 10vw, 110px);
-}
-
-.tagHole {
-    width: 8px;
-    height: 8px;
-    background: var(--grey-900);
-    border-radius: 50%;
-    margin-bottom: 5px;
-}
-
-.tagLabel {
-    font-size: 0.55rem;
-    font-weight: 900;
-    letter-spacing: 1.5px;
-}
-
-.tagPrice {
-    font-family: var(--font-titles);
-    font-size: clamp(1.8rem, 3vw, 3rem);
-    line-height: 1;
-}
-
-/* BOTTOM HERO & BOTONES */
-.bottomHero {
-    display: flex;
-    justify-content: flex-start;
-    margin-top: clamp(20px, 5vh, 50px);
-}
-
-.ctaGroup {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: clamp(15px, 4vw, 35px);
-}
-
-/* SIDE DECORATION */
-.sideDecoration {
-    position: absolute;
-    right: clamp(15px, 4vw, 35px);
-    top: 50%;
-    transform: translateY(-50%);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 20px;
-    color: rgba(255,255,255,0.2);
-    font-size: 0.75rem;
-    font-weight: 800;
-    letter-spacing: 4px;
-    pointer-events: none;
-    z-index: 15;
-}
-
-.sideDecoration span {
-    writing-mode: vertical-rl;
-    text-orientation: mixed;
-}
-
-.line {
-    width: 1px;
-    height: clamp(50px, 10vw, 100px);
-    background: rgba(255,255,255,0.2);
-}
-
-/* RESPONSIVE IMPROVEMENTS */
-@media (max-width: 1200px) {
-    .centerHero { gap: 30px; }
+    overflow: visible; 
+    
+    background: transparent; 
+    transform: translateZ(0);
 }
 
 @media (max-width: 1024px) {
-    .heroWrapper { padding-top: 100px; }
-    .megaTitle { font-size: clamp(4rem, 10vw, 8.5rem); }
+    .heroWrapper {
+        height: auto;
+        min-height: 100vh;
+        padding-top: 100px; 
+    }
 }
 
-@media (max-width: 900px) {
-    .centerHero {
-        grid-template-columns: 1fr;
-        text-align: center;
-        gap: 60px;
-    }
+.heroContainer {
+    width: 100%;
+    max-width: 1400px; 
+    padding: 0 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 15px; 
+    position: relative;
+    z-index: 10;
+    height: 100%;
+}
 
-    .titleBlock {
+/* --- TÍTULO --- */
+/* Los estilos internos están en HeroTitle.module.css */
+
+/* Organizamos los botones y la galería en una cuadrícula clara */
+.mainContentGrid {
+    display: grid;
+    grid-template-columns: 200px 1fr 200px;
+    grid-template-areas: "btnL gallery btnR";
+    gap: 40px;
+    align-items: center;
+    justify-items: center;
+    width: 100%;
+    margin-top: 20px;
+    perspective: 1000px;
+}
+
+.gridAreaLeft {
+    grid-area: btnL;
+    justify-self: end;
+    z-index: 20;
+}
+
+.gridAreaCenter {
+    grid-area: gallery;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.gridAreaRight {
+    grid-area: btnR;
+    justify-self: start;
+    z-index: 20;
+}
+
+/* --- GALERÍA DE CARTAS --- */
+.cardsGallery {
+    position: relative;
+
+    height: 450px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+    perspective: 1000px; 
+}
+
+
+/* RESPONSIVE */
+@media (max-width: 1280px) {
+    .mainContentGrid {
+        grid-template-columns: 160px 1fr 160px;
+        gap: 20px;
+    }
+}
+
+@media (max-width: 1024px) {
+    .mainContentGrid {
+        /* Cambiamos a diseño de columna en pantallas medianas */
+        grid-template-columns: 1fr 1fr;
+        grid-template-areas: 
+            "gallery gallery"
+            "btnL btnR";
+        gap: 20px;
+        margin-top: 10px;
+    }
+    
+    .gridAreaLeft { justify-self: center; }
+    .gridAreaRight { justify-self: center; }
+    
+    .cardsGallery { height: 380px; }
+}
+
+@media (max-width: 768px) {
+    .heroWrapper {
         display: flex;
         flex-direction: column;
-        align-items: center;
+        height: auto;
+        min-height: 100vh;
+        padding-top: 90px;
+        padding-bottom: 40px;
     }
+    
+    .heroContainer { gap: 20px; }
 
-    .descriptionText { margin: 0 auto; }
-    .visualBlock { justify-content: center; }
-    .bottomHero { justify-content: center; }
-    .sideDecoration { display: none; }
-}
-
-@media (max-width: 480px) {
-    .heroWrapper { padding-top: 85px; padding-left: 20px; padding-right: 20px; }
-    .megaTitle { font-size: clamp(3.2rem, 15vw, 4.8rem); line-height: 0.85; }
-    .imageContainer { padding: 20px; border-radius: 30px; }
-    .ctaGroup { grid-template-columns: 1fr; width: 100%; gap: 15px; }
-    .studioLabel { left: 15px; top: 20px; padding: 8px 12px; }
+    .mainContentGrid {
+        grid-template-columns: 1fr;
+        grid-template-areas: 
+            "gallery"
+            "btnL"
+            "btnR"; /* En móviles apilamos todo verticalmente para mejor lectura */
+        gap: 15px;
+    }
+    
+    .cardsGallery {
+        height: 350px;
+        margin: 10px 0;
+    }
+    
 }
