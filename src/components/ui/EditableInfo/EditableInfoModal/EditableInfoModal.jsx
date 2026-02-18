@@ -2,9 +2,9 @@
 import { useState } from 'react';
 import styles from './EditableInfoModal.module.css';
 import { MdOutlineModeEditOutline } from "react-icons/md";
-import PrimaryButton from '../../Buttons/PrimaryBtn/PrimaryBtn';
-import SecondaryButton from '../../Buttons/SecondaryBtn/SecondaryBtn';
-import TerciaryButton from '../../Buttons/TerciaryBtn/TerciaryBtn';
+import PrimaryButton from '../../Buttons/PrimaryButton/PrimaryButton';
+import SecondaryButton from '../../Buttons/SecondaryButton/SecondaryButton';
+import TertiaryButton from '../../Buttons/TertiaryButton/TertiaryButton';
 // onSave es una variable que recibe el padre con el valor nuevo 
 // (Las variables de los componentes solo tienen un "dueño", es decir solo es el hijo o el padre el que escribe info en esa variable y el otro la recibe)
 export default function EditableField({ label, value, inputType = "text", onSave }) {
@@ -55,7 +55,7 @@ export default function EditableField({ label, value, inputType = "text", onSave
                                 onClick={() => setShowModal(false)}
                             />
 
-                            <TerciaryButton
+                            <TertiaryButton
                                 text={"Actualizar"}
                                 // En este caso no hace falta () => Porque la función no tiene parametros de entrada
                                 onClick={handleSave}
