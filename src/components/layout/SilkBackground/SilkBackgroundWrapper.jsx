@@ -1,3 +1,7 @@
+/*
+ * Componente: SilkBackgroundWrapper
+ * Descripción: Versión optimizada y ligera del fondo de seda utilizando puramente CSS y gradientes. Usada como alternativa de alto rendimiento al fondo de Three.js.
+ */
 'use client';
 import styles from './SilkBackground.module.css';
 

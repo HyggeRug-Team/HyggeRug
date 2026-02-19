@@ -1,3 +1,7 @@
+/*
+ * Componente: Carousel
+ * Descripción: Carrusel de imágenes totalmente funcional y personalizado. Soporta arrastre (drag), autoplay, navegación por puntos y flechas, y etiquetas de valoración. Estética cosida a mano.
+ */
 "use client";
 import React, { useState, useRef, useEffect } from "react";
 import { motion } from "framer-motion";

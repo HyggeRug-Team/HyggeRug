@@ -1,3 +1,7 @@
+/*
+ * Componente: InfoSection
+ * Descripción: Sección informativa extensa que destaca las características, el proceso de fabricación, testimonios de clientes y una galería "Marquee" infinita. Utiliza animaciones al hacer scroll.
+ */
 "use client";
 import React from "react";
 import styles from "./InfoSection.module.css";

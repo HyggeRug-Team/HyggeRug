@@ -1,3 +1,7 @@
+/*
+ * Componente: MobileMenu
+ * Descripción: Menú de navegación lateral para dispositivos móviles. Incluye enlaces de navegación, redes sociales y un mensaje decorativo.
+ */
 'use client';
 import React from 'react';
 import Link from 'next/link';

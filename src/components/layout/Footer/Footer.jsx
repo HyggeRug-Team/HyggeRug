@@ -1,3 +1,7 @@
+/*
+ * Componente: Footer
+ * Descripción: Pie de página principal de la aplicación. Es responsive, mostrando menús desplegables en móvil y columnas en escritorio, junto con redes sociales y enlaces legales.
+ */
 "use client";
 
 import React, { useState, useEffect } from "react";

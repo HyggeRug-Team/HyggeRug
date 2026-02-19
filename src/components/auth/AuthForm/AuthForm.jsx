@@ -1,3 +1,7 @@
+/*
+ * Componente: AuthForm
+ * Descripción: Gestiona el formulario de autenticación (Login/Registro), permitiendo iniciar sesión con Google o correo/contraseña. Incluye validaciones, manejo de estado y animaciones.
+ */
 'use client';
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';

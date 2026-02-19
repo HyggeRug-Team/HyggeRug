@@ -1,4 +1,7 @@
-// Aquí realizamos el botón terciario, que suele ser más pequeño o para enlaces menos importantes
+/*
+ * Componente: TertiaryButton
+ * Descripción: Botón terciario para enlaces sutiles o acciones de menor jerarquía visual.
+ */
 import React from 'react'
 import styles from './TertiaryButton.module.css'
 

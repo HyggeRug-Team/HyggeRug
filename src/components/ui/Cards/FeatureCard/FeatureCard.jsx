@@ -1,3 +1,7 @@
+/*
+ * Componente: FeatureCard
+ * Descripción: Tarjeta informativa para destacar características (iconos, título descripción) con animación de entrada.
+ */
 import React from "react";
 import styles from "./FeatureCard.module.css";
 import { motion } from "framer-motion";

@@ -1,3 +1,7 @@
+/*
+ * Componente: Marquee
+ * Descripción: Contenedor con animación de desplazamiento horizontal infinito (loop). Ideal para mostrar galerías de imágenes, logos o textos en movimiento continuo.
+ */
 
 import React from 'react';
 import styles from './Marquee.module.css';

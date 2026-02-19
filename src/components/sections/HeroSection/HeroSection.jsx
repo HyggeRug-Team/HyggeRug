@@ -1,3 +1,7 @@
+/*
+ * Componente: HeroSection
+ * Descripción: Sección principal de aterrizaje (Hero) de la página. Presenta el título principal, botones de acción (CTA) y una galería interactiva de alfombras destacadas con animaciones de entrada.
+ */
 "use client";
 import React, { useState, useEffect } from "react";
 import styles from "./HeroSection.module.css";

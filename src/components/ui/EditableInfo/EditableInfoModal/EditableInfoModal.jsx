@@ -1,3 +1,7 @@
+/*
+ * Componente: EditableField
+ * Descripción: Campo de información que al hacer clic se convierte en un modal para permitir la edición del valor.
+ */
 'use client';
 import { useState } from 'react';
 import styles from './EditableInfoModal.module.css';

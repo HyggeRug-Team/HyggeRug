@@ -1,3 +1,7 @@
+/*
+ * Componente: Sidebar
+ * Descripción: Barra lateral de navegación para el panel de usuario (Dashboard). Muestra enlaces a las diferentes secciones de gestión, el logo y el botón de cerrar sesión.
+ */
 "use client";
 
 import React from "react";

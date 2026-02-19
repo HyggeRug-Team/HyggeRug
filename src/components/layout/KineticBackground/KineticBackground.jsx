@@ -1,3 +1,7 @@
+/*
+ * Componente: KineticBackground
+ * Descripción: Fondo animado con palabras flotantes ("HAND MADE", "TUFT LOVE", etc.) que se generan aleatoriamente en el cliente.
+ */
 
 "use client";
 import React, { useState, useEffect } from 'react';

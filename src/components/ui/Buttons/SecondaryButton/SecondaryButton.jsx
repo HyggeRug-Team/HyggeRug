@@ -1,5 +1,7 @@
-// Componente reutilizable para nuestro botón secundario
-// Ideal para acciones "outline" o secundarias en la página
+/*
+ * Componente: SecondaryButton
+ * Descripción: Botón secundario con estilo 'outline' (bordeado) para acciones alternativas.
+ */
 import React from 'react'
 import styles from './SecondaryButton.module.css'
 

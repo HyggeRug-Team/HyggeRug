@@ -1,3 +1,7 @@
+/*
+ * Componente: UserDetails
+ * Descripción: Muestra y permite editar la información básica del perfil del usuario en el dashboard, incluyendo foto y nombre.
+ */
 import React from 'react';
 import styles from './UserDetails.module.css';
 import { verifySession } from "@/lib/auth";

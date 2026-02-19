@@ -1,3 +1,7 @@
+/*
+ * Componente: TestimonialCard
+ * Descripción: Tarjeta para mostrar reseñas y testimonios de clientes, incluyendo estrellas de valoración.
+ */
 import React from "react";
 import styles from "./TestimonialCard.module.css";
 import { motion } from "framer-motion";

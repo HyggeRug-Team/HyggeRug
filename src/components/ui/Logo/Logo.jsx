@@ -1,3 +1,7 @@
+/*
+ * Componente: Logo
+ * Descripción: Componente flexible para mostrar el logotipo de la marca. Permite variantes de tamaño, modo compacto (solo siglas) y opción de enlace o no.
+ */
 import React from 'react';
 import Link from 'next/link';
 import styles from './Logo.module.css';

@@ -1,3 +1,7 @@
+/*
+ * Componente: SilkBackground
+ * Descripción: Fondo animado complejo utilizando Three.js (React Three Fiber) y Shaders personalizados para crear un efecto de "seda" fluida e interactiva. Provee una experiencia visual premium.
+ */
 'use client';
 
 import { Canvas, useFrame, useThree } from '@react-three/fiber';

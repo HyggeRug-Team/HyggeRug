@@ -1,10 +1,11 @@
+/*
+ * Componente: LogoutButton
+ * Descripción: Botón funcional para cerrar la sesión del usuario. Maneja la petición a la API de logout y redirige a la página de autenticación. Personalizable con texto e iconos.
+ */
 'use client';
 import { useRouter } from "next/navigation";
 
 /**
- * Botón flexible para cerrar sesión del usuario.
- * Implementamos la lógica de logout llamando a la API y redirigiendo.
- * 
  * Podemos personalizar el botón con:
  * - Solo icono (para el sidebar)
  * - Solo texto

@@ -1,3 +1,7 @@
+/*
+ * Componente: Timeline
+ * Descripción: Visualización de procesos paso a paso en formato vertical. Muestra números, títulos y descripciones con animaciones secuenciales de entrada.
+ */
 import React from "react";
 import styles from "./Timeline.module.css";
 import { motion } from "framer-motion";

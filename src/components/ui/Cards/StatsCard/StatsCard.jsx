@@ -1,3 +1,7 @@
+/*
+ * Componente: StatsCard
+ * Descripción: Tarjeta para mostrar estadísticas o datos numéricos relevantes con un icono representativo.
+ */
 import React from 'react';
 import styles from "./StatsCard.module.css";
 

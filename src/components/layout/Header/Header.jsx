@@ -1,3 +1,7 @@
+/*
+ * Componente: Header
+ * Descripción: Cabecera principal de la aplicación. Gestiona la navegación, el logotipo y la adaptación del menú para dispositivos móviles (hamburguesa).
+ */
 "use client";
 import React, { useState, useEffect } from 'react';
 import { usePathname } from 'next/navigation';

@@ -1,3 +1,7 @@
+/*
+ * Componente: WeatherWidget
+ * Descripción: Widget que muestra el clima actual basado en la geolocalización del usuario. Utiliza la API de Open-Meteo y muestra temperatura e icono del estado del tiempo.
+ */
 "use client";
 
 import { useEffect, useState } from "react";

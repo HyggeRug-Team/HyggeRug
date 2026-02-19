@@ -1,3 +1,7 @@
+/*
+ * Componente: HeroTitle
+ * Descripción: Componente específico para el título principal de la sección Hero. Aplica animaciones diferenciadas y escalonadas a cada línea del título y subtítulo.
+ */
 import React from "react";
 import styles from "./HeroTitle.module.css";
 import { motion } from "framer-motion";

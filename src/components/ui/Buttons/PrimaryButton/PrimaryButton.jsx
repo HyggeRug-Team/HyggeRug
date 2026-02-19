@@ -1,5 +1,7 @@
-// Componente para nuestro botón principal de la web.
-// Se adapta al contenido manteniendo siempre su presencia.
+/*
+ * Componente: PrimaryButton
+ * Descripción: Botón principal de la interfaz con estilos destacados. Admite texto, un icono opcional y una URL o acción onClick.
+ */
 import React from 'react'
 import styles from './PrimaryButton.module.css'
 

@@ -1,3 +1,7 @@
+/*
+ * Componente: FooterDropdown
+ * Descripción: Componente auxiliar para el Footer móvil que muestra una lista de enlaces desplegable con animación.
+ */
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { IoChevronDown } from 'react-icons/io5';

@@ -1,3 +1,7 @@
+/*
+ * Componente: SectionWrapper
+ * Descripción: Contenedor genérico para envolver secciones del dashboard y mantener una consistencia visual de espaciado y fondo.
+ */
 // Es el componente que estás usando como contenedor en el dashboard, solo tiene el estilo de colores y el padding , no es ni flex ni nada
 import React from 'react';
 import styles from './SectionWrapper.module.css';

@@ -1,3 +1,7 @@
+/*
+ * Componente: SectionHeader
+ * Descripción: Cabecera estándar para las secciones de la página. Muestra un "badge" con icono, un título principal y una descripción opcional, todo con animaciones de entrada.
+ */
 import React from "react";
 import styles from "./SectionHeader.module.css";
 import { motion } from "framer-motion";

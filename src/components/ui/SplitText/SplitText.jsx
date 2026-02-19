@@ -1,3 +1,7 @@
+/*
+ * Componente: SplitText
+ * Descripción: Componente avanzado que utiliza GSAP para dividir el texto en caracteres, palabras o líneas y aplicar animaciones secuenciales al hacer scroll.
+ */
 import { useRef, useEffect, useState } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';

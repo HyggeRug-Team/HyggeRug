@@ -1,3 +1,7 @@
+/*
+ * Componente: RugCard
+ * Descripción: Tarjeta interactiva y animada que representa una alfombra. Incluye efectos 3D al pasar el cursor y animaciones de abanico en la galería.
+ */
 import React from "react";
 import styles from "./RugCard.module.css";
 import { motion } from "framer-motion";

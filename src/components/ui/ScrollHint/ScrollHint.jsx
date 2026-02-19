@@ -1,3 +1,7 @@
+/*
+ * Componente: ScrollHint
+ * Descripción: Indicador visual animado (punto rebotando) para sugerir al usuario que haga scroll hacia abajo para ver más contenido.
+ */
 import React from "react";
 import styles from "./ScrollHint.module.css";
 import { motion } from "framer-motion";
