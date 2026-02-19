@@ -35,8 +35,8 @@ function HeroSection() {
     { id: 1, name: "Mario", pattern: "checkers", color: "#E70012", src: "/rug-mario.png" },
     { id: 2, name: "Gorillaz", pattern: "lines", color: "#222", src: "/rug-gorillaz.png" },
     { id: 3, name: "Julieta", pattern: "dots", color: "#FFD700", src: "/rug-julieta.png" },
-    { id: 4, name: "Kirby", pattern: "dots", color: "#FF69B4", src: "/rug-kirby.png" }, // Placeholder src
-    { id: 5, name: "Nike", pattern: "checkers", color: "#000", src: "/rug-nike.png" }, // Placeholder src
+    { id: 4, name: "Shield", pattern: "dots", color: "#FF69B4", src: "/rug-shield.png" },
+    { id: 5, name: "Irene", pattern: "checkers", color: "#000", src: "/rug-irene.png" },
   ];
 
   return (
@@ -58,7 +58,7 @@ function HeroSection() {
                 className={styles.gridAreaLeft}
                 initial={{ opacity: 0, x: -50 }}
                 whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: false, amount: 0.5 }}
+                viewport={{ once: true, amount: 0.5 }}
                 transition={{ duration: 0.5 }}
             >
                 <PrimaryButton 
@@ -73,7 +73,7 @@ function HeroSection() {
                 className={`${styles.cardsGallery} ${styles.gridAreaCenter}`}
                 initial={{ opacity: 0, scale: 0.9 }}
                 whileInView={{ opacity: 1, scale: 1 }}
-                viewport={{ once: false, amount: 0.3 }}
+                viewport={{ once: true, amount: 0.3 }}
                 transition={{ duration: 0.8 }}
             >
                 <AnimatePresence>
@@ -100,7 +100,7 @@ function HeroSection() {
                 className={styles.gridAreaRight}
                 initial={{ opacity: 0, x: 50 }}
                 whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: false, amount: 0.5 }}
+                viewport={{ once: true, amount: 0.5 }}
                 transition={{ duration: 0.5 }}
             >
                 <SecondaryButton 

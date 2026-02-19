@@ -40,20 +40,22 @@ export default function MobileMenu({ isOpen, menuItems, onClose }) {
         })}
       </div>
 
-      <div className={styles.cuteMessage}>
-        <CuteMessage Icon={FaRegHeart} text="Hecho a mano directo a tu corazón" />
-      </div>
+      <div className={styles.menuFooter}>
+        <div className={styles.cuteMessage}>
+          <CuteMessage Icon={FaRegHeart} text="Hecho a mano directo a tu corazón" />
+        </div>
 
-      <div className={styles.socialMedias}>
-        <a href="#" target="_blank" rel="noopener noreferrer">
-          <FaFacebookF />
-        </a>
-        <a href="https://www.instagram.com/hygge_rug/" target="_blank" rel="noopener noreferrer">
-          <AiFillInstagram />
-        </a>
-        <a href="#" target="_blank" rel="noopener noreferrer">
-          <FaXTwitter />
-        </a>
+        <div className={styles.socialMedias}>
+          <a href="#" target="_blank" rel="noopener noreferrer">
+            <FaFacebookF />
+          </a>
+          <a href="https://www.instagram.com/hygge_rug/" target="_blank" rel="noopener noreferrer">
+            <AiFillInstagram />
+          </a>
+          <a href="#" target="_blank" rel="noopener noreferrer">
+            <FaXTwitter />
+          </a>
+        </div>
       </div>
     </div>
   );

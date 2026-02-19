@@ -17,7 +17,7 @@ function Timeline({ steps }) {
             // Animamos la entrada de cada paso 
             initial={{ opacity: 0, x: -30 }} 
             whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: false, amount: 0.5 }}
+            viewport={{ once: true, amount: 0.3 }}
             transition={{ delay: i * 0.1, duration: 0.6 }}
             >
             <div className={styles.stepNumber}>{step.num}</div>

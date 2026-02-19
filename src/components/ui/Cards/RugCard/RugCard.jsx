@@ -8,12 +8,15 @@ import { motion } from "framer-motion";
 import Image from "next/image";
 
 function RugCard({ card, index, totalCards, isHovered, onHoverStart, onHoverEnd, width }) {
-  // Aumentamos el espacio entre cartas para que se vean bien separadas
-  const cardSpacing = width < 768 ? 50 : 120;
+  // Medidas: Escritorio 280px, Tablet 220px, Móvil 180px.
+  // En pantallas muy grandes (>1600px) expandimos
+  const isWide = width > 1600;
   
-  // Calculamos el ancho de la carta según el dispositivo para centrarla perfecto
-  // Medidas: Escritorio 280px, Tablet 220px, Móvil 180px
-  const cardWidth = width < 768 ? 180 : (width < 1024 ? 220 : 280); 
+  // Aumentamos el espacio entre cartas para que se vean bien separadas
+  const cardSpacing = width < 768 ? 50 : (isWide ? 180 : 120);
+  
+  // Calculamos el ancho de la carta según el dispositivo
+  const cardWidth = width < 768 ? 180 : (width < 1024 ? 220 : (isWide ? 380 : 280)); 
   const halfWidth = cardWidth / 2;
   
   // Encontramos cuál es la carta central

@@ -52,13 +52,11 @@ function InfoSection() {
     { src: "/rug-shield.png", title: "Shield", style: "Logos" },
   ];
 
-  // Configuración de animación scroll bidireccional (Replay)
-  // Configuración de animación scroll bidireccional (Replay)
-  // Utilizamos will-change para optimizar el rendimiento en scroll
+  
   const scrollAnimConfig = {
-    initial: { opacity: 0, y: 50 },
+    initial: { opacity: 0, y: 30 },
     whileInView: { opacity: 1, y: 0 },
-    viewport: { once: false, amount: 0.5 }, 
+    viewport: { once: true, margin: "-100px" },
     transition: { duration: 0.6, ease: "easeOut" },
     style: { willChange: "opacity, transform" } 
   };

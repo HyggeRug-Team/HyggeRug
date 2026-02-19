@@ -1,0 +1,71 @@
+.inputGroup {
+  position: relative;
+  margin-top: 20px;
+  margin-bottom: 25px;
+  display: flex;
+  flex-direction: column;
+  z-index: 0;
+}
+
+.inputGroup input {
+  border: 2px dashed rgba(255, 255, 255, 0.1);
+  background: rgba(44, 46, 51, 0.4);
+  backdrop-filter: blur(5px);
+  height: 52px;                            
+  font-size: 1rem;                       
+  padding: 0 16px;
+  outline: none;
+  width: 100%;
+  transition: 
+    border-color 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+    background-color 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+    box-shadow 0.5s cubic-bezier(0.4, 0, 0.2, 1),
+    transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: 1;
+  color: var(--primary-text);
+  border-radius: 12px;
+}
+
+.inputGroup label {
+  position: absolute;
+  left: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  transition: 
+    top 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+    font-size 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+    color 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+    padding 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+    background-color 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  pointer-events: none;
+  color: rgba(255, 255, 255, 0.5);
+  background-color: transparent; 
+  padding: 0 8px;
+  z-index: 2;
+  font-size: 0.95rem;
+  border-radius: 4px;
+}
+
+/* EFECTO PREMIUM AL ENFOCAR */
+.inputGroup input:focus + label,
+.inputGroup input:not(:placeholder-shown) + label {
+  top: 0;
+  font-size: 0.8rem;
+  color: var(--hover-text);
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  background-color: var(--primary-bg);
+  padding: 0 10px;
+}
+
+.inputGroup input:focus {
+  border-style: solid; 
+  border-color: var(--hover-text);
+  background: rgba(255, 255, 255, 0.08);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+  transform: scale(1.02);
+}
+
+@media (max-width: 600px) {
+    .inputGroup input { height: 48px; font-size: 0.9rem; }
+}

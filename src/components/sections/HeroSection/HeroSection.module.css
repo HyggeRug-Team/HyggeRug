@@ -27,7 +27,7 @@
 
 .heroContainer {
     width: 100%;
-    max-width: 1400px; 
+    max-width: 95%; 
     padding: 0 20px;
     display: flex;
     flex-direction: column;
@@ -42,74 +42,65 @@
 /* --- TÍTULO --- */
 /* Los estilos internos están en HeroTitle.module.css */
 
-/* Organizamos los botones y la galería en una cuadrícula clara */
+/* Organizamos los botones y la galería */
 .mainContentGrid {
-    display: grid;
-    grid-template-columns: 200px 1fr 200px;
-    grid-template-areas: "btnL gallery btnR";
-    gap: 40px;
+    display: flex;
+    justify-content: center;
     align-items: center;
-    justify-items: center;
+    position: relative;
     width: 100%;
     margin-top: 20px;
     perspective: 1000px;
+    min-height: 550px;
 }
 
 .gridAreaLeft {
-    grid-area: btnL;
-    justify-self: end;
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 20;
+}
+
+.gridAreaRight {
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
     z-index: 20;
 }
 
 .gridAreaCenter {
-    grid-area: gallery;
     width: 100%;
     display: flex;
     justify-content: center;
-}
-
-.gridAreaRight {
-    grid-area: btnR;
-    justify-self: start;
-    z-index: 20;
+    pointer-events: none; 
+    z-index: 10;
 }
 
 /* --- GALERÍA DE CARTAS --- */
 .cardsGallery {
     position: relative;
-
-    height: 450px;
+    height: 550px;
     display: flex;
     justify-content: center;
     align-items: center;
     padding: 10px;
     perspective: 1000px; 
+    pointer-events: none;
+}
+
+.cardsGallery > * {
+    pointer-events: auto;
 }
 
 
 /* RESPONSIVE */
-@media (max-width: 1280px) {
-    .mainContentGrid {
-        grid-template-columns: 160px 1fr 160px;
-        gap: 20px;
-    }
-}
 
 @media (max-width: 1024px) {
-    .mainContentGrid {
-        /* Cambiamos a diseño de columna en pantallas medianas */
-        grid-template-columns: 1fr 1fr;
-        grid-template-areas: 
-            "gallery gallery"
-            "btnL btnR";
-        gap: 20px;
-        margin-top: 10px;
-    }
-    
-    .gridAreaLeft { justify-self: center; }
-    .gridAreaRight { justify-self: center; }
-    
-    .cardsGallery { height: 380px; }
+    /* En tablets ajustamos un poco, pero mantenemos estructura */
+    .cardsGallery { height: 450px; }
+    .mainContentGrid { min-height: 450px; }
 }
 
 @media (max-width: 768px) {
@@ -125,17 +116,30 @@
     .heroContainer { gap: 20px; }
 
     .mainContentGrid {
-        grid-template-columns: 1fr;
-        grid-template-areas: 
-            "gallery"
-            "btnL"
-            "btnR"; /* En móviles apilamos todo verticalmente para mejor lectura */
+        flex-direction: column;
+        height: auto;
+        min-height: auto;
         gap: 15px;
+    }
+    
+    .gridAreaLeft, .gridAreaRight {
+        position: static;
+        transform: none;
+        width: auto;
+        margin-top: 10px;
+    }
+
+    .gridAreaLeft { order: 2; }
+    .gridAreaRight { order: 3; }
+    .gridAreaCenter { 
+        order: 1; 
+        width: 100%;
+        pointer-events: auto;
     }
     
     .cardsGallery {
         height: 350px;
         margin: 10px 0;
+        pointer-events: auto;
     }
-    
 }

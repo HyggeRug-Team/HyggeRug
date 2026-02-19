@@ -14,7 +14,7 @@ function CtaBanner({ title, text, btnText, btnUrl, onBtnClick }) {
         className={styles.finalCta}
         initial={{ opacity: 0, scale: 0.9 }}
         whileInView={{ opacity: 1, scale: 1 }}
-        viewport={{ once: false, amount: 0.5 }}
+        viewport={{ once: true, amount: 0.3 }}
         transition={{ duration: 0.6, type: "spring" }}
     >
         <FaAward className={styles.ctaIcon} />

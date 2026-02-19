@@ -13,7 +13,7 @@ function TestimonialCard({ name, text, rating = 5, delay = 0 }) {
         className={styles.testimonialCard}
         initial={{ opacity: 0, y: 30 }}
         whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: false, amount: 0.5 }}
+        viewport={{ once: true, amount: 0.3 }}
         transition={{ delay: delay, duration: 0.5 }}
     >
         <div className={styles.stars}>

@@ -14,7 +14,7 @@ function HeroTitle({ line1, line2, subtitle }) {
         className={styles.titleBlock}
         initial={{ opacity: 0, y: 30 }}
         whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: false, amount: 0.5 }}
+        viewport={{ once: true, amount: 0.5 }}
         transition={{ duration: 0.8, ease: "easeOut" }}
     >
         <h1 className={styles.mainTitle}>

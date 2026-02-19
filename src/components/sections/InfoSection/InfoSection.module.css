@@ -9,7 +9,7 @@
 }
 
 .container {
-    max-width: 1200px;
+    max-width: 80%;
     margin: 0 auto;
     display: flex;
     flex-direction: column;
@@ -41,7 +41,7 @@
 .featuresGrid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 40px;
+    gap: clamp(40px, 5vw, 80px);
 }
 
 /* --- DISEÑO DE LA SECCIÓN DEL PROCESO --- */
@@ -115,7 +115,7 @@
 .testimonialsGrid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 40px;
+    gap: clamp(40px, 5vw, 80px);
 }
 
 
@@ -141,6 +141,11 @@
   .finalCta { 
       padding: 40px 20px; 
       border-radius: 20px;
+  }
+
+  .highlight {
+      white-space: normal;
+      display: inline-block;
   }
 
   /* Ajustes previos */

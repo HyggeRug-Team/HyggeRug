@@ -1,14 +1,17 @@
 
+
+
 .mobileMenu {
     position: fixed;
     top: 0;
     left: 0;
-    padding-top: 100px;
+    padding-top: 60px;
     width: 100%;
     height: 100vh;
+    height: 100dvh; 
     z-index: 1050;
     
-    background: rgba(0, 0, 0, 0.85);
+    background: rgba(0, 0, 0, 0.95);
     backdrop-filter: blur(25px);
     
     opacity: 0;
@@ -19,7 +22,9 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    overflow-y: auto;
+    overflow-y: hidden;
+    justify-content: space-between;
+    padding-bottom: 15px; 
 }
 
 .mobileMenuActive {
@@ -30,23 +35,24 @@
 
 .headerMobileMenu {
     text-align: center;
-    margin-bottom: 40px;
+    margin-bottom: 5px;
     padding: 0 20px;
+    flex-shrink: 0;
 }
 
 .headerMobileMenu h2 {
     font-family: var(--font-titles);
-    font-size: 2.5rem;
+    font-size: 1.8rem;
     color: var(--white);
-    margin-bottom: 5px;
+    margin-bottom: 0;
     text-shadow: 2px 2px 0px rgba(0,0,0,0.5);
 }
 
 .headerMobileMenu h4 {
     color: var(--grey-400);
     font-weight: 400;
-    font-size: 0.9rem;
-    letter-spacing: 2px;
+    font-size: 0.75rem;
+    letter-spacing: 1.5px;
     text-transform: uppercase;
     font-family: var(--font-body);
     opacity: 0.8;
@@ -56,42 +62,46 @@
     display: flex;
     flex-direction: column;
     width: 100%;
-    max-width: 400px;
-    padding: 0 30px;
+    max-width: 350px;
+    padding: 0 20px;
+    flex-grow: 1;
+    justify-content: center;
+    gap: 0px;
 }
 
 /* --- ESTILO ENLACE --- */
 .menuButton {
     display: flex;
     align-items: center;
-    gap: 25px;
-    padding: 20px 10px;
+    gap: 15px;
+    padding: 10px 10px;
     
-    border-bottom: 1px solid rgba(255, 255, 255, 0.05); 
+    border-bottom: 1px solid rgba(255, 255, 255, 0.03); 
     
     text-decoration: none;
     color: var(--white);
     transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
     position: relative;
     overflow: hidden;
+    border-radius: 8px;
 }
 
 .menuButton:active, .menuButton:hover {
-    padding-left: 25px; 
+    padding-left: 15px; 
     color: var(--highlight-text);
-    background: linear-gradient(90deg, rgba(255,255,255,0.03), transparent);
-    border-bottom-color: var(--hover-text); 
+    background: rgba(255, 255, 255, 0.05);
+    border-bottom-color: transparent; 
 }
 
 /* --- ICONO --- */
 .iconMobilMenu {
-    width: 30px;
-    height: 30px;
+    width: 20px;
+    height: 20px;
     display: flex;
     justify-content: center;
     align-items: center;
     color: var(--grey-300);
-    font-size: 1.5rem;
+    font-size: 1.1rem;
     transition: color 0.3s ease;
 }
 
@@ -103,30 +113,41 @@
 
 .menuButton span {
     font-family: var(--font-titles);
-    font-size: 1.8rem; 
+    font-size: 1.3rem;
     font-weight: 500;
     letter-spacing: 0.5px;
 }
 
 
+/* Content Footer Wrapper */
+.menuFooter {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    gap: 10px;
+    margin-bottom: 10px;
+    flex-shrink: 0;
+}
+
 /* Mensaje inferior */
 .cuteMessage {
-    margin-top: auto;
-    margin-bottom: 30px;
+    margin-top: 0;
+    margin-bottom: 0;
     width: 100%;
     text-align: center;
-    opacity: 0.5;
-    font-size: 0.85rem;
+    opacity: 0.6;
+    font-size: 0.7rem;
     color: var(--grey-400);
-    letter-spacing: 1px;
+    letter-spacing: 0.5px;
 }
 
 /* - Redes Sociales - */
 .socialMedias {
     display: flex;
-    gap: 30px;
-    margin-bottom: 50px;
-    padding-top: 20px;
+    gap: 20px;
+    margin-bottom: 0;
+    padding-top: 0;
     width: 100%;
     justify-content: center;
 }
@@ -135,13 +156,14 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 1.4rem;
+    font-size: 1.2rem;
     color: var(--grey-400); 
     transition: all 0.3s ease;
+    padding: 5px;
 }
 
 .socialMedias a:hover {
-    transform: translateY(-5px);
+    transform: translateY(-2px);
     color: var(--highlight-text); 
     filter: drop-shadow(0 0 10px var(--highlight-text));
 }

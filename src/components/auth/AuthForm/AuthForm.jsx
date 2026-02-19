@@ -8,43 +8,51 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import styles from './AuthForm.module.css';
+
+
 import PrimaryButton from '@/components/ui/Buttons/PrimaryButton/PrimaryButton';
+import SecondaryButton from '@/components/ui/Buttons/SecondaryButton/SecondaryButton';
 import TertiaryButton from '@/components/ui/Buttons/TertiaryButton/TertiaryButton';
+import FloatingLabelInput from '@/components/ui/Inputs/FloatingLabelInput/FloatingLabelInput';
+import SubmitButton from '@/components/ui/Buttons/SubmitButton/SubmitButton';
+import StatusMessage from '@/components/ui/Feedback/StatusMessage/StatusMessage';
+
 import { FaGoogle } from 'react-icons/fa';
 import { IoPersonAddOutline } from 'react-icons/io5';
+
 // Función para el boton de inicio de sesión de google
 const handleGoogleLogin = () => {
   // State aleatorio para seguridad
-  var randomState = Math.random().toString(36).substring(2);
+    var randomState = Math.random().toString(36).substring(2);
   // Lo guardamos como cookie que dura 10 minutos 
   // SameSite es un parametro de seguridad que permite o no que acceda desde otro sitio para evitar ataques
-  document.cookie = `oauth_state=${randomState}; max-age=600; path=/; SameSite=Lax`;
+    document.cookie = `oauth_state=${randomState}; max-age=600; path=/; SameSite=Lax`;
   // Direccion de google
-  const rootUrl = "https://accounts.google.com/o/oauth2/v2/auth";
-
+    const rootUrl = "https://accounts.google.com/o/oauth2/v2/auth";
+  
   // Parametros que pide google
-  const options = {
+    const options = {
     // La URL que configuraste en la consola (localhost o vercel)
-    redirect_uri: process.env.NEXT_PUBLIC_GOOGLE_REDIRECT_URI,
-    client_id: process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID,
-    access_type: "offline",
-    response_type: "code",
-    prompt: "consent",
+      redirect_uri: process.env.NEXT_PUBLIC_GOOGLE_REDIRECT_URI,
+      client_id: process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID,
+      access_type: "offline",
+      response_type: "code",
+      prompt: "consent",
 
     // Qué datos queremos pedirle (Email y Perfil)
-    scope: [
-      "https://www.googleapis.com/auth/userinfo.profile",
-      "https://www.googleapis.com/auth/userinfo.email",
-    ].join(" "),
+      scope: [
+        "https://www.googleapis.com/auth/userinfo.profile",
+        "https://www.googleapis.com/auth/userinfo.email",
+      ].join(" "),
     // Un código aleatorio para evitar ataques, se guarda en una cookie y se verifica cuando google lo devuelve si este codigo es el mismo que ha devuelto
-    state: randomState,
-  };
-
+      state: randomState,
+    };
+  
   // 3. Convertimos los parámetros en una cadena de texto (query string)
-  const qs = new URLSearchParams(options).toString();
+    const qs = new URLSearchParams(options).toString();
 
   // 4. ¡Redirigimos!
-  window.location.href = `${rootUrl}?${qs}`;
+    window.location.href = `${rootUrl}?${qs}`;
 };
 export default function AuthForm() {
   // Aquí activamos el router para poder movernos por la web como si fuera un menú
@@ -131,7 +139,19 @@ export default function AuthForm() {
 
   return (
     <div className={styles.authForm}>
-      <h1>{isLogin ? 'Iniciar sesión' : 'Crear cuenta'}</h1>
+      <div className={styles.header}>
+        <AnimatePresence mode="wait">
+          <motion.h1
+            key={isLogin ? 'login' : 'register'}
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: 20 }}
+            transition={{ duration: 0.3 }}
+          >
+            {isLogin ? 'Iniciar sesión' : 'Crear cuenta'}
+          </motion.h1>
+        </AnimatePresence>
+      </div>
 
       <div className={styles.googleButton}>
         <PrimaryButton
@@ -145,99 +165,79 @@ export default function AuthForm() {
         />
       </div>
 
-      <AnimatePresence mode="wait">
-        {mensaje.texto && (
-          <motion.p
-            key={mensaje.texto}
-            initial={{ opacity: 0, y: -10 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.9 }}
-            className={`${styles.message} ${styles[mensaje.tipo]}`}
-          >
-            {mensaje.texto}
-          </motion.p>
-        )}
-      </AnimatePresence>
+      <StatusMessage message={mensaje.texto} type={mensaje.tipo} />
 
       <form onSubmit={handleSubmit}>
         <AnimatePresence mode="popLayout">
-          {/* Campo Nickname (Solo en registro) */}
+          {/* Campo Nickname */}
           {!isLogin && (
             <motion.div
-              key="nickname"
-              initial={{ opacity: 0, height: 0, marginBottom: 0 }}
-              animate={{ opacity: 1, height: 'auto', marginBottom: 25 }}
-              exit={{ opacity: 0, height: 0, marginBottom: 0 }}
-              className={styles.inputGroup}
+                key="nickname"
+                initial={{ opacity: 0, height: 0, marginBottom: 0 }}
+                animate={{ opacity: 1, height: 'auto', marginBottom: 25 }}
+                exit={{ opacity: 0, height: 0, marginBottom: 0 }}
             >
-              <input
-                type='text'
-                id='nickname'
-                name='nickname'
-                value={formData.nickname}
-                onChange={handleChange}
-                placeholder=" "
-                required={!isLogin}
-                minLength={3}
-              />
-              <label htmlFor='nickname'>¿Cómo te llamamos? (Nickname):</label>
+                <FloatingLabelInput 
+                    type="text" 
+                    id="nickname" 
+                    name="nickname" 
+                    value={formData.nickname} 
+                    onChange={handleChange} 
+                    label="¿Cómo te llamamos? (Nickname)"
+                    required={!isLogin}
+                    minLength={3}
+                />
             </motion.div>
           )}
 
-          {/* Campo Correo (Siempre visible pero con layout animado) */}
-          <motion.div layout className={styles.inputGroup} key="email">
-            <input
-              type='email'
-              id='email'
-              name='email'
-              value={formData.email}
-              onChange={handleChange}
-              placeholder=" "
-              required
+          {/* Campo Email */}
+          <motion.div layout key="email">
+            <FloatingLabelInput 
+                type="email" 
+                id="email" 
+                name="email" 
+                value={formData.email} 
+                onChange={handleChange} 
+                label="Correo electrónico"
+                required
             />
-            <label htmlFor='email'>Correo electrónico:</label>
           </motion.div>
 
-          {/* Campo Contraseña */}
-          <motion.div layout className={styles.inputGroup} key="password">
-            <input
-              type='password'
-              id='password'
-              name='password'
-              value={formData.password}
-              onChange={handleChange}
-              placeholder=" "
-              required
-              minLength={6}
+          {/* Campo Password */}
+          <motion.div layout key="password">
+            <FloatingLabelInput 
+                type="password" 
+                id="password" 
+                name="password" 
+                value={formData.password} 
+                onChange={handleChange} 
+                label={isLogin ? 'Contraseña' : 'Crea una contraseña'}
+                required
+                minLength={6}
             />
-            <label htmlFor='password'>
-              {isLogin ? 'Contraseña:' : 'Crea una contraseña:'}
-            </label>
           </motion.div>
 
-          {/* Confirmar contraseña (Solo Registro) */}
+          {/* Confirmar Password */}
           {!isLogin && (
             <motion.div
-              key="confirmPassword"
-              initial={{ opacity: 0, height: 0 }}
-              animate={{ opacity: 1, height: 'auto' }}
-              exit={{ opacity: 0, height: 0 }}
-              className={styles.inputGroup}
+                key="confirmPassword"
+                initial={{ opacity: 0, height: 0 }}
+                animate={{ opacity: 1, height: 'auto' }}
+                exit={{ opacity: 0, height: 0 }}
             >
-              <input
-                type='password'
-                id='confirmPassword'
-                name='confirmPassword'
-                value={formData.confirmPassword}
-                onChange={handleChange}
-                placeholder=" "
-                required={!isLogin}
-              />
-              <label htmlFor='confirmPassword'>Confirma contraseña:</label>
+                <FloatingLabelInput 
+                    type="password" 
+                    id="confirmPassword" 
+                    name="confirmPassword" 
+                    value={formData.confirmPassword} 
+                    onChange={handleChange} 
+                    label="Confirma contraseña"
+                    required={!isLogin}
+                />
             </motion.div>
           )}
 
-          {/* Términos (Solo Registro) */}
+          {/* Términos */}
           {!isLogin && (
             <motion.div
               key="terms"
@@ -256,24 +256,21 @@ export default function AuthForm() {
           )}
         </AnimatePresence>
 
-        <motion.button
-          layout
-          type='submit'
-          className={styles.submitBtn}
-          disabled={isLoading}
-          whileTap={{ scale: 0.98 }}
-        >
-          {isLogin ? 'Entrar' : 'Registrarme'}
-        </motion.button>
+        <SubmitButton 
+            isLoading={isLoading} 
+            isLogin={isLogin} 
+            textLogin="Entrar" 
+            textRegister="Registrarme"
+        />
       </form>
 
-      {/* BOTÓN 2: El de cambiar de modo (Fuera del <form>) */}
+      {/* Switcher Login/Register */}
       <div className={styles.toggleContainer}>
         <p>
           {isLogin ? '¿No tienes cuenta?' : '¿Ya tienes cuenta?'}
         </p>
         <div className={styles.terciaryBtn}>
-          <TertiaryButton
+          <SecondaryButton
             Icon={IoPersonAddOutline}
             text={isLogin ? 'Regístrate aquí' : 'Inicia sesión'}
             onClick={toggleView}

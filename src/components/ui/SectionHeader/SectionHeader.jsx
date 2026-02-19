@@ -9,9 +9,9 @@ import { motion } from "framer-motion";
 function SectionHeader({ badge, icon: Icon, title, description, scrollAnimConfig }) {
   // Si no nos pasan configuración de animación, usamos una por defecto
   const animConfig = scrollAnimConfig || {
-    initial: { opacity: 0, y: 50 },
+    initial: { opacity: 0, y: 30 },
     whileInView: { opacity: 1, y: 0 },
-    viewport: { once: false, amount: 0.5 },
+    viewport: { once: true, amount: 0.3 },
     transition: { duration: 0.6, ease: "easeOut" }
   };
   

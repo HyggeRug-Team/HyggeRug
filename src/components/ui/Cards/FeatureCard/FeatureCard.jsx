@@ -14,7 +14,7 @@ function FeatureCard({ icon, title, desc, delay = 0 }) {
       className={styles.featureCard}
       initial={{ opacity: 0, y: 30, scale: 0.95 }}
       whileInView={{ opacity: 1, y: 0, scale: 1 }}
-      viewport={{ once: false, amount: 0.5 }} 
+      viewport={{ once: true, amount: 0.3 }} 
       transition={{ 
         delay: delay, 
         duration: 0.5,
