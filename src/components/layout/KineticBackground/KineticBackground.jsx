@@ -19,14 +19,14 @@ const KineticBackground = () => {
             "TEXTILE ART", "KEEP IT SOFT", "FLOOR CANDY", "MAKERS GONNA MAKE"
         ];
         
-        const newElements = Array.from({ length: 15 }).map((_, i) => ({
+        const newElements = Array.from({ length: 8 }).map((_, i) => ({
             text: phrases[i % phrases.length],
-            top: `${Math.random() * 95}%`, 
-            left: `-${Math.random() * 20 + 20}%`, // Empezar más afuera
-            duration: `${Math.random() * 20 + 25}s`, 
+            top: `${Math.random() * 85}%`, 
+            left: `-${Math.random() * 20 + 20}%`,
+            duration: `${Math.random() * 15 + 30}s`, 
             delay: `-${Math.random() * 30}s`, 
-            size: `${Math.random() * 2 + 3}rem`, 
-            opacity: Math.random() * 0.3 + 0.1 
+            size: `${Math.random() * 8 + 10}vw`,  /* 10vw–18vw: gigante en cualquier pantalla */
+            opacity: Math.random() * 0.15 + 0.1   /* 0.10–0.25: presencia sin tapar todo */
         }));
         
         setElements(newElements);

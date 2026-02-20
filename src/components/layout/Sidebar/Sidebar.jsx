@@ -1,103 +1,83 @@
 /*
- * Componente: Sidebar
- * Descripción: Barra lateral de navegación para el panel de usuario (Dashboard). Muestra enlaces a las diferentes secciones de gestión, el logo y el botón de cerrar sesión.
+ * Componente: Sidebar (Shell Genérico)
+ *
+ * Gestiona únicamente la estructura responsive del sidebar:
+ *   - Desktop:  visible fijo con ancho completo
+ *   - Tablet:   colapsado (solo iconos)
+ *   - Móvil:    drawer lateral con hamburger, overlay y botón de cierre
+ *
+ * Props:
+ *   children  — Contenido principal del sidebar (logo, nav, etc.)
+ *   footer    — Slot opcional para la sección inferior (logout, perfil, etc.)
  */
 "use client";
 
-import React from "react";
+import React, { useState, useEffect } from "react";
 import styles from "./Sidebar.module.css";
-import Link from "next/link";
 import { usePathname } from "next/navigation";
-import {
-  FaBookOpen,
-  FaUser,
-  FaBagShopping,
-  FaArrowRotateLeft,
-  FaLocationDot,
-  FaCreditCard,
-  FaHeart,
-  FaBell,
-  FaQuestion,
-  FaArrowRightFromBracket,
-} from "react-icons/fa6";
-import Logo from "@/components/ui/Logo/Logo";
-import LogoutButton from "@/components/ui/Buttons/LogoutButton/LogoutButton";
+import { FaBars, FaXmark } from "react-icons/fa6";
 
-function Sidebar({user}) {
+function Sidebar({ children, footer }) {
   const pathname = usePathname();
-  const avatarUrl = user?.profileImage || "/profile-default.png";
-  // Función para determinar si un enlace está activo
-  const isActive = (path) => {
-    return pathname.startsWith(path) ? styles.active : "";
-  };
+  const [isOpen, setIsOpen] = useState(false);
+
+  // Cerramos el drawer al cambiar de ruta
+  useEffect(() => {
+    setIsOpen(false);
+  }, [pathname]);
+
+  // Bloqueamos el scroll del body mientras el drawer está abierto
+  useEffect(() => {
+    document.body.style.overflow = isOpen ? "hidden" : "";
+    return () => { document.body.style.overflow = ""; };
+  }, [isOpen]);
 
   return (
-    <div className={styles.sidebarContent}>
-      
-      {/* ========== SECCIÓN SUPERIOR ========== */}
-      <div className={styles.topSection}>
-        
-        {/* --- Logo y Título de la Marca --- */}
-        <div className={styles.logoContainer}>
-          <Logo size={140} />
+    <>
+      {/* ── Botón hamburger (visible solo en móvil) ── */}
+      <button
+        className={`${styles.hamburger} ${isOpen ? styles.hamburgerHidden : ""}`}
+        onClick={() => setIsOpen(true)}
+        aria-label="Abrir menú"
+      >
+        <FaBars size={20} />
+      </button>
+
+      {/* ── Overlay oscuro (activo en móvil con drawer abierto) ── */}
+      {isOpen && (
+        <div
+          className={`${styles.overlay} ${styles.overlayVisible}`}
+          onClick={() => setIsOpen(false)}
+          aria-hidden="true"
+        />
+      )}
+
+      {/* ── Panel principal ── */}
+      <div className={`${styles.sidebarContent} ${isOpen ? styles.open : ""}`}>
+
+        {/* Botón de cierre (solo visible en drawer móvil) */}
+        <button
+          className={styles.closeBtn}
+          onClick={() => setIsOpen(false)}
+          aria-label="Cerrar menú"
+        >
+          <FaXmark size={20} />
+        </button>
+
+        {/* ── Sección principal: cualquier contenido ── */}
+        <div className={styles.topSection}>
+          {children}
         </div>
 
-        {/* --- Menú de Navegación Principal --- */}
-        {/* Listamos todas las opciones disponibles en el dashboard */}
-        <nav className={styles.sidebarMenu}>
-          <Link href="/dashboard/resumen" className={isActive("/dashboard/resumen")}>
-            <FaBookOpen size={18} />
-            Resumen
-          </Link>
-          <Link href="/dashboard/pedidos" className={isActive("/dashboard/pedidos")}>
-            <FaBagShopping size={18} /> 
-            Mis Pedidos
-          </Link>
-          <Link href="/dashboard/devoluciones" className={isActive("/dashboard/devoluciones")}>
-            <FaArrowRotateLeft size={18} />
-            Devoluciones
-          </Link>
-          <Link href="/dashboard/direcciones" className={isActive("/dashboard/direcciones")}>
-            <FaLocationDot size={18} />
-            Mis Direcciones
-          </Link>
-          <Link href="/dashboard/cuenta" className={isActive("/dashboard/cuenta")}>
-            <FaUser size={18} />
-            Detalles de la Cuenta
-          </Link>
-          <Link href="/dashboard/pagos" className={isActive("/dashboard/pagos")}>
-            <FaCreditCard size={18} />
-            Métodos de Pago
-          </Link>
-          <Link href="/dashboard/deseos" className={isActive("/dashboard/deseos")}>
-            <FaHeart size={18} />
-            Lista de Deseos
-          </Link>
-          <Link href="/dashboard/alertas" className={isActive("/dashboard/alertas")}>
-            <FaBell size={18} />
-            Mis alertas
-          </Link>
-          <Link href="/dashboard/ayuda" className={isActive("/dashboard/ayuda")}>
-            <FaQuestion size={18} />
-            Ayuda
-          </Link>
-        </nav>
-      </div>
+        {/* ── Sección inferior opcional (logout, perfil…) ── */}
+        {footer && (
+          <div className={styles.footerSection}>
+            {footer}
+          </div>
+        )}
 
-      {/* ========== SECCIÓN INFERIOR ========== */}
-      {/* Mostramos el perfil del usuario y opción de logout */}
-      <div className={styles.logout}>
-        <img src={avatarUrl} alt="Perfil" />
-        <p>Usuario</p>
-        {/* Usamos el LogoutBtn con solo el icono, sin texto */}
-        <LogoutButton 
-          icon={<FaArrowRightFromBracket size={18} />} 
-          text={null}
-          className={styles.logoutButton}
-        />
       </div>
-      
-    </div>
+    </>
   );
 }
 

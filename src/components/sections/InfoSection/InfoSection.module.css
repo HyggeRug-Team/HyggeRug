@@ -114,8 +114,10 @@
 /* --- DISEÑO DE LA CUADRÍCULA DE TESTIMONIOS --- */
 .testimonialsGrid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: clamp(40px, 5vw, 80px);
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: clamp(24px, 4vw, 60px);
+    justify-items: center;
+    justify-content: center;
 }
 
 

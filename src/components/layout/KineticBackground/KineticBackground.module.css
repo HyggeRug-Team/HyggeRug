@@ -19,8 +19,8 @@
     font-family: var(--font-rubik-bubbles), "Impact", sans-serif;
     color: transparent;
     
-    /* Borde blanco (Tufting outline) estilo CSS */
-    -webkit-text-stroke: 2px rgba(255, 255, 255, 0.15);
+    /* Borde más grueso para letras gigantes */
+    -webkit-text-stroke: 4px rgba(255, 255, 255, 0.25);
     
     /* Sombra simulada para profundidad */
     text-shadow: 4px 4px 0px rgba(0,0,0,0.2);
@@ -30,9 +30,7 @@
     animation-name: floatRight;
     animation-timing-function: linear;
     animation-iteration-count: infinite;
-    
-    /* Oculto por defecto hasta que inicie */
-    opacity: 0.8;
+    /* La opacidad la controla el JS por elemento */
 }
 
 @keyframes floatRight {

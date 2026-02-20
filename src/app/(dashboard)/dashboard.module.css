@@ -16,8 +16,25 @@
   display: grid;
   grid-template-columns: 280px 1fr;
   height: 100vh;
-  background-color: var(--primary-bg);
+  background-color: #050505;
+  background-image:
+    radial-gradient(at 0% 0%, hsla(253,16%,7%,1) 0, transparent 50%),
+    radial-gradient(at 50% 0%, hsla(225,39%,30%,1) 0, transparent 50%),
+    radial-gradient(at 100% 0%, hsla(339,49%,30%,1) 0, transparent 50%);
   overflow: hidden;
+  position: relative;
+}
+
+.dashboardLayout::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.03'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 0;
 }
 
 /* --- Área de Contenido Principal --- */
@@ -25,56 +42,15 @@
 .dashboardLayout main {
   padding: 40px 60px;
   overflow-y: auto;
-  background: linear-gradient(
-    135deg,
-    var(--primary-bg) 0%,
-    var(--secondary-bg) 100%
-  );
-  position: relative;
-}
-
-/* Añadimos un efecto de textura sutil al fondo */
-.dashboardLayout main::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background-image: 
-    radial-gradient(
-      circle at 20% 50%,
-      rgba(255, 0, 85, 0.03) 0%,
-      transparent 50%
-    ),
-    radial-gradient(
-      circle at 80% 80%,
-      rgba(255, 215, 1, 0.03) 0%,
-      transparent 50%
-    );
-  pointer-events: none;
-  z-index: 0;
-}
-
-/* Aseguramos que el contenido esté por encima del efecto de fondo */
-.dashboardLayout main > * {
+  background: transparent;
   position: relative;
   z-index: 1;
 }
 
-/* Personalizamos la scrollbar del área de contenido */
-.dashboardLayout main::-webkit-scrollbar {
-  width: 8px;
-}
-
-.dashboardLayout main::-webkit-scrollbar-track {
-  background: var(--primary-bg);
-}
-
-.dashboardLayout main::-webkit-scrollbar-thumb {
-  background: var(--highlight-text);
-  border-radius: 4px;
-}
-
-.dashboardLayout main::-webkit-scrollbar-thumb:hover {
-  background: var(--hover-text);
+/* Aseguramos que el contenido esté por encima del fondo */
+.dashboardLayout main > * {
+  position: relative;
+  z-index: 1;
 }
 
 /* ========== RESPONSIVE DESIGN ========== */
@@ -90,10 +66,10 @@
   }
 }
 
-/* Tablets */
+/* Tablets (≤ 992px): sidebar compacto solo iconos */
 @media (max-width: 992px) {
   .dashboardLayout {
-    grid-template-columns: 220px 1fr;
+    grid-template-columns: 80px 1fr;
   }
 
   .dashboardLayout main {
@@ -101,15 +77,14 @@
   }
 }
 
-/* Móviles y tablets pequeñas */
+/* Móviles (≤ 768px): drawer lateral — el sidebar sale del flujo */
 @media (max-width: 768px) {
   .dashboardLayout {
     grid-template-columns: 1fr;
-    grid-template-rows: auto 1fr;
   }
 
   .dashboardLayout main {
-    padding: 20px;
+    padding: 76px 20px 20px; /* 76px para no solapar con el hamburger */
   }
 }
 

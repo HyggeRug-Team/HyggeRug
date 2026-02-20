@@ -67,20 +67,34 @@
   padding-top: 0.1em;
 }
 
-/* Variante simple (Sólo HR) */
+/* Variante compacta (HR) — mismo estilo de etiqueta que el logo completo */
 .logoCircle {
-  width: 100%;
-  height: 100%;
-  border-radius: 50%;
-  background: var(--highlight-text);
+  background: var(--white);
+  color: var(--black);
+  padding: 0.4em 0.6em;
+  border-radius: 0.2em;
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
-  font-family: var(--font-titles);
-  color: var(--white);
+  font-family: var(--font-titles, 'Rubik Bubbles', cursive);
   font-size: 0.5em;
-  border: 0.05em dashed rgba(255,255,255,0.5);
-  box-shadow: 0 0.1em 0.2em rgba(0,0,0,0.3);
+  line-height: 1;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  box-shadow: 0.15em 0.15em 0px var(--highlight-text);
+  border: 0.05em solid var(--black);
+  position: relative;
+}
+
+/* Misma costura interior que el logo completo */
+.logoCircle::after {
+  content: '';
+  position: absolute;
+  inset: 0.12em;
+  border: 0.05em dashed rgba(0,0,0,0.2);
+  border-radius: 0.1em;
+  pointer-events: none;
 }
 
 /* Decoración "Hilo Suelto" (Opcional, para dar toque artesanal) */

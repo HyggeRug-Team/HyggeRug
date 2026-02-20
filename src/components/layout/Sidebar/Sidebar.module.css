@@ -1,15 +1,66 @@
 /* ============================================
-   SIDEBAR MEJORADO - Estilos Premium
+   SIDEBAR
    ============================================ */
 
+/* ========== BOTÓN HAMBURGER (solo móvil) ========== */
+.hamburger {
+  display: none;
+  position: fixed;
+  top: 16px;
+  left: 16px;
+  z-index: 1000;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  width: 44px;
+  height: 44px;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: var(--white);
+  backdrop-filter: blur(10px);
+  opacity: 1;
+  transform: scale(1);
+  transition: background 0.3s ease, border-color 0.3s ease, opacity 0.25s ease, transform 0.25s ease;
+}
+
+.hamburger:hover {
+  background: rgba(255, 0, 85, 0.12);
+  border-color: var(--highlight-text);
+}
+
+/* Se oculta con transición suave mientras el drawer está abierto */
+.hamburgerHidden {
+  opacity: 0;
+  transform: scale(0.8);
+  pointer-events: none;
+}
+
+/* ========== OVERLAY (solo móvil, cuando el drawer está abierto) ========== */
+.overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(4px);
+  z-index: 900;
+  animation: fadeInOverlay 0.3s ease forwards;
+}
+
+@keyframes fadeInOverlay {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+/* ========== SIDEBAR PRINCIPAL ========== */
 .sidebarContent {
   display: grid;
-  grid-template-rows: 92% 8%;
+  grid-template-rows: 1fr auto;
   background-color: var(--primary-bg);
   height: 100%;
-  border-right: 1px solid rgba(255, 255, 255, 0.03);
+  border-right: 1px solid rgba(255, 255, 255, 0.05);
   position: relative;
-  overflow: hidden;
+  transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 /* Textura de fondo sutil (ruido) */
@@ -22,39 +73,72 @@
   z-index: 0;
 }
 
+/* ========== BOTÓN CERRAR (solo aparece en drawer móvil) ========== */
+.closeBtn {
+  display: none;
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  width: 36px;
+  height: 36px;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: var(--grey-400);
+  transition: background 0.25s ease, color 0.25s ease;
+  z-index: 2;
+}
+
+.closeBtn:hover {
+  background: rgba(255, 0, 85, 0.1);
+  color: var(--highlight-text);
+}
+
 /* ========== SECCIÓN SUPERIOR ========== */
 .topSection {
   display: flex;
   flex-direction: column;
   padding-top: 4vh;
-  margin-left: 40px; /* Ajustado para mejor equilibrio */
+  margin-left: 40px;
   position: relative;
   z-index: 1;
+  overflow: hidden;
 }
 
-/* --- Logo --- */
-.logoContainer {
+/* --- Logo completo (desktop) --- */
+.logoFull {
   display: flex;
   justify-content: center;
   align-items: center;
-  margin: 0 0 5vh 0; 
+  margin: 0 0 5vh 0;
   padding: 0;
+}
+
+/* --- Logo compacto/HR (tablet) --- */
+.logoCompact {
+  display: none;
+  justify-content: center;
+  align-items: center;
+  margin: 0 0 4vh 0;
 }
 
 /* ========== MENÚ DE NAVEGACIÓN ========== */
 .sidebarMenu {
   display: flex;
   flex-direction: column;
-  gap: 10px; /* Menos espacio entre items */
+  gap: 10px;
 }
 
 /* --- Enlaces (Base) --- */
 .sidebarMenu a {
   display: flex;
   align-items: center;
-  width: 90%; /* Ocupa casi todo el ancho disponible */
+  width: 90%;
   padding: 14px 20px;
-  border-radius: 16px 0 0 16px; /* Borde redondeado solo a la izquierda */
+  border-radius: 16px 0 0 16px;
   gap: 16px;
   text-decoration: none;
   color: var(--grey-400);
@@ -62,7 +146,9 @@
   font-size: 0.95rem;
   transition: all 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
   position: relative;
-  border-right: 3px solid transparent; /* Preparado para el estado activo */
+  border-right: 3px solid transparent;
+  white-space: nowrap;
+  overflow: hidden;
 }
 
 /* Iconos */
@@ -70,13 +156,14 @@
   transition: all 0.4s ease;
   color: var(--grey-500);
   font-size: 1.1rem;
+  flex-shrink: 0;
 }
 
-/* --- HOVER (Sutil y Elegante) --- */
+/* --- HOVER --- */
 .sidebarMenu a:hover {
   background: linear-gradient(90deg, rgba(255, 255, 255, 0.03) 0%, transparent 100%);
   color: var(--white);
-  padding-left: 25px; /* Pequeño desplazamiento a la derecha */
+  padding-left: 25px;
 }
 
 .sidebarMenu a:hover svg {
@@ -84,14 +171,13 @@
   transform: scale(1.1);
 }
 
-/* --- ACTIVE (Estado seleccionado) --- */
+/* --- ACTIVE --- */
 .active {
   background: linear-gradient(90deg, rgba(255, 0, 85, 0.08) 0%, transparent 100%) !important;
   color: var(--white) !important;
-  border-right-color: var(--highlight-text) !important; /* Línea indicadora a la derecha */
+  border-right-color: var(--highlight-text) !important;
 }
 
-/* Brillo "Glow" en el estado activo */
 .active::after {
   content: '';
   position: absolute;
@@ -108,7 +194,112 @@
   filter: drop-shadow(0 0 8px rgba(255, 0, 85, 0.4));
 }
 
-/* ========== SECCIÓN INFERIOR ========== */
+/* ========== SECCIÓN INFERIOR (slot footer del Sidebar) ========== */
+
+/* Wrapper del footer: permanece en la parte baja del grid */
+.footerSection {
+  position: relative;
+  z-index: 10;
+}
+
+/* Contenedor relativo para anclar el popup */
+.logoutWrapper {
+  position: relative;
+  z-index: 10;
+}
+
+/* ── Popup flotante de logout ──
+   Oculto por defecto; solo se activa en tablet (solo iconos) via media query */
+.logoutPopup {
+  display: none;            /* oculto fuera del breakpoint tablet */
+  position: fixed;
+  bottom: 24px;
+  left: 88px;              
+  width: 200px;
+  background: rgba(18, 18, 24, 0.97);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 16px;
+  padding: 12px;
+  backdrop-filter: blur(24px);
+  box-shadow: 8px 8px 40px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(255,255,255,0.04) inset;
+  flex-direction: column;
+  gap: 8px;
+  z-index: 9999;
+  animation: popupSlideIn 0.22s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+}
+
+@keyframes popupSlideIn {
+  from { opacity: 0; transform: translateX(-8px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+/* Flecha apuntando hacia la IZQUIERDA (hacia el sidebar) */
+.logoutPopup::after {
+  content: '';
+  position: absolute;
+  left: -6px;
+  bottom: 22px;             /* alineada con el avatar */
+  width: 6px;
+  height: 12px;
+  background: rgba(18, 18, 24, 0.97);
+  clip-path: polygon(100% 0, 100% 100%, 0 50%);
+}
+
+.logoutPopupUser {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 4px 4px;
+}
+
+.logoutPopupAvatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid var(--highlight-text);
+  flex-shrink: 0;
+}
+
+.logoutPopupUser span {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--white);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 110px;
+}
+
+.logoutPopupDivider {
+  height: 1px;
+  background: rgba(255, 255, 255, 0.07);
+  margin: 0 -4px;
+}
+
+/* Botón de cerrar sesión dentro del popup */
+.logoutPopupBtn {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 10px;
+  border-radius: 10px;
+  background: transparent;
+  border: none;
+  color: var(--grey-400);
+  font-size: 0.85rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.2s ease, color 0.2s ease;
+  text-align: left;
+}
+
+.logoutPopupBtn:hover {
+  background: rgba(255, 0, 85, 0.1);
+  color: var(--highlight-text);
+}
+
 .logout {
   display: flex;
   align-items: center;
@@ -123,6 +314,7 @@
   position: relative;
   z-index: 1;
   backdrop-filter: blur(5px);
+  overflow: hidden;
 }
 
 .logout:hover {
@@ -137,7 +329,8 @@
   height: 40px;
   border-radius: 50%;
   object-fit: cover;
-  border: 2px solid var(--highlight-text); /* Borde destacado para la foto */
+  border: 2px solid var(--highlight-text);
+  flex-shrink: 0;
 }
 
 .logout p {
@@ -149,6 +342,7 @@
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  transition: opacity 0.3s ease, max-width 0.3s ease;
 }
 
 .logoutButton {
@@ -169,18 +363,190 @@
 .logoutButton:hover {
   background: rgba(255, 0, 85, 0.1);
   color: var(--highlight-text);
-  transform: translateX(2px); /* Movimiento sutil a la derecha */
+  transform: translateX(2px);
 }
 
-/* Responsive */
-@media (max-width: 1200px) {
-  .topSection { margin-left: 20px; }
-  .sidebarMenu a { font-size: 0.9rem; padding: 12px 15px; }
+/* ==================================================
+   RESPONSIVE — Tablet (≤ 992px): sidebar solo iconos
+   ================================================== */
+@media (min-width: 769px) and (max-width: 992px) {
+  .topSection {
+    margin-left: 0;
+    align-items: center;
+  }
+
+  /* Intercambiamos logos: ocultamos el completo, mostramos el compacto */
+  .logoFull    { display: none; }
+  .logoCompact { display: flex; }
+
+  .sidebarMenu {
+    align-items: center;
+    width: 100%;
+    gap: 6px;
+  }
+
+  /* Centramos los links y ocultamos el texto */
+  .sidebarMenu a {
+    width: auto;
+    padding: 14px;
+    border-radius: 14px;
+    gap: 0;
+    justify-content: center;
+    border-right: none;
+    border: 1px solid transparent;
+  }
+
+  .sidebarMenu a span {
+    display: none;
+  }
+
+  .sidebarMenu a:hover {
+    padding-left: 14px;
+    background: rgba(255, 255, 255, 0.05);
+    border-color: rgba(255, 255, 255, 0.08);
+  }
+
+  .active {
+    background: rgba(255, 0, 85, 0.1) !important;
+    border-color: var(--highlight-text) !important;
+  }
+
+  /* Quitamos el pseudo-element de borde derecho en tablet */
+  .active::after {
+    display: none;
+  }
+
+  /* Logout compacto */
+  .logout {
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 12px;
+    margin: 0 10px 16px 10px;
+    justify-content: center;
+  }
+
+  .logout p,
+  .logoutButton {
+    display: none;
+  }
+
+  /* Activamos el popup SOLO en este breakpoint (tablet con iconos) */
+  .logoutPopup {
+    display: flex;
+  }
 }
 
-@media (max-width: 992px) {
-  .sidebarMenu a span { display: none; } /* En tablet solo iconos si es muy estrecho, o ajustar */
-  .sidebarContent { /* Ajuste tablet normal */
-      grid-template-rows: auto 80px;
+/* ==================================================
+   RESPONSIVE — Móvil (≤ 768px): drawer lateral
+   ================================================== */
+@media (max-width: 768px) {
+
+  /* Mostramos el botón hamburger */
+  .hamburger {
+    display: flex;
+  }
+
+  /* Overlay al abrir el drawer */
+  .overlayVisible {
+    display: block;
+  }
+
+  /* ── Drawer lateral ──
+     Cambiamos a flex (en vez de grid) porque flex + min-height:0
+     es el único mecanismo CSS que permite overflow-y:auto en un
+     hijo que ocupa espacio restante. Con grid no funciona sin hacks. */
+  .sidebarContent {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 280px;
+    height: 100dvh;
+    z-index: 950;
+    transform: translateX(-100%);
+    transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 8px 0 40px rgba(0, 0, 0, 0.6);
+    display: flex;
+    flex-direction: column;
+  }
+
+  .sidebarContent.open {
+    transform: translateX(0);
+  }
+
+  /* Botón de cierre visible en drawer */
+  .closeBtn {
+    display: flex;
+  }
+
+  /* Logo completo en el drawer */
+  .logoFull    { display: flex; }
+  .logoCompact { display: none; }
+
+  /* ── Área de contenido: ocupa el espacio libre y hace scroll ──
+     min-height: 0 es imprescindible — sin él, un hijo flex NO
+     respeta el límite del padre y overflow-y never fires. */
+  .topSection {
+    flex: 1;
+    min-height: 0;
+    overflow-y: auto;
+    overflow-x: hidden;
+    margin-left: 30px;
+    align-items: flex-start;
+    padding-top: 56px;
+    padding-bottom: 8px;
+  }
+
+  /* Menú restaurado al estilo de texto completo */
+  .sidebarMenu {
+    align-items: flex-start;
+    width: 100%;
+  }
+
+  .sidebarMenu a {
+    width: 90%;
+    padding: 14px 20px;
+    border-radius: 16px 0 0 16px;
+    gap: 16px;
+    justify-content: flex-start;
+    border: none;
+    border-right: 3px solid transparent;
+  }
+
+  .sidebarMenu a span {
+    display: inline;
+  }
+
+  .sidebarMenu a:hover {
+    padding-left: 25px;
+    background: linear-gradient(90deg, rgba(255, 255, 255, 0.03) 0%, transparent 100%);
+    border-color: transparent;
+  }
+
+  .active::after {
+    display: block;
+  }
+
+  /* ── Footer: siempre visible, nunca se aplasta ── */
+  .footerSection {
+    flex-shrink: 0;
+    position: relative;
+    z-index: 1;
+  }
+
+  .logout {
+    flex-direction: row;
+    align-items: center;
+    padding: 12px 20px;
+    margin: 0 20px 20px 20px;
+    gap: 0;
+  }
+
+  .logout p {
+    display: block;
+  }
+
+  .logoutButton {
+    display: flex;
   }
 }
