@@ -5,6 +5,7 @@
 
   /* Colores Base - Negro Puro (Contrast Pop) */
   --primary-bg: #000000;
+  --primary-bg-rgb: 0, 0, 0;
   --secondary-bg: #0a0a0a; 
   --card-bg: #111111;
   

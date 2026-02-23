@@ -6,8 +6,8 @@
 .hamburger {
   display: none;
   position: fixed;
-  top: 16px;
-  left: 16px;
+  top: 14px;
+  left: 14px;
   z-index: 1000;
   background: rgba(255, 255, 255, 0.06);
   border: 1px solid rgba(255, 255, 255, 0.1);
@@ -52,14 +52,18 @@
   to   { opacity: 1; }
 }
 
-/* ========== SIDEBAR PRINCIPAL ========== */
+/* ========== SIDEBAR PRINCIPAL (Desktop) ==========
+   Usamos flex-direction: column para distribuir el espacio
+   verticalmente de forma fiable en todos los tamaños.
+   height: 100dvh refleja el viewport real en cada dispositivo. */
 .sidebarContent {
-  display: grid;
-  grid-template-rows: 1fr auto;
+  display: flex;
+  flex-direction: column;
   background-color: var(--primary-bg);
-  height: 100%;
+  height: 100dvh;
   border-right: 1px solid rgba(255, 255, 255, 0.05);
   position: relative;
+  overflow: hidden;        
   transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
@@ -77,8 +81,8 @@
 .closeBtn {
   display: none;
   position: absolute;
-  top: 16px;
-  right: 16px;
+  top: 14px;
+  right: 14px;
   background: rgba(255, 255, 255, 0.05);
   border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 10px;
@@ -97,15 +101,89 @@
   color: var(--highlight-text);
 }
 
-/* ========== SECCIÓN SUPERIOR ========== */
-.topSection {
+/* ========== WRAPPER DEL ÁREA DE SCROLL ==========
+   Posición relative para anclar el gradiente fade encima. */
+.topSectionWrapper {
+  flex: 1;
+  min-height: 0;
+  position: relative;
   display: flex;
   flex-direction: column;
-  padding-top: 4vh;
+}
+
+/* ========== SECCIÓN SUPERIOR ==========
+   flex: 1 + min-height: 0 + overflow-y: auto permite que el menú
+   haga scroll interno cuando el contenido supera la altura visible,
+   sin que el footer quede oculto debajo. */
+.topSection {
+  flex: 1;
+  min-height: 0;             /* imprescindible para que overflow funcione */
+  overflow-y: auto;
+  overflow-x: hidden;
+  display: flex;
+  flex-direction: column;
+  padding-top: clamp(16px, 4vh, 40px);
   margin-left: 40px;
   position: relative;
   z-index: 1;
-  overflow: hidden;
+  /* Scrollbar discreta */
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255,255,255,0.08) transparent;
+}
+
+.topSection::-webkit-scrollbar {
+  width: 4px;
+}
+.topSection::-webkit-scrollbar-track {
+  background: transparent;
+}
+.topSection::-webkit-scrollbar-thumb {
+  background: rgba(255,255,255,0.08);
+  border-radius: 4px;
+}
+
+/* ========== FADE HINT "hay más contenido" ==========
+   Gradiente suave en la parte inferior del área de scroll.
+   Solo visible (opacity 1) cuando hasMoreBelow === true. */
+.scrollFade {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 72px;
+  /* Gradiente desde transparente hasta el color de fondo del sidebar */
+  background: linear-gradient(
+    to bottom,
+    transparent 0%,
+    rgba(var(--primary-bg-rgb, 0, 0, 0), 0.82) 55%,
+    rgba(var(--primary-bg-rgb, 0, 0, 0), 0.97) 100%
+  );
+  pointer-events: none;
+  z-index: 2;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  padding-bottom: 10px;
+  /* Oculto por defecto: sin transición brusca */
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+/* Se activa cuando el JS detecta que hay más contenido debajo */
+.scrollFadeVisible {
+  opacity: 1;
+}
+
+/* Icono de chevron pulsante dentro del fade */
+.scrollFadeIcon {
+  color: rgba(255, 255, 255, 0.35);
+  animation: scrollBounce 1.6s ease-in-out infinite;
+  flex-shrink: 0;
+}
+
+@keyframes scrollBounce {
+  0%, 100% { transform: translateY(0);   opacity: 0.35; }
+  50%       { transform: translateY(4px); opacity: 0.7; }
 }
 
 /* --- Logo completo (desktop) --- */
@@ -113,8 +191,9 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  margin: 0 0 5vh 0;
+  margin: 0 0 clamp(16px, 4vh, 40px) 0;
   padding: 0;
+  flex-shrink: 0;
 }
 
 /* --- Logo compacto/HR (tablet) --- */
@@ -122,7 +201,8 @@
   display: none;
   justify-content: center;
   align-items: center;
-  margin: 0 0 4vh 0;
+  margin: 0 0 clamp(12px, 3vh, 32px) 0;
+  flex-shrink: 0;
 }
 
 /* ========== MENÚ DE NAVEGACIÓN ========== */
@@ -130,6 +210,7 @@
   display: flex;
   flex-direction: column;
   gap: 10px;
+  flex-shrink: 0;
 }
 
 /* --- Enlaces (Base) --- */
@@ -194,10 +275,11 @@
   filter: drop-shadow(0 0 8px rgba(255, 0, 85, 0.4));
 }
 
-/* ========== SECCIÓN INFERIOR (slot footer del Sidebar) ========== */
-
-/* Wrapper del footer: permanece en la parte baja del grid */
+/* ========== SECCIÓN INFERIOR (slot footer del Sidebar) ==========
+   flex-shrink: 0 garantiza que el footer nunca se comprima
+   ni quede oculto por el contenido superior. */
 .footerSection {
+  flex-shrink: 0;
   position: relative;
   z-index: 10;
 }
@@ -209,12 +291,12 @@
 }
 
 /* ── Popup flotante de logout ──
-   Oculto por defecto; solo se activa en tablet (solo iconos) via media query */
+   Solo se activa en tablet (solo iconos) via media query */
 .logoutPopup {
-  display: none;            /* oculto fuera del breakpoint tablet */
+  display: none;
   position: fixed;
   bottom: 24px;
-  left: 88px;              
+  left: 88px;
   width: 200px;
   background: rgba(18, 18, 24, 0.97);
   border: 1px solid rgba(255, 255, 255, 0.12);
@@ -238,7 +320,7 @@
   content: '';
   position: absolute;
   left: -6px;
-  bottom: 22px;             /* alineada con el avatar */
+  bottom: 22px;
   width: 6px;
   height: 12px;
   background: rgba(18, 18, 24, 0.97);
@@ -300,6 +382,7 @@
   color: var(--highlight-text);
 }
 
+/* ── Barra de perfil/logout ── */
 .logout {
   display: flex;
   align-items: center;
@@ -367,15 +450,32 @@
 }
 
 /* ==================================================
+   RESPONSIVE — Tablet grande (≤ 1200px)
+   ================================================== */
+@media (max-width: 1200px) {
+  .topSection {
+    margin-left: 32px;
+  }
+
+  .scrollFade {
+    height: 64px;
+  }
+}
+
+/* ==================================================
    RESPONSIVE — Tablet (≤ 992px): sidebar solo iconos
    ================================================== */
 @media (min-width: 769px) and (max-width: 992px) {
   .topSection {
     margin-left: 0;
     align-items: center;
+    padding-top: clamp(12px, 3vh, 28px);
   }
 
-  /* Intercambiamos logos: ocultamos el completo, mostramos el compacto */
+  .scrollFade {
+    display: none;
+  }
+
   .logoFull    { display: none; }
   .logoCompact { display: flex; }
 
@@ -388,7 +488,7 @@
   /* Centramos los links y ocultamos el texto */
   .sidebarMenu a {
     width: auto;
-    padding: 14px;
+    padding: 12px;
     border-radius: 14px;
     gap: 0;
     justify-content: center;
@@ -401,7 +501,7 @@
   }
 
   .sidebarMenu a:hover {
-    padding-left: 14px;
+    padding-left: 12px;
     background: rgba(255, 255, 255, 0.05);
     border-color: rgba(255, 255, 255, 0.08);
   }
@@ -416,7 +516,7 @@
     display: none;
   }
 
-  /* Logout compacto */
+  /* Logout compacto: solo avatar, centrado */
   .logout {
     flex-direction: column;
     align-items: center;
@@ -452,22 +552,17 @@
     display: block;
   }
 
-  /* ── Drawer lateral ──
-     Cambiamos a flex (en vez de grid) porque flex + min-height:0
-     es el único mecanismo CSS que permite overflow-y:auto en un
-     hijo que ocupa espacio restante. Con grid no funciona sin hacks. */
+  /* ── Drawer lateral ── */
   .sidebarContent {
     position: fixed;
     top: 0;
     left: 0;
-    width: 280px;
+    width: min(280px, 85vw);
     height: 100dvh;
     z-index: 950;
     transform: translateX(-100%);
     transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
     box-shadow: 8px 0 40px rgba(0, 0, 0, 0.6);
-    display: flex;
-    flex-direction: column;
   }
 
   .sidebarContent.open {
@@ -483,18 +578,18 @@
   .logoFull    { display: flex; }
   .logoCompact { display: none; }
 
-  /* ── Área de contenido: ocupa el espacio libre y hace scroll ──
-     min-height: 0 es imprescindible — sin él, un hijo flex NO
-     respeta el límite del padre y overflow-y never fires. */
+  /* ── Área de contenido: ocupa el espacio libre y hace scroll ── */
   .topSection {
-    flex: 1;
-    min-height: 0;
-    overflow-y: auto;
-    overflow-x: hidden;
-    margin-left: 30px;
+    margin-left: 24px;
     align-items: flex-start;
     padding-top: 56px;
     padding-bottom: 8px;
+  }
+
+  /* Fade visible también en drawer móvil */
+  .scrollFade {
+    display: flex;
+    height: 60px;
   }
 
   /* Menú restaurado al estilo de texto completo */
@@ -505,12 +600,13 @@
 
   .sidebarMenu a {
     width: 90%;
-    padding: 14px 20px;
+    padding: 12px 18px;
     border-radius: 16px 0 0 16px;
-    gap: 16px;
+    gap: 14px;
     justify-content: flex-start;
     border: none;
     border-right: 3px solid transparent;
+    font-size: 0.9rem;
   }
 
   .sidebarMenu a span {
@@ -518,7 +614,7 @@
   }
 
   .sidebarMenu a:hover {
-    padding-left: 25px;
+    padding-left: 23px;
     background: linear-gradient(90deg, rgba(255, 255, 255, 0.03) 0%, transparent 100%);
     border-color: transparent;
   }
@@ -527,7 +623,7 @@
     display: block;
   }
 
-  /* ── Footer: siempre visible, nunca se aplasta ── */
+  /* ── Footer: nunca se aplasta ── */
   .footerSection {
     flex-shrink: 0;
     position: relative;
@@ -537,8 +633,8 @@
   .logout {
     flex-direction: row;
     align-items: center;
-    padding: 12px 20px;
-    margin: 0 20px 20px 20px;
+    padding: 12px 18px;
+    margin: 0 16px 16px 16px;
     gap: 0;
   }
 
@@ -548,5 +644,30 @@
 
   .logoutButton {
     display: flex;
+  }
+}
+
+/* ==================================================
+   RESPONSIVE — Móvil pequeño (≤ 480px)
+   ================================================== */
+@media (max-width: 480px) {
+  .sidebarContent {
+    width: min(260px, 88vw);
+  }
+
+  .sidebarMenu a {
+    padding: 11px 16px;
+    font-size: 0.875rem;
+    gap: 12px;
+  }
+
+  .logout {
+    padding: 10px 14px;
+    margin: 0 12px 14px 12px;
+  }
+
+  .logout img {
+    width: 34px;
+    height: 34px;
   }
 }

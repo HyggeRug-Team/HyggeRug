@@ -12,14 +12,18 @@
  */
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef, useCallback } from "react";
 import styles from "./Sidebar.module.css";
 import { usePathname } from "next/navigation";
-import { FaBars, FaXmark } from "react-icons/fa6";
+import { FaBars, FaXmark, FaChevronDown } from "react-icons/fa6";
 
 function Sidebar({ children, footer }) {
   const pathname = usePathname();
   const [isOpen, setIsOpen] = useState(false);
+
+  // Controla si hay más contenido por debajo (scroll hint)
+  const [hasMoreBelow, setHasMoreBelow] = useState(false);
+  const topSectionRef = useRef(null);
 
   // Cerramos el drawer al cambiar de ruta
   useEffect(() => {
@@ -31,6 +35,30 @@ function Sidebar({ children, footer }) {
     document.body.style.overflow = isOpen ? "hidden" : "";
     return () => { document.body.style.overflow = ""; };
   }, [isOpen]);
+
+  // Detectamos si el topSection tiene contenido oculto debajo
+  const checkScroll = useCallback(() => {
+    const el = topSectionRef.current;
+    if (!el) return;
+    // Hay más si la diferencia entre scrollHeight y scrollTop es mayor que clientHeight
+    const distanceToBottom = el.scrollHeight - el.scrollTop - el.clientHeight;
+    setHasMoreBelow(distanceToBottom > 8); // margen de 8px para evitar flickering
+  }, []);
+
+  useEffect(() => {
+    const el = topSectionRef.current;
+    if (!el) return;
+    // Comprobamos al montar
+    checkScroll();
+    el.addEventListener("scroll", checkScroll, { passive: true });
+    // También recomprobamos si cambia el tamaño
+    const ro = new ResizeObserver(checkScroll);
+    ro.observe(el);
+    return () => {
+      el.removeEventListener("scroll", checkScroll);
+      ro.disconnect();
+    };
+  }, [checkScroll]);
 
   return (
     <>
@@ -64,9 +92,25 @@ function Sidebar({ children, footer }) {
           <FaXmark size={20} />
         </button>
 
-        {/* ── Sección principal: cualquier contenido ── */}
-        <div className={styles.topSection}>
-          {children}
+        {/* ── Wrapper del scroll con el fade hint ── */}
+        <div className={styles.topSectionWrapper}>
+
+          {/* ── Sección principal: cualquier contenido ── */}
+          <div
+            className={styles.topSection}
+            ref={topSectionRef}
+          >
+            {children}
+          </div>
+
+          {/* ── Fade + indicador "hay más" ── */}
+          <div
+            className={`${styles.scrollFade} ${hasMoreBelow ? styles.scrollFadeVisible : ""}`}
+            aria-hidden="true"
+          >
+            <FaChevronDown className={styles.scrollFadeIcon} size={12} />
+          </div>
+
         </div>
 
         {/* ── Sección inferior opcional (logout, perfil…) ── */}
