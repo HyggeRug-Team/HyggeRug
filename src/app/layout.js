@@ -35,7 +35,8 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html 
-      lang="es" 
+      lang="es"
+      data-scroll-behavior="smooth"
       className={`${plusJakartaSans.variable} ${rubik.variable} ${rubikBubbles.variable}`}
     >
       <body>
