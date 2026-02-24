@@ -22,10 +22,7 @@ export async function createSession(payload) {
     .sign(SECRET_KEY);                     // Lo cerramos herméticamente con tu llave secreta del servidor
 }
 
-/**
- * FUNCIÓN PARA VERIFICAR EL PASAPORTE
- * Se usa en el Middleware para saber si dejamos pasar a alguien.
- */
+// Verifica la sesión
 export async function verifySession(token) {
   try {
     // Intentamos abrir el carnet usando tu llave secreta
@@ -42,8 +39,9 @@ export async function verifySession(token) {
 // FUNCIÓN PARA OBTENER LOS DATOS DEL USUARIO ACTUAL
 export async function getSession() {
   const cookieStore = await cookies();
-  const token = cookieStore.get('session_token')?.value; // 'session_token' debe ser el nombre que pusiste en el login
-  
+  const token = cookieStore.get('session_token')?.value;
+  // Si el token no existe devuelve null
   if (!token) return null;
+  // Si al verificar la sesión es falsa devuelve null y si es verdadera devuelve payload (Esto es basicamente un json con la info de la sesion)
   return await verifySession(token);
 }

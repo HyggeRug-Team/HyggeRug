@@ -1,6 +1,7 @@
 import dynamic from 'next/dynamic';
 import { Plus_Jakarta_Sans, Rubik, Rubik_Bubbles } from 'next/font/google';
 import './globals.css';
+import { SpeedInsights } from "@vercel/speed-insights/next"
 
 import SilkBackground from '@/components/layout/SilkBackground/SilkBackgroundWrapper';
 import KineticBackground from '@/components/layout/KineticBackground/KineticBackground'; // Importamos el fondo cinético
@@ -63,6 +64,7 @@ export default function RootLayout({ children }) {
           overflowX: 'hidden' // Mantenemos para seguridad
         }}>
           {children}
+          <SpeedInsights/>
         </main>
       </body>
     </html>

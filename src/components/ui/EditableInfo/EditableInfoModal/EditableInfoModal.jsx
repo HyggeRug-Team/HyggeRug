@@ -9,9 +9,10 @@ import { MdOutlineModeEditOutline } from "react-icons/md";
 import PrimaryButton from '../../Buttons/PrimaryButton/PrimaryButton';
 import SecondaryButton from '../../Buttons/SecondaryButton/SecondaryButton';
 import TertiaryButton from '../../Buttons/TertiaryButton/TertiaryButton';
+import { updateUserData } from '@/lib/actions';
 // onSave es una variable que recibe el padre con el valor nuevo 
 // (Las variables de los componentes solo tienen un "dueño", es decir solo es el hijo o el padre el que escribe info en esa variable y el otro la recibe)
-export default function EditableField({ label, value, inputType = "text", onSave }) {
+export default function EditableField({ label, value, dbField, inputType = "text", onSave }) {
     // Estado para saber si el modal se ve o no
     const [showModal, setShowModal] = useState(false);
 
@@ -22,6 +23,16 @@ export default function EditableField({ label, value, inputType = "text", onSave
     const handleSave = () => {
         onSave(name);
         setShowModal(false);
+    };
+    // Funcion usada para recibir el nuevo nombre y cambiar 
+    const handleSaveName = async (nuevoValor) => {
+        console.log("Dato recibido del modal:", nuevoValor);
+
+        // AQUÍ ES DONDE HARÍAS EL FETCH A LA BASE DE DATOS
+        // const response = await fetch('/api/user/update', { ... });
+
+        // 3. Actualizamos el estado del padre para que la web cambie
+        setUserName(nuevoValor);
     };
 
     return (
@@ -53,7 +64,7 @@ export default function EditableField({ label, value, inputType = "text", onSave
                         />
 
                         <div className={styles.actions}>
-                            <PrimaryButton
+                            <TertiaryButton
                                 text={"Cancelar"}
                                 // El onclick siempre que tenga un parametro debe ir asi, ya que si no se ejecutaria directamente, asi solo le estás dando una herramienta
                                 onClick={() => setShowModal(false)}
