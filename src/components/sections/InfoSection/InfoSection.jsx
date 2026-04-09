@@ -1,175 +1,159 @@
-/*
- * Componente: InfoSection
- * Descripción: Sección informativa extensa que destaca las características, el proceso de fabricación, testimonios de clientes y una galería "Marquee" infinita. Utiliza animaciones al hacer scroll.
+/**
+ * @file InfoSection.jsx
+ * @description Área informativa sobre la artesanía de la marca (Tufting real), Laboratorio IA y reseñas.
+ *
+ * [Nuestro enfoque]
+ * Dividimos la compleja información artesanal en bloques ágiles: una introducción corta 
+ * y rotunda, un grid de tarjetas de proceso (ProcessCard), un espacio enmarcado para 
+ * la tecnología (Banner IA) y las pegatinas de reseñas (ReviewSticker).
+ *
+ * [Por qué lo hemos hecho así]
+ * Para lograr la retención de clientes en un negocio Made-to-Order artesanal, se debían
+ * explicar los procesos, sin caer en muros de texto aburridos. Optamos por la síntesis 
+ * agresiva (estética pop grunge) garantizando legibilidad y confianza en el creador de Madrid.
  */
 "use client";
 import React from "react";
 import styles from "./InfoSection.module.css";
-import { motion } from "framer-motion";
-import Image from "next/image";
-import SectionHeader from "@/components/ui/SectionHeader/SectionHeader";
-import FeatureCard from "@/components/ui/Cards/FeatureCard/FeatureCard";
-import TestimonialCard from "@/components/ui/Cards/TestimonialCard/TestimonialCard";
-import Marquee from "@/components/ui/Marquee/Marquee";
-import Timeline from "@/components/ui/Timeline/Timeline";
-import CtaBanner from "@/components/ui/Banners/CtaBanner/CtaBanner";
-
-import { 
-  FaStar, FaShippingFast, FaHeart, FaRulerCombined, FaPalette, FaLeaf,
-  FaCertificate, FaAward, FaCheckCircle
-} from "react-icons/fa";
+import PrimaryButton from "@/components/ui/Buttons/PrimaryButton/PrimaryButton";
+import ProcessCard from "@/components/ui/Cards/ProcessCard/ProcessCard";
+import ReviewSticker from "@/components/ui/Cards/ReviewSticker/ReviewSticker";
 
 function InfoSection() {
-  
-  const features = [
-    { icon: <FaPalette />, title: "Diseño Personalizado", desc: "Tu creatividad es el límite. Cualquier imagen, logo o idea" },
-    { icon: <FaHeart />, title: "Hecho a Mano", desc: "Cada punto trabajado con pistola tufting profesional" },
-    { icon: <FaRulerCombined />, title: "Medidas Perfectas", desc: "Desde 30x30cm hasta alfombras gigantes de salón" },
-    { icon: <FaLeaf />, title: "Lana Premium", desc: "100% lana natural de Nueva Zelanda. Suave y duradera" },
-    { icon: <FaShippingFast />, title: "Envío en 72h", desc: "Producción rápida sin comprometer la calidad" },
-    { icon: <FaCertificate />, title: "Garantía Total", desc: "Si no te encanta, te devolvemos el dinero" },
-  ];
-
   const processSteps = [
-    { num: "01", title: "Comparte tu Idea", desc: "Envíanos tu diseño, foto o concepto. También podemos ayudarte a crearlo desde cero." },
-    { num: "02", title: "Aprobación Digital", desc: "Te enviamos un boceto digital para que veas exactamente cómo quedará antes de empezar." },
-    { num: "03", title: "Tufting Artesanal", desc: "Nuestro equipo trabaja cada alfombra a mano con la técnica de tufting manual." },
-    { num: "04", title: "Acabado Profesional", desc: "Reforzamos, recortamos y limpiamos cada pieza para un acabado perfecto." },
-    { num: "05", title: "Empaque y Envío", desc: "Empacamos con amor y enviamos directamente a tu puerta en menos de 72h." },
+    {
+      number: "01",
+      title: "EXPLORA EL CATÁLOGO",
+      description: "Elige una pieza de nuestro catálogo o envíame tu propia idea personal para hacerla realidad.",
+      visualBg: "#111",
+      visualContent: <div style={{ color: '#FFF', fontWeight: '900', fontSize: '0.8rem', border: '2px solid #555', padding: '8px 12px', transform: 'rotate(-5deg)' }}>TUFTING ART</div>
+    },
+    {
+      number: "02",
+      title: "CRAFTING EN MADRID",
+      description: "Inyecto lana de alta calidad con la tufting gun, remato la trasera con TPR anti-deslizante y perfilo cada relieve en 3D.",
+      visualBg: "var(--accent-purple)",
+      visualContent: <div className={styles.innerPrompt}>"100% ARTESANAL"</div>
+    },
+    {
+      number: "03",
+      title: "DIRECTO A TU ESPACIO",
+      description: "Recíbela en casa y dale un toque exclusivo a tu setup, a tu salón o a tu habitación.",
+      visualBg: "var(--highlight-text)",
+      visualContent: <div className={styles.rugIcon}></div>
+    }
   ];
 
   const testimonials = [
-    { name: "Laura M.", text: "Mi alfombra de Gorillaz quedó PERFECTA. La calidad es increíble y el equipo súper atento.", rating: 5 },
-    { name: "Carlos R.", text: "Pedí una alfombra personalizada con el logo de mi empresa. Impresionante resultado.", rating: 5 },
-    { name: "Ana P.", text: "La mejor compra que he hecho. Mi salón ahora tiene vida propia.", rating: 5 },
+    {
+      text: "Le di un diseño loquísimo y lo clavaron. Los bordes en 3D le dan mil vueltas a las alfombras comerciales.",
+      author: "DANI R., Cliente Verificado",
+      rating: 5,
+      rotation: -3,
+      variant: "secondary"
+    },
+    {
+      text: "El nivel de detalle es increíble. El mejor complemento para mi stream room sin ninguna duda.",
+      author: "CARLOS H., Streamer",
+      rating: 5,
+      rotation: 8,
+      variant: "secondary"
+    },
+    {
+      text: "Lana premium y un agarre bestial al suelo. Se nota que cada puntada está hecha a mano.",
+      author: "ANA B., Artista Visual",
+      rating: 5,
+      rotation: -5,
+      variant: "secondary"
+    }
   ];
-
-  const galleryRugs = [
-    { src: "/rug-mario.png", title: "Mario Bros", style: "Videojuegos" },
-    { src: "/rug-gorillaz.png", title: "Gorillaz", style: "Música" },
-    { src: "/rug-julieta.png", title: "Julieta", style: "Nombres" },
-    { src: "/rug-irene.png", title: "Irene", style: "Abstracto" },
-    { src: "/rug-shield.png", title: "Shield", style: "Logos" },
-  ];
-
-  
-  const scrollAnimConfig = {
-    initial: { opacity: 0, y: 30 },
-    whileInView: { opacity: 1, y: 0 },
-    viewport: { once: true, margin: "-100px" },
-    transition: { duration: 0.6, ease: "easeOut" },
-    style: { willChange: "opacity, transform" } 
-  };
 
   return (
-    <section className={styles.infoSection}>
-      <div className={styles.container}>
+    <section className={styles.infoWrapper}>
+      
+      {/* Background visual noise */}
+      <svg width="0" height="0" style={{ position: 'absolute', zIndex: -1 }}>
+        <filter id="tuftingBg">
+          <feTurbulence type="fractalNoise" baseFrequency="0.03" numOctaves="3" result="noise" />
+          <feDisplacementMap in="SourceGraphic" in2="noise" scale="8" xChannelSelector="R" yChannelSelector="G" />
+        </filter>
+      </svg>
 
-        {/* --- AQUÍ CONTAMOS POR QUÉ NOS ELIGEN --- */}
-        <motion.div 
-          className={styles.whySection}
-          {...scrollAnimConfig}
-        >
-          <SectionHeader 
-             badge="POR QUÉ ELEGIRNOS"
-             icon={FaStar}
-             title={<>No somos una tienda más.<br/>Somos <span className={styles.highlight}>artesanos modernos</span></>}
-             description="Combinamos la tradición del tufting artesanal con diseños contemporáneos. Cada alfombra es una pieza única que refleja tu personalidad y estilo."
-             scrollAnimConfig={scrollAnimConfig}
-          />
-
-          <div className={styles.featuresGrid}>
-            {features.map((feature, i) => (
-              <FeatureCard 
-                key={i}
-                icon={feature.icon}
-                title={feature.title}
-                desc={feature.desc}
-                delay={i * 0.08}
-              />
-            ))}
-          </div>
-        </motion.div>
-
-        {/* --- AQUÍ EXPLICAMOS NUESTRO PROCESO PASO A PASO --- */}
-        <motion.div 
-          className={styles.processSection}
-          {...scrollAnimConfig}
-        >
-          <SectionHeader 
-             badge="CÓMO FUNCIONA"
-             icon={FaCheckCircle}
-             title={<>Del concepto al textil<br/>en <span className={styles.highlight}>5 pasos simples</span></>}
-             scrollAnimConfig={scrollAnimConfig}
-          />
-
-          <Timeline steps={processSteps} />
-        </motion.div>
-
-        {/* --- NUESTRA GALERÍA INFINITA DE INSPIRACIÓN --- */}
-        <motion.div 
-          className={styles.gallerySection}
-          {...scrollAnimConfig}
-        >
-          <SectionHeader 
-             badge="INSPIRACIÓN"
-             icon={FaPalette}
-             title={<>Lo que puedes <span className={styles.highlight}>crear</span></>}
-             description="Explora posibilidades infinitas. Desde arte abstracto hasta tus personajes favoritos."
-             scrollAnimConfig={scrollAnimConfig}
-          />
-
-          <Marquee>
-              {/* Duplicamos las imágenes para asegurar que el scroll infinito sea suave */}
-              {[...galleryRugs, ...galleryRugs, ...galleryRugs, ...galleryRugs].map((rug, i) => (
-                <div key={i} className={styles.marqueeCard}>
-                  <Image 
-                    src={rug.src}
-                    alt={rug.title}
-                    width={300}
-                    height={380}
-                    className={styles.galleryImage}
-                  />
-                  <div className={styles.galleryOverlay}>
-                    <span className={styles.galleryStyle}>{rug.style}</span>
-                  </div>
+      <div className={styles.infoContainer}>
+        
+        {/* 1. INTRO: EL CONCEPTO (Texto justo, diseño agresivo) */}
+        <section className={styles.introBlock}>
+            <div className={styles.introLeft}>
+                <div className={styles.badgeGlow}>CALIDAD SUPERIOR</div>
+                <h2 className={styles.popTitle}>ES ARTE.<br/>SE PISA.</h2>
+                <p className={styles.introText}>
+                    Hygge Rug no es una fábrica en cadena. Detrás de esta marca hay un único creador en Madrid confeccionando arte directamente sobre lienzo. Cada alfombra (*Tufting Rug*) está construida a mano exclusivamente por mí, utilizando lana técnica de colores vibrantes y acabados tridimensionales.
+                </p>
+                <p className={styles.introText}>
+                    Desde paneles de <strong>Anime y Manga</strong> o explosiones de estética <strong>Y2K y Retro</strong>, hasta <strong>arte abstracto</strong>, botánica o el logo de tu empresa. Ya sea decorando con piezas de nuestro catálogo o encargándonos una alfombra silueteada (Custom Order) irrompible, te llevas una pieza 1 de 1.
+                </p>
+            </div>
+            <div className={styles.introRight}>
+                {/* TIKTOK PHONE MOCKUP */}
+                <div className={styles.phoneMockup}>
+                    <div className={styles.phoneNotch}></div>
+                    <video 
+                        className={styles.phoneVideo}
+                        autoPlay 
+                        loop 
+                        muted 
+                        playsInline
+                        controls
+                        poster="/rug-gorillaz.png"
+                    >
+                        {/* Se debe colocar un archivo mp4 real de un tik tok en public/ */}
+                        <source src="/tufting-tiktok.mp4" type="video/mp4" />
+                    </video>
+                    <div className={styles.tiktokOverlay}>
+                        <a href="https://www.tiktok.com/@hygge_rug" target="_blank" rel="noopener noreferrer" className={styles.tiktokBadge}>
+                            @HYGGE_RUG en TikTok
+                        </a>
+                    </div>
                 </div>
-              ))}
-          </Marquee>
-        </motion.div>
+            </div>
+        </section>
 
-        {/* --- OPINIONES DE NUESTROS CLIENTES --- */}
-        <motion.div 
-          className={styles.testimonialsSection}
-          {...scrollAnimConfig}
-        >
-          <SectionHeader 
-             badge="TESTIMONIOS"
-             icon={FaHeart}
-             title={<>Clientes <span className={styles.highlight}>felices</span></>}
-             scrollAnimConfig={scrollAnimConfig}
-          />
-
-          <div className={styles.testimonialsGrid}>
-            {testimonials.map((test, i) => (
-               <TestimonialCard 
-                  key={i}
-                  name={test.name}
-                  text={test.text}
-                  rating={test.rating}
-                  delay={i * 0.15}
-               />
+        {/* 2. THE PROCESS */}
+        <section className={styles.processSection}>
+          <div className={styles.sectionHeader}>
+            <h3>CÓMO FUNCIONA EL ROLLO</h3>
+          </div>
+          <div className={styles.processGrid}>
+            {processSteps.map((step, index) => (
+              <ProcessCard key={index} {...step} />
             ))}
           </div>
-        </motion.div>
+        </section>
 
-        {/* --- LLAMADA FINAL A LA ACCIÓN --- */}
-        <CtaBanner 
-            title="¿Listo para tu alfombra soñada?"
-            text="Diseño gratuito • Envío en 72h • Garantía de satisfacción 100%"
-            btnText="Empezar mi Diseño"
-            btnUrl="#crear"
-        />
+        {/* 3. MODO IA (Secundario pero con mucho estilo) */}
+        <section className={styles.aiBanner}>
+           <div className={styles.aiBannerText}>
+              <span className={styles.aiNeonTitle}>LABORATORIO I.A.</span>
+              <h3>¿No encuentras lo que buscas en el Catálogo?</h3>
+              <p>Si tienes una paranoia extrema para tu alfombra, usa el motor de Inteligencia Artificial. Describe tu idea y la I.A. escupirá un boceto salvaje listo para que yo lo borde a mano en mi taller.</p>
+           </div>
+           <div className={styles.aiBannerAction}>
+               <PrimaryButton text="ENTRAR AL STUDIO IA" url="/crear-diseno" className={styles.aiBtnExtra} />
+           </div>
+        </section>
+
+        {/* 4. HYGGE GANG (Reseñas) */}
+        <section className={styles.gangSection}>
+          <div className={styles.sectionHeaderCenter}>
+            <h3 className={styles.gangTitle}>HYGGE GANG</h3>
+            <p>La gente de la calle ya tiene la suya.</p>
+          </div>
+          <div className={styles.gangGrid}>
+            {testimonials.map((testimonial, index) => (
+              <ReviewSticker key={index} {...testimonial} />
+            ))}
+          </div>
+        </section>
 
       </div>
     </section>

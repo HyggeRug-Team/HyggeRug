@@ -1,13 +1,23 @@
-/*
- * Componente: FeatureCard
- * Descripción: Tarjeta informativa para destacar características (iconos, título descripción) con animación de entrada.
+/**
+ * @file FeatureCard.jsx
+ * @description Tarjeta informativa para destacar beneficios o características clave de la marca.
+ *
+ * [Nuestro enfoque]
+ * Hemos creado estas tarjetas para explicar por qué nuestras alfombras son especiales.
+ * Evitamos “bloques de texto” haciendo que la información se convierta en piezas visuales
+ * fáciles de escanear.
+ *
+ * [Por qué lo hemos hecho así]
+ * Usamos animación al hacer scroll y un diseño limpio porque así mantenemos la atención del
+ * usuario sin saturar la pantalla.
+ *
+ * 1. Animación al scroll: aparecen con `whileInView` cuando la tarjeta entra en pantalla.
+ * 2. Diseño limpio: icono + título + descripción corta (“menos es más”).
  */
 import React from "react";
 import styles from "./FeatureCard.module.css";
 import { motion } from "framer-motion";
 
-
-// Definimos nuestra tarjeta de características con animación de entrada y diseño limpio
 function FeatureCard({ icon, title, desc, delay = 0 }) {
   return (
     <motion.div

@@ -1,13 +1,30 @@
-/*
- * Componente: SectionHeader
- * Descripción: Cabecera estándar para las secciones de la página. Muestra un "badge" con icono, un título principal y una descripción opcional, todo con animaciones de entrada.
+/**
+ * @file SectionHeader.jsx
+ * @description Cabecera estandarizada para organizar y titular las secciones de la web.
+ * 
+ * [Nuestro enfoque]
+ * Para que la web no parezca un caos de títulos diferentes, hemos creado este componente 
+ * que unifica cómo presentamos cada sección (como "Testimonios" o "Proceso").
+ * 
+ * [Por qué lo hemos hecho así]
+ * Así mantenemos una estructura clara que el usuario reconoce rápido y que además
+ * facilita mantener la interfaz consistente.
+ *
+ * ¿Qué elementos lo componen?
+ * 1. El "Badge": Una pequeña etiqueta superior con icono que da contexto inmediato 
+ *    sobre de qué trata la sección.
+ * 2. Título Principal (`h2`): Usamos la etiqueta correcta para que Google entienda 
+ *    la jerarquía de nuestra página (SEO).
+ * 3. Animación Integrada: No hace falta configurar la animación en cada página; este 
+ *    componente ya sabe que debe aparecer suavemente cuando el usuario hace scroll 
+ *    hacia él, manteniendo la coherencia visual en todo el sitio.
  */
 import React from "react";
 import styles from "./SectionHeader.module.css";
 import { motion } from "framer-motion";
 
 function SectionHeader({ badge, icon: Icon, title, description, scrollAnimConfig }) {
-  // Si no nos pasan configuración de animación, usamos una por defecto
+  // Configuración de animación por defecto si no se proporciona una específica
   const animConfig = scrollAnimConfig || {
     initial: { opacity: 0, y: 30 },
     whileInView: { opacity: 1, y: 0 },

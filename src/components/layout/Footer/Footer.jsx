@@ -1,6 +1,15 @@
-/*
- * Componente: Footer
- * Descripción: Pie de página principal de la aplicación. Es responsive, mostrando menús desplegables en móvil y columnas en escritorio, junto con redes sociales y enlaces legales.
+/**
+ * @file Footer.jsx
+ * @description Pie de página informativo y responsive.
+ *
+ * [Nuestro enfoque]
+ * Hemos diseñado este pie de página como el “mapa” de nuestra web. Para que no sea una lista
+ * aburrida, lo adaptamos a cada dispositivo: en móvil usamos menús desplegables y en escritorio
+ * mostramos columnas claras para que todo esté a la vista.
+ *
+ * [Por qué lo hemos hecho así]
+ * Hemos aplicado DRY y hemos centralizado los enlaces en `SECCIONES_FOOTER` para que cambiar
+ * un enlace sea siempre un único trabajo (mantenibilidad y menos errores).
  */
 "use client";
 

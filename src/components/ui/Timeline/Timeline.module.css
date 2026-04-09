@@ -4,7 +4,7 @@
     flex-direction: column;
     gap: 40px; 
     position: relative;
-    margin-left: 20px;
+    margin-left: 0;
 }
 
 /* Simulamos una línea de lana que conecta todo el proceso */
@@ -13,15 +13,15 @@
     position: absolute;
     top: 25px;
     bottom: 25px;
-    left: 29px;
-    width: 6px;
+    left: 32px;
+    width: 4px;
     background: repeating-linear-gradient(
       0deg,
       var(--highlight-text),
       var(--highlight-text) 10px,
-      #000 10px,
-      #000 20px
-    ); /* Creamos un patrón de hilo bicolor usando gradientes */
+      rgba(0,0,0,0.75) 10px,
+      rgba(0,0,0,0.75) 20px
+    );
     border-radius: 4px;
 }
 
@@ -33,7 +33,7 @@
 .stepNumber {
     position: absolute;
     left: 0;
-    top: 20px;
+    top: 18px;
     width: 64px;
     height: 64px;
     background: var(--hover-text); 
@@ -64,10 +64,11 @@
     color: var(--grey-200);
     font-size: 1.1rem;
     max-width: 650px;
-    background: rgba(255,255,255,0.05);
+    background: rgba(255, 255, 255, 0.035);
     padding: 15px 20px;
-    border-radius: 12px;
+    border-radius: 16px;
     border-left: 4px solid var(--highlight-text);
+    border: 1px dashed rgba(255, 255, 255, 0.14);
 }
 
 @media (max-width: 768px) {

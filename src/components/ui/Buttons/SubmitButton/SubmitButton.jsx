@@ -1,6 +1,18 @@
-/*
- * Componente: SubmitButton
- * Descripción: Botón de envío grande
+/**
+ * @file SubmitButton.jsx
+ * @description Botón especializado para el envío de formularios.
+ *
+ * [Nuestro enfoque]
+ * Hemos diseñado este botón para que sea robusto y claro. Su función es enviar los datos de
+ * Login/Registro sin que el usuario haga acciones repetidas por accidente.
+ *
+ * [Por qué lo hemos hecho así]
+ * Incluimos bloqueos y micro-animaciones porque mejoran la experiencia (UX) y reducen cargas
+ * innecesarias en el servidor.
+ *
+ * 1. Control de carga (`isLoading`): evitamos clics repetidos durante el proceso.
+ * 2. Micro-animación: feedback inmediato al pulsar.
+ * 3. Transiciones suaves: el texto cambia de forma consistente entre modos.
  */
 import React from 'react';
 import { motion, AnimatePresence } from 'framer-motion';

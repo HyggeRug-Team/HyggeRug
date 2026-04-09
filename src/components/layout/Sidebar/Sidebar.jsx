@@ -1,14 +1,17 @@
-/*
- * Componente: Sidebar (Shell Genérico)
+/**
+ * @file Sidebar.jsx
+ * @description Estructura lateral interactiva (shell) para el panel de control.
  *
- * Gestiona únicamente la estructura responsive del sidebar:
- *   - Desktop:  visible fijo con ancho completo
- *   - Tablet:   colapsado (solo iconos)
- *   - Móvil:    drawer lateral con hamburger, overlay y botón de cierre
+ * [Nuestro enfoque]
+ * Hemos diseñado este componente como la “columna vertebral” de la zona privada:
+ * en escritorio permanece fijo a la izquierda, y en móvil/tablet se oculta hasta que el
+ * usuario abre el menú con la “hamburguesa”.
  *
- * Props:
- *   children  — Contenido principal del sidebar (logo, nav, etc.)
- *   footer    — Slot opcional para la sección inferior (logout, perfil, etc.)
+ * Además, añadimos el “indicador de lectura” para avisar si hay más contenido al hacer scroll.
+ *
+ * [Por qué lo hemos hecho así]
+ * Elegimos este enfoque porque mejora la usabilidad del panel y evita que la navegación
+ * se convierta en un bloque pesado o difícil de encontrar.
  */
 "use client";
 
@@ -25,33 +28,33 @@ function Sidebar({ children, footer }) {
   const [hasMoreBelow, setHasMoreBelow] = useState(false);
   const topSectionRef = useRef(null);
 
-  // Cerramos el drawer al cambiar de ruta
+  // Cerramos el menú lateral automáticamente si el usuario cambia de página
   useEffect(() => {
-    setIsOpen(false);
+    const t = window.setTimeout(() => setIsOpen(false), 0);
+    return () => window.clearTimeout(t);
   }, [pathname]);
 
-  // Bloqueamos el scroll del body mientras el drawer está abierto
+  // Bloqueamos el scroll del fondo mientras el menú móvil está abierto
   useEffect(() => {
     document.body.style.overflow = isOpen ? "hidden" : "";
     return () => { document.body.style.overflow = ""; };
   }, [isOpen]);
 
-  // Detectamos si el topSection tiene contenido oculto debajo
+  // Esta función comprueba si todavía queda texto o enlaces por ver hacia abajo
   const checkScroll = useCallback(() => {
     const el = topSectionRef.current;
     if (!el) return;
-    // Hay más si la diferencia entre scrollHeight y scrollTop es mayor que clientHeight
     const distanceToBottom = el.scrollHeight - el.scrollTop - el.clientHeight;
-    setHasMoreBelow(distanceToBottom > 8); // margen de 8px para evitar flickering
+    setHasMoreBelow(distanceToBottom > 8); 
   }, []);
 
   useEffect(() => {
     const el = topSectionRef.current;
     if (!el) return;
-    // Comprobamos al montar
     checkScroll();
     el.addEventListener("scroll", checkScroll, { passive: true });
-    // También recomprobamos si cambia el tamaño
+    
+    // Si cambiamos el tamaño de la ventana, volvemos a calcularlo
     const ro = new ResizeObserver(checkScroll);
     ro.observe(el);
     return () => {
@@ -62,7 +65,7 @@ function Sidebar({ children, footer }) {
 
   return (
     <>
-      {/* ── Botón hamburger (visible solo en móvil) ── */}
+      {/* Botón de apertura lateral (solo en móviles) */}
       <button
         className={`${styles.hamburger} ${isOpen ? styles.hamburgerHidden : ""}`}
         onClick={() => setIsOpen(true)}
@@ -71,7 +74,7 @@ function Sidebar({ children, footer }) {
         <FaBars size={20} />
       </button>
 
-      {/* ── Overlay oscuro (activo en móvil con drawer abierto) ── */}
+      {/* Sombra de fondo para cuando el menú está abierto en móvil */}
       {isOpen && (
         <div
           className={`${styles.overlay} ${styles.overlayVisible}`}
@@ -80,10 +83,10 @@ function Sidebar({ children, footer }) {
         />
       )}
 
-      {/* ── Panel principal ── */}
+      {/* Contenedor principal del menú lateral */}
       <div className={`${styles.sidebarContent} ${isOpen ? styles.open : ""}`}>
 
-        {/* Botón de cierre (solo visible en drawer móvil) */}
+        {/* Botón para cerrar el menú lateral en móvil */}
         <button
           className={styles.closeBtn}
           onClick={() => setIsOpen(false)}
@@ -92,10 +95,7 @@ function Sidebar({ children, footer }) {
           <FaXmark size={20} />
         </button>
 
-        {/* ── Wrapper del scroll con el fade hint ── */}
         <div className={styles.topSectionWrapper}>
-
-          {/* ── Sección principal: cualquier contenido ── */}
           <div
             className={styles.topSection}
             ref={topSectionRef}
@@ -103,23 +103,21 @@ function Sidebar({ children, footer }) {
             {children}
           </div>
 
-          {/* ── Fade + indicador "hay más" ── */}
+          {/* Flecha indicadora que avisa si hay más contenido abajo */}
           <div
             className={`${styles.scrollFade} ${hasMoreBelow ? styles.scrollFadeVisible : ""}`}
             aria-hidden="true"
           >
             <FaChevronDown className={styles.scrollFadeIcon} size={12} />
           </div>
-
         </div>
 
-        {/* ── Sección inferior opcional (logout, perfil…) ── */}
+        {/* Espacio reservado para acciones finales, como Cerrar Sesión */}
         {footer && (
           <div className={styles.footerSection}>
             {footer}
           </div>
         )}
-
       </div>
     </>
   );

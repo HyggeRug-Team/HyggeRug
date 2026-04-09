@@ -1,162 +1,259 @@
-/* ===== ESTILOS PARA LA SECCIÓN DE INFORMACIÓN CON TOQUE ARTESANAL ===== */
+/* --- URBAN POP GRUNGE BALANCED --- */
 
-.infoSection {
+.infoWrapper {
     width: 100%;
-    padding: clamp(80px, 10vh, 120px) 20px;
-    position: relative;
-    overflow: hidden;
     background: transparent;
+    color: #FFF;
+    overflow: hidden;
+    font-family: var(--font-body);
+    padding: 80px 0;
 }
 
-.container {
-    max-width: 80%;
+.infoContainer {
+    width: 100%;
+    max-width: 1200px;
     margin: 0 auto;
-    display: flex;
-    flex-direction: column;
-    gap: 120px;
-    position: relative;
-    z-index: 10;
+    padding: 0 40px;
 }
 
-/* --- CABECERAS (Ahora gestionadas por componentes independientes) --- */
-.ctaBtnContainer {
+/* 1. INTRO BLOCK */
+.introBlock {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+    align-items: center;
+    margin-bottom: 120px;
+}
+
+.badgeGlow {
+    background: var(--highlight-text);
+    color: #000;
+    font-family: var(--font-titles);
+    font-size: 1.2rem;
+    padding: 8px 16px;
+    display: inline-block;
+    transform: rotate(-3deg);
+    box-shadow: 4px 4px 0 var(--hover-text);
+    margin-bottom: 20px;
+}
+
+.popTitle {
+    font-family: var(--font-titles);
+    font-size: clamp(3rem, 10vw, 5rem);
+    line-height: 1;
+    text-shadow: 5px 5px 0px rgba(0,0,0,0.8);
+    color: #FFF;
+    margin-bottom: 30px;
+}
+
+.introText {
+    font-size: 1.25rem;
+    color: #DDD;
+    line-height: 1.6;
+    margin-bottom: 20px;
+}
+
+.introRight {
     display: flex;
     justify-content: center;
-    margin-top: 30px;
-}
-
-.highlight {
-    color: var(--hover-text); 
-    position: relative;
-    white-space: nowrap;
-    /* Subrayado ondulado estilo lana */
-    text-decoration: underline;
-    text-decoration-style: wavy;
-    text-decoration-color: var(--highlight-text);
-    text-decoration-thickness: 3px;
-    text-underline-offset: 8px;
-}
-
-/* --- DISEÑO DE LA CUADRÍCULA DE CARACTERÍSTICAS --- */
-.featuresGrid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: clamp(40px, 5vw, 80px);
-}
-
-/* --- DISEÑO DE LA SECCIÓN DEL PROCESO --- */
-.processSection {
     position: relative;
 }
 
-
-/* --- ESTILOS ESPECÍFICOS PARA EL CONTENIDO DE LA GALERÍA --- */
-/* El contenedor lo maneja el componente Loop, aquí definimos las cartas */
-.marqueeCard {
-    /* Estilos para las tarjetas dentro del loop infinito */
-    width: 300px;
-    height: 380px;
-    flex-shrink: 0;
-    border-radius: 20px;
-    overflow: hidden;
-    position: relative;
-    border: 4px solid #fff;
-    box-shadow: 5px 5px 0px rgba(0,0,0,0.5);
-    transition: transform 0.3s ease;
+/* --- TIKTOK PHONE MOCKUP --- */
+.phoneMockup {
+    width: 280px;
+    height: 580px;
     background: #000;
+    border-radius: 40px;
+    border: 12px solid #111;
+    box-shadow: 15px 15px 0 var(--highlight-text);
+    position: relative;
+    overflow: hidden;
+    transform: rotate(5deg);
+    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    margin: 0 auto;
 }
 
-.marqueeCard:hover {
-    transform: scale(1.05) rotate(2deg);
-    border-color: var(--hover-text);
-    box-shadow: 8px 8px 0px var(--hover-text);
+.phoneMockup:hover {
+    transform: rotate(0deg) translateY(-10px);
+    box-shadow: 10px 10px 0 var(--accent-cyan);
+}
+
+.phoneNotch {
+    position: absolute;
+    top: -2px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 140px;
+    height: 28px;
+    background: #111;
+    border-bottom-left-radius: 18px;
+    border-bottom-right-radius: 18px;
     z-index: 10;
 }
 
-.galleryImage {
+.phoneVideo {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    transition: transform 0.5s ease;
+    z-index: 1;
+    background: #222;
 }
 
-.marqueeCard:hover .galleryImage {
-    transform: scale(1.1);
+.phoneVideo::-webkit-media-controls-panel {
+    background-image: linear-gradient(transparent, rgba(0, 0, 0, 0.8));
 }
 
-.galleryOverlay {
+.tiktokOverlay {
     position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    background: linear-gradient(to top, #000 0%, transparent 100%);
-    padding: 20px;
-    transform: translateY(100%);
-    transition: transform 0.3s ease;
+    bottom: 60px;
+    left: 15px;
+    z-index: 5;
 }
 
-.marqueeCard:hover .galleryOverlay {
-    transform: translateY(0);
+.tiktokBadge {
+    background: #00f2fe; /* TikTok cyan style */
+    color: #000;
+    padding: 6px 12px;
+    font-weight: 900;
+    font-family: monospace;
+    font-size: 0.85rem;
+    border-radius: 8px;
+    text-decoration: none;
+    box-shadow: 2px 2px 0 #FF0050; /* TikTok red style */
+    transition: all 0.2s;
 }
 
-.galleryStyle {
-    color: #fff;
-    font-weight: 700;
-    font-size: 1.2rem;
-    text-transform: uppercase;
-    background: var(--highlight-text);
-    padding: 5px 15px;
-    border-radius: 20px;
-    box-shadow: 3px 3px 0px #000;
+.tiktokBadge:hover {
+    background: #FFF;
 }
 
 
-/* --- DISEÑO DE LA CUADRÍCULA DE TESTIMONIOS --- */
-.testimonialsGrid {
+/* 2. THE PROCESS */
+.processSection {
+    margin-bottom: 120px;
+}
+.sectionHeader {
+    margin-bottom: 40px;
+}
+.sectionHeader h3 {
+    font-family: var(--font-titles);
+    font-size: clamp(2.5rem, 8vw, 3.5rem);
+    color: #FFF;
+    text-shadow: 3px 3px 0 #000;
+}
+
+.processGrid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: clamp(24px, 4vw, 60px);
-    justify-items: center;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 30px;
+}
+
+.innerPrompt {
+    font-family: monospace;
+    background: rgba(0,0,0,0.8);
+    padding: 10px;
+    color: #FFF;
+    font-size: 1rem;
+    font-weight: bold;
+}
+
+.rugIcon {
+    width: 60px;
+    height: 60px;
+    background: #000;
+    border-radius: 10px;
+    box-shadow: inset 0 0 0 5px #FFF, 8px 8px 0px rgba(0,0,0,0.8);
+    transform: rotate(15deg);
+}
+
+
+/* 3. AI BANNER (Urban but contained) */
+.aiBanner {
+    background: #0a0a0a;
+    border: 3px solid var(--accent-purple);
+    padding: 50px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 40px;
+    margin-bottom: 120px;
+    box-shadow: 8px 8px 0 var(--accent-purple);
+    transform: rotate(-1deg);
+}
+
+.aiBannerText {
+    flex: 1.5;
+}
+
+.aiNeonTitle {
+    color: var(--accent-cyan);
+    font-family: var(--font-titles);
+    font-size: 1.4rem;
+    display: block;
+    margin-bottom: 15px;
+    text-shadow: 2px 2px 0 #000;
+}
+
+.aiBannerText h3 {
+    font-family: var(--font-titles);
+    font-size: clamp(1.8rem, 6vw, 2.5rem);
+    color: #FFF;
+    margin-bottom: 15px;
+    line-height: 1.1;
+}
+
+.aiBannerText p {
+    font-size: 1.1rem;
+    color: #CCC;
+    line-height: 1.6;
+    max-width: 500px;
+}
+
+.aiBannerAction {
+    flex: 1;
+    display: flex;
     justify-content: center;
 }
+.aiBtnExtra { font-size: 1.2rem; }
 
 
-/* AJUSTES RESPONSIVE PARA MÓVILES */
+/* 4. HYGGE GANG */
+.gangSection {
+    margin-bottom: 120px;
+}
+
+.sectionHeaderCenter {
+    text-align: center;
+    margin-bottom: 50px;
+}
+.gangTitle {
+    font-family: var(--font-titles);
+    font-size: clamp(2.5rem, 8vw, 3.5rem);
+    color: #FFF;
+    margin-bottom: 10px;
+    text-shadow: 4px 4px 0 #000;
+}
+.sectionHeaderCenter p {
+    font-size: 1.2rem;
+    color: #BBB;
+}
+
+.gangGrid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 40px;
+}
+
+/* RESPONSIVE */
+@media (max-width: 1024px) {
+    .introBlock { grid-template-columns: 1fr; text-align: center; }
+    .processGrid, .gangGrid { grid-template-columns: 1fr; }
+    .aiBanner { flex-direction: column; text-align: center; }
+    .aiBannerText p { margin: 0 auto; }
+}
+
 @media (max-width: 768px) {
-  .infoSection { padding: 60px 20px; }
-  
-  .sectionTitle {
-      font-size: clamp(2rem, 8vw, 3rem); 
-  }
-  
-  .featuresGrid { grid-template-columns: 1fr; }
-  
-  .processTimeline { margin-left: 0; }
-  .processTimeline::before { left: 18px; } /* Ajuste línea */
-  
-  .stepNumber { left: 0; width: 40px; height: 40px; font-size: 1.2rem; top: 25px;}
-  .timelineStep { padding-left: 60px; padding-top: 10px; padding-bottom: 20px; }
-  .stepTitle { font-size: 1.5rem; }
-  
-  .testimonialCard { padding: 30px 20px; margin-top: 15px; }
-  
-  .finalCta { 
-      padding: 40px 20px; 
-      border-radius: 20px;
-  }
-
-  .highlight {
-      white-space: normal;
-      display: inline-block;
-  }
-
-  /* Ajustes previos */
-  .ctaIcon { font-size: 3.5rem; }
-  .ctaTitle { font-size: 2.2rem; }
-  .ctaButton { 
-      width: 100%; 
-      justify-content: center;
-      padding: 16px;
-      font-size: 1.1rem;
-  }
+    .infoContainer { padding: 0 20px; }
+    .phoneMockup { max-width: 250px; height: 520px; transform: rotate(0deg); }
 }

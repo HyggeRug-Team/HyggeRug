@@ -1,120 +1,84 @@
-/*
- * Componente: HeroSection
- * Descripción: Sección principal de aterrizaje (Hero) de la página. Presenta el título principal, botones de acción (CTA) y una galería interactiva de alfombras destacadas con animaciones de entrada.
- */
 "use client";
-import React, { useState, useEffect } from "react";
+import React from "react";
 import styles from "./HeroSection.module.css";
-import { motion, AnimatePresence } from "framer-motion";
+import Image from "next/image";
 import PrimaryButton from "@/components/ui/Buttons/PrimaryButton/PrimaryButton";
-import SecondaryButton from "@/components/ui/Buttons/SecondaryButton/SecondaryButton";
-import { FaPaintBrush, FaImages } from "react-icons/fa";
-import HeroTitle from "@/components/ui/Titles/HeroTitle/HeroTitle";
-import RugCard from "@/components/ui/Cards/RugCard/RugCard";
-import ScrollHint from "@/components/ui/ScrollHint/ScrollHint";
-
-
-// Simulamos la lógica del tamaño de ventana por si no tenemos el hook a mano
-function useWindowWidth() {
-  const [width, setWidth] = useState(0);
-  React.useEffect(() => {
-    const handleResize = () => setWidth(window.innerWidth);
-    handleResize();
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
-  }, []);
-  return width;
-}
 
 function HeroSection() {
-  const [hoveredCard, setHoveredCard] = useState(null);
-  const width = useWindowWidth();
-
-  // Definimos nuestros datos de ejemplo para las cartas de alfombras
-  const rugCards = [
-    { id: 1, name: "Mario", pattern: "checkers", color: "#E70012", src: "/rug-mario.png" },
-    { id: 2, name: "Gorillaz", pattern: "lines", color: "#222", src: "/rug-gorillaz.png" },
-    { id: 3, name: "Julieta", pattern: "dots", color: "#FFD700", src: "/rug-julieta.png" },
-    { id: 4, name: "Shield", pattern: "dots", color: "#FF69B4", src: "/rug-shield.png" },
-    { id: 5, name: "Irene", pattern: "checkers", color: "#000", src: "/rug-irene.png" },
+  const cards = [
+    { id: 1, src: "/rug-gorillaz.png", label: "Gorillaz", title: "LANZAMIENTO #01", rot: -8 },
+    { id: 2, src: "/rug-shield.png", label: "Shield", title: "EXCLUSIVO", rot: -4 },
+    { id: 3, src: "/rug-julieta.png", label: "Flower", title: "MÁS VENDIDO", rot: 1 },
+    { id: 4, src: "/modern-detail.png", label: "Detail", title: "HECHO", rot: 4 },
+    { id: 5, src: "/rug-irene.png", label: "Irene", title: "ARTE URBANO", rot: 8 },
+    { id: 6, src: "/rug-mario.png", label: "Mario", title: "LIMITADO", rot: 12 },
+    { id: 7, src: "/rug-shield.png", label: "Shield 2", title: "NUEVO LANZAMIENTO", rot: 15 },
   ];
 
   return (
     <div className={styles.heroWrapper} id="inicio">
+      
+      <svg width="0" height="0" style={{ position: 'absolute', zIndex: -1 }}>
+        <filter id="tuftingBg">
+          <feTurbulence type="fractalNoise" baseFrequency="0.03" numOctaves="3" result="noise" />
+          <feDisplacementMap in="SourceGraphic" in2="noise" scale="12" xChannelSelector="R" yChannelSelector="G" />
+        </filter>
+        <filter id="tuftingShadow">
+          <feTurbulence type="fractalNoise" baseFrequency="0.02" numOctaves="2" result="noiseShadow" />
+          <feDisplacementMap in="SourceGraphic" in2="noiseShadow" scale="8" xChannelSelector="R" yChannelSelector="G" />
+        </filter>
+      </svg>
+
       <div className={styles.heroContainer}>
         
-        {/* --- TÍTULO PRINCIPAL --- */}
-        <HeroTitle 
-            line1="Alfombras que"
-            line2="Cuentan Historias"
-            subtitle="100% Personalizadas • Hechas a Mano • Edición Única"
-        />
-
-        {/* --- LAYOUT GRID: Organizamos Botón - Galería - Botón --- */}
-        <div className={styles.mainContentGrid}>
-            
-            {/* Colocamos el botón principal a la izquierda (o abajo en móvil) */}
-            <motion.div 
-                className={styles.gridAreaLeft}
-                initial={{ opacity: 0, x: -50 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true, amount: 0.5 }}
-                transition={{ duration: 0.5 }}
-            >
-                <PrimaryButton 
-                    text="DISEÑAR" 
-                    url="#crear" 
-                    Icon={FaPaintBrush} 
-                />
-            </motion.div>
-
-            {/* Nuestra galería central de cartas interactivas */}
-            <motion.div 
-                className={`${styles.cardsGallery} ${styles.gridAreaCenter}`}
-                initial={{ opacity: 0, scale: 0.9 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                viewport={{ once: true, amount: 0.3 }}
-                transition={{ duration: 0.8 }}
-            >
-                <AnimatePresence>
-                    {rugCards.map((card, index) => {
-                    const isHovered = hoveredCard === card.id;
-                    return (
-                        <RugCard 
-                            key={card.id}
-                            card={card}
-                            index={index}
-                            totalCards={rugCards.length}
-                            isHovered={isHovered}
-                            onHoverStart={() => setHoveredCard(card.id)}
-                            onHoverEnd={() => setHoveredCard(null)}
-                            width={width}
-                        />
-                    );
-                    })}
-                </AnimatePresence>
-            </motion.div>
-
-            {/* Colocamos el botón secundario a la derecha (o abajo en móvil) */}
-            <motion.div 
-                className={styles.gridAreaRight}
-                initial={{ opacity: 0, x: 50 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true, amount: 0.5 }}
-                transition={{ duration: 0.5 }}
-            >
-                <SecondaryButton 
-                    text="GALERÍA" 
-                    url="#galeria" 
-                    Icon={FaImages} 
-                />
-            </motion.div>
-
+        <div className={styles.heroHeader}>
+          <div className={styles.badge}>HYGGE RUG COLLECTIVE</div>
+          <h1 className={styles.mainTitle}>VISTE TU PISO<br/>CON ACTITUD</h1>
+          <p className={styles.heroIntro}>
+            Diseñamos piezas que rompen moldes. Desde nuestras cápsulas limitadas hasta tu creatividad más salvaje. 
+          </p>
+          <div className={styles.ctaRow}>
+             <PrimaryButton text="EXPLORAR TIENDA" url="/tienda" />
+             
+             {/* REDESIGNED AI LINK: AI Sticker / Cyber Badge */}
+             <div className={styles.aiStickerWrapper}>
+                <a href="/crear-diseno" className={styles.aiStickerLink}>
+                   <span className={styles.aiSpark}>✦</span>
+                   <div className={styles.aiTextContainer}>
+                      <span className={styles.aiOverTitle}>NUEVA FUNCIÓN</span>
+                      <span className={styles.aiMainLabel}>DISEÑAR CON IA</span>
+                   </div>
+                </a>
+             </div>
+          </div>
         </div>
-        
-        {/* --- INDICADOR DE SCROLL --- */}
-        <ScrollHint />
-        
+
+        {/* 7-CARD EXHIBITION */}
+        <div className={styles.cardsRow}>
+            {cards.map((card, i) => (
+               <div 
+                 key={card.id} 
+                 className={styles.grungeCardWrapper}
+                 style={{ 
+                    transform: `rotate(${card.rot}deg)`, 
+                    zIndex: 10 + i 
+                 }}
+               >
+                  <div className={styles.tuftingShadowBox}></div>
+                  <div className={styles.tuftingBgBox}></div>
+
+                  <div className={styles.grungeCardContent}>
+                      <div className={styles.grungeImageWrapper}>
+                         <Image src={card.src} layout="fill" objectFit="cover" alt={card.label}/>
+                         <div className={styles.blackTitleBox}>
+                             <p className={styles.grungeTitle}>{card.title}</p>
+                         </div>
+                      </div>
+                  </div>
+               </div>
+            ))}
+        </div>
+
       </div>
     </div>
   )

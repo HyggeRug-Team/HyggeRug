@@ -7,9 +7,16 @@ export const metadata = {
 };
 
 /**
- * Página Principal de Lista de Deseos
- * 
- * Grid de productos marcados como favoritos con opción de compra.
+ * @file deseos/page.jsx
+ * @description Vista principal de “Lista de Deseos”.
+ *
+ * [Nuestro enfoque]
+ * Organizamos los favoritos como una grilla para que el usuario reconozca rápido sus
+ * alfombras y pueda volver a comprarlas.
+ *
+ * [Por qué lo hemos hecho así]
+ * El grid es una estructura visual clara, y nos permite cambiar cómo cargamos datos
+ * (más adelante) sin tocar el layout.
  */
 export default function DeseosPage() {
   return (

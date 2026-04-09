@@ -7,9 +7,15 @@ export const metadata = {
 };
 
 /**
- * Página Principal de Direcciones
- * 
- * Permite al usuario ver, añadir, editar y eliminar direcciones de envío.
+ * @file direcciones/page.jsx
+ * @description Vista principal de “Mis Direcciones”.
+ *
+ * [Nuestro enfoque]
+ * Hemos dejado un contenedor visual para gestionar direcciones (ver, añadir, editar).
+ *
+ * [Por qué lo hemos hecho así]
+ * Estructurar primero la interfaz como contenedor evita cambios grandes cuando
+ * conectemos datos reales (BD) y acciones futuras.
  */
 export default function DireccionesPage() {
   return (

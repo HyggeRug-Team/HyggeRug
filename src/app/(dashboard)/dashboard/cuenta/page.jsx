@@ -10,9 +10,15 @@ export const metadata = {
 };
 
 /**
- * Página Principal de Cuenta
- * 
- * Permite cambiar datos personales, foto de perfil y contraseña.
+ * @file cuenta/page.jsx
+ * @description Vista principal de “Detalles de la Cuenta”.
+ *
+ * [Nuestro enfoque]
+ * Hemos construido esta pantalla como contenedor de `UserDetails` para mantener la
+ * lógica de perfil separada en un componente.
+ *
+ * [Por qué lo hemos hecho así]
+ * Separar contenedor y componente nos evita repetir lógica y hace el mantenimiento más simple.
  */
 export default function CuentaPage() {
   return (

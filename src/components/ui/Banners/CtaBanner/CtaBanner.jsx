@@ -1,6 +1,14 @@
-/*
- * Componente: CtaBanner
- * Descripción: Banner de llamada a la acción (Call to Action) final. Muestra un título, texto persuasivo y un botón principal para incitar al usuario a diseñar su alfombra.
+/**
+ * @file CtaBanner.jsx
+ * @description Banner final de llamada a la acción (CTA) con título, texto y botón principal.
+ *
+ * [Nuestro enfoque]
+ * Hemos creado este banner para cerrar el recorrido del usuario con un mensaje claro y una acción
+ * directa hacia el proceso de diseño.
+ *
+ * [Por qué lo hemos hecho así]
+ * Usamos un componente único para que la UI sea consistente y para evitar repetir el mismo bloque
+ * en varias páginas.
  */
 import React from "react";
 import styles from "./CtaBanner.module.css";

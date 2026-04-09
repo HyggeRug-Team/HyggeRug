@@ -3,8 +3,16 @@ import Logo from "@/components/ui/Logo/Logo";
 import styles from './auth.module.css';
 
 /**
- * Aquí realizamos el layout centrado para las páginas de login y registro.
- * Esto se encarga de mostrar solo el logo y el formulario, sin distracciones.
+ * @file layout.jsx (Auth Layout)
+ * @description Layout centrado para las páginas de login y registro.
+ *
+ * [Nuestro enfoque]
+ * Hemos mantenido el acceso (auth) lo más “limpio” posible: solo mostramos el logo y el
+ * formulario, sin barras extra ni elementos que distraigan.
+ *
+ * [Por qué lo hemos hecho así]
+ * Porque el objetivo en esta zona es que el usuario entienda rápido qué debe hacer
+ * y complete el login/registro con menos fricción.
  */
 export default function AuthLayout({ children }) {
   return (

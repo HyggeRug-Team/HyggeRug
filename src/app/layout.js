@@ -1,10 +1,28 @@
-import dynamic from 'next/dynamic';
+/**
+ * @file layout.js (RootLayout)
+ * @description Estructura base compartida por toda la aplicación.
+ *
+ * [Nuestro enfoque]
+ * Este archivo es el "cimiento" de nuestra web. Todo lo que pongamos aquí aparece
+ * en todas las páginas, desde la página de inicio hasta el panel de usuario.
+ *
+ * ¿Qué funciones críticas cumple nuestro RootLayout?
+ * 1. Gestión de Tipografías: Cargamos las fuentes de forma optimizada con Next.js Fonts.
+ *    "Rubik Bubbles" para títulos creativos y "Rubik" para textos de cuerpo.
+ * 2. SEO y Metadatos: Título, descripción e icono de pestaña para buscadores.
+ * 3. Fondo Global Persistente (SilkBackground): Capa fija con textura oscura premium.
+ *    Al colocarlo aquí, el fondo nunca se interrumpe al navegar entre páginas.
+ *
+ * [Por qué lo hemos hecho así]
+ * Centralizar fuentes, metadatos y fondo global aquí evita repetir código y asegura
+ * una experiencia visual consistente en toda la aplicación.
+ */
 import { Plus_Jakarta_Sans, Rubik, Rubik_Bubbles } from 'next/font/google';
 import './globals.css';
 import { SpeedInsights } from "@vercel/speed-insights/next"
 
 import SilkBackground from '@/components/layout/SilkBackground/SilkBackgroundWrapper';
-import KineticBackground from '@/components/layout/KineticBackground/KineticBackground'; // Importamos el fondo cinético
+import GlobalBackgroundText from '@/components/layout/GlobalBackgroundText/GlobalBackgroundText';
 
 const plusJakartaSans = Plus_Jakarta_Sans({
   subsets: ['latin'],
@@ -41,19 +59,10 @@ export default function RootLayout({ children }) {
       className={`${plusJakartaSans.variable} ${rubik.variable} ${rubikBubbles.variable}`}
     >
       <body>
-        {/* Fondo Global de la Aplicación */}
-        <div style={{ 
-            position: 'fixed', 
-            inset: 0, 
-            zIndex: -10, 
-            pointerEvents: 'none',
-            background: 'linear-gradient(180deg, #1A1A1A 0%, #1E2024 40%, #151515 100%)' // Degradado Tufting fallback
-        }}>
-            <SilkBackground />
-            <KineticBackground />
-        </div>
+        {/* Fondo global persistente y Textos flotantes globales fijos */}
+        <SilkBackground />
+        <GlobalBackgroundText />
             
-        {/* Contenido Principal */}
         <main style={{ 
           position: 'relative', 
           zIndex: 1, 
@@ -61,7 +70,7 @@ export default function RootLayout({ children }) {
           display: 'flex',     
           flexDirection: 'column',
           minHeight: '100vh',
-          overflowX: 'hidden' // Mantenemos para seguridad
+          overflowX: 'hidden'
         }}>
           {children}
           <SpeedInsights/>

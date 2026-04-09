@@ -2,10 +2,16 @@ import styles from "./pedidos.module.css";
 import React from 'react';
 
 /**
- * Página Principal de Pedidos
- * 
- * Aquí gestionamos la lógica principal y estática de la sección de Mis Pedidos.
- * Renderiza el listado de pedidos y sus estados.
+ * @file pedidos/page.jsx
+ * @description Vista principal de “Mis Pedidos”.
+ *
+ * [Nuestro enfoque]
+ * Hemos dejado esta página como contenedor de la sección de pedidos: título y área
+ * donde se mostrará el listado.
+ *
+ * [Por qué lo hemos hecho así]
+ * Separar la estructura del contenido facilita después integrar datos reales (BD/State)
+ * sin reescribir el layout.
  */
 export default function PedidosPage() {
   return (

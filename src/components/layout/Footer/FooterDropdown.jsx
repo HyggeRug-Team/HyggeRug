@@ -1,6 +1,14 @@
-/*
- * Componente: FooterDropdown
- * Descripción: Componente auxiliar para el Footer móvil que muestra una lista de enlaces desplegable con animación.
+/**
+ * @file FooterDropdown.jsx
+ * @description Componente auxiliar del footer móvil: muestra una lista de enlaces desplegable con animación.
+ *
+ * [Nuestro enfoque]
+ * Hemos creado este desplegable para que el footer no ocupe espacio en pantallas pequeñas.
+ * En móvil el usuario toca un título y mostramos los enlaces de forma progresiva.
+ *
+ * [Por qué lo hemos hecho así]
+ * Separar esta lógica en un componente nos permite reutilizar la animación y evitar repetir el mismo
+ * comportamiento en varios menús.
  */
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';

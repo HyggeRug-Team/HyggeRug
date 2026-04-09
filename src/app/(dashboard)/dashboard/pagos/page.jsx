@@ -7,9 +7,16 @@ export const metadata = {
 };
 
 /**
- * Página Principal de Métodos de Pago
- * 
- * Lista las tarjetas guardadas y permite añadir nuevas de forma segura.
+ * @file pagos/page.jsx
+ * @description Vista principal de “Métodos de Pago”.
+ *
+ * [Nuestro enfoque]
+ * Hemos planteado esta pantalla como contenedor de la lista de tarjetas y del acceso a
+ * añadir nuevas.
+ *
+ * [Por qué lo hemos hecho así]
+ * Mantener la página como “esqueleto” nos permite integrar la lógica de datos después
+ * sin romper la estructura visual.
  */
 export default function PagosPage() {
   return (

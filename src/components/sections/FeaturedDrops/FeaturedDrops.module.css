@@ -1,0 +1,199 @@
+.dropsWrapper {
+    width: 100%;
+    padding: 80px 0;
+    color: #FFF;
+    background: transparent;
+    font-family: var(--font-body);
+}
+
+.dropsContainer {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 40px;
+}
+
+.sectionHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-bottom: 60px;
+    border-bottom: 3px solid #333;
+    padding-bottom: 30px;
+}
+
+.badgeGlow {
+    color: var(--highlight-text);
+    font-family: monospace;
+    font-size: 1.1rem;
+    font-weight: bold;
+    margin-bottom: 15px;
+    display: block;
+}
+
+.titleLoud {
+    font-family: var(--font-titles);
+    font-size: clamp(2.5rem, 8vw, 4rem);
+    color: #FFF;
+    line-height: 1;
+    text-shadow: 4px 4px 0 #000;
+}
+
+.headerActions {
+    display: flex;
+    align-items: center;
+    gap: 30px;
+}
+
+.instaStroke {
+    font-family: var(--font-titles);
+    color: transparent;
+    -webkit-text-stroke: 1px #FFF;
+    font-size: 1.5rem;
+    text-decoration: none;
+    transition: color 0.2s, -webkit-text-stroke 0.2s;
+}
+.instaStroke:hover {
+    color: var(--highlight-text);
+    -webkit-text-stroke: 1px var(--highlight-text);
+}
+
+.footerActions {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 40px;
+}
+
+
+/* --- CLEAN UNIFORM LATEST ADDITIONS CARDS --- */
+.dropsGrid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 30px;
+}
+
+.dropCard {
+    background: transparent;
+    position: relative;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    height: 100%; /* Ensures uniform card height */
+    transition: transform 0.3s ease;
+}
+
+.dropCard:hover {
+    transform: translateY(-8px);
+}
+
+.imageBox {
+    width: 100%;
+    aspect-ratio: 1; /* Forces strict square images */
+    background: #0D0D0D;
+    overflow: hidden;
+    position: relative;
+    border: 2px solid #222;
+    border-radius: 8px;
+    margin-bottom: 15px;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.dropCard:hover .imageBox {
+    border-color: var(--highlight-text);
+    box-shadow: 8px 8px 0 var(--hover-text);
+}
+
+.image {
+    object-fit: cover;
+    transition: transform 0.4s ease;
+}
+
+.dropCard:hover .image {
+    transform: scale(1.05);
+}
+
+.cardBadge {
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    background: var(--highlight-text);
+    color: #000;
+    font-family: var(--font-titles);
+    padding: 6px 12px;
+    font-size: 1rem;
+    z-index: 10;
+    border: 2px solid #000;
+    border-radius: 4px;
+    box-shadow: 2px 2px 0 #000;
+}
+
+.soldOutOverlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0,0,0,0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: var(--font-titles);
+    font-size: 2.2rem;
+    color: var(--highlight-text);
+    text-shadow: 2px 2px 0 #000;
+    transform: rotate(0deg);
+    z-index: 5;
+}
+
+.cardInfo {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1; /* Pushes content to fill the remaining uniform height */
+    padding: 5px;
+}
+
+.cardInfo h3 {
+    font-family: var(--font-titles);
+    font-size: 1.5rem;
+    color: #FFF;
+    margin-bottom: auto; /* Pushes the price row to the bottom naturally */
+    line-height: 1.2;
+}
+
+.priceRow {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-top: 15px;
+    font-family: monospace;
+}
+
+.price {
+    font-size: 1.2rem;
+    font-weight: 900;
+    color: var(--accent-cyan);
+}
+
+.status {
+    background: #FFF;
+    color: #000;
+    padding: 4px 8px;
+    font-weight: bold;
+    font-size: 0.8rem;
+    border-radius: 2px;
+}
+.statusClosed {
+    background: transparent;
+    color: #999;
+    border: 1px solid #444;
+}
+
+@media (max-width: 1024px) {
+    .dropsGrid { grid-template-columns: repeat(2, 1fr); }
+    .sectionHeader { flex-direction: column; align-items: flex-start; gap: 20px; }
+    .headerActions { flex-direction: column; align-items: flex-start; }
+}
+
+@media (max-width: 768px) {
+    .dropsContainer { padding: 0 20px; }
+    .dropsGrid { grid-template-columns: 1fr; }
+    .soldOutOverlay { font-size: 2rem; }
+    .footerActions { justify-content: center; }
+}

@@ -1,35 +1,33 @@
-/*
- * Componente: Logo
- * Descripción: Componente flexible para mostrar el logotipo de la marca. Permite variantes de tamaño, modo compacto (solo siglas) y opción de enlace o no.
+/**
+ * @file Logo.jsx
+ * @description Identidad visual de la marca Hygge Rug.
+ * 
+ * [Nuestro enfoque]
+ * El logotipo es el alma de cualquier marca. Para Hygge Rug, hemos querido que el logo 
+ * no sea una simple imagen, sino que parezca una auténtica etiqueta de tela cosida a una alfombra.
+ * 
+ * [Por qué lo hemos hecho así]
+ * 1. Tipografía Mix: Combinamos letras redondeadas y divertidas ("HYGGE") con otras más serias y 
+ *    espaciadas ("RUG") para reflejar que somos artesanos profesionales pero con un toque moderno.
+ * 2. Detalles realistas: Si te fijas bien, la etiqueta tiene un pequeño "hilo suelto" decorativo. 
+ *    Esto refuerza la idea del trabajo manual frente a lo fabricado en serie por máquinas.
+ * 3. Versatilidad: Hemos programado el logo para que pueda ser gigante en la pantalla principal 
+ *    o pequeñito y compacto en el móvil, adaptándose siempre con total nitidez.
  */
 import React from 'react';
 import Link from 'next/link';
 import styles from './Logo.module.css';
 
-/**
- * Componente Logo Rediseñado ("Etiqueta de Marca")
- * 
- * Estilo: Modern Craft / Tufting Label
- * - Texto principal: Hygge (Rubik Bubbles)
- * - Texto secundario: Rug (Sans Serif Espaciado)
- * - Efecto: Etiqueta cosida con sombra dura.
- * 
- * @param {number|string} size - Tamaño base (ancho aprox). Controla la escala.
- * @param {boolean} noLink - Si es true, no envuelve en Link (para evitar anidamiento).
- * @param {string} variant - 'text' (completo) o 'compact' (solo siglas HR).
- */
 function Logo({ size = 100, noLink = false, variant = 'text' }) {
   
-  // Cálculo de escala para que 'size' tenga sentido visual
-  // Si size=100, la fuente base será aprox 22px para que el bloque total mida cerca de 100px de ancho.
-  // Ajustado a ojo: fontSize = size * 0.22
+  // Calculamos la escala visual basándonos en el tamaño que nos pidan (size)
   const scale = typeof size === 'number' ? size * 0.22 : 20;
 
   const Content = (
     <div className={styles.logoLabel} style={{ fontSize: `${scale}px` }}>
       <span className={styles.logoTextMain}>HYGGE</span>
       <span className={styles.logoTextSub}>RUG</span>
-      {/* Detalle decorativo: Hilo suelto de la etiqueta */}
+      {/* Detalle decorativo: Hilo suelto de la etiqueta que simula costura real */}
       <div className={styles.thread}></div>
     </div>
   );

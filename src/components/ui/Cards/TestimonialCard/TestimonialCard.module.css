@@ -1,17 +1,18 @@
 /* TestimonialCard.module.css */
 .testimonialCard {
-    background: #f0f0f0;
-    /* Textura tela clara */
-    background-image: url("data:image/svg+xml,%3Csvg width='4' height='4' viewBox='0 0 4 4' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 3h1v1H1V3zm2-2h1v1H3V1z' fill='%23d1d1d1' fill-opacity='0.4' fill-rule='evenodd'/%3E%3C/svg%3E");
-    padding: 30px;
-    border-radius: 4px; /* Más cuadrado como etiqueta */
+    background: rgba(255, 255, 255, 0.03);
+    /* Textura tela oscura */
+    background-image: url("data:image/svg+xml,%3Csvg width='4' height='4' viewBox='0 0 4 4' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 3h1v1H1V3zm2-2h1v1H3V1z' fill='%23ffffff' fill-opacity='0.10' fill-rule='evenodd'/%3E%3C/svg%3E");
+    padding: 32px 28px;
+    border-radius: 20px;
     text-align: center;
     position: relative;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    border: 2px dashed rgba(255, 255, 255, 0.14);
+    box-shadow: 0 14px 30px rgba(0,0,0,0.55);
     
     /* Zigzag border top/bottom simulado con css (complejo, simplificamos con dashed) */
-    border-top: 4px dashed #000;
-    border-bottom: 4px dashed #000;
+    border-top: 4px dashed rgba(255, 255, 255, 0.1);
+    border-bottom: 4px dashed rgba(255, 255, 255, 0.1);
 }
 
 .testimonialCard::before {
@@ -23,9 +24,9 @@
     transform: translateX(-50%);
     width: 20px;
     height: 20px;
-    background: #333;
+    background: rgba(0,0,0,0.65);
     border-radius: 50%;
-    border: 4px solid #f0f0f0;
+    border: 4px solid rgba(255, 255, 255, 0.14);
 }
 
 .stars {
@@ -43,7 +44,7 @@
 
 .testimonialText {
     font-style: italic;
-    color: #222; 
+    color: var(--grey-100);
     font-size: 1.1rem;
     margin-bottom: 20px;
     font-weight: 500;
@@ -52,7 +53,7 @@
 
 .testimonialAuthor {
     font-weight: 900;
-    color: #000;
+    color: var(--highlight-text);
     font-size: 0.9rem;
     text-transform: uppercase;
     letter-spacing: 2px;

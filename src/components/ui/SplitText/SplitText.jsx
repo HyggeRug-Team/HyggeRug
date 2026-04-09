@@ -1,6 +1,15 @@
 /*
- * Componente: SplitText
- * Descripción: Componente avanzado que utiliza GSAP para dividir el texto en caracteres, palabras o líneas y aplicar animaciones secuenciales al hacer scroll.
+ * @file SplitText.jsx
+ * @description Componente para animar texto al hacer scroll, dividiéndolo en “trozos”.
+ * 
+ * [Nuestro enfoque]
+ * Hemos usado GSAP para convertir un texto normal en piezas (caracteres/palabras/líneas) y animarlas
+ * de forma ordenada. Así conseguimos un efecto visual profesional sin que el resto de la página
+ * dependa de lógica complicada.
+ *
+ * [Por qué lo hemos hecho así]
+ * Hemos mantenido la animación encapsulada en este componente para que el resto del proyecto
+ * solo “use” el efecto y no tenga que entender la complejidad interna.
  */
 import { useRef, useEffect, useState } from 'react';
 import { gsap } from 'gsap';
@@ -37,13 +46,14 @@ const SplitText = ({
 
   // Para que no se rompa nada, esperamos a que las fuentes carguen
   useEffect(() => {
+    const markLoaded = () => setFontsLoaded(true);
+
     if (document.fonts.status === 'loaded') {
-      setFontsLoaded(true);
-    } else {
-      document.fonts.ready.then(() => {
-        setFontsLoaded(true);
-      });
+      const t = window.setTimeout(markLoaded, 0);
+      return () => window.clearTimeout(t);
     }
+
+    document.fonts.ready.then(markLoaded);
   }, []);
 
   useGSAP(

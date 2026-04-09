@@ -1,15 +1,29 @@
-/*
- * Componente: HeroTitle
- * Descripción: Componente específico para el título principal de la sección Hero. Aplica animaciones diferenciadas y escalonadas a cada línea del título y subtítulo.
+/**
+ * @file HeroTitle.jsx
+ * @description Pieza central de la identidad visual: el gran título de bienvenida.
+ * 
+ * [Nuestro enfoque]
+ * Hemos diseñado este título para que sea lo primero que impacte al usuario. No es un texto 
+ * estático; hemos programado cada línea para que aparezca con un ritmo diferente (Staggered Animation).
+ * 
+ * [Por qué lo hemos hecho así]
+ * Elegimos una animación escalonada para guiar la lectura, transmitir sensación de calidad y
+ * mantener la legibilidad en móvil.
+ *
+ * ¿Por qué esta coreografía de letras?
+ * 1. Jerarquía Visual: Al animar primero la frase principal y luego el subtítulo, guiamos 
+ *    la lectura del usuario de forma natural.
+ * 2. Sensación de Calidad: Los movimientos suaves (`easeOut` y `backOut`) transmiten que 
+ *    detrás de la web hay un trabajo de diseño cuidado, igual que nuestras alfombras.
+ * 3. Legibilidad: Separar el título en líneas nos permite jugar con diferentes tamaños de fuente, 
+ *    haciendo que el mensaje sea potente incluso en pantallas de móvil.
  */
 import React from "react";
 import styles from "./HeroTitle.module.css";
 import { motion } from "framer-motion";
 
-// Definimos el componente para nuestro título principal con animaciones escalonadas
 function HeroTitle({ line1, line2, subtitle }) {
   return (
-    // Bloque principal con animación de entrada suave
     <motion.div 
         className={styles.titleBlock}
         initial={{ opacity: 0, y: 30 }}
@@ -18,7 +32,6 @@ function HeroTitle({ line1, line2, subtitle }) {
         transition={{ duration: 0.8, ease: "easeOut" }}
     >
         <h1 className={styles.mainTitle}>
-            {/* Animamos la primera línea con un ligero efecto de escala */}
             <motion.span 
               className={styles.titleLine1}
               initial={{ opacity: 0, scale: 0.9 }}
@@ -27,7 +40,6 @@ function HeroTitle({ line1, line2, subtitle }) {
             >
               {line1}
             </motion.span>
-            {/* La segunda línea entra un poco después para crear ritmo */}
             <motion.span 
               className={styles.titleLine2}
               initial={{ opacity: 0, y: 20 }}

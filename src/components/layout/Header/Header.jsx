@@ -1,6 +1,18 @@
-/*
- * Componente: Header
- * Descripción: Cabecera principal de la aplicación. Gestiona la navegación, el logotipo y la adaptación del menú para dispositivos móviles (hamburguesa).
+/**
+ * @file Header.jsx
+ * @description Cabecera principal de la aplicación. Controla la navegación y la identidad visual.
+ *
+ * [Nuestro enfoque]
+ * Hemos creado esta cabecera como el “centro de mandos” de nuestra web. 
+ * Si el usuario está en la pantalla de acceso (Login/Registro), escondemos navegación para
+ * que se centre en entrar a su cuenta sin distracciones.
+ *
+ * Además, adaptamos el comportamiento al tamaño de pantalla: en móvil mostramos menú tipo
+ * “hamburguesa” y en escritorio dejamos la navegación visible.
+ *
+ * [Por qué lo hemos hecho así]
+ * Hemos elegido estas reglas para mejorar la experiencia de usuario y evitar que el panel de
+ * acceso se sienta “mezclado” con el contenido comercial.
  */
 "use client";
 import React, { useState, useEffect } from 'react';
@@ -19,11 +31,11 @@ import {
   FaBars,
   FaXmark,
 } from "react-icons/fa6";
-import { motion } from 'framer-motion';
 
 function Header() {
   const [isMenuOpen, setIsOpenMenu] = useState(false);
   const pathname = usePathname();
+  // Comprobamos si estamos en la página de autenticación para simplificar la interfaz
   const isAuthPage = pathname === '/auth';
 
   const toggleMenu = () => {
@@ -31,6 +43,7 @@ function Header() {
   }
 
   useEffect(() => {
+    // Si el usuario ensancha la ventana, cerramos el menú móvil automáticamente
     const handleResize = () => {
       if (window.innerWidth > 768) {
         setIsOpenMenu(false);
@@ -45,7 +58,7 @@ function Header() {
   const MENU_ITEMS = [
     { id: 1, label: "Inicio", url: "/", icon: FaHouse },
     { id: 2, label: "Personalizar", url: "/personalizar", icon: FaPaintbrush },
-    { id: 3, label: "Galería", url: "/tienda", icon: FaImages },
+    { id: 3, label: "Tienda", url: "/tienda", icon: FaImages },
     { id: 6, label: "Buscar", url: "/buscar", icon: FaMagnifyingGlass },
     { id: 5, label: "Carrito", url: "/carrito", icon: FaCartShopping },
     { id: 4, label: "Cuenta", url: "/auth", icon: FaCircleUser },
@@ -60,12 +73,13 @@ function Header() {
       {!isAuthPage && (
         <>
           <nav className={styles.nav}>
-            <Link href='/tienda' className={styles.navLink}>Galería</Link>
+            <Link href='/tienda' className={styles.navLink}>Tienda</Link>
             <Link href='/personalizar' className={styles.navLink}>Personalizar</Link>
             <Link href='/sobre-nosotros' className={styles.navLink}>Nosotros</Link>
           </nav>
 
           <div className={styles.buttonsMenu}>
+            {/* Filtramos los iconos que queremos mostrar en la barra persistente */}
             {MENU_ITEMS.filter(item => [4, 5, 6].includes(item.id)).map((item) => {
               const Icono = item.icon;
               return (

@@ -1,22 +1,27 @@
-/*
- * Componente: SectionWrapper
- * Descripción: Contenedor genérico para envolver secciones del dashboard y mantener una consistencia visual de espaciado y fondo.
+/**
+ * @file SectionWrapper.jsx
+ * @description Contenedor unificado para las diferentes secciones del panel de usuario.
+ * 
+ * [Nuestro enfoque]
+ * Hemos creado este componente para no tener que estar definiendo el diseño de cada 
+ * sección desde cero. Es como un "marco" donde metemos el contenido de la web.
+ * 
+ * [Por qué lo hemos hecho así]
+ * 1. Estética Coherente: Todas las partes del panel tienen el mismo margen, el mismo color 
+ *    de fondo y el mismo estilo. Esto evita que la web parezca un puzle mal montado.
+ * 2. Limpieza de Código: En lugar de repetir las mismas clases CSS en 10 archivos distintos, 
+ *    las tenemos centralizadas aquí (DRY). Si algún día queremos que los bordes sean más redondeados, 
+ *    solo tenemos que cambiarlo en este archivo y ¡tachán!, se actualiza en toda la web.
  */
-// Es el componente que estás usando como contenedor en el dashboard, solo tiene el estilo de colores y el padding , no es ni flex ni nada
 import React from 'react';
 import styles from './SectionWrapper.module.css';
-function SectionWrapper({ children  }) {
+
+function SectionWrapper({ children }) {
   return (
     <div className={styles.wrapContainer}>
       {children}
-      {/*
-          Para usar el componente lo importas y lo usas asi: 
-          <SectionWrapper>
-              Aqui metes lo que te de la gana pero ya va a estar en un div con el estilo unificado
-          <SectionWrapper/>
-      */}
     </div>
   )
 }
 
-export default SectionWrapper
+export default SectionWrapper;

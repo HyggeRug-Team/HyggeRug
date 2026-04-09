@@ -1,6 +1,25 @@
-/*
- * Componente: AuthForm
- * Descripción: Gestiona el formulario de autenticación (Login/Registro), permitiendo iniciar sesión con Google o correo/contraseña. Incluye validaciones, manejo de estado y animaciones.
+/**
+ * @file AuthForm.jsx
+ * @description Componente central de Autenticación (Login & Registro).
+ * 
+ * [Nuestro enfoque]
+ * Hemos diseñado este componente como el "guardián" de nuestra aplicación. 
+ * Es la puerta de entrada para los usuarios y, por tanto, donde más seguridad hemos aplicado.
+ * 
+ * [Por qué lo hemos hecho así]
+ * Hemos priorizado la seguridad en esta pieza porque aquí es donde “empieza” la identidad
+ * del usuario (login/registro y OAuth).
+ *
+ * ¿Qué decisiones técnicas hemos tomado?
+ * 1. Formulario Dual: En lugar de hacer dos páginas distintas, hemos creado un formulario 
+ *    "inteligente" que cambia entre Login y Registro con una animación fluida. Esto hace que 
+ *    la web se sienta más rápida y moderna (UX).
+ * 2. Autenticación Híbrida: Permitimos entrar con el método clásico (email/contraseña) o 
+ *    usando Google. Para Google, hemos programado un sistema de "State aleatorio" que 
+ *    evita ataques CSRF, asegurándonos de que quien intenta entrar es realmente quien dice ser.
+ * 3. Seguridad de Datos: Las contraseñas nunca viajan solas; se envían a nuestra API donde 
+ *    se procesan de forma segura. Además, al entrar, el servidor te da un "token" (JWT) 
+ *    que guardamos bajo llave en una cookie invisible para los hackers.
  */
 'use client';
 import React, { useState } from 'react';
@@ -12,7 +31,6 @@ import styles from './AuthForm.module.css';
 
 import PrimaryButton from '@/components/ui/Buttons/PrimaryButton/PrimaryButton';
 import SecondaryButton from '@/components/ui/Buttons/SecondaryButton/SecondaryButton';
-import TertiaryButton from '@/components/ui/Buttons/TertiaryButton/TertiaryButton';
 import FloatingLabelInput from '@/components/ui/Inputs/FloatingLabelInput/FloatingLabelInput';
 import SubmitButton from '@/components/ui/Buttons/SubmitButton/SubmitButton';
 import StatusMessage from '@/components/ui/Feedback/StatusMessage/StatusMessage';
@@ -20,13 +38,24 @@ import StatusMessage from '@/components/ui/Feedback/StatusMessage/StatusMessage'
 import { FaGoogle } from 'react-icons/fa';
 import { IoPersonAddOutline } from 'react-icons/io5';
 
-// Función para el boton de inicio de sesión de google
+/**
+ * Inicia el flujo Authorization Code Grant de OAuth 2.0 para Google.
+ * 
+ * Generamos un parámetro 'state' aleatorio y lo guardamos temporalmente en una 
+ * cookie (con SameSite=Lax). Cuando Google devuelve el callback, nuestro backend  
+ * contrastará este estado para prevenir ataques CSRF (Cross-Site Request Forgery).
+ */
 const handleGoogleLogin = () => {
-  // State aleatorio para seguridad
-    var randomState = Math.random().toString(36).substring(2);
+  // Generación de un token pseudoaleatorio (State aleatorio para seguridad) para mitigar ataques CSRF
+    const bytes = new Uint8Array(16);
+    window.crypto.getRandomValues(bytes);
+    const randomState = Array.from(bytes)
+      .map((b) => b.toString(16).padStart(2, '0'))
+      .join('');
   // Lo guardamos como cookie que dura 10 minutos 
   // SameSite es un parametro de seguridad que permite o no que acceda desde otro sitio para evitar ataques
-    document.cookie = `oauth_state=${randomState}; max-age=600; path=/; SameSite=Lax`;
+    const secureFlag = window.location.protocol === 'https:' ? '; Secure' : '';
+    document.cookie = `oauth_state=${encodeURIComponent(randomState)}; max-age=600; path=/; SameSite=Lax${secureFlag}`;
   // Direccion de google
     const rootUrl = "https://accounts.google.com/o/oauth2/v2/auth";
   
@@ -55,7 +84,11 @@ const handleGoogleLogin = () => {
     window.location.href = `${rootUrl}?${qs}`;
 };
 export default function AuthForm() {
-  // Aquí activamos el router para poder movernos por la web como si fuera un menú
+  /**
+   * Router para navegación programática (para poder movernos por la web como si fuera un menú).
+   * Next.js /navigation permite re-direcciones en Client Components 
+   * tras la resolución de llamadas POST sin recargar el DOM (Single Page Application).
+   */
   const router = useRouter();
 
   // Aquí controlamos si el usuario quiere entrar o crearse una cuenta nueva
@@ -79,16 +112,30 @@ export default function AuthForm() {
     setFormData({ ...formData, [name]: value });
   };
 
-  // Esto se encarga de cambiar entre el formulario de entrar y el de registro
+  /**
+   * Permite alternar la vista entre el formulario de Login y Registro.
+   * Reutilizar un componente principal mediante un estado booleano
+   * sigue el principio DRY (Don't Repeat Yourself), evitando mantener dos formularios idénticos en UI.
+   */
   const toggleView = () => {
     setIsLogin(!isLogin);
     setMensaje({ texto: '', tipo: '' }); // Limpiar mensajes al cambiar
   };
 
-  // Aquí realizamos el envío de los datos cuando se pulsa el botón principal
+  /**
+   * Envía las credenciales y el payload al endpoint adecuado de nuestra API backend.
+   * 
+   * Se utiliza `fetch` nativo haciendo una petición HTTP POST en formato JSON. 
+   * Validamos la contraseña lado-cliente para evitar una llamada en falso al backend.
+   * Si la respuesta es HTTP 201 o 200, redirigimos a `/dashboard`. De lo contrario 
+   * capturamos y renderizamos el error (`data.error`).
+   * 
+   * @param {React.FormEvent} e Evento sintético.
+   */
   const handleSubmit = async (e) => {
     e.preventDefault();
-    // Aquí limpiamos los mensajes que hubiera de antes
+    
+    // Purga de mensajes anteriores (evita conflictos visuales en UI)
     setMensaje({ texto: '', tipo: '' });
 
     // Validaciones especificas de registro
@@ -103,7 +150,7 @@ export default function AuthForm() {
       // Aquí decidimos a qué parte de nuestra API vamos a llamar
       const endpoint = isLogin ? '/api/auth/login' : '/api/auth/register';
 
-      // Aquí hacemos la llamada mágica al servidor y esperamos su respuesta
+      // Fetch al endpoint de nuestra API construida con Route Handlers de Next.js (lo que viene llegando a ser una llamada mágica al servidor y esperamos su respuesta).
       const response = await fetch(endpoint, {
         method: 'POST',
         // Esto se encarga de decirle al servidor que le mandamos un JSON

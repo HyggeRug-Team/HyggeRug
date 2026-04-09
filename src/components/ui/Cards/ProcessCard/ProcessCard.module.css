@@ -1,0 +1,74 @@
+/* ProcessCard.module.css */
+
+.processCard {
+  background: #0D0D0D;
+  border: 1px solid #222;
+  padding: 30px;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.2s ease;
+}
+
+.processCard:hover {
+  border-color: var(--highlight-text);
+  transform: translateY(-5px);
+}
+
+.cardHeader {
+  display: flex;
+  align-items: flex-end;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.cardNumber {
+  font-family: var(--font-titles);
+  font-size: 3rem;
+  line-height: 0.8;
+  color: var(--highlight-text);
+}
+
+.processCard h4 {
+  font-size: 1.2rem;
+  color: #FFD701;
+  font-weight: 900;
+}
+
+.processCard p {
+  font-size: 0.95rem;
+  color: #BBB;
+  line-height: 1.5;
+  margin-bottom: 25px;
+}
+
+.cardVisual {
+  height: 120px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: auto;
+  filter: url(#tuftingBg);
+}
+
+@media (max-width: 768px) {
+  .processCard {
+    padding: 20px;
+  }
+
+  .cardNumber {
+    font-size: 2.2rem;
+  }
+
+  .processCard h4 {
+    font-size: 1rem;
+  }
+
+  .processCard p {
+    font-size: 0.85rem;
+  }
+
+  .cardVisual {
+    height: 100px;
+  }
+}

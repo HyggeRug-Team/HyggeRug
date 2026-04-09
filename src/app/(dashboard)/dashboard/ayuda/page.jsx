@@ -2,9 +2,15 @@ import styles from "./ayuda.module.css";
 import React from 'react';
 
 /**
- * Página Principal de Ayuda
- * 
- * FAQ, contacto y recursos de soporte.
+ * @file ayuda/page.jsx
+ * @description Vista principal de “Ayuda y Soporte”.
+ *
+ * [Nuestro enfoque]
+ * Hemos separado esta zona para que el usuario encuentre respuestas, contacto y recursos
+ * en una pantalla clara.
+ *
+ * [Por qué lo hemos hecho así]
+ * Así el panel queda organizado y no mezclamos ayuda con pantallas de gestión (cuenta, pedidos, etc.).
  */
 export default function AyudaPage() {
   return (

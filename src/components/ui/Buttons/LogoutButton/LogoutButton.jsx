@@ -1,6 +1,14 @@
-/*
- * Componente: LogoutButton
- * Descripción: Botón funcional para cerrar la sesión del usuario. Maneja la petición a la API de logout y redirige a la página de autenticación. Personalizable con texto e iconos.
+/**
+ * @file LogoutButton.jsx
+ * @description Botón de logout. Llamamos a la API `/api/auth/logout` y redirigimos a `/auth`.
+ *
+ * [Nuestro enfoque]
+ * Hemos aislado el comportamiento del cierre de sesión para que cualquier parte del panel
+ * pueda reutilizarlo sin copiar lógica.
+ *
+ * [Por qué lo hemos hecho así]
+ * Centralizar el logout reduce errores y nos ayuda a mantener un punto único de mantenimiento
+ * para futuras mejoras de seguridad o UX.
  */
 'use client';
 import { useRouter } from "next/navigation";

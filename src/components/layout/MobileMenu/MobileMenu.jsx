@@ -1,6 +1,17 @@
-/*
- * Componente: MobileMenu
- * Descripción: Menú de navegación lateral para dispositivos móviles. Incluye enlaces de navegación, redes sociales y un mensaje decorativo.
+/**
+ * @file MobileMenu.jsx
+ * @description Menú lateral desplegable optimizado exclusivamente para móviles.
+ *
+ * [Nuestro enfoque]
+ * Hemos dedicado este componente a la navegación móvil. Es el menú que “nace” desde el lateral
+ * cuando pulsamos el botón de tres rayas, con enlaces muy visuales y consistentes.
+ *
+ * También incluimos un mensaje de marca y accesos rápidos a nuestras redes sociales para
+ * reforzar el estilo de Hygge Rug.
+ *
+ * [Por qué lo hemos hecho así]
+ * Hemos usado una transición suave para que se sienta rápido y “tipo app”, evitando que el
+ * menú parezca un elemento suelto dentro de la página.
  */
 'use client';
 import React from 'react';
@@ -20,7 +31,6 @@ export default function MobileMenu({ isOpen, menuItems, onClose }) {
         <h4>Diseño artesanal para tu hogar</h4>
       </div>
 
-      {/* Botones del menú desplegable */}
       <div className={styles.buttonMobileMenu}>
         {menuItems.map((item) => {
           const IconoMovil = item.icon; 
@@ -46,15 +56,9 @@ export default function MobileMenu({ isOpen, menuItems, onClose }) {
         </div>
 
         <div className={styles.socialMedias}>
-          <a href="#" target="_blank" rel="noopener noreferrer">
-            <FaFacebookF />
-          </a>
-          <a href="https://www.instagram.com/hygge_rug/" target="_blank" rel="noopener noreferrer">
-            <AiFillInstagram />
-          </a>
-          <a href="#" target="_blank" rel="noopener noreferrer">
-            <FaXTwitter />
-          </a>
+          <a href="#" target="_blank" rel="noopener noreferrer"><FaFacebookF /></a>
+          <a href="https://www.instagram.com/hygge_rug/" target="_blank" rel="noopener noreferrer"><AiFillInstagram /></a>
+          <a href="#" target="_blank" rel="noopener noreferrer"><FaXTwitter /></a>
         </div>
       </div>
     </div>

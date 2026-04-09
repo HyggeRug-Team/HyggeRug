@@ -1,6 +1,16 @@
-/*
- * Componente: WeatherWidget
- * Descripción: Widget que muestra el clima actual basado en la geolocalización del usuario. Utiliza la API de Open-Meteo y muestra temperatura e icono del estado del tiempo.
+/**
+ * @file WeatherWidget.jsx
+ * @description Widget de clima basado en geolocalización del usuario.
+ * Consultamos una API pública y mostramos temperatura e icono del estado del tiempo.
+ *
+ * [Nuestro enfoque]
+ * Hemos priorizado que el widget no rompa la experiencia: si el usuario no da permisos de
+ * ubicación, mostramos un fallback (Madrid).
+ *
+ * [Por qué lo hemos hecho así]
+ * Evitamos pantallas en blanco y garantizamos que el dashboard siga siendo usable.
+ * Además, mantenemos la lógica encapsulada en un componente para que el resto de la UI
+ * no tenga que entender geolocalización o llamadas a APIs.
  */
 "use client";
 

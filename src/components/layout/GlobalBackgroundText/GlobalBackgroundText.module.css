@@ -1,0 +1,35 @@
+.globalTextContainer {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  /* Z-index justo encima del SilkBackground (-10) pero detrás del contenido (0+) */
+  z-index: -5; 
+  overflow: hidden;
+}
+
+.floatText {
+  position: absolute;
+  font-family: var(--font-titles);
+  color: transparent;
+  /* Un trazo muy sutil y nítido para que no se vea borroso */
+  -webkit-text-stroke: 1px rgba(255, 255, 255, 0.04);
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+/* Esparcimos las letras por toda la pantalla de forma fija (siempre visibles) */
+.text1 { top: 10%; left: -2%; transform: rotate(-5deg); font-size: 14vw; }
+.text2 { top: 40%; right: -5%; transform: rotate(5deg); font-size: 9vw; -webkit-text-stroke: 1px rgba(255, 255, 255, 0.04); }
+.text3 { bottom: 15%; left: -5%; transform: rotate(-8deg); font-size: 11vw; }
+.text4 { top: 65%; right: 5%; transform: rotate(10deg); font-size: 7vw; }
+.text5 { top: -2%; right: 15%; transform: rotate(3deg); font-size: 6vw; -webkit-text-stroke: 1px rgba(255, 255, 255, 0.03); }
+
+@media (max-width: 768px) {
+    .text1 { font-size: 20vw; top: 15%; }
+    .text2 { font-size: 15vw; top: 50%; right: -10%; }
+    .text3 { font-size: 18vw; bottom: 20%; }
+    .text4 { font-size: 12vw; top: 75%; }
+    .text5 { display: none; }
+}

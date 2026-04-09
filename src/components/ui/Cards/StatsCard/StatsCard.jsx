@@ -1,6 +1,13 @@
-/*
- * Componente: StatsCard
- * Descripción: Tarjeta para mostrar estadísticas o datos numéricos relevantes con un icono representativo.
+/**
+ * @file StatsCard.jsx
+ * @description Tarjeta compacta para mostrar una estadística (número + texto) con un icono.
+ *
+ * [Nuestro enfoque]
+ * Hemos creado este componente para que los KPIs del dashboard mantengan el mismo estilo y
+ * para no repetir la misma estructura en cada página.
+ *
+ * [Por qué lo hemos hecho así]
+ * Reutilizar tarjetas reduce errores visuales y facilita cambiar diseño en un solo lugar.
  */
 import React from 'react';
 import styles from "./StatsCard.module.css";

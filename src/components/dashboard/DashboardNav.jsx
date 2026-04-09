@@ -1,11 +1,14 @@
 /*
- * Componente: DashboardNav
- * Descripción: Contenido de navegación específico del Dashboard.
- *   - Logo (completo en desktop, compacto en tablet)
- *   - Links de navegación con estado activo
- *   - Sección inferior con avatar, nombre y popup de logout (tablet)
- *
- * Se usa como children/footer del componente Sidebar genérico.
+ * @file DashboardNav.jsx
+ * @description Navegación del área privada del usuario (Dashboard).
+ * 
+ * [Nuestro enfoque]
+ * Hemos pensado esta barra para que el usuario tenga siempre a mano las secciones importantes.
+ * Incluimos el logo (según el tamaño de pantalla), los enlaces con estilo “activo” y el acceso a cerrar sesión.
+ * 
+ * [Por qué lo hemos hecho así]
+ * Usamos `usePathname()` para saber en qué página está el usuario y marcar el enlace correspondiente,
+ * evitando que el usuario se pierda dentro del panel.
  */
 "use client";
 
@@ -84,10 +87,13 @@ export function DashboardLogout({ user }) {
   const popupRef = useRef(null);
 
   const avatarUrl = user?.profileImage || "/profile-default.png";
-  const userName  = user?.name || "Usuario";
+  const userName  = user?.nickname || "Usuario";
 
   // Cerramos el popup al cambiar de ruta
-  useEffect(() => { setLogoutPopup(false); }, [pathname]);
+  useEffect(() => {
+    const t = window.setTimeout(() => setLogoutPopup(false), 0);
+    return () => window.clearTimeout(t);
+  }, [pathname]);
 
   // Cerramos el popup al hacer clic fuera
   useEffect(() => {
@@ -128,7 +134,7 @@ export function DashboardLogout({ user }) {
         tabIndex={0}
         aria-label="Opciones de sesión"
       >
-        <img src={avatarUrl} alt="Perfil" />
+        <img src={avatarUrl} alt="Foto de perfil" />
         <p>{userName}</p>
         <LogoutButton
           icon={<FaArrowRightFromBracket size={18} />}

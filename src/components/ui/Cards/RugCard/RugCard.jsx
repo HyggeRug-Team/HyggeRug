@@ -1,6 +1,19 @@
-/*
- * Componente: RugCard
- * Descripción: Tarjeta interactiva y animada que representa una alfombra. Incluye efectos 3D al pasar el cursor y animaciones de abanico en la galería.
+/**
+ * @file RugCard.jsx
+ * @description Tarjeta interactiva de producto (alfombra) con efectos visuales avanzados.
+ *
+ * [Nuestro enfoque]
+ * Estas tarjetas son las protagonistas de nuestra sección principal (Hero). Hemos buscado que
+ * no sean “simples fotos”, sino un elemento interactivo que se entienda rápido y se sienta
+ * premium.
+ *
+ * [Por qué lo hemos hecho así]
+ * Elegimos un abanico 3D y una animación de hover porque ayudan a comunicar variedad de diseños
+ * y a guiar la mirada del usuario hacia el centro del hero.
+ *
+ * 1. Efecto abanico: calculamos rotación y posición respecto al centro.
+ * 2. Centrado: usamos `left: 50%` y cálculos simétricos para mantener el conjunto estable.
+ * 3. Hover: la carta “cobra vida”, se acerca y se endereza.
  */
 import React from "react";
 import styles from "./RugCard.module.css";
@@ -8,18 +21,15 @@ import { motion } from "framer-motion";
 import Image from "next/image";
 
 function RugCard({ card, index, totalCards, isHovered, onHoverStart, onHoverEnd, width }) {
-  // Medidas: Escritorio 280px, Tablet 220px, Móvil 180px.
-  // En pantallas muy grandes (>1600px) expandimos
+  // Ajustamos los tamaños dinámicamente para que se vean bien en cualquier pantalla
   const isWide = width > 1600;
   
-  // Aumentamos el espacio entre cartas para que se vean bien separadas
+  // Calculamos el espacio y el ancho de la carta según el dispositivo
   const cardSpacing = width < 768 ? 50 : (isWide ? 180 : 120);
-  
-  // Calculamos el ancho de la carta según el dispositivo
   const cardWidth = width < 768 ? 180 : (width < 1024 ? 220 : (isWide ? 380 : 280)); 
   const halfWidth = cardWidth / 2;
   
-  // Encontramos cuál es la carta central
+  // Buscamos el centro del grupo para que la animación sea simétrica
   const centerIndex = (totalCards - 1) / 2;
   const distanceFromCenter = index - centerIndex;
 
@@ -28,11 +38,11 @@ function RugCard({ card, index, totalCards, isHovered, onHoverStart, onHoverEnd,
       className={styles.rugPatch} 
       initial={{ rotate: 0, x: -halfWidth, y: 100, opacity: 0, scale: 0.5 }}
       animate={{
-        // Rotamos las cartas en abanico dependiendo de cuán lejos estén del centro
+        // Rotamos las cartas en abanico
         rotate: isHovered ? 0 : distanceFromCenter * (width < 768 ? 10 : 5), 
-        // Efecto arco: la carta central va más arriba que las de los lados
+        // Efecto arco: las de los extremos bajan un poco
         y: isHovered ? -20 : Math.abs(distanceFromCenter) * 15, 
-        // Espaciado horizontal relativo al centro (restamos la mitad del ancho para centrar en el origen)
+        // Posicionamiento horizontal preciso desde el centro de la pantalla
         x: (distanceFromCenter * cardSpacing) - halfWidth,
         scale: isHovered ? 1.05 : 0.9, 
         opacity: 1,
@@ -57,7 +67,7 @@ function RugCard({ card, index, totalCards, isHovered, onHoverStart, onHoverEnd,
       }}
       style={{ 
         left: '50%',
-        marginLeft: 0, // Reseteamos el margen manual porque ya usamos la traducción X desde el centro
+        marginLeft: 0,
         '--accent-color': card.color,
         transformStyle: "preserve-3d" 
       }}

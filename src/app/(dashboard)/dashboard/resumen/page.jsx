@@ -17,7 +17,6 @@ import {
   FaChevronRight,
   FaStore // Icono de Tienda
 } from "react-icons/fa6";
-import { ST } from "next/dist/shared/lib/utils";
 
 export const metadata = {
   title: "Resumen | Hygge Rug",
@@ -25,12 +24,18 @@ export const metadata = {
 };
 
 /**
- * Página Principal del Dashboard - VISTA RESUMEN (FINAL TUFTING LAYOUT)
- * 
- * Combinamos:
- * - Estilo: Tufting Craft (bordes dashed, texturas orgánicas).
- * - Layout: Dashboard Funcional (KPIs + Lista de Pedidos).
- * - Funcionalidad: Clima Real Geolocalizado.
+ * @file page.jsx (Resumen)
+ * @description Vista principal del Dashboard donde mostramos KPIs y una lista resumida.
+ *
+ * [Nuestro enfoque]
+ * Hemos creado esta página como “centro” del panel: el usuario ve saludos, indicadores
+ * importantes y acceso rápido a otras secciones.
+ *
+ * [Por qué lo hemos hecho así]
+ * Elegimos esta estructura para que el usuario entienda su situación en segundos y no
+ * tenga que buscar por todo el panel.
+ *
+ * Combinamos estilo “Tufting Craft”, layout con KPIs y un widget de clima para dar contexto.
  */
 export default async function ResumenPage() {
   const cookieStore = await cookies();
@@ -135,7 +140,7 @@ export default async function ResumenPage() {
                   </div>
                   <div className={styles.orderText}>
                     <h4>Pedido #123456</h4>
-                    <p>Alfombra "Tufting Dreams" (Rosa)</p>
+                    <p>Alfombra &quot;Tufting Dreams&quot; (Rosa)</p>
                   </div>
                 </div>
                 <div className={styles.orderStatus}>
