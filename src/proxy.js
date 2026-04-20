@@ -33,8 +33,9 @@ export async function proxy(request) {
   // Identificamos la ruta a la que quiere acceder para filtrar el trafico sin sesion
   const { pathname } = request.nextUrl;
 
-  // Si quiere entrar en la carpeta dashboard con un token invalido
-  if (pathname.startsWith('/dashboard') && !okToken) {
+  const protectedRoutes = pathname.startsWith('/dashboard') || pathname.startsWith('/crear-diseno');
+  // Si quiere entrar en alguna carpeta de protectedRoutes
+  if (protectedRoutes && !okToken) {
     // Guardo la respuesta de redirigir a auth (ruta unificada)
     const response = NextResponse.redirect(new URL('/auth', request.url));
     // Si el token existe, es decir que es un token invalido se añade a la respuesta borrar la cookie
@@ -54,5 +55,5 @@ export async function proxy(request) {
 // CONFIGURACIÓN: Aquí le decimos al guardia qué pasillos vigilar
 export const config = {
   // Vigila /dashboard y cualquier cosa que haya dentro, y auth page
-  matcher: ['/dashboard/:path*', '/auth'],
+  matcher: ['/dashboard/:path*','/crear-diseno/:path*', '/auth'],
 };
