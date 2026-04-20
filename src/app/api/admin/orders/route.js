@@ -23,7 +23,6 @@ export async function GET(request) {
                 o.order_id,
                 o.order_status,
                 o.total_amount,
-                o.discount_amount,
                 o.payment_method,
                 o.creation_date,
                 o.updated_date,

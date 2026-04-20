@@ -20,13 +20,11 @@ export async function createOrder(orderData) {
         // Se ha ajustado para quitar el envío (shipping) según los últimos cambios de esquema
         const [orderResult] = await conn.query(`
             INSERT INTO orders
-                (user_id, address_id, discount_code_id, discount_amount, total_amount, payment_id, payment_method, order_status)
-            VALUES (?, ?, ?, ?, ?, ?, ?, 'diseñando')
+                (user_id, address_id, total_amount, payment_id, payment_method, order_status)
+            VALUES (?, ?, ?, ?, ?, 'diseñando')
         `, [
             orderData.userId,
             orderData.addressId,
-            orderData.discountCodeId ?? null,
-            orderData.discountAmount ?? 0,
             orderData.totalAmount,           // Total a cobrar al cliente
             orderData.paymentId ?? null,     // Id de la plataforma de pago (Stripe)
             orderData.paymentMethod ?? null, // Ejemplo: 'tarjeta' o 'paypal'
@@ -39,23 +37,17 @@ export async function createOrder(orderData) {
         for (const item of orderData.items) {
             await conn.query(`
                 INSERT INTO orders_items
-                    (order_id, size_id, product_size, custom_note, price, quantity, user_image, final_design)
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+                    (order_id, product_size, custom_note, price, quantity, user_image, final_design)
+                VALUES (?, ?, ?, ?, ?, ?, ?)
             `, [
                 orderId,
-                item.sizeId ?? null,
-                item.productSize ?? null, // Ej: "Teclado TKL" o "60x90", por si el size original es borrado después
-                item.customNote ?? null,  // Para medidas a ojo, texto libre o detalles especiales
+                item.productSize ?? null, // Texto del tamaño
+                item.customNote ?? null,  // Nota custom
                 item.price,               // Precio unitario
                 item.quantity ?? 1,
-                item.userImage ?? null,   // URL de la imagen que subió el cliente
-                item.finalDesign ?? null, // URL del diseño final vectorizado
+                item.userImage ?? null,   
+                item.finalDesign ?? null, 
             ]);
-        }
-
-        // 4. Si ha usado un cupón de descuento válido, sumamos "+1" a su contador para evitar abusos
-        if (orderData.discountCodeId) {
-            await incrementDiscountUses(conn, orderData.discountCodeId);
         }
 
         // 5. ¡Todo ha ido perfecto! Validamos y cerramos la transacción (COMMIT)
@@ -82,7 +74,6 @@ export async function getOrdersByUser(userId) {
                 o.order_id,
                 o.order_status,
                 o.total_amount,
-                o.discount_amount,
                 o.payment_method,
                 o.creation_date,
                 o.updated_date,
@@ -92,11 +83,9 @@ export async function getOrdersByUser(userId) {
                 oi.price          AS item_price,
                 oi.quantity,
                 oi.user_image,
-                oi.final_design,
-                s.dimensions      AS size_label
+                oi.final_design
             FROM orders o
             LEFT JOIN orders_items   oi ON oi.order_id = o.order_id
-            LEFT JOIN sizes          s  ON s.size_id   = oi.size_id
             WHERE o.user_id = ?
             ORDER BY o.creation_date DESC
         `, [userId]);
@@ -115,23 +104,19 @@ export async function getOrderById(orderId) {
     try {
         const [rows] = await db.query(`
             SELECT
-                o.*,
+                o.order_id, o.user_id, o.address_id, o.total_amount, o.payment_id, o.payment_method, o.order_status, o.creation_date, o.updated_date,
                 ua.calle, ua.portal_piso_puerta, ua.ciudad,
                 ua.provincia, ua.codigo_postal, ua.pais, ua.phone_number,
-                dc.code           AS discount_code,
                 oi.item_id,
                 oi.product_size,
                 oi.custom_note,
                 oi.price          AS item_price,
                 oi.quantity,
                 oi.user_image,
-                oi.final_design,
-                s.dimensions      AS size_label
+                oi.final_design
             FROM orders o
             LEFT JOIN userAddresses   ua ON ua.address_id = o.address_id
-            LEFT JOIN discount_codes  dc ON dc.code_id   = o.discount_code_id
             LEFT JOIN orders_items    oi ON oi.order_id  = o.order_id
-            LEFT JOIN sizes           s  ON s.size_id    = oi.size_id
             WHERE o.order_id = ?
         `, [orderId]);
 
@@ -186,8 +171,6 @@ function groupOrderRows(rows) {
                 order_id:          row.order_id,
                 order_status:      row.order_status,
                 total_amount:      row.total_amount,
-                discount_amount:   row.discount_amount,
-                discount_code:     row.discount_code ?? null,
                 payment_method:    row.payment_method,
                 creation_date:     row.creation_date,
                 updated_date:      row.updated_date,
@@ -208,7 +191,7 @@ function groupOrderRows(rows) {
         if (row.item_id) {
             ordersMap.get(row.order_id).items.push({
                 item_id:      row.item_id,
-                product_size: row.size_label ?? row.product_size, // Da prioridad en caso de cambios de nombre histórico
+                product_size: row.product_size, 
                 custom_note:  row.custom_note,
                 price:        row.item_price,
                 quantity:     row.quantity,
