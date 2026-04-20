@@ -2,6 +2,7 @@ import HeroSection from '@/components/sections/HeroSection/HeroSection';
 import MarqueeStrip from '@/components/sections/MarqueeStrip/MarqueeStrip';
 import FeaturedDrops from '@/components/sections/FeaturedDrops/FeaturedDrops';
 import InfoSection from '@/components/sections/InfoSection/InfoSection';
+import { getRandomProducts } from '@/lib/db/products';
 
 /**
  * @file page.jsx (Home)
@@ -15,10 +16,12 @@ import InfoSection from '@/components/sections/InfoSection/InfoSection';
  * Así el usuario entiende rápido el producto y el valor de la marca, sin páginas largas
  * antes de tiempo.
  */
-export default function Home() {
+export default async function Home() {
+  const customCards = await getRandomProducts(7);
+
   return (
     <>
-      <HeroSection />
+      <HeroSection customCards={customCards} />
       <MarqueeStrip />
       <FeaturedDrops />
       <InfoSection />

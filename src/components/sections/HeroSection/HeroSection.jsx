@@ -4,8 +4,8 @@ import styles from "./HeroSection.module.css";
 import Image from "next/image";
 import PrimaryButton from "@/components/ui/Buttons/PrimaryButton/PrimaryButton";
 
-function HeroSection() {
-  const cards = [
+function HeroSection({ customCards }) {
+  const defaultCards = [
     { id: 1, src: "/rug-gorillaz.png", label: "Gorillaz", title: "LANZAMIENTO #01", rot: -8 },
     { id: 2, src: "/rug-shield.png", label: "Shield", title: "EXCLUSIVO", rot: -4 },
     { id: 3, src: "/rug-julieta.png", label: "Flower", title: "MÁS VENDIDO", rot: 1 },
@@ -14,6 +14,18 @@ function HeroSection() {
     { id: 6, src: "/rug-mario.png", label: "Mario", title: "LIMITADO", rot: 12 },
     { id: 7, src: "/rug-shield.png", label: "Shield 2", title: "NUEVO LANZAMIENTO", rot: 15 },
   ];
+
+  const rotations = [-8, -4, 1, 4, 8, 12, 15];
+
+  const cardsToRender = customCards && customCards.length > 0
+    ? customCards.map((c, i) => ({
+        id: c.product_id,
+        src: c.image_url,
+        label: c.name,
+        title: c.promo_title || "DESTACADO",
+        rot: rotations[i % rotations.length]
+      }))
+    : defaultCards;
 
   return (
     <div className={styles.heroWrapper} id="inicio">
@@ -55,7 +67,7 @@ function HeroSection() {
 
         {/* 7-CARD EXHIBITION */}
         <div className={styles.cardsRow}>
-            {cards.map((card, i) => (
+            {cardsToRender.map((card, i) => (
                <div 
                  key={card.id} 
                  className={styles.grungeCardWrapper}
@@ -69,7 +81,13 @@ function HeroSection() {
 
                   <div className={styles.grungeCardContent}>
                       <div className={styles.grungeImageWrapper}>
-                         <Image src={card.src} layout="fill" objectFit="cover" alt={card.label}/>
+                          <Image 
+                            src={card.src} 
+                            fill 
+                            style={{ objectFit: 'cover' }} 
+                            alt={card.label}
+                            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                          />
                          <div className={styles.blackTitleBox}>
                              <p className={styles.grungeTitle}>{card.title}</p>
                          </div>

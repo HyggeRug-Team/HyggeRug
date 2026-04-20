@@ -106,8 +106,8 @@ function InfoSection() {
                         controls
                         poster="/rug-gorillaz.png"
                     >
-                        {/* Se debe colocar un archivo mp4 real de un tik tok en public/ */}
-                        <source src="/tufting-tiktok.mp4" type="video/mp4" />
+                        {/* Se debe colocar un archivo mp4 real de un tik tok en public/ y descomentar la línea de abajo */}
+                        {/* <source src="/tufting-tiktok.mp4" type="video/mp4" /> */}
                     </video>
                     <div className={styles.tiktokOverlay}>
                         <a href="https://www.tiktok.com/@hygge_rug" target="_blank" rel="noopener noreferrer" className={styles.tiktokBadge}>
