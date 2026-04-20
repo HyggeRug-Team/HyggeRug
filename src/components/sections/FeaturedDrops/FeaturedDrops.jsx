@@ -1,8 +1,9 @@
 // Server Component — los datos se obtienen directamente de la BD en el servidor
 import React from 'react';
 import styles from './FeaturedDrops.module.css';
-import PrimaryButton from '@/components/ui/Buttons/PrimaryButton/PrimaryButton';
+import SecondaryButton from '@/components/ui/Buttons/SecondaryButton/SecondaryButton';
 import ProductCard from '@/components/ui/Cards/ProductCard/ProductCard';
+import { HiOutlinePlus } from 'react-icons/hi';
 import { getProducts } from '@/lib/db/products';
 
 /**
@@ -24,7 +25,7 @@ export default async function FeaturedDrops() {
     let drops = [];
     try {
         const products = await getProducts();
-        drops = products.slice(0, 3);
+        drops = products.slice(0, 4);
     } catch (error) {
         console.error('FeaturedDrops: error al cargar productos', error);
     }
@@ -39,7 +40,12 @@ export default async function FeaturedDrops() {
                         <h2 className={styles.titleLoud}>ÚLTIMAS PIEZAS</h2>
                     </div>
                     <div className={styles.headerActions}>
-                        <PrimaryButton text="VER CATÁLOGO COMPLETO" url="/tienda" className={styles.headerBtn} />
+                        <SecondaryButton 
+                            text="VER CATÁLOGO COMPLETO" 
+                            url="/tienda" 
+                            className={styles.headerBtn} 
+                            Icon={HiOutlinePlus}
+                        />
                     </div>
                 </div>
 

@@ -106,7 +106,7 @@ export default async function ResumenPage() {
         />
         
         <StatsCards
-          bigText={hyggePoints.toLocaleString()}
+          bigText={hyggePoints.toString()}
           smallText="Puntos Hygge"
           color="var(--hover-text)"
           Icon={FaStar}

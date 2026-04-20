@@ -64,19 +64,27 @@
     width: 280px;
     height: 580px;
     background: #000;
-    border-radius: 40px;
-    border: 12px solid #111;
-    box-shadow: 15px 15px 0 var(--highlight-text);
+    border-radius: 48px;
+    border: 14px solid #111;
+    box-shadow: 
+        20px 20px 40px rgba(0,0,0,0.4),
+        0 0 0 1px rgba(255,255,255,0.05),
+        15px 15px 0 var(--highlight-text);
     position: relative;
     overflow: hidden;
+    isolation: isolate;
+    backface-visibility: hidden;
     transform: rotate(5deg);
-    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1);
     margin: 0 auto;
+    will-change: transform;
 }
 
 .phoneMockup:hover {
-    transform: rotate(0deg) translateY(-10px);
-    box-shadow: 10px 10px 0 var(--accent-cyan);
+    transform: rotate(0deg) translateY(-15px);
+    box-shadow: 
+        30px 30px 60px rgba(0,0,0,0.5),
+        20px 20px 0 var(--accent-cyan);
 }
 
 .phoneNotch {
@@ -85,7 +93,7 @@
     left: 50%;
     transform: translateX(-50%);
     width: 140px;
-    height: 28px;
+    height: 24px;
     background: #111;
     border-bottom-left-radius: 18px;
     border-bottom-right-radius: 18px;
@@ -97,44 +105,59 @@
     height: 100%;
     object-fit: cover;
     z-index: 1;
-    background: #222;
+    background: #000;
+    border-radius: 34px;
+    position: absolute;
+    top: 0;
+    left: 0;
 }
 
-.phoneVideo::-webkit-media-controls-panel {
-    background-image: linear-gradient(transparent, rgba(0, 0, 0, 0.8));
+.soundToggle {
+    position: absolute;
+    top: 50px;
+    right: 25px;
+    z-index: 20;
+    background: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: #FFF;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    transition: all 0.3s;
 }
 
 .tiktokOverlay {
     position: absolute;
-    bottom: 60px;
-    left: 15px;
+    bottom: 35px;
+    left: 50%;
+    transform: translateX(-50%);
     z-index: 5;
+    width: 100%;
+    text-align: center;
 }
 
 .tiktokBadge {
-    background: #00f2fe; /* TikTok cyan style */
+    background: #00f2fe;
     color: #000;
-    padding: 6px 12px;
+    padding: 10px 18px;
     font-weight: 900;
-    font-family: monospace;
-    font-size: 0.85rem;
-    border-radius: 8px;
+    font-size: 0.8rem;
+    border-radius: 6px;
     text-decoration: none;
-    box-shadow: 2px 2px 0 #FF0050; /* TikTok red style */
-    transition: all 0.2s;
+    box-shadow: 4px 4px 0 #FF0050;
+    display: inline-block;
+    text-transform: uppercase;
 }
-
-.tiktokBadge:hover {
-    background: #FFF;
-}
-
 
 /* 2. THE PROCESS */
 .processSection {
     margin-bottom: 120px;
-}
-.sectionHeader {
-    margin-bottom: 40px;
 }
 .sectionHeader h3 {
     font-family: var(--font-titles);
@@ -149,26 +172,7 @@
     gap: 30px;
 }
 
-.innerPrompt {
-    font-family: monospace;
-    background: rgba(0,0,0,0.8);
-    padding: 10px;
-    color: #FFF;
-    font-size: 1rem;
-    font-weight: bold;
-}
-
-.rugIcon {
-    width: 60px;
-    height: 60px;
-    background: #000;
-    border-radius: 10px;
-    box-shadow: inset 0 0 0 5px #FFF, 8px 8px 0px rgba(0,0,0,0.8);
-    transform: rotate(15deg);
-}
-
-
-/* 3. AI BANNER (Urban but contained) */
+/* 3. AI BANNER */
 .aiBanner {
     background: #0a0a0a;
     border: 3px solid var(--accent-purple);
@@ -182,17 +186,13 @@
     transform: rotate(-1deg);
 }
 
-.aiBannerText {
-    flex: 1.5;
-}
-
+.aiBannerText { flex: 1.5; }
 .aiNeonTitle {
     color: var(--accent-cyan);
     font-family: var(--font-titles);
     font-size: 1.4rem;
     display: block;
     margin-bottom: 15px;
-    text-shadow: 2px 2px 0 #000;
 }
 
 .aiBannerText h3 {
@@ -200,7 +200,6 @@
     font-size: clamp(1.8rem, 6vw, 2.5rem);
     color: #FFF;
     margin-bottom: 15px;
-    line-height: 1.1;
 }
 
 .aiBannerText p {
@@ -210,33 +209,16 @@
     max-width: 500px;
 }
 
-.aiBannerAction {
-    flex: 1;
-    display: flex;
-    justify-content: center;
-}
-.aiBtnExtra { font-size: 1.2rem; }
-
+.aiBannerAction { flex: 1; display: flex; justify-content: center; }
 
 /* 4. HYGGE GANG */
-.gangSection {
-    margin-bottom: 120px;
-}
-
-.sectionHeaderCenter {
-    text-align: center;
-    margin-bottom: 50px;
-}
+.gangSection { margin-bottom: 120px; }
+.sectionHeaderCenter { text-align: center; margin-bottom: 50px; }
 .gangTitle {
     font-family: var(--font-titles);
     font-size: clamp(2.5rem, 8vw, 3.5rem);
     color: #FFF;
     margin-bottom: 10px;
-    text-shadow: 4px 4px 0 #000;
-}
-.sectionHeaderCenter p {
-    font-size: 1.2rem;
-    color: #BBB;
 }
 
 .gangGrid {
@@ -245,15 +227,43 @@
     gap: 40px;
 }
 
-/* RESPONSIVE */
+/* RESPONSIVE REFINEMENT */
 @media (max-width: 1024px) {
-    .introBlock { grid-template-columns: 1fr; text-align: center; }
-    .processGrid, .gangGrid { grid-template-columns: 1fr; }
-    .aiBanner { flex-direction: column; text-align: center; }
+    .introBlock { grid-template-columns: 1fr; gap: 60px; text-align: center; }
+    .introLeft { order: 2; display: flex; flex-direction: column; align-items: center; }
+    .introRight { order: 1; }
+    .processGrid { grid-template-columns: repeat(2, 1fr); }
+    .sectionHeader { text-align: center; }
+    .aiBanner { flex-direction: column; text-align: center; padding: 40px; gap: 30px; }
     .aiBannerText p { margin: 0 auto; }
 }
 
 @media (max-width: 768px) {
     .infoContainer { padding: 0 20px; }
-    .phoneMockup { max-width: 250px; height: 520px; transform: rotate(0deg); }
+    .processGrid, .gangGrid { grid-template-columns: 1fr; }
+    .phoneMockup { width: 260px; height: 500px; transform: rotate(0deg); }
+    .soundToggle { top: auto; bottom: 20px; right: 20px; width: 42px; height: 42px; }
+    .aiBanner { padding: 30px 20px; }
+}
+
+/* VERTICAL RESPONSIVENESS */
+@media (max-height: 750px) {
+    .infoWrapper { padding: 40px 0; }
+    .introBlock { margin-bottom: 60px; }
+    .phoneMockup { height: 480px; width: 232px; }
+    .processSection, .aiBanner, .gangSection { margin-bottom: 60px; }
+}
+
+@media (max-height: 550px) {
+    .phoneMockup { height: 380px; width: 184px; border-width: 8px; }
+    .popTitle { font-size: 2.2rem; }
+    .introText { font-size: 0.9rem; }
+    .aiBanner { padding: 30px; }
+}
+
+@media (max-width: 480px) {
+    .popTitle { font-size: 2.8rem; }
+    .badgeGlow { font-size: 1rem; }
+    .infoWrapper { padding: 40px 0; }
+    .phoneMockup { width: 220px; height: 440px; }
 }

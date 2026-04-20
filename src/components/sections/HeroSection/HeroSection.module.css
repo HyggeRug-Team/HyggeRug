@@ -147,15 +147,31 @@
     position: relative;
     width: 210px;
     margin-left: -100px;
-    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), z-index 0.1s ease;
     transform-origin: bottom center;
+    will-change: transform;
+    pointer-events: all;
+}
+
+/* Área de contacto persistente para evitar que el hover se rompa al subir la tarjeta */
+.grungeCardWrapper::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: -1;
+    transition: all 0.4s;
+}
+
+.grungeCardWrapper:hover::after {
+    bottom: -120px; /* Creamos un "puente" invisible hacia abajo para mantener el ratón pegado */
 }
 
 .grungeCardWrapper:hover {
-    transform: scale(1.15) rotate(0deg) translateY(-80px) !important;
-    z-index: 100 !important;
-    margin-left: -10px;
-    margin-right: 90px;
+    transform: scale(1.18) rotate(0deg) translateY(-85px) !important;
+    z-index: 150 !important;
 }
 
 .tuftingShadowBox {
@@ -211,17 +227,52 @@
     text-transform: uppercase;
 }
 
-/* RESPONSIVE */
+/* RESPONSIVE REFINEMENT */
 @media (max-width: 1024px) {
-    .cardsRow { flex-wrap: wrap; gap: 30px; margin-left: 0; padding-left: 0; margin-top: 40px; }
-    .grungeCardWrapper { margin-left: 0; width: 45%; max-width: 260px; }
     .heroWrapper { padding: 80px 0; }
+    .mainTitle { font-size: clamp(2.5rem, 8vw, 4rem); text-align: center; }
+    
+    /* Abanico de 5 cartas */
+    .cardsRow { 
+        display: flex;
+        justify-content: center;
+        margin-top: 60px;
+        padding-left: 100px; /* Incrementamos para compensar el solapamiento de 5 */
+    }
+    
+    .grungeCardWrapper { 
+        width: 160px; 
+        margin-left: -90px;
+    }
+
+    /* Escondemos solo de la 6 en adelante */
+    .grungeCardWrapper:nth-child(n+6) {
+        display: none;
+    }
 }
 
 @media (max-width: 768px) {
-    .heroContainer { padding: 0 20px; }
-    .heroIntro { font-size: 1.1rem; }
-    .ctaRow { flex-direction: column; gap: 20px; }
-    .cardsRow { flex-direction: column; align-items: center; justify-content: center; }
-    .grungeCardWrapper { width: 100%; max-width: 320px; margin: 0 auto; transform: none !important; }
+    .heroHeader { margin-bottom: 50px; text-align: center; }
+    .heroIntro { font-size: 1.1rem; text-align: center; }
+    .ctaRow { flex-direction: column; gap: 20px; width: 100%; align-items: center; }
+}
+
+@media (max-width: 480px) {
+    .mainTitle { font-size: 2.8rem; }
+    .cardsRow { padding-left: 70px; }
+    .grungeCardWrapper { width: 110px; margin-left: -65px; }
+}
+
+/* VERTICAL RESPONSIVENESS (LANDSCAPE / SMALL HEIGHT) */
+@media (max-height: 700px) {
+    .heroWrapper { min-height: auto; padding: 60px 0; }
+    .mainTitle { font-size: clamp(2rem, 6vh, 3.5rem); margin-bottom: 15px; }
+    .heroIntro { font-size: 1rem; margin-bottom: 30px; }
+    .cardsRow { margin-top: 30px; }
+    .grungeCardWrapper { width: 140px; }
+}
+
+@media (max-height: 500px) {
+    .heroHeader { margin-bottom: 30px; }
+    .cardsRow { display: none; } /* En pantallas ultra-bajas, priorizamos el mensaje y CTA */
 }

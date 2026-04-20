@@ -13,13 +13,24 @@
  * agresiva (estética pop grunge) garantizando legibilidad y confianza en el creador de Madrid.
  */
 "use client";
-import React from "react";
+import React, { useState, useRef } from "react";
 import styles from "./InfoSection.module.css";
+import { HiOutlineVolumeUp, HiOutlineVolumeOff, HiOutlineSparkles } from "react-icons/hi";
 import PrimaryButton from "@/components/ui/Buttons/PrimaryButton/PrimaryButton";
+import SecondaryButton from "@/components/ui/Buttons/SecondaryButton/SecondaryButton";
 import ProcessCard from "@/components/ui/Cards/ProcessCard/ProcessCard";
 import ReviewSticker from "@/components/ui/Cards/ReviewSticker/ReviewSticker";
 
 function InfoSection() {
+  const [isMuted, setIsMuted] = useState(true);
+  const videoRef = useRef(null);
+
+  const toggleSound = () => {
+    if (videoRef.current) {
+      videoRef.current.muted = !videoRef.current.muted;
+      setIsMuted(videoRef.current.muted);
+    }
+  };
   const processSteps = [
     {
       number: "01",
@@ -98,17 +109,22 @@ function InfoSection() {
                 <div className={styles.phoneMockup}>
                     <div className={styles.phoneNotch}></div>
                     <video 
+                        ref={videoRef}
                         className={styles.phoneVideo}
                         autoPlay 
                         loop 
                         muted 
                         playsInline
-                        controls
                         poster="/rug-gorillaz.png"
                     >
-                        {/* Se debe colocar un archivo mp4 real de un tik tok en public/ y descomentar la línea de abajo */}
-                        {/* <source src="/tufting-tiktok.mp4" type="video/mp4" /> */}
+                        <source src="/uploads/videos/tiktok_index.mp4" type="video/mp4" />
                     </video>
+                    
+                    {/* Botón de Sonido Premium */}
+                    <button className={styles.soundToggle} onClick={toggleSound}>
+                        {isMuted ? <HiOutlineVolumeOff /> : <HiOutlineVolumeUp />}
+                    </button>
+
                     <div className={styles.tiktokOverlay}>
                         <a href="https://www.tiktok.com/@hygge_rug" target="_blank" rel="noopener noreferrer" className={styles.tiktokBadge}>
                             @HYGGE_RUG en TikTok
@@ -138,7 +154,12 @@ function InfoSection() {
               <p>Si tienes una paranoia extrema para tu alfombra, usa el motor de Inteligencia Artificial. Describe tu idea y la I.A. escupirá un boceto salvaje listo para que yo lo borde a mano en mi taller.</p>
            </div>
            <div className={styles.aiBannerAction}>
-               <PrimaryButton text="ENTRAR AL STUDIO IA" url="/crear-diseno" className={styles.aiBtnExtra} />
+               <SecondaryButton 
+                   text="ENTRAR AL STUDIO IA" 
+                   url="/crear-diseno" 
+                   className={styles.aiBtnExtra} 
+                   Icon={HiOutlineSparkles} 
+               />
            </div>
         </section>
 

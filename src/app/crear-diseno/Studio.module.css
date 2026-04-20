@@ -8,28 +8,39 @@
  * en el canvas central para que el usuario sepa que la IA está trabajando.
  */
 
-/* ESTILO PREMIUM DARK / NEO-BRUTALISM PARA EL STUDIO IA */
 
 .studioContainer {
     width: 100%;
-    height: 100vh; /* Altura fija para evitar el doble scroll */
-    background: #000;
+    height: 100vh;
+    background-color: #050505; 
+    background-image: 
+      radial-gradient(at 0% 0%, hsla(253,16%,7%,1) 0, transparent 50%), 
+      radial-gradient(at 50% 0%, hsla(225,39%,30%,1) 0, transparent 50%), 
+      radial-gradient(at 100% 0%, hsla(339,49%,30%,1) 0, transparent 50%);  
     color: #fff;
     display: flex;
     flex-direction: column;
     font-family: var(--font-body);
     position: relative;
-    overflow: hidden; /* Cortamos cualquier scroll fuera del contenedor */
+    overflow: hidden;
+}
+
+@media (max-width: 1100px) {
+    .studioContainer {
+        height: auto;
+        min-height: 100vh;
+        overflow: visible;
+    }
 }
 
 .studioContainer::before {
     content: '';
     position: absolute;
-    top: -50%;
-    left: -50%;
-    width: 200%;
-    height: 200%;
-    background: radial-gradient(circle at center, rgba(255, 0, 85, 0.03) 0%, transparent 40%);
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.03'/%3E%3C/svg%3E");
     pointer-events: none;
     z-index: 0;
 }
@@ -84,35 +95,72 @@
 .mainContent {
     flex: 1;
     display: flex;
-    height: calc(100vh - 70px);
-    overflow: hidden;
+    position: relative;
+    overflow: hidden; /* Crucial para que los paneles scrollen internamente */
+    height: 0; /* Permite que el flex crezca correctamente */
 }
 
-@media (max-width: 1200px) {
+@media (max-width: 1100px) {
     .mainContent {
         flex-direction: column;
         height: auto;
-        overflow-y: auto;
+        overflow: visible;
     }
 }
 
-/* CONTROL PANEL (Estilo infoCard del Dashboard - Versión Limpia) */
+/* CONTROL PANEL */
+.controlPanelWrapper {
+    width: 380px;
+    height: 100%;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 0;
+}
+
 .controlPanel {
-    width: 340px;
+    flex: 1;
     background: rgba(10, 10, 10, 0.6);
     backdrop-filter: blur(25px);
-    padding: 25px 20px;
+    padding: 30px 20px;
     border: 1px solid rgba(255, 255, 255, 0.08); 
     border-radius: 28px;
     margin: 15px;
     display: flex;
     flex-direction: column;
     box-shadow: 0 40px 100px rgba(0, 0, 0, 0.6);
-    flex-shrink: 0;
     gap: 20px;
     overflow-y: auto;
+    overflow-x: hidden;
+    
+    /* SCROLLBAR IDÉNTICA AL SIDEBAR */
     scrollbar-width: thin;
-    scrollbar-color: rgba(255, 255, 255, 0.1) transparent;
+    scrollbar-color: rgba(255,255,255,0.08) transparent;
+}
+
+.controlPanel::-webkit-scrollbar {
+    width: 4px;
+}
+.controlPanel::-webkit-scrollbar-track {
+    background: transparent;
+}
+.controlPanel::-webkit-scrollbar-thumb {
+    background: rgba(255,255,255,0.08);
+    border-radius: 4px;
+}
+
+@media (max-width: 1100px) {
+    .controlPanelWrapper {
+        width: 100%;
+        height: auto;
+    }
+    .controlPanel {
+        width: calc(100% - 40px);
+        margin: 20px;
+        order: 2;
+        max-height: none;
+        overflow: visible;
+    }
 }
 
 .graffitiTag {
@@ -125,8 +173,7 @@
     letter-spacing: 1px;
 }
 
-@media (max-width: 1280px) { .controlPanel { width: 330px; } }
-@media (max-width: 1200px) { .controlPanel { width: auto; margin: 15px; } }
+@media (max-width: 1280px) { .controlPanelWrapper { width: 340px; } }
 
 .controlPanel:hover {
     border-color: rgba(255, 255, 255, 0.12);
@@ -137,11 +184,11 @@
     background: #FFF;
     color: #000;
     border: none;
-    border-radius: 12px;
-    padding: 18px;
+    border-radius: clamp(10px, 2vw, 16px);
+    padding: clamp(12px, 1.5vw, 20px);
     font-family: var(--font-titles);
-    font-weight: 400; /* Rubik Bubbles es gruesa de por sí */
-    font-size: 1.2rem;
+    font-weight: 400;
+    font-size: clamp(0.9rem, 1.2vw, 1.2rem);
     cursor: pointer;
     text-transform: uppercase;
     transition: all 0.3s ease;
@@ -407,18 +454,18 @@
     justify-content: center;
     padding: 20px;
     position: relative;
-    background: radial-gradient(circle at center, rgba(30,30,30,0.5) 0%, rgba(0,0,0,1) 100%);
+    background: transparent;
 }
 
 .viewport {
     width: 100%;
     max-width: 650px;
     aspect-ratio: 1;
-    background: #020202;
+    background: transparent;
     border-radius: 40px;
     box-shadow: 
-        0 50px 100px rgba(0,0,0,0.8),
-        inset 0 0 80px rgba(255, 0, 85, 0.03);
+        0 50px 100px rgba(0,0,0,0.4),
+        inset 0 0 80px rgba(255, 255, 255, 0.02);
     position: relative;
     display: flex;
     align-items: center;
@@ -521,22 +568,46 @@
     letter-spacing: 1px;
 }
 
-/* CHECKOUT PANEL (Estilo infoCard del Dashboard - Versión Limpia) */
+/* CHECKOUT PANEL */
 .checkoutPanel {
     width: 320px;
     background: #FFD701; 
     color: #000;
-    padding: 40px 30px;
+    padding: 30px;
     border-radius: 28px 28px 0 0;
-    margin: 20px 20px 20px 0;
+    margin: 15px 15px 0 0;
     display: flex;
     flex-direction: column;
     box-shadow: 0 40px 80px rgba(0, 0, 0, 0.3);
     position: relative;
     clip-path: polygon(0% 0%, 100% 0%, 100% 97%, 98% 99%, 96% 97%, 94% 99%, 92% 97%, 90% 99%, 88% 97%, 86% 99%, 84% 97%, 82% 99%, 80% 97%, 78% 99%, 76% 97%, 74% 99%, 72% 97%, 70% 99%, 68% 97%, 66% 99%, 64% 97%, 62% 99%, 60% 97%, 58% 99%, 56% 97%, 54% 99%, 52% 97%, 50% 99%, 48% 97%, 46% 99%, 44% 97%, 42% 99%, 40% 97%, 38% 99%, 36% 97%, 34% 99%, 32% 97%, 30% 99%, 28% 97%, 26% 99%, 24% 97%, 22% 99%, 20% 97%, 18% 99%, 16% 97%, 14% 99%, 12% 97%, 10% 99%, 8% 97%, 6% 99%, 4% 97%, 2% 99%, 0% 97%);
-    max-height: calc(100vh - 120px);
+    max-height: calc(100% - 30px);
     overflow-y: auto;
-    transition: none;
+    flex-shrink: 0;
+    
+    /* SCROLLBAR MÁS DISCRETA */
+    scrollbar-width: thin;
+    scrollbar-color: rgba(0,0,0,0.1) transparent;
+}
+
+.checkoutPanel::-webkit-scrollbar {
+    width: 4px;
+}
+.checkoutPanel::-webkit-scrollbar-thumb {
+    background: rgba(0,0,0,0.1);
+    border-radius: 4px;
+}
+
+@media (max-width: 1100px) {
+    .checkoutPanel {
+        width: calc(100% - 40px);
+        margin: 20px;
+        order: 3;
+        max-height: none;
+        overflow: visible;
+        clip-path: none;
+        border-radius: 32px;
+    }
 }
 
 .checkoutPanel:hover { transform: none; border: none; }
@@ -606,21 +677,6 @@
     font-weight: 400;
 }
 
-.receiptLine {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    font-size: 0.95rem;
-    color: #000;
-    font-weight: 700;
-}
-.receiptLine span:first-child {
-    color: rgba(0, 0, 0, 0.5);
-    text-transform: uppercase;
-    font-size: 0.7rem;
-    letter-spacing: 1px;
-}
-
 .divider {
     height: 1.5px;
     background: rgba(0, 0, 0, 0.1);
@@ -673,25 +729,43 @@
 .buyAction {
     background: #000;
     color: #fff;
-    font-family: var(--font-body);
-    font-weight: 900;
-    font-size: 1.1rem;
+    font-family: var(--font-titles);
+    font-weight: 400;
+    font-size: 1.2rem;
     border-radius: 16px;
     padding: 22px;
     border: none;
     cursor: pointer;
-    transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+    transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
     text-transform: uppercase;
     letter-spacing: 2px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.15);
     margin-top: 10px;
+    position: relative;
+    overflow: hidden;
+}
+
+.buyAction::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+    transition: 0.4s;
+}
+
+.buyAction:hover::after {
+    left: 100%;
 }
 
 .buyAction:hover:not(:disabled) {
-    background: #222;
-    transform: scale(1.02) translateY(-3px);
-    box-shadow: 0 15px 35px rgba(0,0,0,0.4);
+    background: #111;
+    transform: translateY(-2px);
+    box-shadow: 0 15px 30px rgba(0,0,0,0.3);
 }
+
 
 .buyAction:disabled {
     background: rgba(0, 0, 0, 0.1) !important;
@@ -700,19 +774,8 @@
     box-shadow: none;
 }
 
-.buyAction::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
-    transition: 0.5s;
-}
-.buyAction:hover::before {
-    left: 100%;
-}
+
+
 /* Eliminamos regla duplicada e incorrecta que hacía que el botón fuera blanco/amarillo */
 
 .spin { animation: spin 1s linear infinite; }
@@ -720,14 +783,98 @@
 @keyframes pulse { to { opacity: 0.5; transform: scale(1.02); } }
 @keyframes fadeIn { from { opacity: 0; filter: blur(10px); } to { opacity: 1; filter: blur(0); } }
 
-/* RESPONSIVE */
-@media (max-width: 1200px) {
-    .canvasArea { padding: 20px; min-height: 400px; }
-    .viewport { border-radius: 24px; }
+/* ==========================================================================
+   ULTRA-RESPONSIVE SYSTEM (BULLETPROOF)
+   ========================================================================== */
+
+/* 1. ULTRA-WIDE SCREENS (> 1800px) */
+@media (min-width: 1800px) {
+    .controlPanel { width: 420px; }
+    .checkoutPanel { width: 400px; }
+    .viewport { max-width: 800px; }
 }
 
-@media (max-width: 600px) {
-    .viewport { max-width: 100%; aspect-ratio: 1; }
+/* 2. LARGE LAPTOPS / SMALL DESKTOPS (1100px - 1400px) */
+@media (max-width: 1400px) and (min-width: 1101px) {
+    .controlPanel { width: 320px; padding: 20px; }
+    .checkoutPanel { width: 300px; padding: 30px 20px; }
+    .viewport { max-width: 500px; }
+    .graffitiTag { font-size: 1.4rem; }
+}
+
+/* 3. TABLETS & SMALL LAPTOPS (STAKING POINT) */
+@media (max-width: 1100px) {
+    .mainContent {
+        flex-direction: column;
+        overflow-y: auto;
+        height: auto;
+        align-items: center;
+        padding-bottom: 50px;
+    }
+    .canvasArea {
+        width: 100%;
+        padding: 40px 20px;
+        order: 1;
+        min-height: auto;
+    }
+    .viewport {
+        width: 100%;
+        max-width: 550px;
+        aspect-ratio: 1;
+        border-radius: 32px;
+    }
+    .controlPanel {
+        width: min(600px, calc(100% - 40px));
+        margin: 20px;
+        order: 2;
+        max-height: none;
+        overflow: visible;
+    }
+    .checkoutPanel {
+        width: min(600px, calc(100% - 40px));
+        margin: 20px;
+        order: 3;
+        max-height: none;
+        clip-path: none;
+        border-radius: 32px;
+    }
+}
+
+/* 4. VERTICAL CONSTRAINTS (SHORT SCREENS) */
+@media (max-height: 800px) and (min-width: 1101px) {
+    .topBar { height: 60px; }
+    .viewport { max-width: min(450px, 50vh); }
+    .controlPanel, .checkoutPanel { gap: 12px; padding: 15px; }
+    .graffitiTag { font-size: 1.2rem; }
+}
+
+/* 5. MOBILE (MICRO-SCREENS < 480px) */
+@media (max-width: 480px) {
+    .topBar { padding: 0 15px; height: 55px; }
+    .brandTitle { font-size: 1rem; }
+    .backButton { padding: 8px 12px; font-size: 0.7rem; }
+    .canvasArea { padding: 20px 10px; }
+    .viewport { border-radius: 20px; }
+    .controlPanel, .checkoutPanel {
+        width: calc(100% - 20px);
+        margin: 10px;
+        padding: 20px 15px;
+    }
+    .graffitiTag { font-size: 1.2rem; }
+    .labelNeon { font-size: 0.7rem; }
+    .totalLine strong { font-size: 2.5rem; }
+    .buyAction { padding: 15px; font-size: 1rem; }
+}
+
+/* 6. TOUCH DEVICES (OVERRIDE HOVERS) */
+@media (hover: none) {
+    .controlPanel:hover, .checkoutPanel:hover {
+        transform: none;
+    }
+    .generateBtn:active, .buyAction:active {
+        transform: scale(0.98);
+        transition: transform 0.1s;
+    }
 }
 
 
@@ -787,4 +934,51 @@
 .removeImageBtn:hover {
     background: #FF0055;
     border-color: #FF0055;
+}
+
+/* MODULO DE SCROLL FADE (ESTILO SIDEBAR) */
+.controlPanelWrapper {
+    height: 100%;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.scrollFade {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 50px;
+  background: linear-gradient(
+    to bottom,
+    transparent 0%,
+    rgba(10, 10, 10, 0.8) 55%,
+    rgba(10, 10, 10, 1) 100%
+  );
+  pointer-events: none;
+  z-index: 10;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  padding-bottom: 10px;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.scrollFadeVisible {
+  opacity: 1;
+}
+
+.scrollFadeIcon {
+  color: rgba(255, 255, 255, 0.5) !important;
+  flex-shrink: 0;
+  animation: bounceFade 2s infinite;
+}
+
+@keyframes bounceFade {
+  0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+  40% { transform: translateY(-4px); }
+  60% { transform: translateY(-2px); }
 }
