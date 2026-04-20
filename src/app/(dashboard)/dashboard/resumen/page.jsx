@@ -4,8 +4,9 @@ import { redirect } from "next/navigation";
 import styles from "./resumen.module.css";
 import Link from "next/link";
 import StatsCards from "@/components/ui/Cards/StatsCard/StatsCard";
-// Importamos el Widget Real del Tiempo
 import WeatherWidget from "@/components/ui/WeatherWidget/WeatherWidget"; 
+import { getOrdersByUser } from "@/lib/db/orders";
+import { getDefaultAddress } from "@/lib/db/addresses";
 import { 
   FaCubes, 
   FaHeart, 
@@ -15,7 +16,7 @@ import {
   FaLocationDot, 
   FaCreditCard, 
   FaChevronRight,
-  FaStore // Icono de Tienda
+  FaStore
 } from "react-icons/fa6";
 
 export const metadata = {
@@ -23,20 +24,6 @@ export const metadata = {
   description: "Panel de control de tu cuenta",
 };
 
-/**
- * @file page.jsx (Resumen)
- * @description Vista principal del Dashboard donde mostramos KPIs y una lista resumida.
- *
- * [Nuestro enfoque]
- * Hemos creado esta página como “centro” del panel: el usuario ve saludos, indicadores
- * importantes y acceso rápido a otras secciones.
- *
- * [Por qué lo hemos hecho así]
- * Elegimos esta estructura para que el usuario entienda su situación en segundos y no
- * tenga que buscar por todo el panel.
- *
- * Combinamos estilo “Tufting Craft”, layout con KPIs y un widget de clima para dar contexto.
- */
 export default async function ResumenPage() {
   const cookieStore = await cookies();
   const token = cookieStore.get("session_token")?.value;
@@ -46,9 +33,28 @@ export default async function ResumenPage() {
     redirect("/auth");
   }
 
-  // Simulamos si hay pedidos (true) o no (false) para mostrar el diseño
-  // Podemos cambiar esto a false para ver el Empty State "Lienzo Vacío"
-  const hasOrders = true; 
+  const userId = session.user_id || session.id;
+
+  // Lógica de BBDD
+  let orders = [];
+  let defaultAddress = null;
+
+  try {
+      orders = await getOrdersByUser(userId);
+      defaultAddress = await getDefaultAddress(userId);
+  } catch (err) {
+      console.error("Error al cargar datos del usuario:", err);
+  }
+
+  const hasOrders = orders && orders.length > 0;
+  const totalOrders = orders ? orders.length : 0;
+  
+  // Cálculo de Puntos Hygge: 10 puntos por cada 1€ gastado
+  const totalSpent = orders ? orders.reduce((sum, order) => sum + parseFloat(order.total_amount || 0), 0) : 0;
+  const hyggePoints = Math.floor(totalSpent * 10);
+
+  // Recortamos a los últimos 3 pedidos para el dashboard
+  const recentOrders = orders ? orders.slice(0, 3) : [];
 
   return (
     <div className={styles.dashboardContainer}>
@@ -56,63 +62,44 @@ export default async function ResumenPage() {
       {/* ========== HEADER CON CLIMA REAL ========== */}
       <header className={styles.headerSection}>
         <div className={styles.greeting}>
-          <h1>Hola, {session.nickname}</h1>
+          <h1>Hola, {session.nickname || 'Amigo'}</h1>
           <p>Bienvenido a tu panel de control.</p>
         </div>
         
         <div className={styles.headerWidgets}>
-          {/* Botón Volver a la Tienda (Estilo Parche) */}
           <Link href="/" className={styles.viewAllLink}>
             <FaStore style={{marginRight: '8px'}} /> Ir a la Tienda
           </Link>
-          
-          {/* Widget del Tiempo (Geolocalizado) */}
           <WeatherWidget />
         </div>
       </header>
 
 
-      {/* ========== ESTADÍSTICAS CLAVE (KPIs Vibrantes) ========== */}
+      {/* ========== ESTADÍSTICAS CLAVE ========== */}
       <section className={styles.statsGrid}>
-        
-        {/* Tarjeta Púrpura */}
         <StatsCards
-        bigText="12"
-        smallText="Pedidos Totales"
-        color="var(--button-before-hover)"
-        Icon={FaCubes}
+          bigText={totalOrders.toString()}
+          smallText="Pedidos Totales"
+          color="var(--button-before-hover)"
+          Icon={FaCubes}
         />
-        {/* Boton antiguo
-        <div className={`${styles.statCard} ${styles.purpleCard}`}>
-          <div className={styles.statInfo}>
-            <h3>12</h3>
-            <p>Pedidos Totales</p>
-          </div>
-          <div className={styles.statIconWrapper}>
-            <FaCubes />
-          </div>
-        </div> */}
 
-        {/* Tarjeta Rosa */}
         <StatsCards
-        bigText="5"
-        smallText="En favoritos"
-        color="var(--highlight-text)"
-        Icon={FaHeart}
+          bigText="0"
+          smallText="En favoritos"
+          color="var(--highlight-text)"
+          Icon={FaHeart}
         />
         
-
-        {/* Tarjeta Amarilla */}
         <StatsCards
-        bigText="1,250"
-        smallText="Puntos Hygge"
-        color="var(--hover-text)"
-        Icon={FaStar}
+          bigText={hyggePoints.toLocaleString()}
+          smallText="Puntos Hygge"
+          color="var(--hover-text)"
+          Icon={FaStar}
         />
       </section>
 
-
-      {/* ========== CONTENIDO PRINCIPAL DIVIDIDO (Layout Clásico) ========== */}
+      {/* ========== CONTENIDO PRINCIPAL DIVIDIDO ========== */}
       <div className={styles.mainContentGrid}>
         
         {/* --- COLUMNA IZQUIERDA: PEDIDOS RECIENTES --- */}
@@ -131,79 +118,80 @@ export default async function ResumenPage() {
 
           {hasOrders ? (
             <div className={styles.ordersList}>
-              
-              {/* Pedido 1 - En Camino (Amarillo) */}
-              <div className={`${styles.orderItem} ${styles.statusProcessing}`}>
-                <div className={styles.orderInfoMain}>
-                  <div className={styles.orderIcon}>
-                    <FaTruckFast />
-                  </div>
-                  <div className={styles.orderText}>
-                    <h4>Pedido #123456</h4>
-                    <p>Alfombra &quot;Tufting Dreams&quot; (Rosa)</p>
-                  </div>
-                </div>
-                <div className={styles.orderStatus}>
-                  <span className={styles.statusBadge}>En Camino</span>
-                  <span className={styles.orderDate}>Llega Mañana</span>
-                </div>
-              </div>
+              {recentOrders.map((order) => {
+                  let statusBadgeClass = styles.statusProcessing;
+                  let icon = <FaBoxOpen />;
+                  
+                  if (order.order_status === 'enviado') {
+                      statusBadgeClass = styles.statusShipped;
+                      icon = <FaTruckFast />;
+                  } else if (order.order_status === 'recibido') {
+                      statusBadgeClass = styles.statusDelivered;
+                      icon = <FaBoxOpen />;
+                  }
 
-              {/* Pedido 2 - Entregado (Verde) */}
-              <div className={`${styles.orderItem} ${styles.statusDelivered}`}>
-                <div className={styles.orderInfoMain}>
-                  <div className={styles.orderIcon}>
-                    <FaBoxOpen />
-                  </div>
-                  <div className={styles.orderText}>
-                    <h4>Pedido #123455</h4>
-                    <p>Kit de Inicio Tufting</p>
-                  </div>
-                </div>
-                <div className={styles.orderStatus}>
-                  <span className={styles.statusBadge}>Entregado</span>
-                  <span className={styles.orderDate}>10 Feb 2024</span>
-                </div>
-              </div>
+                  const formatItemName = order.items && order.items.length > 0 
+                      ? `${order.items[0].product_size || 'Alfombra Custom'}`
+                      : 'Pedido de Tienda';
 
-               {/* Pedido 3 - Enviado (Azul) */}
-               <div className={`${styles.orderItem} ${styles.statusShipped}`}>
-                <div className={styles.orderInfoMain}>
-                  <div className={styles.orderIcon}>
-                    <FaBoxOpen />
-                  </div>
-                  <div className={styles.orderText}>
-                    <h4>Pedido #123450</h4>
-                    <p>Lana Premium (Pack x5)</p>
-                  </div>
-                </div>
-                <div className={styles.orderStatus}>
-                  <span className={styles.statusBadge}>Enviado</span>
-                  <span className={styles.orderDate}>02 Feb 2024</span>
-                </div>
-              </div>
+                  const qtyText = order.items && order.items.length > 1 
+                      ? ` y ${order.items.length - 1} artículo(s) más` 
+                      : '';
 
+                  return (
+                      <div key={order.order_id} className={`${styles.orderItem} ${statusBadgeClass}`}>
+                        <div className={styles.orderInfoMain}>
+                          <div className={styles.orderIcon}>
+                            {icon}
+                          </div>
+                          <div className={styles.orderText}>
+                            <h4>Pedido #{order.order_id}</h4>
+                            <p>{formatItemName}{qtyText}</p>
+                          </div>
+                        </div>
+                        <div className={styles.orderStatus}>
+                          <span className={styles.statusBadge}>{order.order_status.toUpperCase()}</span>
+                          <span className={styles.orderDate}>{parseFloat(order.total_amount).toFixed(2)}€</span>
+                        </div>
+                      </div>
+                  );
+              })}
             </div>
           ) : (
-            /* EMPTY STATE DE LIENZO VACÍO */
-            <div className={styles.emptyStateCard}>
-              <div className={styles.emptyIcon}>🎨</div>
-              <h3 className={styles.emptyTitle}>Tu lienzo está vacío</h3>
-              <p className={styles.emptyText} style={{maxWidth:'400px', color:'var(--grey-400)'}}>
-                Aún no has realizado ningún pedido. ¡Es hora de empezar a crear tu primera obra maestra!
-              </p>
-              <Link href="/" className={styles.createButton}>
-                Explorar Tienda <FaChevronRight />
-              </Link>
+            <div 
+              style={{
+                width: '100%',
+                padding: '40px 20px',
+                background: 'rgba(5, 5, 5, 0.4)',
+                border: '1px dashed rgba(255, 255, 255, 0.1)',
+                borderRadius: '12px',
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                justifyContent: 'center',
+                textAlign: 'center',
+                marginTop: '10px'
+              }}
+            >
+              <FaBoxOpen style={{ fontSize: '3rem', color: 'var(--grey-800)', marginBottom: '15px' }} />
+              <h3 style={{ 
+                fontFamily: 'var(--font-body)', 
+                fontWeight: 800, 
+                color: 'var(--grey-500)', 
+                letterSpacing: '1px', 
+                textTransform: 'uppercase', 
+                fontSize: '1rem', 
+                margin: 0 
+              }}>
+                No tienes pedidos recientes
+              </h3>
             </div>
           )}
         </section>
 
-
         {/* --- COLUMNA DERECHA: DATOS DE CUENTA --- */}
         <aside className={styles.accountSummary}>
           
-          {/* Tarjeta de Dirección Rediseñada */}
           <div className={styles.infoCard}>
             <div className={styles.cardHeader}>
               <div className={`${styles.iconBadge} ${styles.addressBadge}`}>
@@ -216,11 +204,17 @@ export default async function ResumenPage() {
             </div>
             
             <div className={styles.cardContent}>
-              <div className={styles.addressBlock}>
-                <p className={styles.addressTitle}>Casa Principal</p>
-                <p className={styles.addressLine}>Calle de la Piruleta 123, 4ºA</p>
-                <p className={styles.addressLine}>28001, Madrid</p>
-              </div>
+              {defaultAddress ? (
+                  <div className={styles.addressBlock}>
+                    <p className={styles.addressTitle}>{defaultAddress.ciudad} ({defaultAddress.provincia})</p>
+                    <p className={styles.addressLine}>{defaultAddress.calle} {defaultAddress.portal_piso_puerta}</p>
+                    <p className={styles.addressLine}>{defaultAddress.codigo_postal}, {defaultAddress.pais}</p>
+                  </div>
+              ) : (
+                  <div className={styles.addressBlock}>
+                      <p className={styles.addressLine}>No tienes direcciones asociadas aún.</p>
+                  </div>
+              )}
               
               <Link href="/dashboard/direcciones" className={styles.editLink}>
                 Gestionar direcciones <FaChevronRight size={10} />
@@ -228,7 +222,6 @@ export default async function ResumenPage() {
             </div>
           </div>
 
-          {/* Tarjeta de Pago Rediseñada */}
           <div className={styles.infoCard}>
             <div className={styles.cardHeader}>
               <div className={`${styles.iconBadge} ${styles.paymentBadge}`}>
@@ -236,25 +229,18 @@ export default async function ResumenPage() {
               </div>
               <div>
                 <h3>Método de Pago</h3>
-                <span className={styles.cardSubtitle}>Tarjeta principal</span>
+                <span className={styles.cardSubtitle}>Tarjetas vinculadas guardadas</span>
               </div>
             </div>
             
             <div className={styles.cardContent}>
               <div className={styles.creditCardMini}>
-                <div className={styles.cardChip}>
-                  <div className={styles.chipLine}></div>
-                  <div className={styles.chipLine}></div>
-                </div>
-                <div className={styles.cardNumber}>•••• •••• •••• 4242</div>
-                <div className={styles.cardFooter}>
-                  <span className={styles.cardHolder}>TITULAR</span>
-                  <span className={styles.cardExpiry}>12/28</span>
-                </div>
+                  {/* Placeholder estético para un e-commerce real donde conectamos Stripe */}
+                  <p style={{fontSize: '0.85rem', color: '#888'}}>Los datos de pago no se guardan de forma local. En tu próximo pago el navegador autocompletará la tarjeta segura.</p>
               </div>
               
               <Link href="/dashboard/pagos" className={styles.editLink}>
-                Gestionar métodos <FaChevronRight size={10} />
+                Soporte de pagos <FaChevronRight size={10} />
               </Link>
             </div>
           </div>

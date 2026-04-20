@@ -90,7 +90,7 @@ export default function DesignStudioAI() {
             <div className={styles.topBar}>
                 <Link href="/" className={styles.backButton}>
                     <FaArrowLeft size={16} />
-                    VOLVER AL HOOD
+                    Volver atras
                 </Link>
                 <div className={styles.brandTitle}>
                     LABORATORIO <span>IA</span>

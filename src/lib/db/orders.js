@@ -93,10 +93,10 @@ export async function getOrdersByUser(userId) {
                 oi.quantity,
                 oi.user_image,
                 oi.final_design,
-                ps.size_label
+                s.dimensions      AS size_label
             FROM orders o
             LEFT JOIN orders_items   oi ON oi.order_id = o.order_id
-            LEFT JOIN product_sizes  ps ON ps.size_id  = oi.size_id
+            LEFT JOIN sizes          s  ON s.size_id   = oi.size_id
             WHERE o.user_id = ?
             ORDER BY o.creation_date DESC
         `, [userId]);
@@ -126,12 +126,12 @@ export async function getOrderById(orderId) {
                 oi.quantity,
                 oi.user_image,
                 oi.final_design,
-                ps.size_label
+                s.dimensions      AS size_label
             FROM orders o
             LEFT JOIN userAddresses   ua ON ua.address_id = o.address_id
             LEFT JOIN discount_codes  dc ON dc.code_id   = o.discount_code_id
             LEFT JOIN orders_items    oi ON oi.order_id  = o.order_id
-            LEFT JOIN product_sizes   ps ON ps.size_id   = oi.size_id
+            LEFT JOIN sizes           s  ON s.size_id    = oi.size_id
             WHERE o.order_id = ?
         `, [orderId]);
 
