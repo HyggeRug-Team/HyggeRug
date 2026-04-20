@@ -38,7 +38,7 @@ export default function DesignStudioAI() {
     const [customKeyboardSize, setCustomKeyboardSize] = useState('');
 
     useEffect(() => {
-        // [PASO 1] Llamamos por teléfono a la base de datos para pedirle las medidas
+        // [PASO 1] Llamamos  a la base de datos para pedirle las medidas
         const fetchProductData = async () => {
             try {
                 const response = await fetch('/api/products/1');
