@@ -1,8 +1,25 @@
+/**
+ * @file page.jsx (Crear Diseño)
+ * @description El "Cerebro" de personalización donde la IA y el usuario colaboran.
+ * 
+ * [Nuestro enfoque]
+ * Hemos creado un estudio compacto donde no hace falta moverse para tenerlo todo. 
+ * Imagina que es como la cabina de un avión: todos los mandos están a mano. 
+ * Usamos animaciones fluidas para que, cuando elijas un teclado, las opciones 
+ * cambien suavemente sin que la página "de saltos" ni aparezcan barras de scroll molestas.
+ * 
+ * [Por qué lo hemos hecho así]
+ * Queremos que diseñar tu alfombra sea divertido, no un lío de menús. Al mantener 
+ * todo en una sola vista y usar efectos visuales de "escaneado", logramos que 
+ * el usuario sienta que está de verdad en un laboratorio premium de Hygge Rug.
+ */
+
 "use client";
 import React, { useState, useEffect, useRef } from 'react';
 import styles from './Studio.module.css';
-import { FaSync, FaArrowLeft, FaUpload, FaTimes } from 'react-icons/fa';
+import { FaSync, FaArrowLeft, FaUpload, FaTimes, FaChevronLeft, FaMagic } from 'react-icons/fa';
 import Link from 'next/link';
+import { motion, AnimatePresence } from 'framer-motion';
 
 export default function DesignStudioAI() {
     const [prompt, setPrompt] = useState('');
@@ -21,16 +38,19 @@ export default function DesignStudioAI() {
     const [customKeyboardSize, setCustomKeyboardSize] = useState('');
 
     useEffect(() => {
+        // [PASO 1] Llamamos por teléfono a la base de datos para pedirle las medidas
         const fetchProductData = async () => {
             try {
                 const response = await fetch('/api/products/1');
                 if (response.ok) {
                     const data = await response.json();
+                    // Guardamos la lista de tamaños aquí abajo
                     if (data.product?.sizes) setSizesData(data.product.sizes);
                 }
             } catch (error) {
                 console.error("Error al cargar producto:", error);
             } finally {
+                // Ya hemos terminado de cargar
                 setIsLoadingData(false);
             }
         };
@@ -53,22 +73,25 @@ export default function DesignStudioAI() {
     };
 
     const generateAiDesign = async () => {
+        // [PASO 2] Si no hay foto o no quedan créditos, no hacemos nada
         if (attempts <= 0 || isGenerating || !uploadedImage) return;
 
-        setIsGenerating(true);
+        setIsGenerating(true); // Encendemos la maquinaria de la IA
         setAiResult(null);
 
         try {
+            // Empaquetamos tu foto y tus instrucciones para enviarlas
             const formData = new FormData();
             formData.append('image', uploadedImage);
             if (prompt.trim()) formData.append('prompt', prompt.trim());
 
+            // Enviamos la caja al servidor para que la IA la procese
             const response = await fetch('/api/generate', {
                 method: 'POST',
                 body: formData,
             });
 
-             // DEBUG
+             // DEBUG: Revisamos que todo vaya bien
                 console.log("Status:", response.status);
 
             const data = await response.json();
@@ -77,14 +100,15 @@ export default function DesignStudioAI() {
                 throw new Error(data.error || 'No image returned');
             }
 
+            // [EXITO] Convertimos el resultado en una imagen que se pueda ver
             const dataUrl = `data:${data.mimeType};base64,${data.imageBase64}`;
-            setAiResult(dataUrl);
-            setAttempts(prev => prev - 1);
+            setAiResult(dataUrl); // Mostramos el boceto listo
+            setAttempts(prev => prev - 1); // Gastamos un crédito
 
         } catch (err) {
             console.error("Generation error:", err);
         } finally {
-            setIsGenerating(false);
+            setIsGenerating(false); // Apagamos la maquinaria
         }
     };
 
@@ -115,7 +139,7 @@ export default function DesignStudioAI() {
             <div className={styles.topBar}>
                 <Link href="/" className={styles.backButton}>
                     <FaArrowLeft size={16} />
-                    VOLVER AL HOOD
+                    VOLVER ATRÁS
                 </Link>
                 <div className={styles.brandTitle}>
                     LABORATORIO <span>IA</span>
@@ -128,84 +152,104 @@ export default function DesignStudioAI() {
 
                     {/* 1. Talla */}
                     <div className={styles.inputGroup}>
-                        <label className={styles.labelNeon}>1. TALLA</label>
-                        <div className={styles.sizeSelection}>
-                            {isLoadingData ? (
-                                <p style={{ color: 'white', fontSize: '0.8rem' }}>Conectando base térmica...</p>
-                            ) : (
-                                <>
-                                    {normalSizes.map((s) => (
-                                        <button
-                                            key={s.size_id}
-                                            className={`${styles.sizeCircle} ${rugSize === s.size_id.toString() ? styles.activeSize : ''}`}
-                                            onClick={() => {
-                                                setRugSize(s.size_id.toString());
-                                                setShowKeyboardOptions(false);
-                                            }}
-                                        >
-                                            <span className={styles.sizeKey}>{(parseFloat(s.price)).toFixed(0)}€</span>
-                                            <span className={styles.sizeLabel}>{s.size_label}</span>
-                                        </button>
-                                    ))}
-                                    {keyboardSizes.length > 0 && (
-                                        <button
-                                            className={`${styles.sizeCircle} ${showKeyboardOptions ? styles.activeSize : ''}`}
-                                            onClick={() => {
-                                                setShowKeyboardOptions(true);
-                                                if (!keyboardSizes.map(ks => ks.size_id.toString()).includes(rugSize)) {
-                                                    setRugSize('');
-                                                }
-                                            }}
-                                        >
-                                            <span className={styles.sizeKey}>Varios</span>
-                                            <span className={styles.sizeLabel}>Teclados</span>
-                                        </button>
-                                    )}
-                                </>
+                        <div className={styles.labelHeader}>
+                            <label className={styles.labelNeon} data-step="1">1. TALLA</label>
+                            {showKeyboardOptions && (
+                                <button className={styles.backBtn} onClick={() => setShowKeyboardOptions(false)}>
+                                    <FaChevronLeft size={10} /> VOLVER
+                                </button>
                             )}
                         </div>
-
-                        {showKeyboardOptions && (
-                            <div style={{ marginTop: '1rem', display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
-                                <label className={styles.labelNeon} style={{ width: '100%', fontSize: '0.75rem', opacity: 0.8 }}>
-                                    ELIGE TAMAÑO TECLADO
-                                </label>
-                                {keyboardSizes.map(s => (
-                                    <button
-                                        key={s.size_id}
-                                        className={`${styles.sizeCircle} ${rugSize === s.size_id.toString() ? styles.activeSize : ''}`}
-                                        onClick={() => setRugSize(s.size_id.toString())}
-                                        style={{ transform: 'scale(0.9)', minWidth: '100px', margin: 0 }}
+                        
+                        <div className={styles.selectionWrapper}>
+                            {/* Aquí usamos AnimatePresence para que los menús "vuelen" suavemente al cambiar */}
+                            <AnimatePresence mode="wait">
+                                {!showKeyboardOptions ? (
+                                    <motion.div 
+                                        key="normal"
+                                        initial={{ opacity: 0, x: -20 }}
+                                        animate={{ opacity: 1, x: 0 }}
+                                        exit={{ opacity: 0, x: 20 }}
+                                        className={styles.sizeSelection}
                                     >
-                                        <span className={styles.sizeKey}>{(parseFloat(s.price)).toFixed(0)}€</span>
-                                        <span className={styles.sizeLabel}>
-                                            {s.size_label.replace('Teclado ', '').replace('(', '').replace(')', '')}
-                                        </span>
-                                    </button>
-                                ))}
-                            </div>
-                        )}
+                                        {isLoadingData ? (
+                                            <p className={styles.loadingText}>Conectando base térmica...</p>
+                                        ) : (
+                                            <>
+                                                {/* Mostramos los tamaños normales de alfombras */}
+                                                {normalSizes.map((s) => (
+                                                    <button
+                                                        key={s.size_id}
+                                                        className={`${styles.sizeCircle} ${rugSize === s.size_id.toString() ? styles.activeSize : ''}`}
+                                                        onClick={() => setRugSize(s.size_id.toString())}
+                                                    >
+                                                        <span className={styles.sizeKey}>{(parseFloat(s.price)).toFixed(0)}€</span>
+                                                        <span className={styles.sizeLabel}>{s.size_label}</span>
+                                                    </button>
+                                                ))}
+                                                {/* Botón para viajar al menú de teclados */}
+                                                {keyboardSizes.length > 0 && (
+                                                    <button
+                                                        className={`${styles.sizeCircle} ${styles.specialSize}`}
+                                                        onClick={() => setShowKeyboardOptions(true)}
+                                                    >
+                                                        <span className={styles.sizeKey}>...</span>
+                                                        <span className={styles.sizeLabel}>TECLADOS</span>
+                                                    </button>
+                                                )}
+                                            </>
+                                        )}
+                                    </motion.div>
+                                ) : (
+                                    <motion.div 
+                                        key="keyboards"
+                                        initial={{ opacity: 0, x: 20 }}
+                                        animate={{ opacity: 1, x: 0 }}
+                                        exit={{ opacity: 0, x: -20 }}
+                                        className={styles.sizeSelection}
+                                    >
+                                        {/* Mostramos solo las medidas de teclados */}
+                                        {keyboardSizes.map(s => (
+                                            <button
+                                                key={s.size_id}
+                                                className={`${styles.sizeCircle} ${rugSize === s.size_id.toString() ? styles.activeSize : ''}`}
+                                                onClick={() => setRugSize(s.size_id.toString())}
+                                            >
+                                                <span className={styles.sizeKey}>{(parseFloat(s.price)).toFixed(0)}€</span>
+                                                <span className={styles.sizeLabel}>
+                                                    {s.size_label.replace('Teclado ', '').replace('(', '').replace(')', '')}
+                                                </span>
+                                            </button>
+                                        ))}
+                                    </motion.div>
+                                )}
+                            </AnimatePresence>
+                        </div>
 
-                        {selectedSizeObj?.size_label.toLowerCase().includes('a medida') && (
-                            <div style={{ marginTop: '0.8rem' }}>
-                                <label className={styles.labelNeon} style={{ fontSize: '0.75rem', opacity: 0.8 }}>
-                                    DIME LA MEDIDA FINAL (CM)
-                                </label>
-                                <input
-                                    type="text"
-                                    className={styles.promptInput}
-                                    style={{ minHeight: '40px', height: 'auto', padding: '10px', fontSize: '0.9rem' }}
-                                    placeholder="Ej: Largo 50 x Alto 18"
-                                    value={customKeyboardSize}
-                                    onChange={(e) => setCustomKeyboardSize(e.target.value)}
-                                />
-                            </div>
-                        )}
+                        <AnimatePresence>
+                            {selectedSizeObj?.size_label.toLowerCase().includes('a medida') && (
+                                <motion.div 
+                                    initial={{ height: 0, opacity: 0 }}
+                                    animate={{ height: 'auto', opacity: 1 }}
+                                    exit={{ height: 0, opacity: 0 }}
+                                    className={styles.customInputArea}
+                                >
+                                    <label className={styles.labelNeonSub}>MEDIDA PERSONALIZADA (CM)</label>
+                                    <input
+                                        type="text"
+                                        className={styles.tinyInput}
+                                        placeholder="Ej: 50x18"
+                                        value={customKeyboardSize}
+                                        onChange={(e) => setCustomKeyboardSize(e.target.value)}
+                                    />
+                                </motion.div>
+                            )}
+                        </AnimatePresence>
                     </div>
 
                     {/* 2. Subir imagen */}
                     <div className={styles.inputGroup}>
-                        <label className={styles.labelNeon}>2. TU IMAGEN</label>
+                        <label className={styles.labelNeon} data-step="2">2. TU IMAGEN</label>
                         <input
                             ref={fileInputRef}
                             type="file"
@@ -238,7 +282,7 @@ export default function DesignStudioAI() {
 
                     {/* 3. Estilo extra opcional */}
                     <div className={styles.inputGroup}>
-                        <label className={styles.labelNeon}>
+                        <label className={styles.labelNeon} data-step="3">
                             3. ESTILO EXTRA{' '}
                             <span style={{ opacity: 0.4, fontWeight: 400, fontSize: '1rem' }}>(opcional)</span>
                         </label>
@@ -274,8 +318,18 @@ export default function DesignStudioAI() {
                         )}
                         {!aiResult && !isGenerating && !imagePreviewUrl && (
                             <div className={styles.emptyCanvas}>
-                                <div className={styles.rubikIcon}>?</div>
-                                <p>SUBE TU IMAGEN Y GENERA</p>
+                                <motion.div 
+                                    animate={{ 
+                                        scale: [1, 1.1, 1],
+                                        rotate: [0, 5, -5, 0],
+                                        opacity: [0.3, 0.6, 0.3]
+                                    }}
+                                    transition={{ duration: 4, repeat: Infinity }}
+                                    className={styles.magicIcon}
+                                >
+                                    <FaMagic size={80} />
+                                </motion.div>
+                                <p>SUBE TU IMAGEN Y GENERA TU BOCETO</p>
                             </div>
                         )}
                         {!aiResult && !isGenerating && imagePreviewUrl && (

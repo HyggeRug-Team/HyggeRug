@@ -1,25 +1,49 @@
+/* 
+ * Studio.module.css
+ * Estilos para el Laboratorio de Diseño IA de Hygge Rug.
+ * 
+ * [Nuestro enfoque]
+ * Diseño "Todo en uno" para evitar el cansancio de hacer scroll. Hemos optado por 
+ * un estilo tecnológico (Cyber-Premium) con efectos de luces y barrido láser 
+ * en el canvas central para que el usuario sepa que la IA está trabajando.
+ */
+
 /* ESTILO PREMIUM DARK / NEO-BRUTALISM PARA EL STUDIO IA */
 
 .studioContainer {
     width: 100%;
-    min-height: 100vh;
-    background: transparent;
+    height: 100vh; /* Altura fija para evitar el doble scroll */
+    background: #000;
     color: #fff;
     display: flex;
     flex-direction: column;
     font-family: var(--font-body);
+    position: relative;
+    overflow: hidden; /* Cortamos cualquier scroll fuera del contenedor */
+}
+
+.studioContainer::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle at center, rgba(255, 0, 85, 0.03) 0%, transparent 40%);
+    pointer-events: none;
+    z-index: 0;
 }
 
 /* TOP BAR */
 .topBar {
-    height: 80px;
+    height: 70px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 0 40px;
-    background: rgba(0, 0, 0, 0.6);
-    backdrop-filter: blur(10px);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 0 50px;
+    background: rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(25px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.07);
     position: relative;
     z-index: 20;
 }
@@ -27,29 +51,30 @@
 .backButton {
     display: inline-flex;
     align-items: center;
-    gap: 8px;
-    color: var(--secondary-text);
-    padding: 8px 16px;
+    gap: 12px;
+    color: var(--grey-400);
+    padding: 10px 18px;
     font-family: var(--font-body);
-    font-weight: 600;
-    font-size: 0.9rem;
+    font-weight: 800;
+    font-size: 0.8rem;
     text-transform: uppercase;
-    letter-spacing: 1px;
-    transition: all 0.3s ease;
+    letter-spacing: 2px;
+    transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
     border: 1px solid transparent;
-    border-radius: 4px;
+    border-radius: 12px;
 }
 .backButton:hover {
-    color: var(--primary-text);
-    border-color: rgba(255, 255, 255, 0.2);
+    color: var(--white);
     background: rgba(255, 255, 255, 0.05);
+    border-color: rgba(255, 255, 255, 0.1);
+    transform: translateX(-5px);
 }
 
 .brandTitle {
     font-family: var(--font-titles);
-    font-size: 2rem;
+    font-size: 1.4rem;
     color: #FFF;
-    letter-spacing: 2px;
+    letter-spacing: 1px;
 }
 .brandTitle span {
     color: var(--highlight-text);
@@ -59,75 +84,199 @@
 .mainContent {
     flex: 1;
     display: flex;
-    height: calc(100vh - 80px);
+    height: calc(100vh - 70px);
     overflow: hidden;
 }
 
-/* CONTROL PANEL */
+@media (max-width: 1200px) {
+    .mainContent {
+        flex-direction: column;
+        height: auto;
+        overflow-y: auto;
+    }
+}
+
+/* CONTROL PANEL (Estilo infoCard del Dashboard - Versión Limpia) */
 .controlPanel {
-    width: 420px;
-    background: rgba(5, 5, 5, 0.8);
-    backdrop-filter: blur(12px);
-    padding: 40px;
-    border-right: 1px solid rgba(255, 255, 255, 0.05);
+    width: 340px;
+    background: rgba(10, 10, 10, 0.6);
+    backdrop-filter: blur(25px);
+    padding: 25px 20px;
+    border: 1px solid rgba(255, 255, 255, 0.08); 
+    border-radius: 28px;
+    margin: 15px;
     display: flex;
     flex-direction: column;
+    box-shadow: 0 40px 100px rgba(0, 0, 0, 0.6);
+    flex-shrink: 0;
+    gap: 20px;
     overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(255, 255, 255, 0.1) transparent;
 }
 
 .graffitiTag {
     font-family: var(--font-titles);
-    font-size: 2.2rem;
+    font-size: 1.6rem;
     color: var(--white);
-    margin-bottom: 40px;
+    margin-bottom: 5px;
     text-transform: uppercase;
+    text-shadow: none;
+    letter-spacing: 1px;
+}
+
+@media (max-width: 1280px) { .controlPanel { width: 330px; } }
+@media (max-width: 1200px) { .controlPanel { width: auto; margin: 15px; } }
+
+.controlPanel:hover {
+    border-color: rgba(255, 255, 255, 0.12);
+}
+
+.generateBtn {
+    width: 100%;
+    background: #FFF;
+    color: #000;
+    border: none;
+    border-radius: 12px;
+    padding: 18px;
+    font-family: var(--font-titles);
+    font-weight: 400; /* Rubik Bubbles es gruesa de por sí */
+    font-size: 1.2rem;
+    cursor: pointer;
+    text-transform: uppercase;
+    transition: all 0.3s ease;
+    box-shadow: 4px 4px 0px var(--highlight-text);
+    margin-top: 10px;
+}
+
+.generateBtn:hover:not(:disabled) {
+    transform: translate(-2px, -2px);
+    box-shadow: 6px 6px 0px var(--highlight-text);
 }
 
 .inputGroup {
-    margin-bottom: 40px;
+    margin-bottom: 10px;
+}
+
+.labelHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
 }
 
 .labelNeon {
-    display: block;
+    display: flex;
+    align-items: center;
+    gap: 10px;
     font-family: var(--font-body);
     font-weight: 800;
-    font-size: 0.85rem;
-    letter-spacing: 2px;
-    color: var(--grey-400);
-    margin-bottom: 15px;
+    font-size: 0.8rem;
+    color: #FFF;
     text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.labelNeon::before {
+    content: attr(data-step);
+    width: 26px;
+    height: 26px;
+    background: rgba(255, 0, 85, 0.1);
+    border: 1px solid var(--highlight-text);
+    color: var(--highlight-text);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 6px;
+    font-size: 0.65rem;
+    font-weight: 900;
+    flex-shrink: 0;
+}
+
+.labelNeon::before {
+    content: attr(data-step);
+    width: 26px;
+    height: 26px;
+    background: var(--highlight-text);
+    color: #FFF;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 6px;
+    font-size: 0.7rem;
+    font-weight: 900;
+    flex-shrink: 0;
+}
+
+.backBtn {
+    background: #000;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: var(--white);
+    padding: 6px 15px;
+    border-radius: 99px;
+    font-size: 0.65rem;
+    font-weight: 900;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.backBtn:hover {
+    background: var(--highlight-text);
+    border-color: var(--highlight-text);
+    transform: translateX(-3px);
+}
+
+.selectionWrapper {
+    min-height: 100px;
+    position: relative;
 }
 
 .sizeSelection {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    gap: 12px;
+    gap: 8px;
+    width: 100%;
 }
 
 .sizeCircle {
-    background: rgba(20, 20, 20, 1);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.06);
     border-radius: 12px;
-    padding: 20px 10px;
+    padding: 10px;
     color: #FFF;
     cursor: pointer;
-    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    transition: all 0.3s ease;
     display: flex;
     flex-direction: column;
     align-items: center;
-    position: relative;
-    overflow: hidden;
-}
-
-.sizeCircle:hover {
-    border-color: rgba(255, 255, 255, 0.3);
-    transform: translateY(-2px);
+    font-family: var(--font-body);
 }
 
 .sizeKey {
     font-family: var(--font-titles);
-    font-size: 1.8rem;
-    margin-bottom: 5px;
+    font-size: 1rem;
+    font-weight: 400;
+    margin-bottom: 2px;
+}
+
+.sizeCircle:hover {
+    border-color: rgba(255, 255, 255, 0.2);
+    background: rgba(255, 255, 255, 0.06);
+    transform: translateY(-4px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+}
+
+.activeSize {
+    background: rgba(255, 0, 85, 0.1) !important;
+    border-color: var(--highlight-text) !important;
+    box-shadow: 
+        0 0 30px rgba(255, 0, 85, 0.15),
+        inset 0 0 10px rgba(255, 0, 85, 0.1) !important;
 }
 
 .sizeLabel {
@@ -138,25 +287,60 @@
     letter-spacing: 1px;
 }
 
-.activeSize {
-    background: var(--primary-bg);
-    border-color: var(--highlight-text);
-    box-shadow: 0 0 20px rgba(255, 0, 85, 0.2), inset 0 0 10px rgba(255, 0, 85, 0.1);
-}
 .activeSize .sizeLabel { color: var(--highlight-text); }
-.activeSize .sizeKey { color: #FFF; }
+.activeSize .sizeKey { color: #FFF; background: transparent; }
+
+.specialSize {
+    grid-column: span 2;
+    background: rgba(0, 255, 255, 0.03);
+    border: 1px solid rgba(0, 255, 255, 0.15) !important;
+}
+.specialSize:hover {
+    border-color: #00f0ff !important;
+    background: rgba(0, 255, 255, 0.08);
+    box-shadow: 0 0 20px rgba(0, 240, 255, 0.2);
+}
+.specialSize .sizeLabel { color: #00f0ff; text-shadow: 0 0 10px rgba(0, 240, 255, 0.3); }
+
+.customInputArea {
+    margin-top: 10px;
+    border-top: 1px dashed rgba(255, 255, 255, 0.1);
+    padding-top: 10px;
+}
+
+.labelNeonSub {
+    display: block;
+    font-size: 0.6rem;
+    font-weight: 800;
+    color: var(--highlight-text);
+    letter-spacing: 1px;
+    margin-bottom: 8px;
+}
+
+.tinyInput {
+    width: 100%;
+    background: #000;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    color: white;
+    padding: 8px 12px;
+    font-size: 0.85rem;
+    outline: none;
+}
+.tinyInput:focus {
+    border-color: var(--highlight-text);
+}
 
 .promptInput {
-    width: 100%;
-    height: 140px;
-    background: rgba(10, 10, 10, 0.9);
+    background: rgba(255, 255, 255, 0.03);
     border: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: 12px;
-    color: #FFF;
-    padding: 16px;
+    padding: 10px;
+    color: var(--white);
+    width: 100%;
+    height: 90px; /* Aumentado para mejor visibilidad del estilo */
     font-family: var(--font-body);
-    font-size: 1rem;
-    line-height: 1.5;
+    font-size: 0.8rem;
     resize: none;
     transition: all 0.3s ease;
 }
@@ -221,18 +405,20 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 40px;
+    padding: 20px;
     position: relative;
     background: radial-gradient(circle at center, rgba(30,30,30,0.5) 0%, rgba(0,0,0,1) 100%);
 }
 
 .viewport {
     width: 100%;
-    max-width: 600px;
+    max-width: 650px;
     aspect-ratio: 1;
-    background: #080808;
-    border-radius: 20px;
-    box-shadow: 0 30px 60px rgba(0,0,0,0.8);
+    background: #020202;
+    border-radius: 40px;
+    box-shadow: 
+        0 50px 100px rgba(0,0,0,0.8),
+        inset 0 0 80px rgba(255, 0, 85, 0.03);
     position: relative;
     display: flex;
     align-items: center;
@@ -241,22 +427,50 @@
     border: 1px solid rgba(255,255,255,0.05);
 }
 
+.viewport::before {
+    content: '';
+    position: absolute;
+    inset: -2px;
+    background: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, transparent 50%, rgba(255,255,255,0.05) 100%);
+    border-radius: 42px;
+    z-index: 0;
+    pointer-events: none;
+}
+
+.viewport::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(0deg, transparent 0%, rgba(255, 0, 85, 0.05) 50%, transparent 100%);
+    background-size: 100% 200%;
+    animation: scanline 4s linear infinite;
+    pointer-events: none;
+    z-index: 5;
+}
+
+@keyframes scanline {
+    0% { background-position: 0 -100%; }
+    100% { background-position: 0 100%; }
+}
+
 .emptyCanvas {
     text-align: center;
-    opacity: 0.3;
 }
-.rubikIcon {
-    font-family: var(--font-titles);
-    font-size: 8rem;
+.magicIcon {
     color: var(--white);
-    margin-bottom: 20px;
+    margin-bottom: 25px;
+    filter: drop-shadow(0 0 20px rgba(255, 0, 85, 0.4));
 }
 .emptyCanvas p {
     font-family: var(--font-body);
-    font-weight: 600;
-    color: var(--white);
-    font-size: 1.2rem;
-    letter-spacing: 3px;
+    font-weight: 700;
+    color: var(--grey-600);
+    font-size: 0.85rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
 }
 
 .aiProcessing {
@@ -307,24 +521,80 @@
     letter-spacing: 1px;
 }
 
-/* CHECKOUT PANEL */
+/* CHECKOUT PANEL (Estilo infoCard del Dashboard - Versión Limpia) */
 .checkoutPanel {
-    width: 380px;
-    background: #0a0a0a;
-    padding: 40px;
-    border-left: 1px solid rgba(255, 255, 255, 0.05);
+    width: 320px;
+    background: #FFD701; 
+    color: #000;
+    padding: 40px 30px;
+    border-radius: 28px 28px 0 0;
+    margin: 20px 20px 20px 0;
     display: flex;
     flex-direction: column;
+    box-shadow: 0 40px 80px rgba(0, 0, 0, 0.3);
+    position: relative;
+    clip-path: polygon(0% 0%, 100% 0%, 100% 97%, 98% 99%, 96% 97%, 94% 99%, 92% 97%, 90% 99%, 88% 97%, 86% 99%, 84% 97%, 82% 99%, 80% 97%, 78% 99%, 76% 97%, 74% 99%, 72% 97%, 70% 99%, 68% 97%, 66% 99%, 64% 97%, 62% 99%, 60% 97%, 58% 99%, 56% 97%, 54% 99%, 52% 97%, 50% 99%, 48% 97%, 46% 99%, 44% 97%, 42% 99%, 40% 97%, 38% 99%, 36% 97%, 34% 99%, 32% 97%, 30% 99%, 28% 97%, 26% 99%, 24% 97%, 22% 99%, 20% 97%, 18% 99%, 16% 97%, 14% 99%, 12% 97%, 10% 99%, 8% 97%, 6% 99%, 4% 97%, 2% 99%, 0% 97%);
+    max-height: calc(100vh - 120px);
+    overflow-y: auto;
+    transition: none;
+}
+
+.checkoutPanel:hover { transform: none; border: none; }
+
+.receiptTitle {
+    font-family: var(--font-titles);
+    font-weight: 400;
+    text-transform: uppercase;
+    font-size: 1.2rem;
+    letter-spacing: 2px;
+    color: #000;
+    margin-bottom: 25px;
+    border-bottom: 2px solid rgba(0,0,0,0.15);
+    padding-bottom: 10px;
+    display: flex;
+    justify-content: space-between;
+}
+.receiptTitle::after {
+    content: '///';
+    color: var(--highlight-text);
+    font-size: 0.8rem;
+    letter-spacing: 1px;
+}
+
+/* ELIMINAMOS EL HOVER DEL PANEL ENTERO */
+.checkoutPanel:hover {
+    transform: none;
+    border: none;
+}
+
+@media (max-width: 1200px) {
+    .checkoutPanel { 
+        width: auto; 
+        margin: 15px;
+        clip-path: none;
+        border-radius: 28px;
+        max-height: none;
+    }
 }
 
 .receiptTitle {
-    font-family: var(--font-body);
-    font-weight: 800;
+    font-family: var(--font-titles);
+    font-weight: 900;
     text-transform: uppercase;
-    font-size: 1rem;
-    letter-spacing: 4px;
-    color: var(--grey-400);
-    margin-bottom: 40px;
+    font-size: 1.2rem;
+    letter-spacing: 2px;
+    color: #000;
+    margin-bottom: 25px;
+    border-bottom: 2px solid rgba(0,0,0,0.15);
+    padding-bottom: 10px;
+    display: flex;
+    justify-content: space-between;
+}
+.receiptTitle::after {
+    content: '///';
+    color: var(--highlight-text);
+    font-size: 0.8rem;
+    letter-spacing: 1px;
 }
 
 .receiptBody {
@@ -341,16 +611,20 @@
     justify-content: space-between;
     align-items: center;
     font-size: 0.95rem;
-    color: var(--grey-300);
+    color: #000;
+    font-weight: 700;
 }
 .receiptLine span:first-child {
-    color: var(--grey-500);
+    color: rgba(0, 0, 0, 0.5);
+    text-transform: uppercase;
+    font-size: 0.7rem;
+    letter-spacing: 1px;
 }
 
 .divider {
-    height: 1px;
-    background: rgba(255, 255, 255, 0.1);
-    margin: 20px 0;
+    height: 1.5px;
+    background: rgba(0, 0, 0, 0.1);
+    margin: 15px 0;
 }
 
 .totalLine {
@@ -358,43 +632,88 @@
     flex-direction: column;
     text-align: right;
     margin-top: auto;
-    margin-bottom: 30px;
+    margin-bottom: 25px;
 }
 .totalLine span { 
-    font-size: 0.9rem; 
-    color: var(--grey-500);
-    margin-bottom: 5px;
+    font-size: 0.8rem; 
+    color: rgba(0, 0, 0, 0.6);
+    font-weight: 900;
+    text-transform: uppercase;
 }
 .totalLine strong {
     font-family: var(--font-titles);
-    font-size: 3.5rem;
+    font-size: 3.2rem;
     line-height: 1;
-    color: var(--white);
+    color: #000;
+}
+
+.receiptLine {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.95rem;
+    color: #000;
+    font-weight: 700;
+}
+.receiptLine span:first-child {
+    color: rgba(0, 0, 0, 0.5);
+    text-transform: uppercase;
+    font-size: 0.7rem;
+    letter-spacing: 1px;
+}
+
+.totalLine strong {
+    font-family: var(--font-titles);
+    font-size: 3.2rem;
+    line-height: 1;
+    color: #000;
+    text-shadow: none;
 }
 
 .buyAction {
-    background: var(--hover-text);
-    color: #000;
+    background: #000;
+    color: #fff;
     font-family: var(--font-body);
-    font-weight: 800;
+    font-weight: 900;
     font-size: 1.1rem;
-    border-radius: 99px;
-    padding: 18px;
+    border-radius: 16px;
+    padding: 22px;
     border: none;
     cursor: pointer;
-    transition: all 0.3s ease;
+    transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
     text-transform: uppercase;
     letter-spacing: 2px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+    margin-top: 10px;
 }
+
 .buyAction:hover:not(:disabled) {
-    transform: translateY(-3px);
-    box-shadow: 0 10px 20px rgba(255, 215, 1, 0.2);
+    background: #222;
+    transform: scale(1.02) translateY(-3px);
+    box-shadow: 0 15px 35px rgba(0,0,0,0.4);
 }
+
 .buyAction:disabled {
-    background: rgba(255, 255, 255, 0.05);
-    color: rgba(255, 255, 255, 0.2);
+    background: rgba(0, 0, 0, 0.1) !important;
+    color: rgba(0, 0, 0, 0.3) !important;
     cursor: not-allowed;
+    box-shadow: none;
 }
+
+.buyAction::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+    transition: 0.5s;
+}
+.buyAction:hover::before {
+    left: 100%;
+}
+/* Eliminamos regla duplicada e incorrecta que hacía que el botón fuera blanco/amarillo */
 
 .spin { animation: spin 1s linear infinite; }
 @keyframes spin { 100% { transform: rotate(360deg); } }
@@ -403,31 +722,35 @@
 
 /* RESPONSIVE */
 @media (max-width: 1200px) {
-    .mainContent { flex-direction: column; height: auto; overflow: visible; }
-    .controlPanel, .checkoutPanel { width: 100%; border: none; border-bottom: 1px solid rgba(255,255,255,0.05); }
-    .canvasArea { padding: 40px 20px; }
+    .canvasArea { padding: 20px; min-height: 400px; }
+    .viewport { border-radius: 24px; }
+}
+
+@media (max-width: 600px) {
+    .viewport { max-width: 100%; aspect-ratio: 1; }
 }
 
 
 /*Añadido por IA para comprobar si el generar imagen funciona*/
 .uploadButton {
     width: 100%;
-    background: #0D0D0D;
-    border: 3px dashed #444;
-    color: #FFF;
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px dashed rgba(255, 255, 255, 0.2);
+    border-radius: 12px;
+    color: var(--grey-400);
     font-family: var(--font-titles);
-    font-size: 1.3rem;
-    padding: 25px 15px;
+    font-size: 0.8rem;
+    padding: 10px; /* Muy compacto */
     cursor: pointer;
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 8px;
-    transition: border-color 0.2s, background 0.2s;
+    gap: 5px;
 }
 .uploadButton:hover {
-    border-color: var(--accent-cyan);
-    background: #111;
+    border-color: var(--highlight-text);
+    background: rgba(255, 255, 255, 0.05);
+    color: var(--white);
 }
 .uploadHint {
     font-family: var(--font-body);
@@ -442,7 +765,7 @@
 }
 .imagePreview {
     width: 100%;
-    height: 160px;
+    height: 120px;
     object-fit: cover;
     display: block;
 }
