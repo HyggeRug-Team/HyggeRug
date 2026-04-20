@@ -1,26 +1,18 @@
 /**
  * @file EditableInfoModal.jsx
- * @description Campo interactivo que permite al usuario modificar sus datos mediante una ventana modal.
+ * @description Campo interactivo que permite al usuario modificar sus datos mediante una ventana modal localizada.
  * 
  * [Nuestro enfoque]
- * Hemos diseñado este componente para que el usuario pueda cambiar su información (como su apodo) 
- * de forma intuitiva sin salir de la página actual.
+ * El componente actúa como un disparador visual (similar a un input de Login) que abre 
+ * una interfaz de edición sobre el propio formulario.
  * 
  * [Por qué lo hemos hecho así]
- * Usamos un modal para que el usuario edite en el mismo contexto, evitando perder tiempo y
- * reduciendo la sensación de “estar cambiando de sitio” mientras modifica su perfil.
- *
- * ¿Cómo funciona nuestro sistema de edición?
- * 1. Vista de Lectura: Normalmente, el dato se ve como un texto elegante con un icono de lápiz.
- * 2. El Modal: Al pulsar, aparece una "capa" sobre la web (Overlay) con un cuadro de texto. 
- *    Esto evita que el usuario se distraiga con el resto de la página mientras edita.
- * 3. Comunicación Dinámica: Usamos las llamadas "Props" (propiedades) para que el componente 
- *    hijo le avise al padre en cuanto el usuario confirma el cambio. 
- * 
- * Es una forma limpia y profesional de gestionar formularios sin recargar toda la interfaz.
+ * Al usar `useEffect` para sincronizar el valor con el servidor y centrar el modal 
+ * de forma absoluta sobre el componente padre, logramos una interfaz que se siente 
+ * robusta y rápida, sin saltos bruscos de scroll o cambios de contexto.
  */
 'use client';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import styles from './EditableInfoModal.module.css';
 import { MdOutlineModeEditOutline } from "react-icons/md";
 import TertiaryButton from '../../Buttons/TertiaryButton/TertiaryButton';
@@ -30,7 +22,13 @@ export default function EditableField({ label, value, inputType = "text", onSave
     const [showModal, setShowModal] = useState(false);
 
     // Guardamos el valor temporalmente mientras el usuario escribe
-    const [name, setName] = useState(value);
+    // Fallback a "" para evitar errores de controlado/no-controlado
+    const [name, setName] = useState(value || "");
+
+    // Sincronizamos con el padre si el valor cambia (importante tras revalidar)
+    useEffect(() => {
+        setName(value || "");
+    }, [value]);
 
     // Avisamos de que queremos guardar y cerramos el modal
     const handleSave = () => {

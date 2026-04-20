@@ -1,0 +1,235 @@
+/* 
+ * UserDetails.module.css
+ * Estilos para el panel de detalles del usuario.
+ * Alineado con el sistema de diseño de AuthForm (Login/Registro) para coherencia visual.
+ */
+
+.detailsCard {
+    width: 100%;
+    max-width: 450px; /* Igual que authMain */
+    margin: 0 auto;
+    background: rgba(255, 255, 255, 0.03);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 24px;
+    padding: 2.5rem;
+    position: relative;
+    z-index: 10;
+    box-shadow: 
+        0 20px 50px rgba(0, 0, 0, 0.5),
+        inset 0 0 0 1px rgba(255, 255, 255, 0.05);
+}
+
+.profileHeader {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem;
+    margin-bottom: 2.5rem;
+}
+
+.imageWrapper {
+    position: relative;
+}
+
+.profileImage {
+    width: 120px;
+    height: 120px;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 3px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+    transition: transform 0.3s ease;
+}
+
+.profileImage:hover {
+    transform: scale(1.05);
+}
+
+.imageEditBtn {
+    position: absolute;
+    bottom: 5px;
+    right: 5px;
+    background: var(--highlight-text);
+    color: var(--black);
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid var(--white);
+    cursor: pointer;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+    transition: all 0.2s ease;
+}
+
+.imageEditBtn:hover {
+    transform: translateY(-2px);
+    filter: brightness(1.1);
+}
+
+.pointsContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+}
+
+.pointsValue {
+    font-family: var(--font-titles);
+    font-size: 2.2rem;
+    color: var(--white);
+    text-shadow: 2px 2px 0px rgba(0,0,0,0.3);
+}
+
+.pointsLabel {
+    font-size: 0.7rem;
+    font-weight: 800;
+    color: var(--highlight-text);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+.formSection {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+/* ========== MODAL DE AVATAR ========== */
+.avatarModalOverlay {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 100;
+    animation: fadeIn 0.3s ease-out;
+}
+
+.avatarModalBackdrop {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.7);
+    backdrop-filter: blur(8px);
+}
+
+.avatarModalContent {
+    position: relative;
+    background: #1a1a1a;
+    padding: 2rem;
+    border-radius: 24px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    width: 90%;
+    max-width: 380px;
+    z-index: 101;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.avatarModalContent h3 {
+    margin: 0;
+    font-size: 1.2rem;
+    color: var(--white);
+    font-family: var(--font-titles);
+}
+
+.avatarModalContent p {
+    font-size: 0.9rem;
+    color: var(--secondary-text);
+    margin: 0;
+}
+
+.avatarInput {
+    background: #0a0a0a;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: white;
+    padding: 0.8rem 1rem;
+    border-radius: 12px;
+    outline: none;
+}
+
+.avatarInput:focus {
+    border-color: var(--highlight-text);
+}
+
+.avatarActions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin-top: 0.5rem;
+}
+
+/* ========== OPCIONES DE CARGA ========== */
+.uploadOption {
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+}
+
+.uploadTrigger {
+    background: rgba(255, 255, 255, 0.05);
+    border: 2px dashed rgba(255, 255, 255, 0.2);
+    border-radius: 15px;
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    color: var(--grey-400);
+}
+
+.uploadTrigger:hover {
+    background: rgba(255, 255, 255, 0.08);
+    border-color: var(--highlight-text);
+    color: var(--white);
+    transform: translateY(-2px);
+}
+
+.uploadTrigger svg {
+    font-size: 2rem;
+    color: var(--highlight-text);
+}
+
+.divider {
+    position: relative;
+    text-align: center;
+    margin: 0.5rem 0;
+}
+
+.divider::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 0;
+    width: 100%;
+    height: 1px;
+    background: rgba(255, 255, 255, 0.1);
+    z-index: 0;
+}
+
+.divider span {
+    position: relative;
+    background: #1a1a1a;
+    padding: 0 1rem;
+    color: var(--grey-600);
+    font-size: 0.7rem;
+    font-weight: 800;
+    z-index: 1;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+

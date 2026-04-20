@@ -1,3 +1,17 @@
+/**
+ * @file resumen/page.jsx
+ * @description Panel principal de bienvenida y resumen de actividad del usuario.
+ * 
+ * [Nuestro enfoque]
+ * Esta página es el "Home" del panel privado, mostrando de un vistazo el clima, 
+ * los pedidos recientes y la información de contacto rápida.
+ * 
+ * [Por qué lo hemos hecho así]
+ * Mantener esta vista simple y visual (con widgets y tarjetas de stats) permite al 
+ * usuario sentirse en control de su cuenta nada más entrar, facilitando el acceso 
+ * a la tienda o sus direcciones.
+ */
+
 import { cookies } from "next/headers";
 import { verifySession } from "@/lib/auth";
 import { redirect } from "next/navigation";
@@ -235,7 +249,6 @@ export default async function ResumenPage() {
             
             <div className={styles.cardContent}>
               <div className={styles.creditCardMini}>
-                  {/* Placeholder estético para un e-commerce real donde conectamos Stripe */}
                   <p style={{fontSize: '0.85rem', color: '#888'}}>Los datos de pago no se guardan de forma local. En tu próximo pago el navegador autocompletará la tarjeta segura.</p>
               </div>
               
@@ -251,3 +264,4 @@ export default async function ResumenPage() {
     </div>
   );
 }
+

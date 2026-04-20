@@ -5,16 +5,326 @@
    Estilos específicos para la sección de Mis Pedidos.
 ============================================ */
 
-.container {
-  max-width: 1400px;
-  margin: 0 auto;
-  padding: 20px;
+/* ============================================
+   PEDIDOS PAGE (MATCHING RESUMEN STYLE)
+   ============================================ */
+
+.dashboardContainer {
+    max-width: 1400px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 50px;
+    position: relative;
+    padding: 30px 20px 50px;
 }
 
-.pageTitle {
-  font-family: var(--font-titles);
-  color: var(--primary-text);
-  font-size: 2rem;
-  margin-bottom: 30px;
-  text-align: left;
+/* ========== HEADER (Estilo Hero Title) ========== */
+.headerSection {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    padding-bottom: 30px;
+    border-bottom: 3px solid rgba(255, 255, 255, 0.1);
+    position: relative;
+}
+
+.greeting h1 {
+    font-family: var(--font-titles);
+    font-size: clamp(2.5rem, 5vw, 4rem);
+    margin: 0;
+    line-height: 0.9;
+    color: var(--white);
+    text-shadow: 4px 4px 0px var(--highlight-text); 
+}
+
+.greeting p {
+    color: var(--grey-400);
+    font-size: 1.1rem;
+    margin-top: 10px;
+    font-weight: 300;
+    letter-spacing: 0.5px;
+}
+
+.headerWidgets {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.viewAllLink {
+    background: var(--white);
+    color: var(--black);
+    text-decoration: none;
+    font-weight: 900;
+    padding: 12px 24px;
+    border-radius: 12px;
+    border: 2px solid var(--black);
+    box-shadow: 4px 4px 0px var(--highlight-text);
+    transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    text-transform: uppercase;
+    font-size: 0.9rem;
+    letter-spacing: 1px;
+}
+
+.viewAllLink:hover {
+    transform: translate(-2px, -2px);
+    box-shadow: 6px 6px 0px var(--highlight-text);
+}
+
+/* ========== CONTENT AREA ========== */
+.mainContentGrid {
+    display: flex;
+    flex-direction: column;
+}
+
+.ordersFullWidth {
+    width: 100%;
+}
+
+/* ========== ORDER CARDS (Neo-Brutalism Style) ========== */
+.ordersList {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+}
+
+.orderCard {
+    background: var(--grey-900);
+    border: 2px dashed rgba(255, 255, 255, 0.2);
+    border-radius: 20px;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.15);
+}
+
+.orderCard:hover {
+    transform: translateY(-3px);
+    border-color: var(--highlight-text);
+    box-shadow: 0 15px 30px rgba(0,0,0,0.3);
+}
+
+.cardHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 25px;
+    background: rgba(255, 255, 255, 0.03);
+    border-bottom: 2px dashed rgba(255, 255, 255, 0.1);
+}
+
+.orderIdGroup {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.orderLabel {
+    font-size: 0.7rem;
+    font-weight: 800;
+    color: var(--grey-500);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+.orderNumber {
+    font-family: var(--font-titles);
+    font-size: 1.2rem;
+    color: var(--white);
+    letter-spacing: 1px;
+}
+
+/* Status Badges */
+.statusBadge {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--black);
+    padding: 6px 14px;
+    border-radius: 8px;
+    font-size: 0.75rem;
+    font-weight: 800;
+    letter-spacing: 1px;
+    border: 1px solid rgba(255,255,255,0.2);
+}
+
+.statusDesigning { border-color: var(--highlight-text); color: var(--highlight-text); }
+.statusProcessing { border-color: var(--hover-text); color: var(--hover-text); }
+.statusTufting { border-color: #9000ff; color: #c975ff; }
+.statusShipped { border-color: var(--button-before-hover); color: var(--button-before-hover); }
+.statusDelivered { border-color: #00ff80; color: #00ff80; }
+
+.spinIcon {
+    animation: rotate 2s linear infinite;
+}
+@keyframes rotate { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+
+/* Body Content */
+.cardBody {
+    padding: 25px;
+}
+
+.orderGridInfo {
+    display: grid;
+    grid-template-columns: 300px 1fr;
+    gap: 40px;
+}
+
+.metaColumn {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    padding-right: 25px;
+    border-right: 1px dashed rgba(255, 255, 255, 0.1);
+}
+
+.detailRow {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    color: var(--grey-300);
+    font-size: 0.95rem;
+}
+
+.detailIcon {
+    font-size: 1.1rem;
+    color: var(--grey-500);
+}
+
+.strongText {
+    color: var(--white);
+    font-weight: 700;
+}
+
+.paymentMethodLabel {
+    font-size: 0.7rem;
+    color: var(--grey-500);
+    text-transform: uppercase;
+    font-weight: 800;
+    letter-spacing: 2px;
+    background: rgba(255,255,255,0.05);
+    padding: 4px 10px;
+    border-radius: 4px;
+}
+
+/* Items Section */
+.itemsWrapper {
+    width: 100%;
+}
+
+.itemsTitle {
+    font-size: 0.75rem;
+    font-weight: 800;
+    color: var(--grey-500);
+    letter-spacing: 1px;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+}
+
+.itemsListContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.itemRow {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    background: rgba(0,0,0,0.2);
+    padding: 12px 20px;
+    border-radius: 12px;
+    border: 1px solid rgba(255,255,255,0.05);
+}
+
+.itemIconBox {
+    width: 60px;
+    height: 60px;
+    border-radius: 10px;
+    overflow: hidden;
+    background: #111;
+    border: 1px dashed rgba(255,255,255,0.2);
+    flex-shrink: 0;
+}
+
+.itemThumb {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.itemMeta {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.itemName {
+    font-family: var(--font-titles);
+    color: var(--white);
+    font-size: 1rem;
+    letter-spacing: 0.5px;
+}
+
+.itemQtyText {
+    font-size: 0.7rem;
+    color: var(--grey-500);
+    font-weight: 800;
+    letter-spacing: 0.5px;
+}
+
+.itemPrice {
+    font-family: var(--font-titles);
+    color: var(--highlight-text);
+    font-size: 1.1rem;
+}
+
+/* Empty State Card (Tufting Style) */
+.emptyStateCard {
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 30px;
+    border: 3px dashed rgba(255, 255, 255, 0.1);
+    padding: 80px 40px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+}
+
+.emptyIcon {
+    font-size: 4rem;
+    margin-bottom: 20px;
+    filter: drop-shadow(0 0 20px rgba(255,255,255,0.1));
+}
+
+.emptyTitle {
+    font-family: var(--font-titles);
+    font-size: 2rem;
+    color: var(--white);
+    margin: 0;
+    text-shadow: 2px 2px 0px var(--highlight-text);
+}
+
+.emptyText {
+    color: var(--grey-400);
+    font-size: 1.1rem;
+    max-width: 500px;
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+    .orderGridInfo { grid-template-columns: 1fr; }
+    .metaColumn { border-right: none; border-bottom: 1px dashed rgba(255,255,255,0.1); padding-bottom: 20px; padding-right: 0; }
+    .greeting h1 { font-size: 3rem; }
+}
+
+@media (max-width: 768px) {
+    .headerSection { flex-direction: column; align-items: flex-start; gap: 20px; }
+    .headerWidgets { width: 100%; justify-content: space-between; }
+    .cardHeader { flex-direction: column; align-items: flex-start; gap: 15px; }
 }

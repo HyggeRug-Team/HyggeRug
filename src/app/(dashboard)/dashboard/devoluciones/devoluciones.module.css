@@ -1,17 +1,174 @@
-/* ============================================
-   DEVOLUCIONES PAGE - CSS
-   ============================================
-   Estilos específicos para la gestión de devoluciones. */
-
-.container {
-  max-width: 1400px;
-  margin: 0 auto;
-  padding: 20px;
+.dashboardContainer {
+    max-width: 1400px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 50px;
+    padding: 30px 20px 50px;
 }
 
-.pageTitle {
-  font-family: var(--font-titles);
-  color: var(--primary-text);
-  font-size: 2rem;
-  margin-bottom: 30px;
+.headerSection {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    padding-bottom: 30px;
+    border-bottom: 3px solid rgba(255, 255, 255, 0.1);
+}
+
+.greeting h1 {
+    font-family: var(--font-titles);
+    font-size: clamp(2.5rem, 5vw, 4rem);
+    margin: 0;
+    line-height: 0.9;
+    color: var(--white);
+    text-shadow: 4px 4px 0px var(--highlight-text); 
+}
+
+.greeting p {
+    color: var(--grey-400);
+    font-size: 1.1rem;
+    margin-top: 10px;
+    font-weight: 300;
+}
+
+.infoBox {
+    background: rgba(255, 215, 1, 0.05);
+    border: 1px dashed var(--hover-text);
+    padding: 20px 25px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    margin-bottom: 40px;
+}
+
+.infoIcon {
+    font-size: 1.5rem;
+    color: var(--hover-text);
+    flex-shrink: 0;
+}
+
+.infoBox p {
+    color: var(--grey-300);
+    font-size: 0.95rem;
+    margin: 0;
+    line-height: 1.5;
+}
+
+.returnsList {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+}
+
+.returnCard {
+    background: var(--grey-900);
+    border: 2px dashed rgba(255, 255, 255, 0.1);
+    border-radius: 20px;
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+.returnCard:hover {
+    border-color: var(--highlight-text);
+    background: rgba(255,255,255,0.02);
+}
+
+.cardHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 25px;
+    background: rgba(255, 255, 255, 0.03);
+    border-bottom: 2px dashed rgba(255, 255, 255, 0.1);
+}
+
+.returnIdGroup {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.returnLabel {
+    font-size: 0.7rem;
+    font-weight: 800;
+    color: var(--grey-500);
+    letter-spacing: 1px;
+}
+
+.returnNumber {
+    font-family: var(--font-titles);
+    font-size: 1.2rem;
+    color: var(--white);
+}
+
+.statusBadge {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--black);
+    padding: 6px 14px;
+    border-radius: 8px;
+    font-size: 0.75rem;
+    font-weight: 800;
+    letter-spacing: 1px;
+    border: 1px solid rgba(255,255,255,0.2);
+}
+
+.pendiente { border-color: var(--hover-text); color: var(--hover-text); }
+.aprobada { border-color: #00ff80; color: #00ff80; }
+.rechazada { border-color: #ff4d4d; color: #ff4d4d; }
+
+.cardBody {
+    padding: 25px;
+}
+
+.orderRef {
+    color: var(--white);
+    margin-bottom: 10px;
+    font-size: 1rem;
+}
+
+.reasonText {
+    color: var(--grey-400);
+    font-style: italic;
+    margin-bottom: 20px;
+}
+
+.dateText {
+    font-size: 0.8rem;
+    color: var(--grey-500);
+    text-transform: uppercase;
+    font-weight: 700;
+}
+
+.emptyStateCard {
+    background: rgba(255, 255, 255, 0.02);
+    border: 3px dashed rgba(255,255,255,0.05);
+    border-radius: 30px;
+    padding: 100px 20px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+}
+
+.emptyTitle {
+    font-family: var(--font-titles);
+    color: var(--white);
+    font-size: 1.8rem;
+    margin: 0;
+}
+
+.ordersLink {
+    color: var(--highlight-text);
+    text-decoration: underline;
+    font-weight: 700;
+    font-size: 0.9rem;
+    margin-top: 10px;
+}
+
+@media (max-width: 768px) {
+    .headerSection { flex-direction: column; align-items: flex-start; gap: 20px; }
 }

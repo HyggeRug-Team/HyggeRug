@@ -1,22 +1,189 @@
-/* ============================================
-   DIRECCIONES PAGE - CSS
-   ============================================ */
-
-.container {
-  max-width: 1400px;
-  margin: 0 auto;
-  padding: 20px;
+.dashboardContainer {
+    max-width: 1400px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 50px;
+    padding: 30px 20px 50px;
 }
 
-.pageTitle {
-  font-family: var(--font-titles);
-  color: var(--primary-text);
-  font-size: 2rem;
-  margin-bottom: 30px;
+.headerSection {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    padding-bottom: 30px;
+    border-bottom: 3px solid rgba(255, 255, 255, 0.1);
+}
+
+.greeting h1 {
+    font-family: var(--font-titles);
+    font-size: clamp(2.5rem, 5vw, 4rem);
+    margin: 0;
+    line-height: 0.9;
+    color: var(--white);
+    text-shadow: 4px 4px 0px var(--highlight-text); 
+}
+
+.greeting p {
+    color: var(--grey-400);
+    font-size: 1.1rem;
+    margin-top: 10px;
+    font-weight: 300;
+}
+
+.actionsBar {
+    margin-bottom: 30px;
 }
 
 .addressGrid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 20px;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 25px;
+}
+
+.addressCard {
+    background: var(--grey-900);
+    border: 2px dashed rgba(255, 255, 255, 0.1);
+    border-radius: 20px;
+    padding: 25px;
+    position: relative;
+    transition: all 0.3s ease;
+}
+
+.addressCard:hover {
+    transform: translateY(-5px);
+    border-color: var(--highlight-text);
+    background: rgba(255,255,255,0.02);
+}
+
+.defaultCard {
+    border: 2px solid var(--highlight-text);
+    box-shadow: 8px 8px 0px rgba(234, 1, 105, 0.2);
+}
+
+.defaultBadge {
+    position: absolute;
+    top: -12px;
+    left: 20px;
+    background: var(--highlight-text);
+    color: white;
+    font-size: 0.7rem;
+    font-weight: 900;
+    padding: 4px 12px;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    letter-spacing: 1px;
+}
+
+.cardHeader {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 15px;
+    color: var(--grey-500);
+    font-size: 0.8rem;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+.houseIcon {
+    font-size: 1.2rem;
+    color: var(--highlight-text);
+}
+
+.streetName {
+    font-family: var(--font-titles);
+    font-size: 1.4rem;
+    color: var(--white);
+    margin: 0 0 5px 0;
+}
+
+.extraInfo {
+    color: var(--grey-300);
+    margin-bottom: 5px;
+}
+
+.postalInfo {
+    color: var(--grey-500);
+    font-size: 0.9rem;
+    margin-bottom: 20px;
+}
+
+.phoneRow {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: var(--white);
+    font-size: 0.9rem;
+}
+
+.phoneIcon {
+    color: var(--highlight-text);
+}
+
+.cardActions {
+    margin-top: 25px;
+    padding-top: 20px;
+    border-top: 1px dashed rgba(255,255,255,0.1);
+    display: flex;
+    gap: 15px;
+}
+
+.deleteBtn {
+    background: none;
+    border: none;
+    color: #ff4d4d;
+    font-size: 0.85rem;
+    font-weight: 700;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    opacity: 0.7;
+    transition: opacity 0.2s;
+}
+
+.deleteBtn:hover {
+    opacity: 1;
+}
+
+.setAsDefaultBtn {
+    background: none;
+    border: none;
+    color: var(--grey-400);
+    font-size: 0.85rem;
+    font-weight: 700;
+    cursor: pointer;
+    text-decoration: underline;
+    transition: color 0.2s;
+}
+
+.setAsDefaultBtn:hover {
+    color: var(--white);
+}
+
+.emptyStateCard {
+    grid-column: 1 / -1;
+    background: rgba(255, 255, 255, 0.02);
+    border: 3px dashed rgba(255,255,255,0.05);
+    border-radius: 30px;
+    padding: 100px 20px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+}
+
+.emptyTitle {
+    font-family: var(--font-titles);
+    color: var(--white);
+    font-size: 1.8rem;
+    margin: 0;
+}
+
+@media (max-width: 768px) {
+    .headerSection { flex-direction: column; align-items: flex-start; gap: 20px; }
 }

@@ -1,29 +1,49 @@
+/**
+ * @file cuenta/page.jsx
+ * @description Contenedor principal de la sección "Tu Cuenta" en el dashboard.
+ * 
+ * [Nuestro enfoque]
+ * Esta página sirve como marco para el componente UserDetails, manteniendo la consistencia 
+ * de cabeceras y estructura de rejilla del panel de usuario.
+ * 
+ * [Por qué lo hemos hecho así]
+ * Centralizar el marco visual en la página nos permite inyectar componentes complejos 
+ * como el perfil sin perder la coherencia estética (widgets, títulos, espaciado).
+ */
+
 import styles from "./cuenta.module.css";
 import React from 'react';
-import StatsCards from "@/components/ui/Cards/StatsCard/StatsCard";
-import { AiFillAccountBook } from "react-icons/ai";
 import UserDetails from "@/components/dashboard/UserDetails/UserDetails";
+import WeatherWidget from "@/components/ui/WeatherWidget/WeatherWidget";
+import SecondaryButton from "@/components/ui/Buttons/SecondaryButton/SecondaryButton";
+import { FaUserGear, FaArrowLeft } from "react-icons/fa6";
 
 export const metadata = {
   title: "Mi Cuenta | Hygge Rug",
   description: "Edita tu información personal",
 };
 
-/**
- * @file cuenta/page.jsx
- * @description Vista principal de “Detalles de la Cuenta”.
- *
- * [Nuestro enfoque]
- * Hemos construido esta pantalla como contenedor de `UserDetails` para mantener la
- * lógica de perfil separada en un componente.
- *
- * [Por qué lo hemos hecho así]
- * Separar contenedor y componente nos evita repetir lógica y hace el mantenimiento más simple.
- */
-export default function CuentaPage() {
+export default async function CuentaPage() {
   return (
-    <div className={styles.container}>
-      <UserDetails/>
+    <div className={styles.dashboardContainer}>
+      
+      {/* ========== HEADER (Consistente con resto del Dashboard) ========== */}
+      <header className={styles.headerSection}>
+        <div className={styles.greeting}>
+            <h1>Tu Cuenta</h1>
+            <p>Gestiona tu perfil, preferencias y seguridad.</p>
+        </div>
+        
+        <div className={styles.headerWidgets}>
+          <WeatherWidget />
+        </div>
+      </header>
+
+      <main className={styles.mainContentGrid}>
+        <div className={styles.fullWidth}>
+            <UserDetails />
+        </div>
+      </main>
     </div>
   );
 }

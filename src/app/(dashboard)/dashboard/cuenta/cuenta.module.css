@@ -1,16 +1,59 @@
-/* ============================================
-   CUENTA PAGE - CSS
-   ============================================ */
-
-.container {
-  max-width: 900px; /* Ancho más reducido para formularios */
+.dashboardContainer {
+  max-width: 1400px;
   margin: 0 auto;
-  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 50px;
+  position: relative;
+  padding: 30px 20px 50px;
 }
 
-.pageTitle {
+/* ========== HEADER ========== */
+.headerSection {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  padding-bottom: 30px;
+  border-bottom: 3px solid rgba(255, 255, 255, 0.1);
+  position: relative;
+}
+
+.greeting h1 {
   font-family: var(--font-titles);
-  color: var(--primary-text);
-  font-size: 2rem;
-  margin-bottom: 30px;
+  font-size: clamp(2.5rem, 5vw, 4rem);
+  margin: 0;
+  line-height: 0.9;
+  color: var(--white);
+  text-shadow: 4px 4px 0px var(--highlight-text); 
+}
+
+.greeting p {
+  color: var(--grey-400);
+  font-size: 1.1rem;
+  margin-top: 10px;
+  font-weight: 300;
+  letter-spacing: 0.5px;
+}
+
+.headerWidgets {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+/* ========== CONTENT ========== */
+.mainContentGrid {
+  display: flex;
+  flex-direction: column;
+  max-width: 800px; /* Reducimos el ancho para que el formulario se vea más compacto */
+  margin: 0 auto; /* Centramos el formulario */
+  width: 80%;
+}
+
+.fullWidth {
+  width: 100%;
+}
+
+@media (max-width: 768px) {
+  .headerSection { flex-direction: column; align-items: flex-start; gap: 20px; }
 }

@@ -1,34 +1,58 @@
 /**
  * @file UserDetails.jsx
- * @description Presentación y gestión del perfil del usuario en el panel privado.
+ * @description Componente de servidor para gestionar y visualizar el perfil privado del usuario.
  * 
  * [Nuestro enfoque]
- * Hemos diseñado este componente para que sea la "tarjeta de identidad" del usuario dentro de su panel. 
- * Lo más especial es que es un **Server Component**.
+ * Hemos diseñado este componente para que actúe como un espejo de la página de Login/Registro. 
+ * Al ser un Server Component, garantiza que los datos (como los puntos Hygge) se consulten 
+ * directamente a la BBDD, evitando que el usuario vea información desactualizada de las cookies.
  * 
  * [Por qué lo hemos hecho así]
- * Usar un Server Component nos ayuda a leer la sesión en el servidor y reducir la exposición
- * de información sensible en el navegador.
- *
- * ¿Qué significa esto a nivel técnico?
- * 1. Velocidad Máxima: El servidor lee los datos (`cookies`) y genera el HTML antes de mandarlo 
- *    al navegador. Esto hace que la página aparezca casi instantáneamente (First-Paint).
- * 2. Seguridad Blindada: Al procesar el Token (JWT) directamente en el servidor, nunca exponemos 
- *    las claves secretas al navegador del usuario, lo que hace que robar la sesión sea 
- *    muchísimo más difícil para un atacante.
- * 3. Diseño Modular: Usamos piezas más pequeñas como `EditableField`, lo que nos permite cambiar 
- *    un solo campo (como el nombre) sin tener que rediseñar todo el perfil.
+ * Mantener el mismo lenguaje visual que el inicio de sesión (`max-width: 450px`, glassmorphism) 
+ * crea una experiencia de usuario (UX) fluida y coherente. El uso de Server Actions permite 
+ * editar los datos de forma segura sin recargar la página.
  */
+
 import React from 'react';
 import styles from './UserDetails.module.css';
 import { verifySession } from "@/lib/auth";
 import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
+import { getUserById } from "@/lib/db/users";
+import { updateUserData } from "@/lib/actions";
 // Iconos
-import { MdEdit } from "react-icons/md";
+import { FaUserPen } from "react-icons/fa6";
 // Componentes
-import SectionWrapper from '@/components/ui/Containers/SectionWrapper/SectionWrapper';
 import EditableField from '@/components/ui/EditableInfo/EditableInfoModal/EditableInfoModal';
+import EditableAvatar from './EditableAvatar';
+
+// Acciones de actualización (Server Actions)
+/**
+ * Envuelve la lógica de actualización para la foto de perfil.
+ * @param {string} newValue Nueva URL de imagen.
+ */
+const handleUpdateAvatar = async (newValue) => {
+  'use server';
+  await updateUserData('profile_image', newValue);
+};
+
+/**
+ * Envuelve la lógica de actualización para el nickname.
+ * @param {string} newValue Nuevo apodo para el usuario.
+ */
+const handleUpdateNickname = async (newValue) => {
+  'use server';
+  await updateUserData('nickname', newValue);
+};
+
+/**
+ * Envuelve la lógica de actualización para el correo.
+ * @param {string} newValue Nuevo email para el usuario.
+ */
+const handleUpdateEmail = async (newValue) => {
+  'use server';
+  await updateUserData('email', newValue);
+};
 
 export default async function UserDetails() {
   const cookieStore = await cookies();
@@ -37,29 +61,42 @@ export default async function UserDetails() {
 
   if (!session) redirect('/auth');
 
+  // Datos frescos de la BBDD
+  const userId = session.userId || session.user_id || session.id;
+  const dbUser = await getUserById(userId);
+
+  const userData = dbUser || session;
+
   return (
-    <SectionWrapper>
-      <div className={styles.leftContainer}>
-        <div className={styles.imageContainer}>
-          <img
-            src={session.profileImage || "/profile-default.png"}
-            className={styles.profileImage}
-            alt="Foto de perfil"
-          />
-          <button><MdEdit/></button>
-        </div>
-        <div className={styles.userLvl}>
-          <p>{session.hyggePoints}</p>
+    <div className={styles.detailsCard}>
+      
+      {/* CABECERA: Al estilo del Login */}
+      <div className={styles.profileHeader}>
+        <EditableAvatar 
+          currentImage={userData.profile_image || userData.profileImage}
+          onSave={handleUpdateAvatar}
+        />
+        
+        <div className={styles.pointsContainer}>
+          <span className={styles.pointsValue}>{userData.hygge_points ?? userData.hyggePoints ?? 0}</span>
+          <span className={styles.pointsLabel}>Puntos Hygge</span>
         </div>
       </div>
-      <div className={styles.rightContainer}>
-        <div className={styles.userInfo}>
+
+      {/* CUERPO: Campos de edición como los inputs de Auth */}
+      <div className={styles.formSection}>
           <EditableField
-            label={"Nombre"}
-            value={session.nickname}
+              label={"¿Cómo te llamamos? (Nickname)"}
+              value={userData.nickname}
+              onSave={handleUpdateNickname}
           />
-        </div>
+          <EditableField
+              label={"Correo electrónico"}
+              value={userData.email}
+              onSave={handleUpdateEmail}
+          />
       </div>
-    </SectionWrapper>
+
+    </div>
   )
 }
