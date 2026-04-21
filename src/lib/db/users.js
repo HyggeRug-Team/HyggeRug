@@ -31,6 +31,7 @@ export async function getUserById(userId) {
     }
 }
 
+
 /**
  * ACTUALIZA LOS DATOS DEL PERFIL
  * @param {number|string} userId - ID único del usuario
