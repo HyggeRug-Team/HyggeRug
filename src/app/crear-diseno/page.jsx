@@ -25,7 +25,9 @@ export default function DesignStudioAI() {
     const [prompt, setPrompt] = useState('');
     const [isGenerating, setIsGenerating] = useState(false);
     const [aiResult, setAiResult] = useState(null);
-    const [attempts, setAttempts] = useState(5);
+    const [attempts, setAttempts] = useState(null);
+    const [weeklyLimit, setWeeklyLimit] = useState(null);
+    const [nextReset, setNextReset] = useState(null); // Fecha del próximo reset de creditos
 
     const [uploadedImage, setUploadedImage] = useState(null);
     const [imagePreviewUrl, setImagePreviewUrl] = useState(null);
@@ -59,6 +61,25 @@ export default function DesignStudioAI() {
             ro.disconnect();
         };
     }, [checkScroll]);
+
+    useEffect(() => {
+        // Pedimos al servidor los créditos reales del usuario desde la BD
+        const fetchCredits = async () => {
+            try {
+                const res = await fetch('/api/user/credits');
+                if (res.ok) {
+                    const data = await res.json();
+                    setAttempts(data.remaining);
+                    setWeeklyLimit(data.weeklyLimit);
+                    setNextReset(data.nextReset ? new Date(data.nextReset) : null); // Guardamos la fecha
+                }
+            } catch (err) {
+                console.error("Error loading credits:", err);
+                setAttempts(0);
+            }
+        };
+        fetchCredits();
+    }, []);
 
     useEffect(() => {
         // [PASO 1] Llamamos  a la base de datos para pedirle las medidas
@@ -114,8 +135,8 @@ export default function DesignStudioAI() {
                 body: formData,
             });
 
-             // DEBUG: Revisamos que todo vaya bien
-                console.log("Status:", response.status);
+            // DEBUG: Revisamos que todo vaya bien
+            console.log("Status:", response.status);
 
             const data = await response.json();
 
@@ -126,7 +147,12 @@ export default function DesignStudioAI() {
             // [EXITO] Convertimos el resultado en una imagen que se pueda ver
             const dataUrl = `data:${data.mimeType};base64,${data.imageBase64}`;
             setAiResult(dataUrl); // Mostramos el boceto listo
-            setAttempts(prev => prev - 1); // Gastamos un crédito
+            // Recargamos los créditos reales desde el servidor tras generar
+            const creditsRes = await fetch('/api/user/credits');
+            if (creditsRes.ok) {
+                const creditsData = await creditsRes.json();
+                setAttempts(creditsData.remaining);
+            }
 
         } catch (err) {
             console.error("Generation error:", err);
@@ -145,7 +171,7 @@ export default function DesignStudioAI() {
         displayLabel = `Teclado (Personalizado: ${customKeyboardSize} cm)`;
     }
 
-    const canGenerate = !!uploadedImage && !!rugSize && !isGenerating && attempts > 0;
+    const canGenerate = !!uploadedImage && !!rugSize && !isGenerating && attempts !== null && attempts > 0;
 
     const handleBuy = () => {
         console.log("Comprando con Datos", {
@@ -184,12 +210,12 @@ export default function DesignStudioAI() {
                                     </button>
                                 )}
                             </div>
-                            
+
                             <div className={styles.selectionWrapper}>
                                 {/* Aquí usamos AnimatePresence para que los menús "vuelen" suavemente al cambiar */}
                                 <AnimatePresence mode="wait">
                                     {!showKeyboardOptions ? (
-                                        <motion.div 
+                                        <motion.div
                                             key="normal"
                                             initial={{ opacity: 0, x: -20 }}
                                             animate={{ opacity: 1, x: 0 }}
@@ -225,7 +251,7 @@ export default function DesignStudioAI() {
                                             )}
                                         </motion.div>
                                     ) : (
-                                        <motion.div 
+                                        <motion.div
                                             key="keyboards"
                                             initial={{ opacity: 0, x: 20 }}
                                             animate={{ opacity: 1, x: 0 }}
@@ -252,7 +278,7 @@ export default function DesignStudioAI() {
 
                             <AnimatePresence>
                                 {selectedSizeObj?.size_label.toLowerCase().includes('a medida') && (
-                                    <motion.div 
+                                    <motion.div
                                         initial={{ height: 0, opacity: 0 }}
                                         animate={{ height: 'auto', opacity: 1 }}
                                         exit={{ height: 0, opacity: 0 }}
@@ -320,7 +346,16 @@ export default function DesignStudioAI() {
 
                         <div className={styles.actionGroup}>
                             <div className={styles.creditsWrapper}>
-                                <span className={styles.creditIcon}>⚡</span> CRÉDITOS RESTANTES: <strong>{attempts}</strong>
+                                <span className={styles.creditIcon}>⚡</span> CRÉDITOS RESTANTES:{' '}
+                                <strong>{attempts === null ? '...' : attempts}</strong>
+                                <span style={{ opacity: 0.4, fontSize: '0.8rem' }}> / {weeklyLimit ?? '...'}</span>
+                                {nextReset && (
+                                    <span style={{ opacity: 0.4, fontSize: '0.75rem', display: 'block', marginTop: '4px' }}>
+                                        Reinicio: {nextReset.toLocaleDateString('es-ES', { day: 'numeric', month: 'long' })}
+                                        {' a las '}
+                                        {nextReset.toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit' })}
+                                    </span>
+                                )}
                             </div>
                             <button
                                 className={styles.mainAction}
@@ -331,7 +366,7 @@ export default function DesignStudioAI() {
                             </button>
                         </div>
                     </div>
-                    
+
                     {/* Flecha indicadora de más contenido */}
                     <div className={`${styles.scrollFade} ${hasMoreBelow ? styles.scrollFadeVisible : ''}`}>
                         <FaChevronDown className={styles.scrollFadeIcon} size={14} />
@@ -348,8 +383,8 @@ export default function DesignStudioAI() {
                         )}
                         {!aiResult && !isGenerating && !imagePreviewUrl && (
                             <div className={styles.emptyCanvas}>
-                                <motion.div 
-                                    animate={{ 
+                                <motion.div
+                                    animate={{
                                         scale: [1, 1.1, 1],
                                         rotate: [0, 5, -5, 0],
                                         opacity: [0.3, 0.6, 0.3]
