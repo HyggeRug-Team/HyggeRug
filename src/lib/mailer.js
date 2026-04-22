@@ -6,7 +6,7 @@ const transporter = nodemailer.createTransport({
   auth: {
     user: process.env.EMAIL_USER,
     pass: process.env.EMAIL_PASS,
-  }
+  },
 });
 
 export async function sendWelcomeEmail(toEmail, nickname) {
@@ -78,10 +78,8 @@ export async function sendWelcomeEmail(toEmail, nickname) {
     .join("");
 
   const mailOptions = {
-    from: `"Hygge Rug 🧶" <${process.env.EMAIL_USER}>`,
     from: `"HYGGE RUG" <${process.env.EMAIL_USER}>`,
     to: toEmail,
-    subject: "¡Ya eres parte de la cultura Hygge Rug! ✨",
     subject: `¡Tus suelos nos han pedido tu número, ${nickname}!`,
     html: `
     <!DOCTYPE html>
