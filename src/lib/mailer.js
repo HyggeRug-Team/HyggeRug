@@ -2,7 +2,11 @@ import nodemailer from "nodemailer";
 import { getProducts } from "./db/products";
 
 const transporter = nodemailer.createTransport({
-  service: "gmail",
+  service: 'gmail',
+  auth: {
+    user: process.env.EMAIL_USER,
+    pass: process.env.EMAIL_PASS,
+  }
 });
 
 export async function sendWelcomeEmail(toEmail, nickname) {
