@@ -17,14 +17,13 @@ import React, { useState, useEffect } from "react";
 import FooterDropdown from "./FooterDropdown";
 import styles from "./Footer.module.css";
 import Logo from "@/components/ui/Logo/Logo";
-import { FaFacebookF } from "react-icons/fa";
 import { AiFillInstagram } from "react-icons/ai";
-import { FaXTwitter } from "react-icons/fa6";
+import { FaTiktok } from "react-icons/fa";
 
 function Footer() {
   const SECCIONES_FOOTER = [
     {
-      titulo: "Tienda",
+      titulo: "Diseños de la comunidad",
       links: [
         { nombre: "Novedades", url: "/Novedades" },
         { nombre: "Más vendidos", url: "/Más_vendidos" },
@@ -76,18 +75,15 @@ function Footer() {
               <h3 className={styles.sloganTitle}>Hygge Rug</h3>
               <p>
                 Llevamos el confort extremo a suelos tristes de todo el mundo. 
-                Hechas a mano (sin robots malvados), con lana feliz y diseñadas por ti... o por tu gato.
+                Inspirados por nuestra comunidad, hacemos realidad las ideas de otros clientes para que tú también puedas disfrutarlas.
               </p>
             </div>
             <div className={styles.socialMedias}>
-              <a href="#" target="_blank" rel="noopener noreferrer">
-                <FaFacebookF />
-              </a>
               <a href="https://www.instagram.com/hygge_rug/" target="_blank" rel="noopener noreferrer">
                 <AiFillInstagram />
               </a>
-              <a href="#" target="_blank" rel="noopener noreferrer">
-                <FaXTwitter />
+              <a href="https://www.tiktok.com/@hygge_rug" target="_blank" rel="noopener noreferrer">
+                <FaTiktok />
               </a>
             </div>
           </div>
@@ -106,7 +102,7 @@ function Footer() {
           ) : (
             <>
               <div className={styles.footerShop}>
-                <h3>Tienda</h3>
+                <h3>Diseños de la comunidad</h3>
                 <a href="/Novedades">Novedades</a>
                 <a href="/Más_vendidos">Más vendidos</a>
                 <a href="/A_medida">A medida</a>
