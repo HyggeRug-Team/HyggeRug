@@ -97,11 +97,11 @@ export default async function PedidosPage() {
                     <FaBoxOpen size={80} color="var(--grey-600)" />
                  </div>
                  <h3 className={styles.emptyTitle}>NINGUNA ENTRADA REGISTRADA</h3>
-                 <p className={styles.emptyText}>Todavía no has realizado ningún pedido en nuestra tienda.</p>
+                 <p className={styles.emptyText}>Todavía no has realizado ningún pedido de diseños de la comunidad.</p>
                  <div style={{marginTop: '20px'}}>
                     <PrimaryButton 
-                        text="IR A LA TIENDA" 
-                        url="/" 
+                        text="DISEÑOS DE LA COMUNIDAD" 
+                        url="/tienda" 
                         Icon={FaStore} 
                     />
                  </div>
