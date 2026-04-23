@@ -36,12 +36,12 @@ export default async function FeaturedDrops() {
                 
                 <div className={styles.sectionHeader}>
                     <div className={styles.titleGroup}>
-                        <div className={styles.badgeGlow}>ÚLTIMOS AÑADIDOS AL CATÁLOGO</div>
-                        <h2 className={styles.titleLoud}>ÚLTIMAS PIEZAS</h2>
+                        <div className={styles.badgeGlow}>ÚLTIMOS DISEÑOS DE LA COMUNIDAD</div>
+                        <h2 className={styles.titleLoud}>IDEAS DE LA COMUNIDAD</h2>
                     </div>
                     <div className={styles.headerActions}>
                         <SecondaryButton 
-                            text="VER CATÁLOGO COMPLETO" 
+                            text="DISEÑOS DE LA COMUNIDAD" 
                             url="/tienda" 
                             className={styles.headerBtn} 
                             Icon={HiOutlinePlus}

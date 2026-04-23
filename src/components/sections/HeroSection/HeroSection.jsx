@@ -47,10 +47,10 @@ function HeroSection({ customCards }) {
           <div className={styles.badge}>HYGGE RUG COLLECTIVE</div>
           <h1 className={styles.mainTitle}>VISTE TU PISO<br/>CON ACTITUD</h1>
           <p className={styles.heroIntro}>
-            Diseñamos piezas que rompen moldes. Desde nuestras cápsulas limitadas hasta tu creatividad más salvaje. 
+            Diseños nacidos de la comunidad. Explora las ideas que otros han hecho realidad o atrévete con tu propia creación personalizada.
           </p>
           <div className={styles.ctaRow}>
-             <PrimaryButton text="EXPLORAR TIENDA" url="/tienda" />
+             <PrimaryButton text="DISEÑOS DE LA COMUNIDAD" url="/tienda" />
              
              {/* REDESIGNED AI LINK: AI Sticker / Cyber Badge */}
              <div className={styles.aiStickerWrapper}>
