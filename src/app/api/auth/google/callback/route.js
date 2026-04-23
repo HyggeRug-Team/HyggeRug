@@ -147,7 +147,7 @@ export async function GET(request) {
         });
 
         // 8. Creamos la respuesta y guardamos la COOKIE
-        const response = NextResponse.redirect(new URL('/dashboard', request.url));
+        const response = NextResponse.redirect(new URL('/', request.url));
 
         response.cookies.set('session_token', token, {
             httpOnly: true,
