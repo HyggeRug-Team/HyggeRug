@@ -58,7 +58,7 @@ function Header() {
   const MENU_ITEMS = [
     { id: 1, label: "Inicio", url: "/", icon: FaHouse },
     { id: 2, label: "Personalizar", url: "/personalizar", icon: FaPaintbrush },
-    { id: 3, label: "Tienda", url: "/tienda", icon: FaImages },
+    { id: 3, label: "Diseños de la comunidad", url: "/tienda", icon: FaImages },
     { id: 6, label: "Buscar", url: "/buscar", icon: FaMagnifyingGlass },
     { id: 5, label: "Carrito", url: "/carrito", icon: FaCartShopping },
     { id: 4, label: "Cuenta", url: "/auth", icon: FaCircleUser },
@@ -73,7 +73,7 @@ function Header() {
       {!isAuthPage && (
         <>
           <nav className={styles.nav}>
-            <Link href='/tienda' className={styles.navLink}>Tienda</Link>
+            <Link href='/tienda' className={styles.navLink}>Diseños de la comunidad</Link>
             <Link href='/personalizar' className={styles.navLink}>Personalizar</Link>
             <Link href='/sobre-nosotros' className={styles.navLink}>Nosotros</Link>
           </nav>

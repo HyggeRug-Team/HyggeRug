@@ -1,159 +1,309 @@
 .shopWrapper {
+    position: relative;
     min-height: 100vh;
-    padding: 160px 0 80px;
-    background: #000; /* Consistency: Global Black */
-    background-image: radial-gradient(circle at 50% 0%, rgba(108, 93, 211, 0.05) 0%, transparent 60%);
+    padding: 120px 0 150px;
+    background: transparent;
+    z-index: 1;
 }
 
 .shopContainer {
     max-width: 1400px;
     margin: 0 auto;
     padding: 0 40px;
-    display: grid;
-    grid-template-columns: 280px 1fr;
-    gap: 60px;
-}
-
-/* SIDEBAR */
-.sidebar {
     display: flex;
     flex-direction: column;
-    gap: 45px;
+    align-items: center;
 }
 
-.sidebarTitle {
-    font-family: var(--font-body);
-    font-size: 0.8rem;
-    font-weight: 800;
+/* COMMUNITY HERO — Two-column layout */
+.communityHero {
+    width: 100%;
+    max-width: 1200px;
+    margin-bottom: 80px;
+    padding-top: 20px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+    align-items: center;
+}
+
+.heroLeft {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.heroRight {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+}
+
+.communityBadge {
+    display: inline-block;
+    background: var(--highlight-text);
     color: #FFF;
-    margin-bottom: 25px;
+    padding: 6px 18px;
+    font-size: 0.7rem;
+    font-weight: 900;
+    letter-spacing: 3px;
+    border-radius: 4px;
+    margin-bottom: 30px;
+    text-transform: uppercase;
+}
+
+.mainTitle {
+    font-size: clamp(3.5rem, 10vw, 7rem);
+    font-family: var(--font-titles);
+    color: #FFF;
+    margin: 0 0 15px;
+    line-height: 0.88;
+    letter-spacing: -3px;
+    text-transform: uppercase;
+}
+
+.accentText {
+    -webkit-text-stroke: 2px var(--hover-text);
+    color: transparent;
+}
+
+.subTitle {
+    font-size: 0.85rem;
+    font-weight: 900;
+    letter-spacing: 6px;
+    color: #FFF;
+    margin-bottom: 30px;
+    text-transform: uppercase;
+}
+
+.heroDescription {
+    font-size: 1.05rem;
+    color: #777;
+    line-height: 1.7;
+    max-width: 480px;
+    margin-bottom: 40px;
+}
+
+.heroActions {
+    display: flex;
+    gap: 20px;
+    justify-content: flex-start;
+}
+
+/* FLOATING FILTER BAR */
+.filterBarSticky {
+    position: fixed;
+    bottom: 30px;
+    left: 0;
+    right: 0;
+    z-index: 2000;
+    display: flex;
+    justify-content: center;
+    pointer-events: none;
+    animation: slideUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes slideUp {
+    from { transform: translateY(100px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+
+.filterBarInner {
+    pointer-events: all;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    background: rgba(10, 10, 10, 0.95);
+    backdrop-filter: blur(25px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 10px 20px;
+    border-radius: 100px;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.8),
+                0 0 15px rgba(255, 0, 85, 0.05);
+    max-width: 90%;
+}
+
+.searchCompact {
     display: flex;
     align-items: center;
     gap: 12px;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    color: var(--highlight-text);
+    padding-right: 15px;
 }
 
-.filterList {
+.searchIconMini {
+    color: var(--highlight-text);
+    font-size: 1.1rem;
+}
+
+.searchInputMini {
+    background: transparent;
+    border: none;
+    color: #FFF;
+    font-size: 1rem;
+    width: 140px;
+    outline: none;
+    font-family: var(--font-body);
+    font-weight: 500;
+}
+
+.searchInputMini::placeholder {
+    color: #444;
+}
+
+.divider {
+    width: 1px;
+    height: 24px;
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.filterGroupCompact {
     display: flex;
-    flex-direction: column;
     gap: 12px;
 }
 
-.filterLink {
+.filterBtn {
     background: transparent;
     border: none;
-    text-align: left;
-    padding: 8px 0;
-    font-family: var(--font-body);
-    font-size: 0.9rem;
-    color: #888;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    border-bottom: 1px solid transparent;
-}
-
-.filterLink:hover {
-    color: #FFF;
-    padding-left: 8px;
-}
-
-.filterLink.active {
-    color: #FFF;
+    color: #666;
+    font-size: 0.85rem;
     font-weight: 800;
-    border-bottom: 1px solid var(--highlight-text);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    cursor: pointer;
+    padding: 8px 20px;
+    border-radius: 99px;
+    transition: all 0.3s;
 }
 
-.sortSelect {
-    width: 100%;
-    padding: 12px;
+.filterBtn:hover {
+    color: #FFF;
+}
+
+.filterBtn.active {
+    color: #FFF;
+    background: var(--highlight-text);
+    box-shadow: 0 4px 15px rgba(255, 0, 85, 0.4);
+}
+
+.sortGroupCompact {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding-left: 10px;
+    cursor: pointer;
+    position: relative;
+    user-select: none;
+}
+
+.sortLabelMini {
+    color: #AAA;
+    font-size: 0.85rem;
+    font-weight: 800;
+    text-transform: uppercase;
+}
+
+.sortIconMini {
+    color: var(--highlight-text);
+    font-size: 0.9rem;
+    transition: transform 0.3s ease;
+}
+
+.sortIconMini.rotated {
+    transform: rotate(180deg);
+}
+
+.customSortMenu {
+    position: absolute;
+    bottom: 100%;
+    right: 0;
+    width: 180px;
     background: #111;
-    border: 1px solid #333;
-    border-radius: 4px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 16px;
+    padding: 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    box-shadow: 0 -10px 30px rgba(0,0,0,0.6);
+    margin-bottom: 15px;
+}
+
+.customSortMenu button {
+    background: transparent;
+    border: none;
+    padding: 10px 15px;
+    text-align: left;
+    color: #888;
     font-family: var(--font-body);
     font-size: 0.85rem;
-    color: #FFF;
-    outline: none;
+    font-weight: 700;
+    border-radius: 10px;
     cursor: pointer;
-    transition: border-color 0.3s;
+    transition: all 0.2s;
+    text-transform: uppercase;
 }
 
-.sortSelect:focus {
-    border-color: var(--highlight-text);
-}
-
-/* MAIN CONTENT */
-.contentHeader {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-end;
-    margin-bottom: 50px;
-    border-bottom: 1px solid #111;
-    padding-bottom: 25px;
-}
-
-.contentHeader h1 {
-    font-family: var(--font-body);
-    font-size: 2.2rem;
-    font-weight: 900;
+.customSortMenu button:hover {
+    background: rgba(255, 255, 255, 0.05);
     color: #FFF;
-    margin: 0;
-    letter-spacing: -1px;
+}
+
+.customSortMenu button.activeOption {
+    color: var(--highlight-text);
+    background: rgba(255, 0, 85, 0.05);
+}
+
+.resultsInfoCenter {
+    margin-bottom: 40px;
+    text-align: center;
 }
 
 .resultCount {
-    font-size: 0.85rem;
-    color: #555;
-    font-family: monospace;
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: #444;
+    text-transform: uppercase;
+    letter-spacing: 1px;
 }
 
 .productGrid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-    gap: 40px;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 30px;
+    width: 100%;
+}
+
+@media (max-width: 1400px) {
+    .productGrid {
+        grid-template-columns: repeat(3, 1fr);
+    }
 }
 
 @media (max-width: 1024px) {
-    .shopContainer {
+    .productGrid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    .mainTitle {
+        font-size: 3rem;
+    }
+    .communityHero {
         grid-template-columns: 1fr;
-        gap: 40px;
+        gap: 30px;
     }
-    
-    .sidebar {
-        flex-direction: row;
-        gap: 20px;
-        overflow-x: auto;
-        padding-bottom: 25px;
-        border-bottom: 1px solid #111;
+    .heroLeft {
+        align-items: flex-start;
     }
-    
-    .sidebarSection {
-        min-width: 220px;
+    .communityBadge {
+        margin-bottom: 20px;
     }
 }
 
-@media (max-width: 768px) {
-    .shopWrapper {
-        padding: 120px 0 40px;
-    }
-    
-    .shopContainer {
-        padding: 0 20px;
-    }
-    
-    .contentHeader {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 15px;
-    }
-    
-    .contentHeader h1 {
-        font-size: 1.8rem;
-    }
-
+@media (max-width: 640px) {
     .productGrid {
         grid-template-columns: 1fr;
-        gap: 30px;
+    }
+    .heroDescription {
+        font-size: 1rem;
     }
 }

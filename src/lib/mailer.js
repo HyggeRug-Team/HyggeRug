@@ -145,7 +145,7 @@ export async function sendWelcomeEmail(toEmail, nickname) {
           <tr>
             <td style="background-color: #F7F7F7; border-top: 1px solid #EEEEEE; border-bottom: 1px solid #EEEEEE; padding: 36px 32px 40px 32px;">
               <p style="margin: 0 0 24px 0; text-align: center; font-size: 11px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: ${brand.pink};">
-                Últimas piezas del catálogo
+                Últimos diseños de la comunidad
               </p>
               <table width="100%" border="0" cellspacing="0" cellpadding="0">
                 <tr>
@@ -155,7 +155,7 @@ export async function sendWelcomeEmail(toEmail, nickname) {
               <div style="text-align: center; margin-top: 28px;">
                 <a href="${brand.url}/tienda"
                   style="background-color: ${brand.pink}; color: #FFFFFF; text-decoration: none; font-size: 13px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; padding: 14px 32px; border-radius: 6px; display: inline-block;">
-                  Ver catálogo completo
+                  Ver diseños de la comunidad
                 </a>
               </div>
             </td>

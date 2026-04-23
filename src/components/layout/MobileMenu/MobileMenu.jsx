@@ -18,9 +18,8 @@ import React from 'react';
 import Link from 'next/link';
 import styles from './MobileMenu.module.css';
 import CuteMessage from "@/components/ui/CuteMessage/CuteMessage";
-import { FaFacebookF, FaRegHeart } from "react-icons/fa";
 import { AiFillInstagram } from "react-icons/ai";
-import { FaXTwitter } from "react-icons/fa6";
+import { FaTiktok, FaRegHeart } from "react-icons/fa";
 
 export default function MobileMenu({ isOpen, menuItems, onClose }) {
   return (
@@ -56,9 +55,8 @@ export default function MobileMenu({ isOpen, menuItems, onClose }) {
         </div>
 
         <div className={styles.socialMedias}>
-          <a href="#" target="_blank" rel="noopener noreferrer"><FaFacebookF /></a>
           <a href="https://www.instagram.com/hygge_rug/" target="_blank" rel="noopener noreferrer"><AiFillInstagram /></a>
-          <a href="#" target="_blank" rel="noopener noreferrer"><FaXTwitter /></a>
+          <a href="https://www.tiktok.com/@hygge_rug" target="_blank" rel="noopener noreferrer"><FaTiktok /></a>
         </div>
       </div>
     </div>

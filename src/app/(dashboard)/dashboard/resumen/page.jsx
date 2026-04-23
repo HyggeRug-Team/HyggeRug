@@ -81,8 +81,8 @@ export default async function ResumenPage() {
         </div>
         
         <div className={styles.headerWidgets}>
-          <Link href="/" className={styles.viewAllLink}>
-            <FaStore style={{marginRight: '8px'}} /> Ir a la Tienda
+          <Link href="/tienda" className={styles.viewAllLink}>
+            <FaStore style={{marginRight: '8px'}} /> Diseños de la comunidad
           </Link>
           <WeatherWidget />
         </div>
@@ -146,7 +146,7 @@ export default async function ResumenPage() {
 
                   const formatItemName = order.items && order.items.length > 0 
                       ? `${order.items[0].product_size || 'Alfombra Custom'}`
-                      : 'Pedido de Tienda';
+                      : 'Diseño de la comunidad';
 
                   const qtyText = order.items && order.items.length > 1 
                       ? ` y ${order.items.length - 1} artículo(s) más` 
