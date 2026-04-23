@@ -1,0 +1,161 @@
+.stickyContainer {
+    position: fixed;
+    bottom: 30px;
+    left: 0;
+    right: 0;
+    z-index: 2000;
+    display: flex;
+    justify-content: center;
+    pointer-events: none;
+    animation: slideUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes slideUp {
+    from { transform: translateY(100px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+
+.barInner {
+    pointer-events: all;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    background: rgba(10, 10, 10, 0.95);
+    backdrop-filter: blur(25px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 10px 20px;
+    border-radius: 100px;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.8),
+                0 0 15px rgba(255, 0, 85, 0.05);
+    max-width: 95%;
+}
+
+.searchSection {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding-right: 15px;
+}
+
+.icon {
+    color: var(--highlight-text);
+    font-size: 1.1rem;
+}
+
+.input {
+    background: transparent;
+    border: none;
+    color: #FFF;
+    font-size: 1rem;
+    width: 140px;
+    outline: none;
+    font-family: var(--font-body);
+    font-weight: 500;
+}
+
+.input::placeholder {
+    color: #444;
+}
+
+.divider {
+    width: 1px;
+    height: 24px;
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.filterSection {
+    display: flex;
+    gap: 12px;
+}
+
+.filterBtn {
+    background: transparent;
+    border: none;
+    color: #666;
+    font-size: 0.85rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    cursor: pointer;
+    padding: 8px 20px;
+    border-radius: 99px;
+    transition: all 0.3s;
+}
+
+.filterBtn:hover {
+    color: #FFF;
+}
+
+.filterBtn.active {
+    color: #FFF;
+    background: var(--highlight-text);
+    box-shadow: 0 4px 15px rgba(255, 0, 85, 0.4);
+}
+
+.sortSection {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding-left: 10px;
+    cursor: pointer;
+    position: relative;
+    user-select: none;
+}
+
+.sortLabel {
+    color: #AAA;
+    font-size: 0.85rem;
+    font-weight: 800;
+    text-transform: uppercase;
+}
+
+.sortIcon {
+    color: var(--highlight-text);
+    font-size: 0.9rem;
+    transition: transform 0.3s ease;
+}
+
+.sortIcon.rotated {
+    transform: rotate(180deg);
+}
+
+.dropdownMenu {
+    position: absolute;
+    bottom: 100%;
+    right: 0;
+    width: 180px;
+    background: #111;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 16px;
+    padding: 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    box-shadow: 0 -10px 30px rgba(0,0,0,0.6);
+    margin-bottom: 15px;
+}
+
+.dropdownMenu button {
+    background: transparent;
+    border: none;
+    padding: 10px 15px;
+    text-align: left;
+    color: #888;
+    font-family: var(--font-body);
+    font-size: 0.85rem;
+    font-weight: 700;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-transform: uppercase;
+}
+
+.dropdownMenu button:hover {
+    background: rgba(255, 255, 255, 0.05);
+    color: #FFF;
+}
+
+.dropdownMenu button.activeOption {
+    color: var(--highlight-text);
+    background: rgba(255, 0, 85, 0.05);
+}
