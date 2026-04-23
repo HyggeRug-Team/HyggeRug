@@ -127,7 +127,7 @@ export default function AuthForm() {
    * 
    * Se utiliza `fetch` nativo haciendo una petición HTTP POST en formato JSON. 
    * Validamos la contraseña lado-cliente para evitar una llamada en falso al backend.
-   * Si la respuesta es HTTP 201 o 200, redirigimos a `/dashboard`. De lo contrario 
+   * Si la respuesta es HTTP 201 o 200, redirigimos a `/`. De lo contrario 
    * capturamos y renderizamos el error (`data.error`).
    * 
    * @param {React.FormEvent} e Evento sintético.
@@ -169,9 +169,9 @@ export default function AuthForm() {
           tipo: 'success'
         });
 
-        // Aquí esperamos un poquito para que el usuario lea el mensaje y luego lo mandamos al dashboard
+        // Aquí esperamos un poquito para que el usuario lea el mensaje y luego lo mandamos al index
         setTimeout(() => {
-          router.push('/dashboard');
+          router.push('/');
         }, 1000);
       } else {
         // Si algo ha salido mal, aquí le explicamos qué ha pasado
