@@ -1,11 +1,11 @@
 .card {
     position: relative;
-    background: #0D0D0D; /* Consistency: Dark background */
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 12px;
+    background: #0D0D0D;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 16px;
     padding: 0;
     overflow: hidden;
-    transition: all 0.3s ease;
+    transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
     display: flex;
     flex-direction: column;
     box-shadow: 0 4px 20px rgba(0,0,0,0.5);
@@ -13,8 +13,9 @@
 
 .card:hover {
     border-color: var(--highlight-text);
-    box-shadow: 0 12px 30px rgba(255, 0, 85, 0.15);
-    transform: translateY(-5px);
+    box-shadow: 0 20px 40px rgba(255, 0, 85, 0.12), 
+                0 0 0 1px var(--highlight-text);
+    transform: translateY(-8px);
 }
 
 .imageContainer {
@@ -23,120 +24,136 @@
     aspect-ratio: 1;
     background: #111;
     overflow: hidden;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
 }
 
 .productImage {
-    transition: transform 0.5s ease;
+    transition: transform 0.8s cubic-bezier(0.165, 0.84, 0.44, 1);
     object-fit: cover;
 }
 
 .card:hover .productImage {
-    transform: scale(1.08);
+    transform: scale(1.1);
+}
+
+.requestedByBadge {
+    position: absolute;
+    top: 16px;
+    left: 16px;
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    padding: 8px 14px;
+    border-radius: 10px;
+    z-index: 10;
+    display: flex;
+    flex-direction: column;
+    pointer-events: none;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.4);
+}
+
+.requestedLabel {
+    font-size: 0.5rem;
+    font-weight: 900;
+    color: var(--highlight-text);
+    letter-spacing: 2px;
+    line-height: 1;
+    margin-bottom: 3px;
+    text-transform: uppercase;
+}
+
+.requestedName {
+    font-size: 0.8rem;
+    font-weight: 800;
+    color: #FFF;
+    line-height: 1;
+    letter-spacing: 0.5px;
 }
 
 .productBadge {
     position: absolute;
-    top: 12px;
-    left: 12px;
+    bottom: 16px;
+    left: 16px;
     z-index: 2;
-    background: var(--highlight-text); /* Consistency: Rosa Neón */
-    color: #FFF;
+    background: var(--white);
+    color: var(--black);
     font-size: 0.65rem;
     font-weight: 900;
-    padding: 5px 12px;
-    border-radius: 4px;
+    padding: 6px 14px;
+    border-radius: 8px;
     text-transform: uppercase;
-    letter-spacing: 1px;
+    letter-spacing: 1.5px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
 }
 
 .wishlistBtn {
     position: absolute;
-    top: 12px;
-    right: 12px;
+    top: 16px;
+    right: 16px;
     z-index: 2;
-    background: rgba(0, 0, 0, 0.5);
-    backdrop-filter: blur(5px);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    width: 32px;
-    height: 32px;
-    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    width: 38px;
+    height: 38px;
+    border-radius: 12px;
     display: flex;
     justify-content: center;
     align-items: center;
     cursor: pointer;
-    transition: all 0.2s ease;
+    transition: all 0.3s ease;
     color: #FFF;
 }
 
 .wishlistBtn:hover {
     background: var(--highlight-text);
-    color: #FFF;
-    transform: scale(1.1);
+    border-color: var(--highlight-text);
+    transform: scale(1.1) rotate(5deg);
 }
 
 .quickAdd {
     position: absolute;
-    bottom: 12px;
-    right: 12px;
+    bottom: 16px;
+    right: 16px;
     z-index: 5;
-    transform: translateY(20px);
+    transform: translateY(30px) scale(0.8);
     opacity: 0;
-    transition: all 0.3s ease;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
 .card:hover .quickAdd {
-    transform: translateY(0);
+    transform: translateY(0) scale(1);
     opacity: 1;
 }
 
 .quickAddBtn {
-    background: #FFF;
+    background: var(--accent-cyan);
     color: #000;
     border: none;
-    width: 44px;
-    height: 44px;
-    border-radius: 50%;
+    width: 48px;
+    height: 48px;
+    border-radius: 14px;
     display: flex;
     justify-content: center;
     align-items: center;
     cursor: pointer;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-    transition: all 0.2s;
+    box-shadow: 0 8px 20px rgba(0, 240, 255, 0.3);
+    transition: all 0.3s;
+    font-size: 1.2rem;
 }
 
 .quickAddBtn:hover {
-    background: var(--highlight-text);
-    color: #FFF;
+    background: var(--white);
     transform: scale(1.1);
-}
-
-.soldOutOverlay {
-    position: absolute;
-    inset: 0;
-    background: rgba(0,0,0,0.7);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 10; /* Highest z-index to cover everything */
-    backdrop-filter: blur(4px);
-}
-
-.soldOutOverlay span {
-    border: 2px solid var(--highlight-text);
-    color: var(--highlight-text);
-    padding: 8px 16px;
-    font-weight: 800;
-    font-size: 0.9rem;
-    border-radius: 4px;
-    transform: rotate(-5deg);
+    box-shadow: 0 10px 25px rgba(255, 255, 255, 0.3);
 }
 
 .info {
-    padding: 15px 15px 20px;
-    background: #0D0D0D;
+    padding: 20px;
+    background: linear-gradient(to bottom, #0D0D0D, #080808);
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: 10px;
 }
 
 .meta {
@@ -146,26 +163,33 @@
 }
 
 .categoryName {
-    font-size: 0.65rem;
-    color: #666;
+    font-size: 0.7rem;
+    color: var(--grey-500);
     font-weight: 700;
-    letter-spacing: 1px;
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
 }
 
 .stars {
     display: flex;
-    gap: 2px;
-    color: var(--hover-text); /* Consistency: Amarillo Dorado */
-    font-size: 0.65rem;
+    gap: 3px;
+    color: var(--hover-text);
+    font-size: 0.7rem;
 }
 
 .title {
     font-family: var(--font-body);
-    font-size: 1.05rem;
+    font-size: 1.2rem;
     font-weight: 800;
     color: #FFF;
     margin: 0;
-    line-height: 1.2;
+    line-height: 1.3;
+    transition: color 0.3s ease;
+    cursor: pointer;
+}
+
+.title:hover {
+    color: var(--highlight-text);
 }
 
 .priceRow {
@@ -176,16 +200,22 @@
 }
 
 .price {
-    font-size: 1.15rem;
+    font-size: 1.3rem;
     font-weight: 900;
-    color: var(--accent-cyan); /* Consistency: Cyan Radiante */
+    color: var(--accent-cyan);
+    font-family: var(--font-titles);
+    text-shadow: 2px 2px 0px rgba(0,0,0,0.5);
 }
 
-.stockLabel {
-    font-size: 0.6rem;
-    color: #2ECC71;
-    font-weight: 700;
-    background: rgba(46, 204, 113, 0.1);
-    padding: 2px 8px;
-    border-radius: 4px;
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .title {
+        font-size: 1.1rem;
+    }
+    .price {
+        font-size: 1.2rem;
+    }
+    .requestedByBadge {
+        padding: 6px 10px;
+    }
 }

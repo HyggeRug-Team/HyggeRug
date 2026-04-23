@@ -7,18 +7,25 @@ import { db } from '@/lib/db';
  * Esto pide a la BBDD todas las Alfombras que estén con `is_active = TRUE`
  * @returns {Promise<Array>} Un listado limpio listo para usar en tu frontend (ej: TiendaPage)
  */
+/**
+ * FUNCIÓN RECOLECTORA DEL ESCAPARATE DE PRODUCTOS
+ * Extrae todas las alfombras activas de la base de datos, incluyendo su categoría.
+ * Realiza un JOIN con la tabla 'categories' para obtener el nombre legible.
+ * @returns {Promise<Array>} Listado de productos enriquecido con categorías
+ */
 export async function getProducts() {
     try {
         const [rows] = await db.query(`
             SELECT
-                product_id,
-                name,
-                description,
-                base_price,
-                promo_title,
-                image_url AS main_image
-            FROM products
-            WHERE is_active = TRUE
+                p.product_id,
+                p.name,
+                p.description,
+                p.base_price,
+                p.image_url AS main_image,
+                c.name AS category
+            FROM products p
+            LEFT JOIN categories c ON p.category_id = c.category_id
+            WHERE p.is_active = TRUE
         `);
         return rows;
     } catch (error) {
@@ -37,8 +44,7 @@ export async function getRandomProducts(limit = 7) {
             SELECT
                 product_id,
                 name,
-                image_url,
-                promo_title
+                image_url
             FROM products
             WHERE is_active = TRUE AND image_url IS NOT NULL
             ORDER BY RAND()
@@ -65,12 +71,13 @@ export async function getProductWithSizes(productId) {
                 p.base_price,
                 p.is_active,
                 p.image_url,
-                p.promo_title,
+                c.name AS category,
                 s.size_id,
                 s.dimensions AS size_label,
                 ps.price,
                 ps.stock_available
             FROM products p
+            LEFT JOIN categories c ON p.category_id = c.category_id
             LEFT JOIN product_sizes ps ON ps.product_id = p.product_id
             LEFT JOIN sizes s ON ps.size_id = s.size_id
             WHERE p.product_id = ? AND p.is_active = TRUE
@@ -84,8 +91,8 @@ export async function getProductWithSizes(productId) {
             name:        rows[0].name,
             description: rows[0].description,
             base_price:  rows[0].base_price,
-            promo_title: rows[0].promo_title,
             image_url:   rows[0].image_url,
+            category:    rows[0].category,
             is_active:   rows[0].is_active,
             sizes:       [], 
         };
