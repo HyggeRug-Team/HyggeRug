@@ -114,3 +114,36 @@ export async function deleteAddress(userId, addressId) {
         throw new Error(`deleteAddress: error al eliminar dirección ${addressId} – ${error.message}`);
     }
 }
+
+/**
+ * MARCA UNA DIRECCIÓN COMO PREDETERMINADA
+ * Resetea todas las del usuario primero para garantizar que solo hay una activa.
+ */
+export async function setDefaultAddress(userId, addressId) {
+    const conn = await db.getConnection();
+    try {
+        await conn.beginTransaction();
+
+        // 1. Quitamos el flag a todas las direcciones del usuario
+        await conn.query(
+            `UPDATE userAddresses SET is_default = FALSE WHERE user_id = ?`,
+            [userId]
+        );
+
+        // 2. Activamos solo la seleccionada, verificando que pertenece al usuario (evita IDOR)
+        const [result] = await conn.query(
+            `UPDATE userAddresses SET is_default = TRUE WHERE address_id = ? AND user_id = ?`,
+            [addressId, userId]
+        );
+
+        await conn.commit();
+
+        // Si affectedRows es 0 la dirección no existe o no pertenece al usuario
+        return result.affectedRows > 0;
+    } catch (error) {
+        await conn.rollback();
+        throw new Error(`setDefaultAddress: error al actualizar dirección ${addressId} – ${error.message}`);
+    } finally {
+        conn.release();
+    }
+}

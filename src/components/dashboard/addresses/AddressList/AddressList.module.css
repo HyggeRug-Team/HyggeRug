@@ -1,0 +1,39 @@
+.actionsBar{
+    margin-bottom: 20px;
+}
+/* Grid responsive: columnas de mínimo 320px, se ajustan al espacio disponible */
+.addressGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 25px;
+}
+
+/* Estado vacío: ocupa todo el ancho del grid */
+.emptyStateCard {
+    grid-column: 1 / -1;
+    background: var(--secondary-bg);
+    border: 3px dashed rgba(255, 255, 255, 0.05);
+    border-radius: 30px;
+    padding: 100px 20px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+}
+
+.emptyTitle {
+    font-family: var(--font-titles);
+    color: var(--white);
+    font-size: 1.8rem;
+    margin: 0;
+    text-shadow: 3px 3px 0px rgba(0, 0, 0, 0.8);
+}
+
+/* Texto descriptivo del estado vacío */
+.emptyStateCard p {
+    color: var(--grey-500);
+    font-family: var(--font-body);
+    font-size: 1rem;
+    font-weight: 300;
+}

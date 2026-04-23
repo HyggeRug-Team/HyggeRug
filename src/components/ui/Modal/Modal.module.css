@@ -1,0 +1,95 @@
+/* Fondo oscuro que cubre toda la pantalla */
+.backdrop {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.85);
+    backdrop-filter: blur(4px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    padding: 20px;
+    animation: fadeIn 0.2s ease;
+}
+
+/* Contenedor del modal */
+.modal {
+    background: var(--card-bg);
+    border: 2px solid rgba(255, 255, 255, 0.08);
+    border-radius: 20px;
+    width: 100%;
+    max-width: 560px;
+    max-height: 90vh;
+    overflow-y: auto;
+    box-shadow: 8px 8px 0px var(--highlight-text);
+    animation: slideUp 0.25s ease;
+}
+
+/* Cabecera del modal */
+.modalHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 25px 30px 20px;
+    border-bottom: 1px dashed rgba(255, 255, 255, 0.08);
+}
+
+.modalTitle {
+    font-family: var(--font-titles);
+    font-size: 1.8rem;
+    color: var(--white);
+    text-shadow: 3px 3px 0px rgba(0, 0, 0, 0.8);
+    margin: 0;
+}
+
+/* Botón X de cerrar */
+.closeBtn {
+    background: none;
+    border: none;
+    color: var(--grey-500);
+    font-size: 1.4rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 5px;
+    border-radius: 8px;
+    transition: color 0.2s ease, background 0.2s ease;
+}
+
+.closeBtn:hover {
+    color: var(--white);
+    background: rgba(255, 255, 255, 0.05);
+}
+
+/* Zona de contenido con scroll si es necesario */
+.modalBody {
+    padding: 25px 30px 30px;
+}
+
+/* Animación de entrada del backdrop */
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+
+/* Animación de entrada del modal */
+@keyframes slideUp {
+    from { transform: translateY(20px); opacity: 0; }
+    to   { transform: translateY(0);    opacity: 1; }
+}
+
+@media (max-width: 768px) {
+    .modal {
+        max-height: 85vh;
+        border-radius: 16px;
+    }
+
+    .modalHeader {
+        padding: 20px 20px 15px;
+    }
+
+    .modalBody {
+        padding: 20px;
+    }
+}

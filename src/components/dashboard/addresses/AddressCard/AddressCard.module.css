@@ -1,0 +1,153 @@
+/* Tarjeta base */
+.addressCard {
+    background: var(--card-bg);
+    border: 2px dashed rgba(255, 255, 255, 0.08);
+    border-radius: 20px;
+    padding: 25px;
+    position: relative;
+    transition: all 0.3s ease;
+}
+
+.addressCard:hover {
+    transform: translateY(-5px);
+    border-color: var(--highlight-text);
+    background: rgba(255, 255, 255, 0.02);
+    box-shadow: var(--tuft-shadow);
+}
+
+/* Variante: tarjeta marcada como predeterminada */
+.defaultCard {
+    border: 2px solid var(--highlight-text);
+    box-shadow: 5px 5px 0px var(--highlight-text);
+}
+
+/* Badge "PREDETERMINADA" flotando sobre el borde superior */
+.defaultBadge {
+    position: absolute;
+    top: -12px;
+    left: 20px;
+    background: var(--highlight-text);
+    color: var(--white);
+    font-size: 0.7rem;
+    font-weight: 900;
+    padding: 4px 12px;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    /* Sombra dura estilo gráfico del proyecto */
+    box-shadow: var(--pop-shadow);
+}
+
+/* Cabecera: icono de casa + ciudad */
+.cardHeader {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 15px;
+    color: var(--grey-500);
+    font-size: 0.8rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.houseIcon {
+    font-size: 1.2rem;
+    color: var(--highlight-text);
+}
+
+/* Cuerpo */
+.streetName {
+    font-family: var(--font-titles);
+    font-size: 1.4rem;
+    color: var(--white);
+    margin: 0 0 5px 0;
+    /* Sombra sólida característica del proyecto */
+    text-shadow: 2px 2px 0px rgba(0, 0, 0, 0.8);
+}
+
+.extraInfo {
+    color: var(--secondary-text);
+    margin-bottom: 5px;
+    font-family: var(--font-body);
+}
+
+.postalInfo {
+    color: var(--grey-500);
+    font-size: 0.9rem;
+    margin-bottom: 20px;
+    font-family: var(--font-body);
+}
+
+.phoneRow {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: var(--primary-text);
+    font-size: 0.9rem;
+    font-family: var(--font-body);
+}
+
+.phoneIcon {
+    color: var(--highlight-text);
+}
+
+/* Zona de acciones separada con borde punteado */
+.cardActions {
+    margin-top: 25px;
+    padding-top: 20px;
+    border-top: 1px dashed rgba(255, 255, 255, 0.08);
+    display: flex;
+    gap: 15px;
+    align-items: center;
+}
+
+/* Botón eliminar */
+.deleteBtn {
+    background: none;
+    border: none;
+    color: #ff4d4d;
+    font-size: 0.85rem;
+    font-weight: 700;
+    font-family: var(--font-body);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    opacity: 0.6;
+    transition: opacity 0.2s ease;
+    letter-spacing: 0.5px;
+}
+
+.deleteBtn:hover {
+    opacity: 1;
+}
+
+/* Botón marcar predeterminada */
+.setAsDefaultBtn {
+    background: none;
+    border: none;
+    color: var(--grey-400);
+    font-size: 0.85rem;
+    font-weight: 700;
+    font-family: var(--font-body);
+    cursor: pointer;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    transition: color 0.2s ease;
+    letter-spacing: 0.5px;
+}
+
+.setAsDefaultBtn:hover {
+    color: var(--hover-text);
+}
+
+/* Estado deshabilitado mientras carga cualquier acción */
+.deleteBtn:disabled,
+.setAsDefaultBtn:disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+}

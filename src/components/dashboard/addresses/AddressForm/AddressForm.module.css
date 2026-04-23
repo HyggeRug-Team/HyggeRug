@@ -1,0 +1,168 @@
+.form {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+/* Mensaje de error general de la API */
+.errorGeneral {
+    background: rgba(255, 77, 77, 0.1);
+    border: 1px solid rgba(255, 77, 77, 0.3);
+    color: #ff4d4d;
+    padding: 12px 16px;
+    border-radius: 10px;
+    font-size: 0.9rem;
+    font-family: var(--font-body);
+}
+
+/* Contenedor de cada campo */
+.field {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+}
+
+/* Dos campos en fila */
+.row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+}
+
+.label {
+    font-family: var(--font-body);
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: var(--grey-400);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+/* Input base */
+.input {
+    background: var(--secondary-bg);
+    border: 2px solid rgba(255, 255, 255, 0.08);
+    border-radius: 10px;
+    padding: 12px 15px;
+    color: var(--white);
+    font-family: var(--font-body);
+    font-size: 0.95rem;
+    transition: border-color 0.2s ease;
+    outline: none;
+    width: 100%;
+}
+
+.input::placeholder {
+    color: var(--grey-600);
+}
+
+.input:focus {
+    border-color: var(--highlight-text);
+}
+
+/* Input con error de validación */
+.inputError {
+    border-color: #ff4d4d;
+}
+
+/* Mensaje de error por campo */
+.error {
+    color: #ff4d4d;
+    font-size: 0.8rem;
+    font-family: var(--font-body);
+}
+
+/* Fila del checkbox */
+.checkboxField {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 5px 0;
+}
+
+.checkbox {
+    width: 18px;
+    height: 18px;
+    accent-color: var(--highlight-text);
+    cursor: pointer;
+    flex-shrink: 0;
+}
+
+.checkboxLabel {
+    font-family: var(--font-body);
+    font-size: 0.9rem;
+    color: var(--grey-300);
+    cursor: pointer;
+}
+
+/* Botones del formulario */
+.formActions {
+    display: flex;
+    gap: 12px;
+    justify-content: flex-end;
+    margin-top: 5px;
+    padding-top: 18px;
+    border-top: 1px dashed rgba(255, 255, 255, 0.08);
+}
+
+.cancelBtn {
+    background: none;
+    border: 2px solid rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    color: var(--grey-400);
+    font-family: var(--font-body);
+    font-size: 0.9rem;
+    font-weight: 700;
+    padding: 10px 20px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.cancelBtn:hover {
+    border-color: var(--grey-500);
+    color: var(--white);
+}
+
+/* Botón principal con estilo pop del proyecto */
+.submitBtn {
+    background: var(--highlight-text);
+    border: none;
+    border-radius: 10px;
+    color: var(--white);
+    font-family: var(--font-body);
+    font-size: 0.9rem;
+    font-weight: 900;
+    padding: 10px 24px;
+    cursor: pointer;
+    letter-spacing: 1px;
+    box-shadow: var(--pop-shadow);
+    transition: all 0.2s ease;
+}
+
+.submitBtn:hover {
+    transform: translate(-2px, -2px);
+    box-shadow: 7px 7px 0px rgba(0, 0, 0, 1);
+}
+
+.submitBtn:disabled,
+.cancelBtn:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+    transform: none;
+}
+
+@media (max-width: 480px) {
+    .row {
+        grid-template-columns: 1fr;
+    }
+
+    .formActions {
+        flex-direction: column-reverse;
+    }
+
+    .cancelBtn,
+    .submitBtn {
+        width: 100%;
+        text-align: center;
+    }
+}
