@@ -9,10 +9,11 @@ import styles from './AnimatedGrid.module.css';
 const AnimatedGrid = ({ 
     items = [], 
     ItemComponent, // El componente que renderizará cada ítem
-    itemProps = {} // Props adicionales que se quieran pasar a cada ítem
+    itemProps = {}, // Props adicionales que se quieran pasar a cada ítem
+    className
 }) => {
     return (
-        <motion.div layout className={styles.gridContainer}>
+        <motion.div layout className={className || styles.gridContainer}>
             <AnimatePresence mode='popLayout'>
                 {items.map((item, index) => (
                     <ItemComponent 
