@@ -1,8 +1,8 @@
 .heroWrapper {
     width: 100%;
     max-width: 1200px;
-    margin-bottom: 80px;
-    padding-top: 20px;
+    margin: 0 auto; /* Centramos el contenido */
+    padding: 120px 40px 80px; /* Espacio premium superior y lateral */
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 60px;
