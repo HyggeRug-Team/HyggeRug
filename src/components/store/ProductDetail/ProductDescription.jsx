@@ -1,9 +1,15 @@
-/*
- * Archivo: ProductDescription.jsx
- * Descripción: Renderiza la descripción detallada del producto. Componente puramente 
- * presentacional que recibe el texto descriptivo del artículo.
+/**
+ * @file ProductDescription.jsx
+ * @description Bloque de texto descriptivo para el detalle de producto.
+ *
+ * [Nuestro enfoque]
+ * Un componente puramente presentacional que organiza la información textual del 
+ * producto de manera clara y legible.
+ *
+ * [Por qué lo hemos hecho así]
+ * 1. Legibilidad: Mantiene una estructura tipográfica consistente.
+ * 2. Modularidad: Separa la descripción del resto de la lógica de compra.
  */
-"use client";
 import React from 'react';
 import styles from '@/app/(main)/tienda/[id]/product.module.css';
 

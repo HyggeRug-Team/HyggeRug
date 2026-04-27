@@ -1,9 +1,16 @@
-/*
- * Archivo: ProductBuyActions.jsx
- * Descripción: Componente de interacción de compra. Agrupa el selector numérico de 
- * cantidad de productos y el botón secundario para emitir la acción de añadir a la cesta.
+/**
+ * @file ProductBuyActions.jsx
+ * @description Controles de cantidad y botón de añadir a la cesta.
+ *
+ * [Nuestro enfoque]
+ * Agrupa las acciones finales de compra en un bloque compacto y funcional.
+ *
+ * [Por qué lo hemos hecho así]
+ * 1. Simplicidad: Combina el selector numérico con el botón de acción principal.
+ * 2. Consistencia: Utiliza el `SecondaryButton` del sistema de diseño para la acción.
  */
 "use client";
+
 import React from 'react';
 import SecondaryButton from '@/components/ui/Buttons/SecondaryButton/SecondaryButton';
 import styles from '@/app/(main)/tienda/[id]/product.module.css';

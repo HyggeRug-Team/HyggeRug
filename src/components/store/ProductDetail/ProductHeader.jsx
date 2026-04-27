@@ -1,9 +1,16 @@
-/*
- * Archivo: ProductHeader.jsx
- * Descripción: Componente encargado de mostrar la cabecera del producto, incluyendo 
- * las migas de pan (breadcrumbs) para la navegación, el título principal y la categoría.
+/**
+ * @file ProductHeader.jsx
+ * @description Cabecera del detalle de producto con breadcrumbs y títulos.
+ *
+ * [Nuestro enfoque]
+ * Este componente proporciona el contexto de navegación y la identidad del producto 
+ * de un vistazo rápido.
+ *
+ * [Por qué lo hemos hecho así]
+ * 1. SEO & Accesibilidad: Usa etiquetas nav y h1 correctamente.
+ * 2. UX: Las migas de pan permiten al usuario volver atrás fácilmente.
+ * 3. Branding: Resalta la categoría del producto con un estilo coherente.
  */
-"use client";
 import React from 'react';
 import Link from 'next/link';
 import { FaArrowRight } from 'react-icons/fa6';

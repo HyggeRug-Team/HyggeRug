@@ -1,9 +1,18 @@
-/*
- * Archivo: ProductSizeSelector.jsx
- * Descripción: Selector desplegable para elegir la medida del producto. Agrupa las opciones 
- * por categoría (ej. Alfombras, Teclados) y gestiona el estado de la talla seleccionada.
+/**
+ * @file ProductSizeSelector.jsx
+ * @description Selector jerárquico de medidas y variantes de producto.
+ *
+ * [Nuestro enfoque]
+ * Hemos creado un selector que agrupa las medidas por tipos (Alfombras, Teclados) 
+ * para facilitar la elección en productos con muchas variantes.
+ *
+ * [Por qué lo hemos hecho así]
+ * 1. Organización: El agrupamiento lógico evita una lista larga y confusa.
+ * 2. Feedback: Muestra el precio de cada variante antes de seleccionarla.
+ * 3. UX: El diseño tipo "pop" y las animaciones lo hacen sentir moderno e interactivo.
  */
 "use client";
+
 import React, { useState, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { FaChevronDown } from 'react-icons/fa6';
@@ -37,7 +46,7 @@ export default function ProductSizeSelector({ sizes, selectedSize, setSelectedSi
                 >
                     <div className={styles.toggleLabel}>
                         <div className={styles.statusDot} />
-                        <span>TAMAÑO: {selectedSize ? (selectedSize.label || selectedSize.size_label) : 'SELECCIONA'}</span>
+                        <span>TAMAÑO: {selectedSize ? selectedSize.label : 'SELECCIONA'}</span>
                     </div>
                     <FaChevronDown className={styles.pinkChevron} />
                 </button>
@@ -58,17 +67,17 @@ export default function ProductSizeSelector({ sizes, selectedSize, setSelectedSi
                                     </div>
                                     <div className={styles.sizeList}>
                                         {groupSizes.map((size) => {
-                                            const isActive = (selectedSize?.id === size.id || selectedSize?.size_id === size.size_id);
+                                            const isActive = selectedSize?.id === size.id;
                                             return (
                                                 <button 
-                                                    key={size.id || size.size_id}
+                                                    key={size.id}
                                                     className={`${styles.sizeOptionBtn} ${isActive ? styles.sizeOptionActive : ''}`}
                                                     onClick={() => {
                                                         setSelectedSize(size);
                                                         setExpandedCategory(false);
                                                     }}
                                                 >
-                                                    <span className={styles.sizeName}>{size.label || size.size_label}</span>
+                                                    <span className={styles.sizeName}>{size.label}</span>
                                                     <span className={styles.sizePrice}>{formatPrice(size.price)}</span>
                                                 </button>
                                             );

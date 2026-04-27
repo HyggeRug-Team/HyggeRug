@@ -1,9 +1,18 @@
-/*
- * Archivo: ProductGallery.jsx
- * Descripción: Componente visual principal del producto. Renderiza la imagen destacada 
- * e incluye acciones interactivas flotantes (añadir a favoritos y compartir enlace).
+/**
+ * @file ProductGallery.jsx
+ * @description Galería visual del producto con acciones interactivas.
+ *
+ * [Nuestro enfoque]
+ * Presenta la imagen principal del producto con una entrada suave y botones 
+ * flotantes para acciones sociales y de fidelización.
+ *
+ * [Por qué lo hemos hecho así]
+ * 1. Impacto visual: Usa animaciones de Framer Motion para una carga premium.
+ * 2. Utilidad: Integra la API Web Share para compartir fácilmente en móviles.
+ * 3. Micro-interacciones: El botón de favoritos responde visualmente al clic.
  */
 "use client";
+
 import React, { useState } from 'react';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
@@ -30,7 +39,7 @@ export default function ProductGallery({ product }) {
             transition={{ duration: 0.8, ease: "easeOut" }}
         >
             <Image 
-                src={product.image || product.image_url}
+                src={product.image}
                 alt={product.name}
                 fill
                 className={styles.mainImage}

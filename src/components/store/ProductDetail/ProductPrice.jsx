@@ -1,9 +1,15 @@
-/*
- * Archivo: ProductPrice.jsx
- * Descripción: Muestra dinámicamente el precio del producto. Si hay una talla seleccionada, 
- * muestra el precio de dicha variante; de lo contrario, muestra el precio base por defecto.
+/**
+ * @file ProductPrice.jsx
+ * @description Visualizador dinámico del precio del producto.
+ *
+ * [Nuestro enfoque]
+ * Muestra el precio final calculado según la variante seleccionada, manteniendo 
+ * la claridad sobre el precio base si no hay selección.
+ *
+ * [Por qué lo hemos hecho así]
+ * 1. Claridad: Formatea siempre los precios con dos decimales y el símbolo de euro.
+ * 2. Dinamismo: Se actualiza instantáneamente cuando el usuario cambia de talla.
  */
-"use client";
 import React from 'react';
 import styles from '@/app/(main)/tienda/[id]/product.module.css';
 
