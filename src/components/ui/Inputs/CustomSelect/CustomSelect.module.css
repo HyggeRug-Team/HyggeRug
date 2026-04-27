@@ -1,0 +1,84 @@
+.customSelectWrapper {
+    position: relative;
+    width: 100%;
+}
+
+.customSelectBtn {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    min-width: 180px;
+    width: 100%;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: #FFF;
+    font-size: 0.85rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    padding: 10px 18px;
+    border-radius: 99px;
+    cursor: pointer;
+    transition: all 0.3s;
+    outline: none;
+    font-family: var(--font-body);
+}
+
+.customSelectBtn:hover, .customSelectBtn:focus {
+    border-color: var(--highlight-text);
+    background-color: rgba(255, 255, 255, 0.08);
+    box-shadow: 0 0 15px rgba(255, 0, 85, 0.1);
+}
+
+.selectIcon {
+    font-size: 0.8rem;
+    transition: transform 0.3s ease;
+    margin-left: 10px;
+}
+
+.selectIconOpen {
+    transform: rotate(180deg);
+}
+
+.customSelectDropdown {
+    position: absolute;
+    top: calc(100% + 10px);
+    right: 0;
+    width: 220px;
+    background: rgba(15, 15, 15, 0.95);
+    backdrop-filter: blur(15px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 16px;
+    padding: 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    z-index: 100;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.8), 0 0 20px rgba(255, 0, 85, 0.1);
+}
+
+.customSelectOption {
+    background: transparent;
+    border: none;
+    color: #999;
+    padding: 12px 16px;
+    font-size: 0.85rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    text-align: left;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.customSelectOption:hover {
+    background: rgba(255, 255, 255, 0.05);
+    color: #FFF;
+    padding-left: 22px;
+}
+
+.customSelectOptionActive {
+    background: rgba(255, 0, 85, 0.1);
+    color: var(--highlight-text);
+}
