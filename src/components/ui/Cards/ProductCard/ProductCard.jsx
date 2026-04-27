@@ -83,7 +83,7 @@ const ProductCard = ({ id, title, description, price, image, category, requested
                     </div>
                 </div>
                 
-                {/* LADO DERECHO: INFO ESTILO GRID (PERO ESTIRADA) */}
+                {/* LADO DERECHO: INFO */}
                 <div className={styles.listInfo}>
                     <div className={styles.meta}>
                         <span className={styles.categoryName}>{displayCategory}</span>
@@ -97,7 +97,7 @@ const ProductCard = ({ id, title, description, price, image, category, requested
                     </Link>
 
                     <p className={styles.listDescription}>
-                        {description || "Diseño exclusivo y personalizado creado a partir de la imaginación de la comunidad. Esta pieza representa la máxima expresión artística en formato alfombra."}
+                        {description || "Diseño exclusivo y personalizado creado a partir de la imaginación de la comunidad."}
                     </p>
                     
                     <div className={styles.priceRow}>
@@ -108,7 +108,7 @@ const ProductCard = ({ id, title, description, price, image, category, requested
         );
     }
 
-    // VISTA GRID ORIGINAL
+    // VISTA GRID
     return (
         <motion.div 
             className={styles.card}

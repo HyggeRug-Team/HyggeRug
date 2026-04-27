@@ -67,7 +67,6 @@ export default function TiendaClient({ products }) {
     const [sort, setSort] = useState('FEATURED');
     const [searchQuery, setSearchQuery] = useState('');
     const [isFilterOpen, setIsFilterOpen] = useState(false);
-    const [isSortOpen, setIsSortOpen] = useState(false);
 
     const sortOptions = [
         { value: 'FEATURED', label: 'Destacados' },
@@ -121,7 +120,6 @@ export default function TiendaClient({ products }) {
                 return matchesCategory && matchesSearch;
             });
 
-        // Ajustamos la lógica de ordenación a los campos normalizados que vienen de page.jsx (price)
         if (sort === 'LOW') {
             result.sort((a, b) => parseFloat(a.price) - parseFloat(b.price));
         } else if (sort === 'HIGH') {
@@ -164,7 +162,7 @@ export default function TiendaClient({ products }) {
 
                 {/* 3. BARRA DE CONTROLES (3 BLOQUES SEPARADOS) */}
                 <div className={styles.threeBlockControls}>
-                    {/* IZQUIERDA: Filtros (Categoría y Ordenación) */}
+                    {/* IZQUIERDA: Filtros */}
                     <div className={styles.controlBlockLeft}>
                         <button 
                             className={`${styles.openFilterBtn} ${isFilterOpen ? styles.btnActive : ''}`}
@@ -204,11 +202,10 @@ export default function TiendaClient({ products }) {
                     </div>
                 </div>
 
-                {/* SIDEBAR MÓVIL (MODAL FIJO) */}
+                {/* SIDEBAR MÓVIL */}
                 <AnimatePresence>
                     {!isDesktop && isFilterOpen && (
                         <>
-                            {/* OVERLAY */}
                             <motion.div 
                                 className={styles.sidebarOverlay}
                                 initial={{ opacity: 0 }}
@@ -216,7 +213,6 @@ export default function TiendaClient({ products }) {
                                 exit={{ opacity: 0 }}
                                 onClick={() => setIsFilterOpen(false)}
                             />
-                            {/* SIDEBAR */}
                             <motion.div 
                                 className={styles.filterSidebar}
                                 initial={{ x: '-100%' }}
@@ -237,7 +233,7 @@ export default function TiendaClient({ products }) {
                 </AnimatePresence>
 
                 <div className={styles.shopContentLayout}>
-                    {/* SIDEBAR ESCRITORIO (INLINE) */}
+                    {/* SIDEBAR ESCRITORIO */}
                     <AnimatePresence>
                         {isDesktop && isFilterOpen && (
                             <motion.aside
@@ -261,7 +257,6 @@ export default function TiendaClient({ products }) {
                     </AnimatePresence>
 
                     <div className={styles.gridSection}>
-                        {/* 4. GRID ANIMADO */}
                         <AnimatedGrid 
                             key={viewMode}
                             items={paginatedProducts} 
@@ -270,7 +265,6 @@ export default function TiendaClient({ products }) {
                             className={viewMode === 'list' ? styles.listView : styles.gridView}
                         />
 
-                        {/* 5. PAGINACIÓN */}
                         {totalPages > 1 && (
                             <div className={styles.pagination}>
                                 <button 
