@@ -25,10 +25,9 @@ export default async function TiendaPage() {
         title:       p.name,
         description: p.description,
         price:       `${parseFloat(p.base_price).toFixed(2)}€`,
-        status:      p.is_active ? 'DISPONIBLE' : 'SIN STOCK',
         image:       p.main_image ?? '/rug-mario.png',
-        category:    p.category ?? 'ALFOMBRA', // Fallback a ALFOMBRA si no tiene categoría
-        requestedBy: p.requested_by ?? null    // Atribución de idea del cliente
+        category:    p.category ?? 'ALFOMBRA',
+        requestedBy: p.requested_by ?? null,
     }));
 
     // 3. Renderizamos el cliente interactivo
