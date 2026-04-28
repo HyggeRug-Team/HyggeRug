@@ -1,13 +1,12 @@
-.shopWrapper {
+.storeSection {
     position: relative;
-    min-height: 100vh;
-    padding: 120px 0 150px;
+    padding: 40px 0 150px; /* Reducimos padding superior porque ya viene del Hero */
     background: transparent;
     z-index: 1;
 }
 
 .shopContainer {
-    max-width: 1400px;
+    max-width: 1200px; /* Sincronizamos con el HeroWrapper */
     margin: 0 auto;
     padding: 0 40px;
     display: flex;
@@ -37,10 +36,11 @@
 
 .controlBlockRight {
     justify-content: flex-end;
+    gap: 20px; /* Añadimos espacio entre el select y el toggle */
 }
 
 .controlBlockCenter {
-    flex: 2;
+    flex: 1.5; /* Ajustamos un poco el balance para dar más aire */
     display: flex;
     justify-content: center;
 }
@@ -86,17 +86,17 @@
 
 .filterSidebar {
     position: fixed;
-    top: 70px;
+    top: 0;
     left: 0;
     bottom: 0;
-    width: 400px;
-    max-width: 90vw;
-    background: rgba(8, 8, 8, 0.65);
-    backdrop-filter: blur(40px) saturate(200%);
-    border-right: 1px solid rgba(255, 255, 255, 0.1);
+    width: 420px;
+    max-width: 85vw;
+    background: rgba(10, 10, 10, 0.7);
+    backdrop-filter: blur(50px) saturate(180%);
+    border-right: 1px solid rgba(255, 255, 255, 0.08);
     color: #FFF;
-    z-index: 99999;
-    box-shadow: 30px 0 80px rgba(0, 0, 0, 0.95), inset 1px 0 0 rgba(255, 255, 255, 0.2), inset -1px 0 0 rgba(255, 255, 255, 0.05);
+    z-index: 999999; /* Elevamos por encima del header */
+    box-shadow: 50px 0 100px rgba(0, 0, 0, 0.9);
     display: flex;
     flex-direction: column;
 }
@@ -105,45 +105,41 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 35px 35px 25px;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-    background: linear-gradient(180deg, rgba(255,255,255,0.05) 0%, transparent 100%);
+    padding: 40px 35px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
 }
 
 .sidebarTitle {
     display: flex;
     align-items: center;
-    gap: 12px;
-    font-size: 1.4rem;
+    gap: 15px;
+    font-size: 1.6rem;
     font-weight: 900;
     color: #FFF;
     text-transform: uppercase;
-    letter-spacing: 2px;
+    letter-spacing: 3px;
     font-family: var(--font-titles);
-    text-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
 }
 
 .closeSidebarBtn {
-    background: rgba(255, 255, 255, 0.05);
+    background: rgba(255, 255, 255, 0.03);
     border: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: 50%;
-    width: 40px;
-    height: 40px;
-    font-size: 1.2rem;
+    width: 44px;
+    height: 44px;
     cursor: pointer;
     color: #FFF;
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: all 0.3s;
+    transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
 }
 
 .closeSidebarBtn:hover {
     background: var(--highlight-text);
     border-color: var(--highlight-text);
-    color: #FFF;
-    transform: rotate(90deg);
-    box-shadow: 0 0 15px rgba(255, 0, 85, 0.4);
+    transform: rotate(90deg) scale(1.1);
+    box-shadow: 0 0 20px rgba(255, 0, 85, 0.4);
 }
 
 .sidebarContent {
@@ -159,54 +155,53 @@
 .sidebarSectionTitle {
     display: flex;
     align-items: center;
-    gap: 15px;
-    padding: 15px 30px;
-    font-size: 0.85rem;
+    gap: 12px;
+    padding: 20px 35px;
+    font-size: 0.75rem;
     font-weight: 900;
-    color: #777;
-    text-transform: uppercase;
-    letter-spacing: 2px;
-    font-family: var(--font-titles);
-}
-
-.sidebarIconPlus {
-    font-size: 0.9rem;
     color: var(--highlight-text);
+    text-transform: uppercase;
+    letter-spacing: 4px;
+    font-family: var(--font-titles);
+    opacity: 0.8;
 }
 
 .sidebarGrid {
-    padding: 0 20px;
+    padding: 10px 25px;
     display: flex;
-    flex-direction: column;
-    gap: 8px;
+    flex-wrap: wrap; /* Cambiamos a envolvente para botones tipo pill */
+    gap: 10px;
 }
 
 .sidebarBtn {
-    display: flex;
+    display: inline-flex;
     align-items: center;
-    width: 100%;
-    padding: 14px 20px;
-    border-radius: 99px;
+    padding: 10px 20px;
+    border-radius: 12px;
     background: rgba(255, 255, 255, 0.03);
-    border: 1px solid rgba(255, 255, 255, 0.05);
-    color: #AAA;
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    color: #999;
     font-weight: 700;
-    font-size: 0.9rem;
+    font-size: 0.85rem;
     transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
     cursor: pointer;
-    text-align: left;
     text-transform: uppercase;
     letter-spacing: 1px;
-    position: relative;
-    overflow: hidden;
+}
+
+.sidebarBtn:hover {
+    background: rgba(255, 255, 255, 0.08);
+    color: #FFF;
+    border-color: rgba(255, 255, 255, 0.15);
+    transform: translateY(-2px);
 }
 
 .sidebarBtnActive {
-    background: linear-gradient(90deg, rgba(255, 0, 85, 0.2) 0%, rgba(255, 0, 85, 0.02) 100%) !important;
+    background: var(--highlight-text) !important;
     color: #FFF !important;
-    border-color: rgba(255, 0, 85, 0.3) !important;
-    padding-left: 25px;
-    box-shadow: 0 5px 15px rgba(255, 0, 85, 0.1) !important;
+    border-color: var(--highlight-text) !important;
+    box-shadow: 0 8px 20px rgba(255, 0, 85, 0.3);
+    transform: translateY(-2px) scale(1.05);
 }
 
 /* CENTER: SEARCH */
@@ -293,12 +288,13 @@
     letter-spacing: 1px;
 }
 
-/* GRID LAYOUT */
+/* GRID LAYOUT - 4 columnas en escritorio para densidad de contenido */
 .gridView {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     gap: 30px;
     width: 100%;
+    margin: 0 auto;
 }
 
 .listView {
@@ -353,20 +349,109 @@
 
 @media (max-width: 1024px) {
     .gridView {
-        grid-template-columns: repeat(2, 1fr);
+        grid-template-columns: repeat(3, 1fr); /* 3 en tablets */
+        gap: 20px;
     }
 }
 
 @media (max-width: 768px) {
-    .gridView {
-        grid-template-columns: repeat(2, 1fr) !important;
-    }
     .threeBlockControls {
         display: grid;
-        grid-template-columns: 1fr 1fr;
+        grid-template-areas: 
+            "search search"
+            "filter sort"
+            "view view";
+        gap: 15px;
+        margin-bottom: 30px;
+        width: 100%;
+    }
+
+    /* BUSCADOR: Nivel 1 */
+    .controlBlockCenter {
+        grid-area: search;
+        width: 100%;
+    }
+
+    .centerSearchBox {
+        max-width: 100%;
+        background: rgba(255, 255, 255, 0.04);
+        border-radius: 12px;
+        padding: 10px 15px;
+    }
+
+    /* FILTRO: Nivel 2 Izquierda */
+    .controlBlockLeft {
+        grid-area: filter;
+        width: 100%;
+        justify-content: flex-start;
+    }
+
+    .openFilterBtn {
+        width: 100%; /* Botón de filtro ancho en su mitad */
+        justify-content: center;
+        padding: 10px;
+        font-size: 0.85rem;
+    }
+
+    /* ORDENAR Y VISTA: Nivel 2 Derecha y Nivel 3 */
+    .controlBlockRight {
+        grid-area: sort;
+        width: 100%;
+        display: flex;
+        flex-direction: column; /* Apilamos internamente para el nivel 3 */
         gap: 15px;
     }
-    .controlBlockCenter {
-        grid-column: 1 / -1;
+
+    /* Movemos el toggle de vista al final mediante flex order si es necesario o grid */
+    .controlBlockRight {
+        display: contents; /* Deshacemos el contenedor para que sus hijos sigan el grid del padre */
     }
+
+    /* Ajustamos los hijos directos que ahora responden al grid de .threeBlockControls */
+    .controlBlockRight > *:first-child { grid-area: sort; } /* CustomSelect */
+    .controlBlockRight > *:last-child { 
+        grid-area: view; 
+        justify-self: center; 
+        background: rgba(255,255,255,0.03);
+        padding: 5px 15px;
+        border-radius: 99px;
+    }
+
+    .gridView {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 15px;
+    }
+}
+
+.sidebarFooter {
+    padding: 30px;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    background: rgba(255, 255, 255, 0.02);
+}
+
+.clearFiltersBtn {
+    width: 100%;
+    padding: 16px;
+    background: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: #888;
+    font-size: 0.75rem;
+    font-weight: 900;
+    letter-spacing: 2px;
+    cursor: pointer;
+    transition: all 0.3s;
+    border-radius: 8px;
+}
+
+.clearFiltersBtn:hover {
+    background: rgba(255, 255, 255, 0.05);
+    color: #FFF;
+    border-color: rgba(255, 255, 255, 0.3);
+}
+
+.sidebarPlaceholder {
+    padding: 0 35px;
+    color: #555;
+    font-size: 0.8rem;
+    font-style: italic;
 }
