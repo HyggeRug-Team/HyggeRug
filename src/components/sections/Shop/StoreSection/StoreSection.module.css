@@ -14,7 +14,7 @@
     align-items: center;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 1024px) {
     .shopContainer {
         padding: 0 16px;
     }
@@ -355,12 +355,10 @@
 
 @media (max-width: 1024px) {
     .gridView {
-        grid-template-columns: repeat(3, 1fr); /* 3 en tablets */
-        gap: 20px;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 15px;
     }
-}
 
-@media (max-width: 768px) {
     .threeBlockControls {
         display: grid;
         grid-template-areas: 
@@ -393,7 +391,7 @@
     }
 
     .openFilterBtn {
-        width: 100%; /* Botón de filtro ancho en su mitad */
+        width: 100%;
         justify-content: center;
         padding: 10px;
         font-size: 0.85rem;
@@ -403,29 +401,16 @@
     .controlBlockRight {
         grid-area: sort;
         width: 100%;
-        display: flex;
-        flex-direction: column; /* Apilamos internamente para el nivel 3 */
-        gap: 15px;
+        display: contents;
     }
 
-    /* Movemos el toggle de vista al final mediante flex order si es necesario o grid */
-    .controlBlockRight {
-        display: contents; /* Deshacemos el contenedor para que sus hijos sigan el grid del padre */
-    }
-
-    /* Ajustamos los hijos directos que ahora responden al grid de .threeBlockControls */
-    .controlBlockRight > *:first-child { grid-area: sort; } /* CustomSelect */
+    .controlBlockRight > *:first-child { grid-area: sort; } 
     .controlBlockRight > *:last-child { 
         grid-area: view; 
         justify-self: center; 
         background: rgba(255,255,255,0.03);
         padding: 5px 15px;
         border-radius: 99px;
-    }
-
-    .gridView {
-        grid-template-columns: repeat(2, 1fr);
-        gap: 10px;
     }
 }
 

@@ -29,10 +29,12 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
 import { FaStar, FaRegHeart, FaHeart, FaCartPlus } from 'react-icons/fa6';
+import { useIsTouchDevice } from '@/hooks/useIsTouchDevice';
 import styles from './ProductCard.module.css';
 
 const ProductCard = ({ id, title, description, price, image, category, requestedBy, viewMode, href }) => {
     const [isFavorite, setIsFavorite] = React.useState(false);
+    const isTouch = useIsTouchDevice();
 
     // Fallbacks profesionales
     const displayRequestedBy = requestedBy || 'Anónimo';
@@ -70,13 +72,13 @@ const ProductCard = ({ id, title, description, price, image, category, requested
                             alt={title} 
                             fill
                             className={styles.productImage}
-                            sizes="(max-width: 768px) 100vw, 30vw"
+                            sizes="(max-width: 1024px) 100vw, 30vw"
                         />
                     </Link>
 
                     <div className={styles.productBadge}>{displayCategory}</div>
 
-                    <div className={styles.quickAdd}>
+                    <div className={`${styles.quickAdd} ${isTouch ? styles.isTouch : ''}`}>
                         <button className={styles.quickAddBtn}>
                             <FaCartPlus />
                         </button>
@@ -136,13 +138,13 @@ const ProductCard = ({ id, title, description, price, image, category, requested
                         alt={title} 
                         fill
                         className={styles.productImage}
-                        sizes="(max-width: 768px) 100vw, 25vw"
+                        sizes="(max-width: 1024px) 100vw, 25vw"
                     />
                 </Link>
 
                 <div className={styles.productBadge}>{displayCategory}</div>
 
-                <div className={styles.quickAdd}>
+                <div className={`${styles.quickAdd} ${isTouch ? styles.isTouch : ''}`}>
                     <button className={styles.quickAddBtn}>
                         <FaCartPlus />
                     </button>

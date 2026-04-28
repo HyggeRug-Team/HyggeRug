@@ -135,6 +135,11 @@
   opacity: 1;
 }
 
+.isTouch {
+  opacity: 1 !important;
+  transform: translateY(0) scale(1) !important;
+}
+
 .quickAddBtn {
   background: var(--hover-text);
   color: #000;
@@ -228,7 +233,7 @@
 }
 
 /* Responsive adjustments */
-@media (max-width: 768px) {
+@media (max-width: 1024px) {
   .info {
     padding: 12px;
     gap: 6px;
@@ -272,6 +277,16 @@
   }
   .categoryName {
     font-size: 0.6rem;
+  }
+  .quickAdd {
+    bottom: 12px;
+    right: 12px;
+  }
+  .quickAddBtn {
+    width: 40px;
+    height: 40px;
+    font-size: 1rem;
+    border-radius: 12px;
   }
 }
 
@@ -329,7 +344,7 @@
   overflow: hidden;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 1024px) {
   .cardList {
     flex-direction: column;
     height: auto;
