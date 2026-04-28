@@ -50,6 +50,12 @@
   width: max-content; /* Asegura que no ocupe todo el ancho */
 }
 
+@media (max-width: 1300px) {
+  .nav {
+    gap: 30px;
+  }
+}
+
 .navLink {
   color: var(--white);
   text-decoration: none;
@@ -111,21 +117,10 @@
   
   /* Ocultamos la navegación principal en pantallas pequeñas */
   .nav { display: none !important; }
-  
-  /* Mantener iconos derecha visibles en Tablet si caben, si no ocultarlos */
-  /* .buttonsMenu { display: none !important; }  <-- Opcional según diseño */
-}
 
-@media (max-width: 768px) {
-  .header {
-    padding: 0 20px;
-    height: 70px;
-  }
-
-  /* Asegurar ocultación agresiva en móvil */
-  .nav { display: none !important; }
+  /* Ocultamos también los iconos cuando el menú hamburguesa está presente */
   .buttonsMenu { display: none !important; }
-  
+
   .hamburgerButton {
     display: flex; 
     align-items: center;
@@ -134,4 +129,15 @@
     width: 40px;
     height: 40px;
   }
+}
+
+@media (max-width: 768px) {
+  .header {
+    padding: 0 20px;
+    height: 70px;
+  }
+}
+
+@media (max-width: 480px) {
+  /* Ya están ocultos por el breakpoint de 1024px, así que no hace falta duplicar logic */
 }

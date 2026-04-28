@@ -14,7 +14,7 @@
  * Hemos elegido estas reglas para mejorar la experiencia de usuario y evitar que el panel de
  * acceso se sienta “mezclado” con el contenido comercial.
  */
-"use client";
+'use client';
 import React, { useState, useEffect } from 'react';
 import { usePathname } from 'next/navigation';
 import Logo from "@/components/ui/Logo/Logo";
@@ -43,12 +43,13 @@ function Header() {
   }
 
   useEffect(() => {
-    // Si el usuario ensancha la ventana, cerramos el menú móvil automáticamente
     const handleResize = () => {
-      if (window.innerWidth > 768) {
+      // Sincronizado con CSS: cerramos menú si ensancha
+      if (window.innerWidth > 1024) {
         setIsOpenMenu(false);
       }
     };
+
     window.addEventListener('resize', handleResize);
     return () => {
       window.removeEventListener('resize', handleResize);
