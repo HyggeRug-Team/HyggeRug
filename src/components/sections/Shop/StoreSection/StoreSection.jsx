@@ -73,24 +73,25 @@ export default function StoreSection({ products }) {
     const [searchQuery, setSearchQuery] = useState('');
     const [isFilterOpen, setIsFilterOpen] = useState(false);
     // --- GESTIÓN DE VISTA INTELIGENTE ---
+    // Estado inicial neutro: 'grid' en todos los entornos (servidor y cliente)
+    // para evitar el mismatch de hidratación de Next.js.
     const [viewMode, setViewMode] = useState('grid');
     const [isDesktop, setIsDesktop] = useState(true);
     const [currentPage, setCurrentPage] = useState(1);
 
-    // 1. Carga inicial: Recuperar preferencia o forzar móvil
+    // Leer localStorage DESPUÉS de hidratar, para no romper SSR.
     useEffect(() => {
-        const isMobile = window.innerWidth <= 768;
-        setIsDesktop(window.innerWidth > 1024);
-
-        if (isMobile) {
-            setViewMode('list');
-        } else {
-            const saved = localStorage.getItem('shopViewMode');
-            if (saved) setViewMode(saved);
-        }
+        const saved = localStorage.getItem('shopViewMode');
+        if (saved) setViewMode(saved);
     }, []);
 
-    // 2. Listener de Redimensión: Cambia la vista dinámicamente
+    // Sincronizamos con localStorage cada vez que cambia el estado.
+    useEffect(() => {
+        localStorage.setItem('shopViewMode', viewMode);
+    }, [viewMode]);
+
+    // Listener de Redimensión: Cambia la vista dinámicamente.
+    // En móvil siempre forzamos 'list' ya que el toggle no está disponible.
     useEffect(() => {
         const handleResize = () => {
             const width = window.innerWidth;
@@ -98,25 +99,13 @@ export default function StoreSection({ products }) {
 
             if (width <= 768) {
                 setViewMode('list');
-            } else {
-                // Al volver a escritorio, recuperamos lo que el usuario eligió
-                const saved = localStorage.getItem('shopViewMode') || 'grid';
-                setViewMode(saved);
             }
         };
 
+        handleResize();
         window.addEventListener('resize', handleResize);
         return () => window.removeEventListener('resize', handleResize);
     }, []);
-
-    // 3. Función de cambio manual (La única que guarda en localStorage)
-    const handleManualViewChange = (newMode) => {
-        setViewMode(newMode);
-        // Solo guardamos la preferencia si no estamos en móvil (donde la vista es forzada)
-        if (window.innerWidth > 768) {
-            localStorage.setItem('shopViewMode', newMode);
-        }
-    };
 
     const sortOptions = [
         { value: 'FEATURED', label: 'Destacados' },
