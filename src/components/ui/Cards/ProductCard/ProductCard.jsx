@@ -151,15 +151,19 @@ const ProductCard = ({ id, title, description, price, image, category, requested
 
             <div className={styles.info}>
                 <div className={styles.meta}>
-                    <span className={styles.categoryName}>{displayCategory}</span>
-                    <div className={styles.stars}>
+                    {/*<span className={styles.categoryName}>{displayCategory}</span>*/}
+                    {/* <div className={styles.stars}>
                         <FaStar /> <FaStar /> <FaStar /> <FaStar /> <FaStar />
-                    </div>
+                    </div> */}
                 </div>
                 
                 <Link href={finalHref}>
                     <h3 className={styles.title}>{title}</h3>
                 </Link>
+
+                <p className={styles.description}>
+                    {description || "Diseño exclusivo y personalizado creado a partir de la imaginación de la comunidad."}
+                </p>
                 
                 <div className={styles.priceRow}>
                     <span className={styles.price}>{price}</span>
