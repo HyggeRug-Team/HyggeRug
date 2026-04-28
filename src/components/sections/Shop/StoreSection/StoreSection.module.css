@@ -14,6 +14,12 @@
     align-items: center;
 }
 
+@media (max-width: 768px) {
+    .shopContainer {
+        padding: 0 16px;
+    }
+}
+
 /* 3-BLOCK CONTROLS */
 .threeBlockControls {
     display: flex;
@@ -419,7 +425,7 @@
 
     .gridView {
         grid-template-columns: repeat(2, 1fr);
-        gap: 15px;
+        gap: 10px;
     }
 }
 

@@ -98,7 +98,7 @@ export default function StoreSection({ products }) {
             setIsDesktop(width > 1024);
 
             if (width <= 768) {
-                setViewMode('list');
+                // Ya no forzamos 'list' por defecto para permitir que el usuario use el grid optimizado
             }
         };
 

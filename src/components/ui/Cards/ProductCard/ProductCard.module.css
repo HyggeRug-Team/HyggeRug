@@ -70,6 +70,11 @@
     color: #FFF;
     line-height: 1;
     letter-spacing: 0.5px;
+    /* Truncado para evitar solapamientos con el botón de wishlist */
+    max-width: 140px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .productBadge {
@@ -211,14 +216,45 @@
 
 /* Responsive adjustments */
 @media (max-width: 768px) {
+    .info {
+        padding: 12px;
+        gap: 6px;
+    }
     .title {
-        font-size: 1.1rem;
+        font-size: 0.95rem;
     }
     .price {
-        font-size: 1.2rem;
+        font-size: 1.1rem;
     }
     .requestedByBadge {
-        padding: 6px 10px;
+        top: 10px;
+        left: 10px;
+        padding: 4px 8px;
+    }
+    .requestedName {
+        font-size: 0.7rem;
+        max-width: 65px;
+    }
+    .requestedLabel {
+        font-size: 0.45rem;
+    }
+    .productBadge {
+        bottom: 10px;
+        left: 10px;
+        padding: 4px 10px;
+        font-size: 0.55rem;
+    }
+    .wishlistBtn {
+        top: 10px;
+        right: 10px;
+        width: 32px;
+        height: 32px;
+    }
+    .stars {
+        font-size: 0.6rem;
+    }
+    .categoryName {
+        font-size: 0.6rem;
     }
 }
 
