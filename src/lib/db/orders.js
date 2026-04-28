@@ -36,13 +36,12 @@ export async function createOrder(orderData) {
         // 3. Insertar todas las alfombras (items) asociadas al carrito/pedido
         for (const item of orderData.items) {
             await conn.query(`
-                INSERT INTO orders_items
-                    (order_id, product_size, custom_note, price, quantity, user_image, final_design)
-                VALUES (?, ?, ?, ?, ?, ?, ?)
+                INSERT INTO order_products
+                    (order_id, price, quantity, user_image, final_design)
+                VALUES (?, ?, ?, ?, ?)
             `, [
                 orderId,
                 item.productSize ?? null, // Texto del tamaño
-                item.customNote ?? null,  // Nota custom
                 item.price,               // Precio unitario
                 item.quantity ?? 1,
                 item.userImage ?? null,   
@@ -69,6 +68,7 @@ export async function createOrder(orderData) {
  */
 export async function getOrdersByUser(userId) {
     try {
+        // quantity INT NOT NULL DEFAULT 1
         const [rows] = await db.query(`
             SELECT
                 o.order_id,
@@ -77,15 +77,10 @@ export async function getOrdersByUser(userId) {
                 o.payment_method,
                 o.creation_date,
                 o.updated_date,
-                oi.item_id,
-                oi.product_size,
-                oi.custom_note,
-                oi.price          AS item_price,
-                oi.quantity,
-                oi.user_image,
-                oi.final_design
+                oi.product_id,
+                oi.quantity
             FROM orders o
-            LEFT JOIN orders_items   oi ON oi.order_id = o.order_id
+            LEFT JOIN order_product   oi ON oi.order_id = o.order_id
             WHERE o.user_id = ?
             ORDER BY o.creation_date DESC
         `, [userId]);
@@ -107,16 +102,13 @@ export async function getOrderById(orderId) {
                 o.order_id, o.user_id, o.address_id, o.total_amount, o.payment_id, o.payment_method, o.order_status, o.creation_date, o.updated_date,
                 ua.calle, ua.portal_piso_puerta, ua.ciudad,
                 ua.provincia, ua.codigo_postal, ua.pais, ua.phone_number,
-                oi.item_id,
-                oi.product_size,
-                oi.custom_note,
-                oi.price          AS item_price,
+                oi.product_id,
                 oi.quantity,
                 oi.user_image,
                 oi.final_design
             FROM orders o
             LEFT JOIN userAddresses   ua ON ua.address_id = o.address_id
-            LEFT JOIN orders_items    oi ON oi.order_id  = o.order_id
+            LEFT JOIN order_product    oi ON oi.order_id  = o.order_id
             WHERE o.order_id = ?
         `, [orderId]);
 
@@ -188,11 +180,9 @@ function groupOrderRows(rows) {
         }
 
         // Cada vez que lo vemos de nuevo o si es la 1°, apilamos el sub-item correspondiente (la alfombra comprada)
-        if (row.item_id) {
+        if (row.product_id) {
             ordersMap.get(row.order_id).items.push({
-                item_id:      row.item_id,
-                product_size: row.product_size, 
-                custom_note:  row.custom_note,
+                product_id:      row.product_id,
                 price:        row.item_price,
                 quantity:     row.quantity,
                 user_image:   row.user_image,
