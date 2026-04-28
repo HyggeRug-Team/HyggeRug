@@ -14,11 +14,13 @@
 
 import React, { useState, useMemo, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { FaMagnifyingGlass, FaChevronLeft, FaChevronRight, FaChevronDown, FaSliders, FaXmark } from 'react-icons/fa6';
+import { FaMagnifyingGlass, FaChevronLeft, FaChevronRight, FaSliders, FaXmark } from 'react-icons/fa6';
 import AnimatedGrid from '@/components/sections/Shop/AnimatedGrid/AnimatedGrid';
 import ProductCard from '@/components/ui/Cards/ProductCard/ProductCard';
 import CustomSelect from '@/components/ui/Inputs/CustomSelect/CustomSelect';
 import ViewToggle from '@/components/ui/Buttons/ViewToggle/ViewToggle';
+import PrimaryButton from '@/components/ui/Buttons/PrimaryButton/PrimaryButton';
+import { useIsTouchDevice } from '@/hooks/useIsTouchDevice';
 import styles from './StoreSection.module.css';
 
 function SidebarContent({ categories, filter, setFilter, isDesktop, setIsFilterOpen }) {
@@ -68,40 +70,53 @@ function SidebarContent({ categories, filter, setFilter, isDesktop, setIsFilterO
 }
 
 export default function StoreSection({ products }) {
+    const isTouch = useIsTouchDevice();
+    const sentinelRef = React.useRef(null);
+    const [isAtFooter, setIsAtFooter] = useState(false);
     const [filter, setFilter] = useState('TODOS');
     const [sort, setSort] = useState('FEATURED');
     const [searchQuery, setSearchQuery] = useState('');
     const [isFilterOpen, setIsFilterOpen] = useState(false);
-    // --- GESTIÓN DE VISTA INTELIGENTE ---
-    // Estado inicial neutro: 'grid' en todos los entornos (servidor y cliente)
-    // para evitar el mismatch de hidratación de Next.js.
     const [viewMode, setViewMode] = useState('grid');
     const [isDesktop, setIsDesktop] = useState(true);
     const [currentPage, setCurrentPage] = useState(1);
 
-    // Leer localStorage DESPUÉS de hidratar, para no romper SSR.
+    // Intersection Observer para detectar el final de la sección
+    useEffect(() => {
+        if (!isTouch || isDesktop) return;
+
+        const observer = new IntersectionObserver(
+            ([entry]) => {
+                // Si no hay productos filtrados, no ocultamos la barra (el usuario la necesita para limpiar la búsqueda)
+                if (filteredProducts.length === 0) {
+                    setIsAtFooter(false);
+                    return;
+                }
+                setIsAtFooter(entry.isIntersecting);
+            },
+            { threshold: 0.1 }
+        );
+
+        if (sentinelRef.current) {
+            observer.observe(sentinelRef.current);
+        }
+
+        return () => observer.disconnect();
+    }, [isTouch, isDesktop]);
+
     useEffect(() => {
         const saved = localStorage.getItem('shopViewMode');
         if (saved) setViewMode(saved);
     }, []);
 
-    // Sincronizamos con localStorage cada vez que cambia el estado.
     useEffect(() => {
         localStorage.setItem('shopViewMode', viewMode);
     }, [viewMode]);
 
-    // Listener de Redimensión: Cambia la vista dinámicamente.
-    // En móvil siempre forzamos 'list' ya que el toggle no está disponible.
     useEffect(() => {
         const handleResize = () => {
-            const width = window.innerWidth;
-            setIsDesktop(width > 1024);
-
-            if (width <= 768) {
-                // Ya no forzamos 'list' por defecto para permitir que el usuario use el grid optimizado
-            }
+            setIsDesktop(window.innerWidth > 1024);
         };
-
         handleResize();
         window.addEventListener('resize', handleResize);
         return () => window.removeEventListener('resize', handleResize);
@@ -148,36 +163,6 @@ export default function StoreSection({ products }) {
                     </span>
                 </div>
 
-                {/* BARRA DE CONTROLES */}
-                <div className={styles.threeBlockControls}>
-                    <div className={styles.controlBlockLeft}>
-                        <button 
-                            className={`${styles.openFilterBtn} ${isFilterOpen ? styles.btnActive : ''}`}
-                            onClick={() => setIsFilterOpen(true)}
-                        >
-                            <FaSliders className={styles.btnIconLeft} /> Filtro
-                        </button>
-                    </div>
-
-                    <div className={styles.controlBlockCenter}>
-                        <div className={styles.centerSearchBox}>
-                            <FaMagnifyingGlass className={styles.searchIconCenter} />
-                            <input 
-                                type="text"
-                                placeholder="Buscar diseños comunitarios..."
-                                value={searchQuery}
-                                onChange={e => setSearchQuery(e.target.value)}
-                                className={styles.searchInputCenter}
-                            />
-                        </div>
-                    </div>
-
-                    <div className={styles.controlBlockRight}>
-                        <CustomSelect value={sort} options={sortOptions} onChange={setSort} placeholder="Ordenar por" />
-                        <ViewToggle currentView={viewMode} onViewChange={setViewMode} />
-                    </div>
-                </div>
-
                 {/* SIDEBAR MÓVIL */}
                 <AnimatePresence>
                     {!isDesktop && isFilterOpen && (
@@ -203,7 +188,25 @@ export default function StoreSection({ products }) {
                     </AnimatePresence>
 
                     <div className={styles.gridSection}>
-                        <AnimatedGrid key={viewMode} items={paginatedProducts} ItemComponent={ProductCard} itemProps={{ viewMode }} className={viewMode === 'list' ? styles.listView : styles.gridView} />
+                        {filteredProducts.length > 0 ? (
+                            <AnimatedGrid 
+                                key={viewMode} 
+                                items={paginatedProducts} 
+                                ItemComponent={ProductCard} 
+                                itemProps={{ viewMode }} 
+                                className={viewMode === 'list' ? styles.listView : styles.gridView} 
+                            />
+                        ) : (
+                            <div className={styles.noResults}>
+                                <FaMagnifyingGlass className={styles.noResultsIcon} />
+                                <h3>No se han encontrado resultados</h3>
+                                <p>Prueba con otros términos o limpia los filtros para ver más diseños.</p>
+                                <PrimaryButton 
+                                    text="LIMPIAR TODO" 
+                                    onClick={() => { setSearchQuery(''); setFilter('TODOS'); }} 
+                                />
+                            </div>
+                        )}
 
                         {totalPages > 1 && (
                             <div className={styles.pagination}>
@@ -214,6 +217,83 @@ export default function StoreSection({ products }) {
                         )}
                     </div>
                 </div>
+
+                {/* BARRA DE CONTROLES (Flotante en touch, Estándar en escritorio) */}
+                <div className={
+                    (isTouch && !isDesktop) 
+                    ? `${styles.mobileFixedDock} ${isAtFooter ? styles.atFooter : ''}` 
+                    : styles.threeBlockControls
+                }>
+                    {(isTouch && !isDesktop) ? (
+                        <>
+                            <div className={styles.dockLeft}>
+                                <ViewToggle currentView={viewMode} onViewChange={setViewMode} />
+                            </div>
+
+                            <div className={styles.dockCenter}>
+                                <div className={styles.centerSearchBox}>
+                                    <FaMagnifyingGlass className={styles.searchIconCenter} />
+                                    <input 
+                                        type="text"
+                                        placeholder="Buscar..."
+                                        value={searchQuery}
+                                        onChange={e => setSearchQuery(e.target.value)}
+                                        className={styles.searchInputCenter}
+                                    />
+                                </div>
+                            </div>
+
+                            <div className={styles.dockRight}>
+                                <CustomSelect 
+                                    value={sort} 
+                                    options={sortOptions} 
+                                    onChange={setSort} 
+                                    placeholder="Ordenar" 
+                                    minimal={true}
+                                    direction="up"
+                                />
+                                <button 
+                                    className={`${styles.openFilterBtn} ${isFilterOpen ? styles.btnActive : ''}`}
+                                    onClick={() => setIsFilterOpen(true)}
+                                >
+                                    <FaSliders className={styles.btnIconLeft} />
+                                </button>
+                            </div>
+                        </>
+                    ) : (
+                        <>
+                            <div className={styles.controlBlockLeft}>
+                                <button 
+                                    className={`${styles.openFilterBtn} ${isFilterOpen ? styles.btnActive : ''}`}
+                                    onClick={() => setIsFilterOpen(true)}
+                                >
+                                    <FaSliders className={styles.btnIconLeft} /> Filtro
+                                </button>
+                            </div>
+
+                            <div className={styles.controlBlockCenter}>
+                                <div className={styles.centerSearchBox}>
+                                    <FaMagnifyingGlass className={styles.searchIconCenter} />
+                                    <input 
+                                        type="text"
+                                        placeholder="Buscar diseños..."
+                                        value={searchQuery}
+                                        onChange={e => setSearchQuery(e.target.value)}
+                                        className={styles.searchInputCenter}
+                                    />
+                                </div>
+                            </div>
+
+                            <div className={styles.controlBlockRight}>
+                                <CustomSelect value={sort} options={sortOptions} onChange={setSort} placeholder="Ordenar" />
+                                <ViewToggle currentView={viewMode} onViewChange={setViewMode} />
+                            </div>
+                        </>
+                    )}
+                </div>
+
+                {/* CENTINELA PARA DETECTAR EL FOOTER (Ahora oculta el dock) */}
+                <div ref={sentinelRef} className={styles.sentinel} />
             </div>
         </section>
     );

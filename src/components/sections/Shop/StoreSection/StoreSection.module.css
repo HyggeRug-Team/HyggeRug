@@ -1,324 +1,369 @@
 .storeSection {
-    position: relative;
-    padding: 40px 0 150px; /* Reducimos padding superior porque ya viene del Hero */
-    background: transparent;
-    z-index: 1;
+    width: 100%;
+    background-color: transparent;
+    padding: 60px 0 100px 0;
 }
 
 .shopContainer {
-    max-width: 1200px; /* Sincronizamos con el HeroWrapper */
+    max-width: 1200px;
     margin: 0 auto;
     padding: 0 40px;
     display: flex;
     flex-direction: column;
-    align-items: center;
+    min-height: 100vh;
+    position: relative; /* Necesario para posicionamiento absoluto al llegar al final */
 }
 
-@media (max-width: 1024px) {
-    .shopContainer {
-        padding: 0 16px;
-    }
+/* --- RESULTADOS --- */
+.resultsInfoBlock {
+    margin-bottom: 30px;
+    opacity: 0.8;
 }
 
-/* 3-BLOCK CONTROLS */
+.resultCountText {
+    font-size: 0.8rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: #FFF;
+}
+
+/* --- CONTROLES ESCRITORIO --- */
 .threeBlockControls {
     display: flex;
-    align-items: center;
     justify-content: space-between;
-    width: 100%;
-    margin-bottom: 40px;
-    gap: 20px;
-}
-
-.controlBlockLeft, .controlBlockRight {
-    flex: 1;
-    display: flex;
     align-items: center;
+    gap: 30px;
+    margin-bottom: 60px;
+    padding: 14px 28px;
+    background: rgba(255, 255, 255, 0.015);
+    backdrop-filter: blur(25px);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 24px;
+    order: -1; /* Sube al principio en escritorio */
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
 }
 
-.controlBlockLeft {
-    justify-content: flex-start;
-}
+.controlBlockLeft { display: flex; align-items: center; gap: 15px; }
+.controlBlockCenter { flex: 1; display: flex; justify-content: center; }
+.controlBlockRight { display: flex; align-items: center; gap: 20px; }
 
-.controlBlockRight {
-    justify-content: flex-end;
-    gap: 20px; /* Añadimos espacio entre el select y el toggle */
-}
-
-.controlBlockCenter {
-    flex: 1.5; /* Ajustamos un poco el balance para dar más aire */
-    display: flex;
-    justify-content: center;
-}
-
-/* LEFT: FILTRO BUTTON */
 .openFilterBtn {
     background: rgba(255, 255, 255, 0.05);
     border: 1px solid rgba(255, 255, 255, 0.1);
     color: #FFF;
-    font-size: 0.95rem;
-    font-weight: 800;
-    padding: 10px 22px;
+    padding: 10px 24px;
     border-radius: 99px;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    transition: all 0.3s;
-    letter-spacing: 0.5px;
-}
-
-.openFilterBtn:hover, .btnActive {
-    border-color: var(--highlight-text);
-    box-shadow: 0 0 15px rgba(255, 0, 85, 0.1);
-    background: rgba(255, 255, 255, 0.08);
-}
-
-.btnIconLeft {
-    font-size: 1.1rem;
-}
-
-/* SIDEBAR STYLES (REDESIGNED & PREMIUM) */
-.sidebarOverlay {
-    position: fixed;
-    top: 70px;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: rgba(0, 0, 0, 0.7);
-    z-index: 99998;
-    backdrop-filter: blur(8px);
-}
-
-.filterSidebar {
-    position: fixed;
-    top: 0;
-    left: 0;
-    bottom: 0;
-    width: 420px;
-    max-width: 85vw;
-    background: rgba(10, 10, 10, 0.7);
-    backdrop-filter: blur(50px) saturate(180%);
-    border-right: 1px solid rgba(255, 255, 255, 0.08);
-    color: #FFF;
-    z-index: 999999; /* Elevamos por encima del header */
-    box-shadow: 50px 0 100px rgba(0, 0, 0, 0.9);
-    display: flex;
-    flex-direction: column;
-}
-
-.sidebarHeader {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 40px 35px;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-}
-
-.sidebarTitle {
-    display: flex;
-    align-items: center;
-    gap: 15px;
-    font-size: 1.6rem;
-    font-weight: 900;
-    color: #FFF;
-    text-transform: uppercase;
-    letter-spacing: 3px;
-    font-family: var(--font-titles);
-}
-
-.closeSidebarBtn {
-    background: rgba(255, 255, 255, 0.03);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 50%;
-    width: 44px;
-    height: 44px;
-    cursor: pointer;
-    color: #FFF;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
-}
-
-.closeSidebarBtn:hover {
-    background: var(--highlight-text);
-    border-color: var(--highlight-text);
-    transform: rotate(90deg) scale(1.1);
-    box-shadow: 0 0 20px rgba(255, 0, 85, 0.4);
-}
-
-.sidebarContent {
-    flex: 1;
-    overflow-y: auto;
-    padding: 20px 0;
-}
-
-.sidebarSection {
-    margin-bottom: 20px;
-}
-
-.sidebarSectionTitle {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    padding: 20px 35px;
-    font-size: 0.75rem;
-    font-weight: 900;
-    color: var(--highlight-text);
-    text-transform: uppercase;
-    letter-spacing: 4px;
-    font-family: var(--font-titles);
-    opacity: 0.8;
-}
-
-.sidebarGrid {
-    padding: 10px 25px;
-    display: flex;
-    flex-wrap: wrap; /* Cambiamos a envolvente para botones tipo pill */
-    gap: 10px;
-}
-
-.sidebarBtn {
-    display: inline-flex;
-    align-items: center;
-    padding: 10px 20px;
-    border-radius: 12px;
-    background: rgba(255, 255, 255, 0.03);
-    border: 1px solid rgba(255, 255, 255, 0.06);
-    color: #999;
-    font-weight: 700;
     font-size: 0.85rem;
-    transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
-    cursor: pointer;
+    font-weight: 800;
     text-transform: uppercase;
-    letter-spacing: 1px;
-}
-
-.sidebarBtn:hover {
-    background: rgba(255, 255, 255, 0.08);
-    color: #FFF;
-    border-color: rgba(255, 255, 255, 0.15);
-    transform: translateY(-2px);
-}
-
-.sidebarBtnActive {
-    background: var(--highlight-text) !important;
-    color: #FFF !important;
-    border-color: var(--highlight-text) !important;
-    box-shadow: 0 8px 20px rgba(255, 0, 85, 0.3);
-    transform: translateY(-2px) scale(1.05);
-}
-
-/* CENTER: SEARCH */
-.centerSearchBox {
+    letter-spacing: 1.5px;
     display: flex;
     align-items: center;
+    gap: 12px;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.openFilterBtn:hover {
+    background: rgba(255, 255, 255, 0.08);
+    border-color: var(--highlight-text);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+}
+
+.centerSearchBox {
+    width: 100%;
+    max-width: 450px;
     background: rgba(255, 255, 255, 0.05);
     border: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: 99px;
-    padding: 10px 20px;
-    width: 100%;
-    max-width: 400px;
-    transition: all 0.3s;
+    padding: 10px 22px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .centerSearchBox:focus-within {
+    background: rgba(255, 255, 255, 0.08);
     border-color: var(--highlight-text);
     box-shadow: 0 0 15px rgba(255, 0, 85, 0.1);
-    background: rgba(255, 255, 255, 0.08);
+    max-width: 480px; /* Sutil expansión al enfocar */
 }
 
 .searchIconCenter {
-    color: #AAA;
-    font-size: 1.1rem;
-    margin-right: 12px;
+    color: #555;
+    font-size: 1rem;
+    transition: color 0.3s;
+}
+
+.centerSearchBox:focus-within .searchIconCenter {
+    color: var(--highlight-text);
 }
 
 .searchInputCenter {
     background: transparent;
     border: none;
     color: #FFF;
-    font-size: 0.95rem;
     width: 100%;
     outline: none;
+    font-size: 0.9rem;
     font-family: var(--font-body);
 }
 
 .searchInputCenter::placeholder {
-    color: #666;
+    color: #444;
 }
 
-/* MAIN SHOP LAYOUT */
+/* --- BARRA DE NAVEGACIÓN MÓVIL (Integrada en el fondo) --- */
+.mobileFixedDock {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    background: rgba(10, 10, 10, 0.85);
+    backdrop-filter: blur(40px) saturate(220%);
+    padding: 12px 20px calc(12px + env(safe-area-inset-bottom, 20px)) 20px;
+    border-top: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 28px 28px 0 0; /* Solo esquinas superiores redondeadas */
+    width: 100%;
+    box-shadow: 0 -10px 40px rgba(0, 0, 0, 0.6);
+    transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.atFooter {
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(100%);
+}
+
+.dockLeft { flex: 0; display: flex; align-items: center; }
+.dockCenter { flex: 1; display: flex; justify-content: center; min-width: 100px; }
+.dockRight { flex: 0; display: flex; align-items: center; gap: 8px; }
+
+/* Ajustes específicos para botones dentro del dock */
+.mobileFixedDock .openFilterBtn {
+    padding: 0;
+    width: 42px;
+    height: 42px;
+    background: rgba(255, 255, 255, 0.08);
+    border-radius: 50%;
+    border: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.mobileFixedDock .btnIconLeft {
+    font-size: 1.1rem;
+    margin: 0;
+}
+
+.mobileFixedDock .centerSearchBox {
+    background: rgba(255, 255, 255, 0.08);
+    padding: 8px 12px;
+    border-radius: 99px;
+    border: none;
+    width: 100%;
+}
+
+.sentinel {
+    height: 1px;
+    width: 100%;
+    margin-top: 50px;
+}
+
+/* --- GRID Y LAYOUT --- */
 .shopContentLayout {
     display: flex;
-    align-items: flex-start;
     width: 100%;
-    position: relative;
 }
 
-.inlineSidebar {
-    flex-shrink: 0;
-    overflow: hidden;
+.gridSection { 
+    flex: 1; 
+    width: 100%; 
+    min-height: 400px; /* Asegura espacio para el dock cuando no hay resultados */
 }
 
-.inlineSidebarInner {
-    width: 320px;
-    background: rgba(10, 10, 10, 0.4);
-    backdrop-filter: blur(25px);
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    border-radius: 20px;
-    color: #FFF;
+.noResults {
     display: flex;
     flex-direction: column;
-    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.05);
-    overflow: hidden;
-}
-
-.gridSection {
-    flex-grow: 1;
-    width: 100%;
-}
-
-.resultsInfoBlock {
-    margin-bottom: 40px;
+    align-items: center;
+    justify-content: center;
+    padding: 100px 20px;
     text-align: center;
-    width: 100%;
+    color: #FFF;
 }
 
-.resultCountText {
-    font-size: 0.9rem;
-    font-weight: 700;
+.noResultsIcon {
+    font-size: 3rem;
+    color: rgba(255, 255, 255, 0.1);
+    margin-bottom: 20px;
+}
+
+.noResults h3 {
+    font-size: 1.5rem;
+    font-weight: 800;
+    margin-bottom: 10px;
+}
+
+.noResults p {
     color: #666;
-    text-transform: uppercase;
-    letter-spacing: 1px;
+    max-width: 400px;
+    margin: 0 auto 30px;
 }
 
-/* GRID LAYOUT - 4 columnas en escritorio para densidad de contenido */
 .gridView {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     gap: 30px;
-    width: 100%;
-    margin: 0 auto;
 }
 
 .listView {
-    display: flex;
-    flex-direction: column;
-    gap: 25px;
-    width: 100%;
-    max-width: 850px;
-    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 40px;
 }
 
-/* PAGINATION */
-.pagination {
+@media (max-width: 1200px) { .gridView { grid-template-columns: repeat(3, 1fr); } }
+
+@media (max-width: 1024px) {
+    .shopContainer { padding: 0 20px; }
+    
+    .gridView {
+        grid-template-columns: repeat(2, 1fr) !important; /* FORZAMOS 2 POR FILA */
+        gap: 15px;
+    }
+
+    .listView {
+        grid-template-columns: 1fr !important;
+        gap: 25px;
+    }
+
+    .threeBlockControls {
+        /* En caso de que no sea touch pero sí pequeño */
+        flex-direction: column;
+        gap: 15px;
+    }
+}
+
+/* SIDEBARS */
+.inlineSidebar { overflow: hidden; }
+.inlineSidebarInner { width: 320px; }
+
+.sidebarOverlay {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0,0,0,0.8);
+    backdrop-filter: blur(10px);
+    z-index: 2000;
+}
+
+.filterSidebar {
+    position: fixed;
+    top: 0; left: 0; bottom: 0;
+    width: 85%;
+    max-width: 400px;
+    background: #0A0A0A;
+    z-index: 2001;
+    display: flex;
+    flex-direction: column;
+}
+
+.sidebarHeader {
+    padding: 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.sidebarTitle {
+    font-size: 1.2rem;
+    font-weight: 800;
     display: flex;
     align-items: center;
-    justify-content: center;
-    gap: 20px;
+    gap: 10px;
+    color: #FFF;
+}
+
+.closeSidebarBtn {
+    background: transparent;
+    border: none;
+    color: #666;
+    font-size: 1.5rem;
+    cursor: pointer;
+}
+
+.sidebarContent {
+    flex: 1;
+    overflow-y: auto;
+    padding: 30px;
+}
+
+.sidebarSectionTitle {
+    font-size: 0.75rem;
+    font-weight: 900;
+    color: #444;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 20px;
+}
+
+.sidebarGrid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.sidebarBtn {
+    padding: 10px 20px;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    color: #666;
+    border-radius: 99px;
+    font-size: 0.8rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.sidebarBtnActive {
+    background: #FFF;
+    color: #000;
+    border-color: #FFF;
+}
+
+.sidebarFooter {
+    padding: 30px;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.clearFiltersBtn {
+    width: 100%;
+    padding: 15px;
+    background: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: #555;
+    font-size: 0.7rem;
+    font-weight: 900;
+    letter-spacing: 2px;
+    border-radius: 10px;
+}
+
+/* PAGINACIÓN */
+.pagination {
     margin-top: 60px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
 }
 
 .pageBtn {
@@ -329,120 +374,16 @@
     height: 45px;
     border-radius: 50%;
     display: flex;
-    align-items: center;
     justify-content: center;
+    align-items: center;
     cursor: pointer;
     transition: all 0.3s;
 }
 
-.pageBtn:hover:not(:disabled) {
-    background: var(--highlight-text);
-    border-color: var(--highlight-text);
-    transform: scale(1.1);
-}
-
-.pageBtn:disabled {
-    opacity: 0.3;
-    cursor: not-allowed;
-}
+.pageBtn:disabled { opacity: 0.3; cursor: not-allowed; }
 
 .pageInfo {
-    font-size: 0.9rem;
+    font-size: 0.85rem;
+    color: #888;
     font-weight: 700;
-    color: #888;
-    letter-spacing: 1px;
-}
-
-@media (max-width: 1024px) {
-    .gridView {
-        grid-template-columns: repeat(2, 1fr);
-        gap: 15px;
-    }
-
-    .threeBlockControls {
-        display: grid;
-        grid-template-areas: 
-            "search search"
-            "filter sort"
-            "view view";
-        gap: 15px;
-        margin-bottom: 30px;
-        width: 100%;
-    }
-
-    /* BUSCADOR: Nivel 1 */
-    .controlBlockCenter {
-        grid-area: search;
-        width: 100%;
-    }
-
-    .centerSearchBox {
-        max-width: 100%;
-        background: rgba(255, 255, 255, 0.04);
-        border-radius: 12px;
-        padding: 10px 15px;
-    }
-
-    /* FILTRO: Nivel 2 Izquierda */
-    .controlBlockLeft {
-        grid-area: filter;
-        width: 100%;
-        justify-content: flex-start;
-    }
-
-    .openFilterBtn {
-        width: 100%;
-        justify-content: center;
-        padding: 10px;
-        font-size: 0.85rem;
-    }
-
-    /* ORDENAR Y VISTA: Nivel 2 Derecha y Nivel 3 */
-    .controlBlockRight {
-        grid-area: sort;
-        width: 100%;
-        display: contents;
-    }
-
-    .controlBlockRight > *:first-child { grid-area: sort; } 
-    .controlBlockRight > *:last-child { 
-        grid-area: view; 
-        justify-self: center; 
-        background: rgba(255,255,255,0.03);
-        padding: 5px 15px;
-        border-radius: 99px;
-    }
-}
-
-.sidebarFooter {
-    padding: 30px;
-    border-top: 1px solid rgba(255, 255, 255, 0.05);
-    background: rgba(255, 255, 255, 0.02);
-}
-
-.clearFiltersBtn {
-    width: 100%;
-    padding: 16px;
-    background: transparent;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    color: #888;
-    font-size: 0.75rem;
-    font-weight: 900;
-    letter-spacing: 2px;
-    cursor: pointer;
-    transition: all 0.3s;
-    border-radius: 8px;
-}
-
-.clearFiltersBtn:hover {
-    background: rgba(255, 255, 255, 0.05);
-    color: #FFF;
-    border-color: rgba(255, 255, 255, 0.3);
-}
-
-.sidebarPlaceholder {
-    padding: 0 35px;
-    color: #555;
-    font-size: 0.8rem;
-    font-style: italic;
 }

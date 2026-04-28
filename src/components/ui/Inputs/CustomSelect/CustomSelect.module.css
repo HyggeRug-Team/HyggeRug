@@ -82,3 +82,29 @@
     background: rgba(255, 0, 85, 0.1);
     color: var(--highlight-text);
 }
+
+/* Modo Minimalista */
+.minimal {
+    width: auto;
+}
+
+.minimal .customSelectBtn {
+    min-width: unset;
+    width: 42px;
+    height: 42px;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+}
+
+.minimal .selectIcon {
+    margin-left: 0;
+    font-size: 1rem;
+}
+
+.dropUp {
+    bottom: calc(100% + 15px);
+    top: auto !important;
+}
