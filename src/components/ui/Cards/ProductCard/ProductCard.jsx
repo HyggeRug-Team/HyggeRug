@@ -28,8 +28,9 @@ import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
-import { FaStar, FaRegHeart, FaHeart, FaCartPlus } from 'react-icons/fa6';
+import { FaStar, FaRegHeart, FaHeart, FaCartPlus, FaArrowRightLong } from 'react-icons/fa6';
 import { useIsTouchDevice } from '@/hooks/useIsTouchDevice';
+import SecondaryButton from '@/components/ui/Buttons/SecondaryButton/SecondaryButton';
 import styles from './ProductCard.module.css';
 
 const ProductCard = ({ id, title, description, price, image, category, requestedBy, viewMode, href }) => {
@@ -97,17 +98,28 @@ const ProductCard = ({ id, title, description, price, image, category, requested
                         </div>
                     </div>
                     
-                    <Link href={finalHref}>
-                        <h3 className={styles.listTitle}>{title}</h3>
-                    </Link>
+                    <div className={styles.headerMain}>
+                        <Link href={finalHref} className={styles.titleLink}>
+                            <h3 className={styles.listTitle}>{title}</h3>
+                        </Link>
+                        <span className={styles.price}>{price}</span>
+                    </div>
 
                     <p className={styles.listDescription}>
                         {description || "Diseño exclusivo y personalizado creado a partir de la imaginación de la comunidad."}
                     </p>
                     
-                    <div className={styles.priceRow}>
-                        <span className={styles.price}>{price}</span>
-                    </div>
+                    {/* En dispositivos táctiles (móvil/tablet), solo la flechita discreta */}
+                    {isTouch ? (
+                        <Link href={finalHref} className={styles.ctaMobileIcon}>
+                            <FaArrowRightLong />
+                        </Link>
+                    ) : (
+                        <Link href={finalHref} className={styles.cta}>
+                            <span>VER PRODUCTO</span>
+                            <FaArrowRightLong className={styles.ctaIcon} />
+                        </Link>
+                    )}
                 </div>
             </motion.div>
         );
@@ -145,34 +157,37 @@ const ProductCard = ({ id, title, description, price, image, category, requested
                     />
                 </Link>
 
-                <div className={styles.productBadge}>{displayCategory}</div>
+                {/* Overlay: Solo en escritorio (non-touch) para no agobiar */}
+                {!isTouch && (
+                    <div className={styles.imageOverlay}>
+                        <div className={styles.overlayCTA}>
+                            <span>VER PRODUCTO</span>
+                            <FaArrowRightLong className={styles.ctaIcon} />
+                        </div>
+                    </div>
+                )}
 
-                {/*<div className={`${styles.quickAdd} ${isTouch ? styles.isTouch : ''}`}>
-                    <button className={styles.quickAddBtn}>
-                        <FaCartPlus />
-                    </button>
-                </div>*/}
+                <div className={styles.productBadge}>{displayCategory}</div>
             </div>
 
             <div className={styles.info}>
-                <div className={styles.meta}>
-                    {/*<span className={styles.categoryName}>{displayCategory}</span>*/}
-                    {/* <div className={styles.stars}>
-                        <FaStar /> <FaStar /> <FaStar /> <FaStar /> <FaStar />
-                    </div> */}
+                <div className={styles.headerMain}>
+                    <Link href={finalHref} className={styles.titleLink}>
+                        <h3 className={styles.title}>{title}</h3>
+                    </Link>
+                    <span className={styles.price}>{price}</span>
                 </div>
-                
-                <Link href={finalHref}>
-                    <h3 className={styles.title}>{title}</h3>
-                </Link>
 
                 <p className={styles.description}>
                     {description || "Diseño exclusivo y personalizado creado a partir de la imaginación de la comunidad."}
                 </p>
-                
-                <div className={styles.priceRow}>
-                    <span className={styles.price}>{price}</span>
-                </div>
+
+                {/* En dispositivos táctiles (móvil/tablet), solo la flechita discreta */}
+                {isTouch && (
+                    <Link href={finalHref} className={styles.ctaMobileIcon}>
+                        <FaArrowRightLong />
+                    </Link>
+                )}
             </div>
         </motion.div>
     );

@@ -18,20 +18,25 @@ import React from 'react'
 import styles from './SecondaryButton.module.css'
 import { sanitizeHref } from '@/lib/url';
 
-function SecondaryButton({ text, url = "#", Icon, onClick }) {
-    const safeHref = sanitizeHref(url);
+function SecondaryButton({ text, url, Icon, onClick, className }) {
+    const combinedClassName = `${styles.secondaryBtn} ${className || ''}`;
 
-    return (
-            <a 
-                href={safeHref} 
-                className={styles.secondaryBtn} 
-                onClick={onClick}
-            >
+    if (url) {
+        const safeHref = sanitizeHref(url);
+        return (
+            <a href={safeHref} className={combinedClassName} onClick={onClick}>
                 <span>{text}</span>
                 {Icon && <Icon size={18} />}
             </a>
+        );
+    }
 
-    )
+    return (
+        <button type="button" className={combinedClassName} onClick={onClick}>
+            <span>{text}</span>
+            {Icon && <Icon size={18} />}
+        </button>
+    );
 }
 
 export default SecondaryButton

@@ -54,11 +54,12 @@ export default async function FeaturedDrops() {
                         drops.map((drop) => (
                             <ProductCard
                                 key={drop.product_id}
+                                id={drop.product_id}
                                 title={drop.name}
+                                description={drop.description}
                                 price={`${parseFloat(drop.base_price).toFixed(2)}€`}
-                                status="DISPONIBLE"
                                 image={drop.main_image ?? '/rug-mario.png'}
-                                category=""
+                                category={drop.category}
                             />
                         ))
                     ) : (

@@ -12,6 +12,9 @@
   display: flex;
   flex-direction: column;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+  cursor: pointer;
+  height: 100%;
+  min-height: 100%; /* Asegura que se estire en el grid */
 }
 
 .card:hover {
@@ -120,24 +123,55 @@
   transform: scale(1.1) rotate(5deg);
 }
 
-.quickAdd {
-  position: absolute;
-  bottom: 16px;
-  right: 16px;
-  z-index: 5;
-  transform: translateY(30px) scale(0.8);
-  opacity: 0;
-  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-}
-
-.card:hover .quickAdd {
-  transform: translateY(0) scale(1);
-  opacity: 1;
-}
-
 .isTouch {
   opacity: 1 !important;
   transform: translateY(0) scale(1) !important;
+}
+
+.imageOverlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(4px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  opacity: 0;
+  transition: all 0.4s ease;
+  z-index: 5;
+  pointer-events: none;
+}
+
+.card:hover .imageOverlay {
+  opacity: 1;
+}
+
+.overlayCTA {
+  background: var(--white);
+  color: var(--black);
+  padding: 12px 24px;
+  border-radius: 99px;
+  font-size: 0.75rem;
+  font-weight: 900;
+  letter-spacing: 2px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  transform: translateY(20px);
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+}
+
+.card:hover .overlayCTA {
+  transform: translateY(0);
+}
+
+.overlayCTA .ctaIcon {
+  color: var(--highlight-text);
+  font-size: 1rem;
 }
 
 .quickAddBtn {
@@ -166,7 +200,8 @@
   background: linear-gradient(to bottom, #0d0d0d, #080808);
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  flex: 1; /* Ocupa el espacio restante */
+  gap: 8px;
 }
 
 .meta {
@@ -192,13 +227,24 @@
 
 .title {
   font-family: var(--font-body);
-  font-size: 1.2rem;
+  font-size: 1.15rem;
   font-weight: 800;
   color: #fff;
   margin: 0;
-  line-height: 1.3;
+  line-height: 1.2;
   transition: color 0.3s ease;
-  cursor: pointer;
+}
+
+.headerMain {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.titleLink {
+  flex: 1;
+  text-decoration: none;
 }
 
 .title:hover {
@@ -215,21 +261,68 @@
   -webkit-box-orient: vertical;
   overflow: hidden;
   font-weight: 400;
+  min-height: 2.6rem; /* Altura fija para 2 líneas */
 }
 
-.priceRow {
+.cta {
+  margin-top: auto;
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  margin-top: 5px;
+  justify-content: center;
+  gap: 10px;
+  padding: 12px 20px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  text-decoration: none;
+  transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+  color: #fff;
+  font-size: 0.75rem;
+  font-weight: 900;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+/* Estilo para la flechita discreta en móvil/tablet */
+.ctaMobileIcon {
+  margin-top: auto;
+  align-self: flex-end;
+  color: var(--highlight-text);
+  font-size: 1.1rem;
+  padding: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.3s ease;
+}
+
+.ctaMobileIcon:active {
+  transform: translateX(5px);
+}
+
+.ctaIcon {
+  font-size: 0.9rem;
+  color: var(--highlight-text);
+  transition: transform 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+}
+
+.cta:hover {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: var(--highlight-text);
+  box-shadow: 0 0 20px rgba(255, 0, 85, 0.15);
+  transform: translateY(-2px);
+}
+
+.cta:hover .ctaIcon {
+  transform: translateX(6px);
 }
 
 .price {
-  font-size: 1.3rem;
+  font-size: 1.15rem;
   font-weight: 900;
   color: var(--hover-text);
   font-family: var(--font-titles);
-  text-shadow: 2px 2px 0px rgba(0, 0, 0, 0.5);
+  white-space: nowrap;
 }
 
 /* Responsive adjustments */
@@ -239,14 +332,14 @@
     gap: 6px;
   }
   .title {
-    font-size: 0.95rem;
+    font-size: 0.9rem;
   }
   .description {
     font-size: 0.75rem;
     -webkit-line-clamp: 1;
   }
   .price {
-    font-size: 1.1rem;
+    font-size: 1rem;
   }
   .requestedByBadge {
     top: 10px;
@@ -278,9 +371,14 @@
   .categoryName {
     font-size: 0.6rem;
   }
-  .quickAdd {
-    bottom: 12px;
-    right: 12px;
+  .cta {
+    padding: 10px;
+    font-size: 0.7rem;
+    letter-spacing: 1.5px;
+    margin-top: 8px;
+  }
+  .ctaIcon {
+    font-size: 0.8rem;
   }
   .quickAddBtn {
     width: 40px;
@@ -324,12 +422,12 @@
   font-weight: 800;
   color: #fff;
   margin: 0;
-  line-height: 1.3;
+  line-height: 1.2;
   transition: color 0.3s ease;
-  cursor: pointer;
 }
 
-.listTitle:hover {
+.listTitle:hover,
+.title:hover {
   color: var(--highlight-text);
 }
 

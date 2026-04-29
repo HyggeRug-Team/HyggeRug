@@ -22,12 +22,14 @@ import React from 'react'
 import styles from './PrimaryButton.module.css'
 import { sanitizeHref } from '@/lib/url';
 
-function PrimaryButton({ text, url, Icon, onClick }) {
+function PrimaryButton({ text, url, Icon, onClick, className }) {
+    const combinedClassName = `${styles.primaryBtn} ${className || ''}`;
+
     // Si tiene url, es un enlace de navegación
     if (url) {
         const safeHref = sanitizeHref(url);
         return (
-            <a href={safeHref} className={styles.primaryBtn} onClick={onClick}>
+            <a href={safeHref} className={combinedClassName} onClick={onClick}>
                 {Icon && <Icon size={18} />}
                 <span>{text}</span>
             </a>
@@ -36,7 +38,7 @@ function PrimaryButton({ text, url, Icon, onClick }) {
 
     // Si no tiene url, es una acción en página — renderizamos button
     return (
-        <button type="button" className={styles.primaryBtn} onClick={onClick}>
+        <button type="button" className={combinedClassName} onClick={onClick}>
             {Icon && <Icon size={18} />}
             <span>{text}</span>
         </button>

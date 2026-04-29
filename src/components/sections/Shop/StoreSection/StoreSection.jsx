@@ -20,6 +20,7 @@ import ProductCard from '@/components/ui/Cards/ProductCard/ProductCard';
 import CustomSelect from '@/components/ui/Inputs/CustomSelect/CustomSelect';
 import ViewToggle from '@/components/ui/Buttons/ViewToggle/ViewToggle';
 import PrimaryButton from '@/components/ui/Buttons/PrimaryButton/PrimaryButton';
+import Breadcrumbs from '@/components/ui/Breadcrumbs/Breadcrumbs';
 import { useIsTouchDevice } from '@/hooks/useIsTouchDevice';
 import styles from './StoreSection.module.css';
 
@@ -155,6 +156,7 @@ export default function StoreSection({ products }) {
     return (
         <section className={styles.storeSection}>
             <div className={styles.shopContainer}>
+                <Breadcrumbs items={[{ label: 'Diseños de la comunidad' }]} />
                 
                 {/* TEXTO DE RESULTADOS */}
                 <div className={styles.resultsInfoBlock}>

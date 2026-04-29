@@ -12,17 +12,18 @@
  * 3. Branding: Resalta la categoría del producto con un estilo coherente.
  */
 import React from 'react';
-import Link from 'next/link';
-import { FaArrowRight } from 'react-icons/fa6';
+import Breadcrumbs from '@/components/ui/Breadcrumbs/Breadcrumbs';
 import styles from './product.module.css';
 
 export default function ProductHeader({ product }) {
+    const breadcrumbItems = [
+        { label: 'Diseños de la comunidad', href: '/tienda' },
+        { label: product.name }
+    ];
+
     return (
         <header className={styles.productHeader}>
-            <nav className={styles.breadcrumbs}>
-                <Link href="/tienda" className={styles.bLink}>Diseños de la comunidad</Link> <FaArrowRight className={styles.bIcon} /> 
-                <span className={styles.current}>{product.name}</span>
-            </nav>
+            <Breadcrumbs items={breadcrumbItems} />
             <h1 className={styles.title}>{product.name}</h1>
             <div className={styles.brandRow}>
                 <span className={styles.brandTag}>{product.category}</span>
