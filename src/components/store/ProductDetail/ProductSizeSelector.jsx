@@ -16,7 +16,7 @@
 import React, { useState, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { FaChevronDown } from 'react-icons/fa6';
-import styles from '@/app/(main)/tienda/[id]/product.module.css';
+import styles from './product.module.css';
 
 export default function ProductSizeSelector({ sizes, selectedSize, setSelectedSize }) {
     const [expandedCategory, setExpandedCategory] = useState(false);

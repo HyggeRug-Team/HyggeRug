@@ -14,7 +14,7 @@
 import React from 'react';
 import Link from 'next/link';
 import { FaArrowRight } from 'react-icons/fa6';
-import styles from '@/app/(main)/tienda/[id]/product.module.css';
+import styles from './product.module.css';
 
 export default function ProductHeader({ product }) {
     return (

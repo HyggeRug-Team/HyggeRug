@@ -11,7 +11,7 @@
  * 2. Dinamismo: Se actualiza instantáneamente cuando el usuario cambia de talla.
  */
 import React from 'react';
-import styles from '@/app/(main)/tienda/[id]/product.module.css';
+import styles from './product.module.css';
 
 export default function ProductPrice({ basePrice, selectedSizePrice }) {
     const formatPrice = (p) => `${parseFloat(p).toFixed(2)}€`;

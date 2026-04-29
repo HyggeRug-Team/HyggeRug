@@ -11,7 +11,7 @@
  * 2. Modularidad: Separa la descripción del resto de la lógica de compra.
  */
 import React from 'react';
-import styles from '@/app/(main)/tienda/[id]/product.module.css';
+import styles from './product.module.css';
 
 export default function ProductDescription({ description }) {
     return (

@@ -13,23 +13,15 @@ export default function ProductDetailClient({ product }) {
     const [selectedSize, setSelectedSize] = useState(product.sizes?.[0] || null);
     const [quantity, setQuantity] = useState(1);
 
-    const handleAddToCart = () => {
-        console.log('Añadido a la cesta', { 
-            productId: product.id, 
-            name: product.name, 
-            size: selectedSize, 
-            quantity 
-        });
-    };
 
     return (
         <main className={styles.productWrapper}>
             <div className={styles.productContainer}>
-                
+
                 <ProductHeader product={product} />
 
                 <div className={styles.mainGrid}>
-                    
+
                     {/* COLUMNA IZQUIERDA: VISUAL */}
                     <section className={styles.visualCol}>
                         <ProductGallery product={product} />
@@ -39,22 +31,23 @@ export default function ProductDetailClient({ product }) {
                     {/* COLUMNA DERECHA: COMPRA (STICKY) */}
                     <aside className={styles.purchaseCol}>
                         <div className={styles.purchaseCard}>
-                            
-                            <ProductPrice 
-                                basePrice={product.basePrice} 
-                                selectedSizePrice={selectedSize?.price} 
+
+                            <ProductPrice
+                                basePrice={product.basePrice}
+                                selectedSizePrice={selectedSize?.price}
                             />
 
-                            <ProductSizeSelector 
-                                sizes={product.sizes || []} 
-                                selectedSize={selectedSize} 
-                                setSelectedSize={setSelectedSize} 
+                            <ProductSizeSelector
+                                sizes={product.sizes || []}
+                                selectedSize={selectedSize}
+                                setSelectedSize={setSelectedSize}
                             />
 
-                            <ProductBuyActions 
-                                quantity={quantity} 
-                                setQuantity={setQuantity} 
-                                onAdd={handleAddToCart} 
+                            <ProductBuyActions
+                                productId={product.id}
+                                selectedSize={selectedSize}
+                                quantity={quantity}
+                                setQuantity={setQuantity}
                             />
 
                         </div>

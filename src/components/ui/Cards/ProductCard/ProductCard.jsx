@@ -78,11 +78,14 @@ const ProductCard = ({ id, title, description, price, image, category, requested
 
                     <div className={styles.productBadge}>{displayCategory}</div>
 
+                    {/*
+
                     <div className={`${styles.quickAdd} ${isTouch ? styles.isTouch : ''}`}>
                         <button className={styles.quickAddBtn}>
                             <FaCartPlus />
                         </button>
                     </div>
+                    */}
                 </div>
                 
                 {/* LADO DERECHO: INFO */}
@@ -144,11 +147,11 @@ const ProductCard = ({ id, title, description, price, image, category, requested
 
                 <div className={styles.productBadge}>{displayCategory}</div>
 
-                <div className={`${styles.quickAdd} ${isTouch ? styles.isTouch : ''}`}>
+                {/*<div className={`${styles.quickAdd} ${isTouch ? styles.isTouch : ''}`}>
                     <button className={styles.quickAddBtn}>
                         <FaCartPlus />
                     </button>
-                </div>
+                </div>*/}
             </div>
 
             <div className={styles.info}>

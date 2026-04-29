@@ -17,7 +17,7 @@ import React, { useState } from 'react';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
 import { FaHeart, FaRegHeart, FaShareNodes } from 'react-icons/fa6';
-import styles from '@/app/(main)/tienda/[id]/product.module.css';
+import styles from './product.module.css';
 
 export default function ProductGallery({ product }) {
     const [isFavorite, setIsFavorite] = useState(false);

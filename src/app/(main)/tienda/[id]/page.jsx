@@ -5,7 +5,7 @@
 import React from 'react';
 import { notFound } from 'next/navigation';
 import { getProductWithSizes } from '@/lib/db/products';
-import ProductDetailClient from './ProductDetailClient';
+import ProductDetailClient from '../../../../components/store/ProductDetail/ProductDetailClient';
 
 export default async function ProductPage({ params }) {
     const { id } = await params;
