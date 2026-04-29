@@ -91,33 +91,40 @@ const ProductCard = ({ id, title, description, price, image, category, requested
                 
                 {/* LADO DERECHO: INFO */}
                 <div className={styles.listInfo}>
-                    <div className={styles.meta}>
-                        <span className={styles.categoryName}>{displayCategory}</span>
-                        <div className={styles.stars}>
-                            <FaStar /> <FaStar /> <FaStar /> <FaStar /> <FaStar />
+                    <div className={styles.infoContent}>
+                        <div className={styles.meta}>
+                            <span className={styles.categoryName}>{displayCategory}</span>
+                            <div className={styles.stars}>
+                                <FaStar /> <FaStar /> <FaStar /> <FaStar /> <FaStar />
+                            </div>
                         </div>
-                    </div>
-                    
-                    <div className={styles.headerMain}>
-                        <Link href={finalHref} className={styles.titleLink}>
-                            <h3 className={styles.listTitle}>{title}</h3>
-                        </Link>
-                        <span className={styles.price}>{price}</span>
+                        
+                        <div className={styles.headerMain}>
+                            <Link href={finalHref} className={styles.titleLink}>
+                                <h3 className={styles.listTitle}>{title}</h3>
+                            </Link>
+                            <span className={styles.price}>{price}</span>
+                        </div>
+
+                        <p className={styles.listDescription}>
+                            {description || "Diseño exclusivo y personalizado creado a partir de la imaginación de la comunidad."}
+                        </p>
                     </div>
 
-                    <p className={styles.listDescription}>
-                        {description || "Diseño exclusivo y personalizado creado a partir de la imaginación de la comunidad."}
-                    </p>
-                    
-                    {/* En dispositivos táctiles (móvil/tablet), solo la flechita discreta */}
-                    {isTouch ? (
+                    {/* Overlay en la INFO para escritorio */}
+                    {!isTouch && (
+                        <div className={styles.infoOverlay}>
+                            <Link href={finalHref} className={styles.overlayCTA}>
+                                <span>VER PRODUCTO</span>
+                                <FaArrowRightLong className={styles.ctaIcon} />
+                            </Link>
+                        </div>
+                    )}
+
+                    {/* Flecha móvil */}
+                    {isTouch && (
                         <Link href={finalHref} className={styles.ctaMobileIcon}>
                             <FaArrowRightLong />
-                        </Link>
-                    ) : (
-                        <Link href={finalHref} className={styles.cta}>
-                            <span>VER PRODUCTO</span>
-                            <FaArrowRightLong className={styles.ctaIcon} />
                         </Link>
                     )}
                 </div>
@@ -157,30 +164,32 @@ const ProductCard = ({ id, title, description, price, image, category, requested
                     />
                 </Link>
 
-                {/* Overlay: Solo en escritorio (non-touch) para no agobiar */}
-                {!isTouch && (
-                    <div className={styles.imageOverlay}>
-                        <div className={styles.overlayCTA}>
-                            <span>VER PRODUCTO</span>
-                            <FaArrowRightLong className={styles.ctaIcon} />
-                        </div>
-                    </div>
-                )}
-
                 <div className={styles.productBadge}>{displayCategory}</div>
             </div>
 
             <div className={styles.info}>
-                <div className={styles.headerMain}>
-                    <Link href={finalHref} className={styles.titleLink}>
-                        <h3 className={styles.title}>{title}</h3>
-                    </Link>
-                    <span className={styles.price}>{price}</span>
+                <div className={styles.infoContent}>
+                    <div className={styles.headerMain}>
+                        <Link href={finalHref} className={styles.titleLink}>
+                            <h3 className={styles.title}>{title}</h3>
+                        </Link>
+                        <span className={styles.price}>{price}</span>
+                    </div>
+
+                    <p className={styles.description}>
+                        {description || "Diseño exclusivo y personalizado creado a partir de la imaginación de la comunidad."}
+                    </p>
                 </div>
 
-                <p className={styles.description}>
-                    {description || "Diseño exclusivo y personalizado creado a partir de la imaginación de la comunidad."}
-                </p>
+                {/* Overlay en la INFO para escritorio: Blur y Botón */}
+                {!isTouch && (
+                    <div className={styles.infoOverlay}>
+                        <Link href={finalHref} className={styles.overlayCTA}>
+                            <span>VER PRODUCTO</span>
+                            <FaArrowRightLong className={styles.ctaIcon} />
+                        </Link>
+                    </div>
+                )}
 
                 {/* En dispositivos táctiles (móvil/tablet), solo la flechita discreta */}
                 {isTouch && (

@@ -128,41 +128,44 @@
   transform: translateY(0) scale(1) !important;
 }
 
-.imageOverlay {
+.infoOverlay {
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0, 0, 0, 0.4);
-  backdrop-filter: blur(4px);
+  background: rgba(13, 13, 13, 0.4);
+  backdrop-filter: blur(10px);
   display: flex;
   justify-content: center;
   align-items: center;
   opacity: 0;
   transition: all 0.4s ease;
   z-index: 5;
-  pointer-events: none;
+  padding: 20px;
 }
 
-.card:hover .imageOverlay {
+.card:hover .infoOverlay {
   opacity: 1;
 }
 
 .overlayCTA {
-  background: var(--white);
-  color: var(--black);
-  padding: 12px 24px;
+  background: var(--highlight-text); /* Rosa Neón de la marca */
+  color: #fff; /* Letras blancas */
+  padding: 10px 24px;
   border-radius: 99px;
-  font-size: 0.75rem;
+  font-family: var(--font-body);
+  font-size: 0.8rem;
   font-weight: 900;
-  letter-spacing: 2px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
   display: flex;
   align-items: center;
-  gap: 12px;
-  transform: translateY(20px);
+  gap: 8px;
+  transform: translateY(10px);
   transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 10px 20px rgba(255, 0, 85, 0.3);
+  text-decoration: none;
 }
 
 .card:hover .overlayCTA {
@@ -170,8 +173,8 @@
 }
 
 .overlayCTA .ctaIcon {
-  color: var(--highlight-text);
-  font-size: 1rem;
+  color: #fff;
+  font-size: 0.9rem;
 }
 
 .quickAddBtn {
@@ -196,12 +199,22 @@
 }
 
 .info {
+  position: relative; /* Necesario para el overlay absoluto */
   padding: 20px;
   background: linear-gradient(to bottom, #0d0d0d, #080808);
   display: flex;
   flex-direction: column;
-  flex: 1; /* Ocupa el espacio restante */
+  flex: 1;
   gap: 8px;
+  overflow: hidden; /* Evita que el blur se salga */
+}
+
+.infoContent {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
+  height: 100%;
 }
 
 .meta {
@@ -238,7 +251,7 @@
 .headerMain {
   display: flex;
   justify-content: space-between;
-  align-items: flex-start;
+  align-items: center;
   gap: 12px;
 }
 
@@ -287,7 +300,7 @@
 .ctaMobileIcon {
   margin-top: auto;
   align-self: flex-end;
-  color: var(--highlight-text);
+  color: var(--highlight-text); /* Rosa Neón consistente */
   font-size: 1.1rem;
   padding: 5px;
   display: flex;
@@ -407,6 +420,7 @@
 }
 
 .listInfo {
+  position: relative;
   flex: 1;
   padding: 25px 35px;
   background: linear-gradient(to right, #0d0d0d, #050505);
@@ -414,6 +428,7 @@
   flex-direction: column;
   justify-content: center;
   gap: 15px;
+  overflow: hidden;
 }
 
 .listTitle {
