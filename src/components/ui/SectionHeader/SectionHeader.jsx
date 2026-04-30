@@ -19,6 +19,7 @@
  *    componente ya sabe que debe aparecer suavemente cuando el usuario hace scroll 
  *    hacia él, manteniendo la coherencia visual en todo el sitio.
  */
+"use client";
 import React from "react";
 import styles from "./SectionHeader.module.css";
 import { motion } from "framer-motion";

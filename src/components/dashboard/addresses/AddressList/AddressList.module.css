@@ -1,11 +1,17 @@
 .actionsBar{
     margin-bottom: 20px;
 }
-/* Grid responsive: columnas de mínimo 320px, se ajustan al espacio disponible */
 .addressGrid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
     gap: 25px;
+}
+
+@media (max-width: 480px) {
+    .addressGrid {
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
 }
 
 /* Estado vacío: ocupa todo el ancho del grid */

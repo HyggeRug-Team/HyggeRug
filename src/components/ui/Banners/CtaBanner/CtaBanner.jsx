@@ -10,6 +10,7 @@
  * Usamos un componente único para que la UI sea consistente y para evitar repetir el mismo bloque
  * en varias páginas.
  */
+"use client";
 import React from "react";
 import styles from "./CtaBanner.module.css";
 import { motion } from "framer-motion";
