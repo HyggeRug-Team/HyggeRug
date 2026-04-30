@@ -1,22 +1,162 @@
 /* ============================================
-   DESEOS PAGE - CSS
+   DESEOS PAGE - DASHBOARD INTEGRATED STYLE
    ============================================ */
 
-.container {
-  max-width: 1400px;
-  margin: 0 auto;
-  padding: 20px;
+.dashboardContainer {
+    max-width: 1400px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 50px;
+    padding: 30px 20px 50px;
 }
 
-.pageTitle {
-  font-family: var(--font-titles);
-  color: var(--primary-text);
-  font-size: 2rem;
-  margin-bottom: 30px;
+.headerSection {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    padding-bottom: 30px;
+    border-bottom: 3px solid rgba(255, 255, 255, 0.1);
+}
+
+.greeting h1 {
+    font-family: var(--font-titles);
+    font-size: clamp(2.5rem, 5vw, 4rem);
+    margin: 0;
+    line-height: 0.9;
+    color: var(--white);
+    text-shadow: 4px 4px 0px var(--highlight-text); 
+}
+
+.greeting p {
+    color: var(--grey-400);
+    font-size: 1.1rem;
+    margin-top: 15px;
+    font-weight: 300;
 }
 
 .wishlistGrid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 25px;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 30px;
+}
+
+/* Empty State - Estilo dashboard */
+.emptyStateCard {
+    grid-column: 1 / -1;
+    background: rgba(255, 255, 255, 0.02);
+    border: 3px dashed rgba(255,255,255,0.05);
+    border-radius: 30px;
+    padding: 100px 20px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    position: relative;
+    overflow: hidden;
+}
+
+.emptyIcon {
+    font-size: 5rem;
+    filter: drop-shadow(0 0 15px var(--highlight-text));
+    animation: heartBeat 2s infinite ease-in-out;
+}
+
+@keyframes heartBeat {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+}
+
+.emptyTitle {
+    font-family: var(--font-titles);
+    color: var(--white);
+    font-size: 2rem;
+    margin: 0;
+}
+
+.emptyStateCard p {
+    color: var(--grey-500);
+    max-width: 450px;
+    margin-bottom: 10px;
+}
+
+.exploreBtn {
+    background: var(--highlight-text);
+    color: var(--white);
+    padding: 14px 35px;
+    border-radius: 50px;
+    font-family: var(--font-body);
+    font-weight: 800;
+    font-size: 0.9rem;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    border: 3px solid #000;
+    box-shadow: 5px 5px 0px #000;
+}
+
+.exploreBtn:hover {
+    transform: translate(-3px, -3px);
+    box-shadow: 8px 8px 0px #000;
+    background-color: var(--hover-text);
+    color: #000;
+}
+
+/* Loading State */
+.loadingState {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 100px 20px;
+    gap: 20px;
+}
+
+.loader {
+    width: 50px;
+    height: 50px;
+    border: 5px solid var(--highlight-text);
+    border-bottom-color: transparent;
+    border-radius: 50%;
+    animation: rotation 1s linear infinite;
+}
+
+@keyframes rotation {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* RESPONSIVE */
+@media (max-width: 1024px) {
+    .dashboardContainer {
+        gap: 30px;
+    }
+}
+
+@media (max-width: 768px) {
+    .headerSection {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 25px;
+        padding-bottom: 25px;
+    }
+
+    .greeting h1 {
+        font-size: 2.8rem;
+    }
+
+    .wishlistGrid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+
+    .emptyStateCard {
+        padding: 60px 20px;
+    }
+
+    .emptyTitle {
+        font-size: 1.5rem;
+    }
 }
