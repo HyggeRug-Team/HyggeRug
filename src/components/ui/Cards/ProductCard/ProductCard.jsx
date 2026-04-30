@@ -33,8 +33,21 @@ import { useIsTouchDevice } from '@/hooks/useIsTouchDevice';
 import SecondaryButton from '@/components/ui/Buttons/SecondaryButton/SecondaryButton';
 import styles from './ProductCard.module.css';
 
-const ProductCard = ({ id, title, description, price, image, category, requestedBy, viewMode, href }) => {
-    const [isFavorite, setIsFavorite] = React.useState(false);
+const ProductCard = ({ 
+    id, 
+    title, 
+    description, 
+    price, 
+    image, 
+    category, 
+    requestedBy, 
+    viewMode, 
+    href,
+    initialIsFavorite = false,
+    onFavoriteToggle = null 
+}) => {
+    const [isFavorite, setIsFavorite] = React.useState(initialIsFavorite);
+    const [loading, setLoading] = React.useState(false);
     const isTouch = useIsTouchDevice();
 
     // Fallbacks profesionales
@@ -43,6 +56,39 @@ const ProductCard = ({ id, title, description, price, image, category, requested
     const finalHref = href || `/tienda/${id}`;
 
     const isList = viewMode === 'list';
+
+    const toggleFavorite = async (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        
+        if (loading) return;
+        setLoading(true);
+
+        const action = isFavorite ? 'remove' : 'add';
+
+        try {
+            const res = await fetch('/api/wishlist', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ productId: id, action })
+            });
+
+            if (res.status === 401) {
+                alert('Debes iniciar sesión para guardar favoritos');
+                return;
+            }
+
+            if (res.ok) {
+                const newStatus = !isFavorite;
+                setIsFavorite(newStatus);
+                if (onFavoriteToggle) onFavoriteToggle(newStatus);
+            }
+        } catch (error) {
+            console.error('Error toggling favorite:', error);
+        } finally {
+            setLoading(false);
+        }
+    };
 
     if (isList) {
         return (
@@ -61,8 +107,9 @@ const ProductCard = ({ id, title, description, price, image, category, requested
                     </div>
 
                     <button 
-                        className={styles.wishlistBtn}
-                        onClick={(e) => { e.preventDefault(); setIsFavorite(!isFavorite); }}
+                        className={`${styles.wishlistBtn} ${loading ? styles.loading : ''}`}
+                        onClick={toggleFavorite}
+                        disabled={loading}
                     >
                         {isFavorite ? <FaHeart style={{ color: 'var(--highlight-text)' }} /> : <FaRegHeart />}
                     </button>
@@ -148,8 +195,9 @@ const ProductCard = ({ id, title, description, price, image, category, requested
                 </div>
 
                 <button 
-                    className={styles.wishlistBtn}
-                    onClick={(e) => { e.preventDefault(); setIsFavorite(!isFavorite); }}
+                    className={`${styles.wishlistBtn} ${loading ? styles.loading : ''}`}
+                    onClick={toggleFavorite}
+                    disabled={loading}
                 >
                     {isFavorite ? <FaHeart style={{ color: 'var(--highlight-text)' }} /> : <FaRegHeart />}
                 </button>

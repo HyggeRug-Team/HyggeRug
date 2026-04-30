@@ -13,26 +13,36 @@
  */
 import React from 'react';
 import { getProducts } from '@/lib/db/products';
+import { getWishlist } from '@/lib/db/wishlist';
+import { getSession } from '@/lib/auth';
 import HeroSplit from '@/components/sections/Shop/HeroSplit/HeroSplit';
 import StoreSection from '@/components/sections/Shop/StoreSection/StoreSection';
 
 export default async function TiendaPage() {
+    const session = await getSession();
     let products = [];
+    let wishlistIds = new Set();
+
     try {
         products = await getProducts();
+        if (session) {
+            const wishlist = await getWishlist(session.userId);
+            wishlistIds = new Set(wishlist.map(item => item.product_id));
+        }
     } catch (error) {
-        console.error('TiendaPage: error al cargar productos', error);
+        console.error('TiendaPage: error al cargar datos', error);
     }
 
     // Normalización de datos para los componentes visuales
     const normalizedProducts = products.map((p) => ({
-        id:          p.product_id,
-        title:       p.name,
-        description: p.description,
-        price:       `${parseFloat(p.base_price).toFixed(2)}€`,
-        image:       p.main_image ?? '/rug-mario.png',
-        category:    p.category ?? 'ALFOMBRA',
-        requestedBy: p.requested_by ?? null,
+        id:                 p.product_id,
+        title:              p.name,
+        description:        p.description,
+        price:              `${parseFloat(p.base_price).toFixed(2)}€`,
+        image:              p.main_image ?? '/rug-mario.png',
+        category:           p.category ?? 'ALFOMBRA',
+        requestedBy:        p.requested_by ?? null,
+        initialIsFavorite:  wishlistIds.has(p.product_id)
     }));
 
     return (

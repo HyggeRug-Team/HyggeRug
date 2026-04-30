@@ -5,6 +5,8 @@ import SecondaryButton from '@/components/ui/Buttons/SecondaryButton/SecondaryBu
 import ProductCard from '@/components/ui/Cards/ProductCard/ProductCard';
 import { HiOutlinePlus } from 'react-icons/hi';
 import { getProducts } from '@/lib/db/products';
+import { getWishlist } from '@/lib/db/wishlist';
+import { getSession } from '@/lib/auth';
 
 /**
  * @file FeaturedDrops.jsx
@@ -21,13 +23,20 @@ import { getProducts } from '@/lib/db/products';
  * El enlace a IG anclado al header mantiene la percepción comunitaria del proyecto.
  */
 export default async function FeaturedDrops() {
-    // Datos reales desde la base de datos (máximo 3 para la home)
+    const session = await getSession();
     let drops = [];
+    let wishlistIds = new Set();
+
     try {
         const products = await getProducts();
         drops = products.slice(0, 4);
+
+        if (session) {
+            const wishlist = await getWishlist(session.userId);
+            wishlistIds = new Set(wishlist.map(item => item.product_id));
+        }
     } catch (error) {
-        console.error('FeaturedDrops: error al cargar productos', error);
+        console.error('FeaturedDrops: error al cargar datos', error);
     }
 
     return (
@@ -60,6 +69,7 @@ export default async function FeaturedDrops() {
                                 price={`${parseFloat(drop.base_price).toFixed(2)}€`}
                                 image={drop.main_image ?? '/rug-mario.png'}
                                 category={drop.category}
+                                initialIsFavorite={wishlistIds.has(drop.product_id)}
                             />
                         ))
                     ) : (
