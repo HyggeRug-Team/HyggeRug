@@ -8,14 +8,17 @@ import ProductDescription from '@/components/store/ProductDetail/ProductDescript
 import ProductPrice from '@/components/store/ProductDetail/ProductPrice';
 import ProductSizeSelector from '@/components/store/ProductDetail/ProductSizeSelector';
 import ProductBuyActions from '@/components/store/ProductDetail/ProductBuyActions';
+import CartSidebar from '@/components/store/CartSidebar/CartSidebar';
 
 export default function ProductDetailClient({ product }) {
     const [selectedSize, setSelectedSize] = useState(product.sizes?.[0] || null);
     const [quantity, setQuantity] = useState(1);
+    const [cartOpen, setCartOpen] = useState(false);
 
 
     return (
         <main className={styles.productWrapper}>
+            <CartSidebar isOpen={cartOpen} onClose={() => setCartOpen(false)} />
             <div className={styles.productContainer}>
 
                 <ProductHeader product={product} />
@@ -48,6 +51,7 @@ export default function ProductDetailClient({ product }) {
                                 selectedSize={selectedSize}
                                 quantity={quantity}
                                 setQuantity={setQuantity}
+                                onAddSuccess={() => setCartOpen(true)}
                             />
 
                         </div>

@@ -12,7 +12,7 @@ import styles from './product.module.css';
  * @param {number}      quantity     - Cantidad actual
  * @param {Function}    setQuantity  - Setter del estado de cantidad
  */
-export default function ProductBuyActions({ productId, selectedSize, quantity, setQuantity }) {
+export default function ProductBuyActions({ productId, selectedSize, quantity, setQuantity, onAddSuccess }) {
     const [status, setStatus] = useState('idle'); // 'idle' | 'loading' | 'success' | 'error' | 'no-size'
     const router = useRouter();
 
@@ -25,6 +25,8 @@ export default function ProductBuyActions({ productId, selectedSize, quantity, s
         }
 
         setStatus('loading');
+        onAddSuccess?.();          // <-- abre el sidebar
+        router.refresh();
 
         try {
             const res = await fetch('/api/cart/add', {
@@ -32,9 +34,9 @@ export default function ProductBuyActions({ productId, selectedSize, quantity, s
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
                     productId,
-                    sizeId:    selectedSize.id,
+                    sizeId: selectedSize.id,
                     unitPrice: selectedSize.price,
-                    quantity:  Number(quantity),
+                    quantity: Number(quantity),
                 }),
             });
 
@@ -59,10 +61,10 @@ export default function ProductBuyActions({ productId, selectedSize, quantity, s
 
     // Texto del botón según el estado actual
     const buttonLabel = {
-        idle:      'AÑADIR A LA CESTA',
-        loading:   'AÑADIENDO...',
-        success:   '✓ AÑADIDO',
-        error:     'ERROR — REINTENTAR',
+        idle: 'AÑADIR A LA CESTA',
+        loading: 'AÑADIENDO...',
+        success: '✓ AÑADIDO',
+        error: 'ERROR — REINTENTAR',
         'no-size': 'ELIGE UN TAMAÑO',
     }[status];
 
