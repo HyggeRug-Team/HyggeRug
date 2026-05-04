@@ -17,7 +17,7 @@
 "use client";
 import React, { useState, useEffect, useRef } from 'react';
 import styles from './Studio.module.css';
-import { FaSync, FaArrowLeft, FaUpload, FaTimes, FaChevronLeft, FaMagic, FaChevronDown } from 'react-icons/fa';
+import { FaSync, FaArrowLeft, FaUpload, FaTimes, FaChevronLeft, FaMagic, FaChevronDown, FaBars } from 'react-icons/fa';
 import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
 
@@ -41,6 +41,9 @@ export default function DesignStudioAI() {
     // Logica de scroll hint (la flechita) igual que en el Sidebar
     const [hasMoreBelow, setHasMoreBelow] = React.useState(false);
     const controlPanelRef = React.useRef(null);
+
+    // Estado para el Sidebar de controles en móvil/tablet
+    const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false);
 
     const checkScroll = React.useCallback(() => {
         const el = controlPanelRef.current;
@@ -196,9 +199,29 @@ export default function DesignStudioAI() {
             </div>
 
             <main className={styles.mainContent}>
-                <div className={styles.controlPanelWrapper}>
+                
+                {/* Botón Flotante para abrir el Sidebar en Móvil (Hamburger) */}
+                <button 
+                    className={styles.mobileFloatingBtn}
+                    onClick={() => setIsMobileSidebarOpen(true)}
+                >
+                    <FaBars size={18} /> CONFIGURAR PIEZA
+                </button>
+
+                {/* Overlay oscuro cuando el sidebar está abierto */}
+                <div 
+                    className={`${styles.sidebarOverlay} ${isMobileSidebarOpen ? styles.overlayActive : ''}`}
+                    onClick={() => setIsMobileSidebarOpen(false)}
+                ></div>
+
+                <div className={`${styles.controlPanelWrapper} ${isMobileSidebarOpen ? styles.sidebarOpen : ''}`}>
                     <div className={styles.controlPanel} ref={controlPanelRef}>
-                        <div className={styles.graffitiTag}>CREA TU PIEZA</div>
+                        <div className={styles.sidebarHeader}>
+                            <div className={styles.graffitiTag}>CREA TU PIEZA</div>
+                            <button className={styles.closeSidebarBtn} onClick={() => setIsMobileSidebarOpen(false)}>
+                                <FaTimes size={20} />
+                            </button>
+                        </div>
 
                         {/* 1. Talla */}
                         <div className={styles.inputGroup}>

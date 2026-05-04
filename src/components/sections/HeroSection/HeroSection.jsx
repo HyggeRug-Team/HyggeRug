@@ -1,4 +1,16 @@
-"use client";
+/**
+ * @file HeroSection.jsx
+ * @description Sección principal (hero) de la página de inicio de Hygge Rug.
+ *
+ * [Nuestro enfoque]
+ * Renderiza el titular principal, la descripción de marca y el abanico de 7 tarjetas
+ * de producto con efecto de rotación. Los productos se inyectan desde el Server Component
+ * padre (Home), por lo que este componente puede mantenerse como Server Component.
+ *
+ * [Por qué lo hemos hecho así]
+ * Sin hooks ni event listeners directos, no hay razón para incluir 'use client'.
+ * Mantenerlo como Server Component mejora el rendimiento (menos JS enviado al cliente).
+ */
 import React from "react";
 import styles from "./HeroSection.module.css";
 import Image from "next/image";
