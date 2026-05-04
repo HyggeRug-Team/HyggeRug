@@ -14,11 +14,16 @@ import { AnimatePresence, motion } from 'framer-motion';
 import { FaRulerCombined } from 'react-icons/fa6';
 import styles from './product.module.css';
 
-/* Expresión regular que acepta el formato "120x80" o "120 x 80" */
-const CUSTOM_MEASURE_REGEX = /^\d{1,4}(\s?x\s?)\d{1,4}$/i;
+/* Expresiones regulares para validar formatos: "120x80" o "50 de radio" */
+const RECT_REGEX   = /^(\d+)\s?x\s?(\d+)$/i;
+const CIRCLE_REGEX = /^(\d+)\s?(cm)?\s?(de\s+radio|radio|circular|redonda)$/i;
+
+/* Límites de medida en centímetros */
+const MIN_CM = 20;
+const MAX_CM = 600;
 
 /* Máximo de caracteres permitidos en el campo de medida personalizada */
-const MAX_CUSTOM_LENGTH = 20;
+const MAX_CUSTOM_LENGTH = 25;
 
 export default function ProductSizeSelector({ sizes, selectedSize, setSelectedSize }) {
 
@@ -63,23 +68,58 @@ export default function ProductSizeSelector({ sizes, selectedSize, setSelectedSi
     };
 
     /**
-     * Valida la medida introducida por el usuario y la confirma si es correcta
-     * Tomamos la primera variante "a medida" como base para heredar el precio
+     * Valida la medida introducida por el usuario y la confirma si es correcta.
+     * Soporta formatos rectangulares (AxB) y circulares (X de radio).
      */
     const handleConfirmCustom = () => {
-        const trimmed = customMeasure.trim();
+        const trimmed = customMeasure.trim().toLowerCase();
         if (!trimmed) {
-            setMeasureError('Introduce una medida, ej: 120x80');
+            setMeasureError('Introduce una medida, ej: 120x80 o 50 de radio');
             return;
         }
-        if (!CUSTOM_MEASURE_REGEX.test(trimmed)) {
-            setMeasureError('Usa el formato "LargoXAncho", ej: 120x80');
+
+        // 1. Intentar validar formato rectangular (AxB)
+        const rectMatch = trimmed.replace(/\s/g, '').match(RECT_REGEX);
+        if (rectMatch) {
+            const largo = parseInt(rectMatch[1], 10);
+            const ancho = parseInt(rectMatch[2], 10);
+            if (largo < MIN_CM || ancho < MIN_CM) {
+                setMeasureError(`Medida mínima: ${MIN_CM}x${MIN_CM} cm`);
+                return;
+            }
+            if (largo > MAX_CM || ancho > MAX_CM) {
+                setMeasureError(`Medida máxima: ${MAX_CM}x${MAX_CM} cm`);
+                return;
+            }
+            const label = `${largo}x${ancho} cm`;
+            const base = customSizes[0] || sizes[0];
+            setSelectedSize({ ...base, label, customMeasure: label });
+            setShowCustomInput(false);
+            setMeasureError('');
             return;
         }
-        const base = customSizes[0] || sizes[0];
-        setSelectedSize({ ...base, label: trimmed, customMeasure: trimmed });
-        setShowCustomInput(false);
-        setMeasureError('');
+
+        // 2. Intentar validar formato circular (X de radio)
+        const circleMatch = trimmed.match(CIRCLE_REGEX);
+        if (circleMatch) {
+            const radio = parseInt(circleMatch[1], 10);
+            if (radio < (MIN_CM / 2)) {
+                setMeasureError(`Radio mínimo: ${MIN_CM / 2} cm`);
+                return;
+            }
+            if (radio > (MAX_CM / 2)) {
+                setMeasureError(`Radio máximo: ${MAX_CM / 2} cm`);
+                return;
+            }
+            const label = `${radio} cm de radio (Circular)`;
+            const base = customSizes[0] || sizes[0];
+            setSelectedSize({ ...base, label, customMeasure: label });
+            setShowCustomInput(false);
+            setMeasureError('');
+            return;
+        }
+
+        setMeasureError('Usa formatos como "120x80" o "50 de radio"');
     };
 
     const handleCustomChange = (e) => {
@@ -115,7 +155,8 @@ export default function ProductSizeSelector({ sizes, selectedSize, setSelectedSi
                                     className={`${styles.sizePill} ${isActive ? styles.sizePillActive : ''}`}
                                     onClick={() => handleSelectPreset(size)}
                                 >
-                                    {size.label}
+                                    <span className={styles.pillLabel}>{size.label}</span>
+                                    <span className={styles.pillPrice}>{formatPrice(size.price)}</span>
                                 </button>
                             );
                         })}
@@ -123,7 +164,7 @@ export default function ProductSizeSelector({ sizes, selectedSize, setSelectedSi
                 </div>
             )}
 
-            {/* Grupo "A medida": chips de teclado predefinidos + chip especial para medida propia */}
+            {/* Grupo "A medida": chips de teclado predefinidos */}
             {customSizes.length > 0 && (
                 <div className={styles.sizeGroupBlock}>
                     <p className={styles.sizeGroupTitle}>Personalización</p>
@@ -136,63 +177,63 @@ export default function ProductSizeSelector({ sizes, selectedSize, setSelectedSi
                                     className={`${styles.sizePill} ${isActive ? styles.sizePillActive : ''}`}
                                     onClick={() => handleSelectPreset(size)}
                                 >
-                                    {size.label}
+                                    <span className={styles.pillLabel}>{size.label}</span>
+                                    <span className={styles.pillPrice}>{formatPrice(size.price)}</span>
                                 </button>
                             );
                         })}
-
-                        {/* Píldora especial para introducir dimensiones */}
-                        <button
-                            className={`${styles.sizePill} ${styles.sizePillCustom} ${(isCustomActive || showCustomInput) ? styles.sizePillActive : ''}`}
-                            onClick={handleToggleCustom}
-                        >
-                            <FaRulerCombined />
-                            <span>{isCustomActive ? selectedSize.label : 'Tu propia medida'}</span>
-                        </button>
                     </div>
-
-                    {/* Panel expandible */}
-                    <AnimatePresence>
-                        {showCustomInput && (
-                            <motion.div
-                                key="customInput"
-                                initial={{ opacity: 0, height: 0 }}
-                                animate={{ opacity: 1, height: 'auto' }}
-                                exit={{ opacity: 0, height: 0 }}
-                                transition={{ duration: 0.22, ease: 'easeInOut' }}
-                                className={styles.customInputPanel}
-                            >
-                                <div className={styles.customInputRow}>
-                                    <input
-                                        type="text"
-                                        className={`${styles.customMeasureInput} ${measureError ? styles.customMeasureInputError : ''}`}
-                                        placeholder="Ej: 120x80"
-                                        value={customMeasure}
-                                        onChange={handleCustomChange}
-                                        maxLength={MAX_CUSTOM_LENGTH}
-                                        aria-label="Medida personalizada"
-                                        autoFocus
-                                    />
-                                    <button
-                                        className={styles.customMeasureConfirm}
-                                        onClick={handleConfirmCustom}
-                                    >
-                                        CONFIRMAR
-                                    </button>
-                                </div>
-
-                                {measureError ? (
-                                    <p className={styles.customMeasureError}>{measureError}</p>
-                                ) : (
-                                    <p className={styles.customMeasureHint}>
-                                        Formato: Largo × Ancho en cm
-                                    </p>
-                                )}
-                            </motion.div>
-                        )}
-                    </AnimatePresence>
                 </div>
             )}
+
+            {/* Panel permanente para medida personalizada */}
+            <div className={styles.sizeGroupBlock}>
+                <p className={styles.sizeGroupTitle}>¿Necesitas otra medida?</p>
+                <div className={styles.sizePillContainer}>
+                    {/* Píldora especial para introducir dimensiones */}
+                    <button
+                        className={`${styles.sizePill} ${styles.sizePillCustom} ${(isCustomActive || showCustomInput) ? styles.sizePillActive : ''}`}
+                        onClick={handleToggleCustom}
+                    >
+                        <FaRulerCombined />
+                        <span>{isCustomActive ? selectedSize.label : 'Tu propia medida'}</span>
+                    </button>
+                </div>
+
+                {/* Panel expandible */}
+                <AnimatePresence>
+                    {showCustomInput && (
+                        <motion.div
+                            key="customInput"
+                            initial={{ opacity: 0, height: 0 }}
+                            animate={{ opacity: 1, height: 'auto' }}
+                            exit={{ opacity: 0, height: 0 }}
+                            transition={{ duration: 0.22, ease: 'easeInOut' }}
+                            className={styles.customInputPanel}
+                        >
+                            <div className={styles.customInputRow}>
+                                <input
+                                    type="text"
+                                    className={`${styles.customMeasureInput} ${measureError ? styles.customMeasureInputError : ''}`}
+                                    placeholder="Ej: 120x80"
+                                    value={customMeasure}
+                                    onChange={handleCustomChange}
+                                    maxLength={MAX_CUSTOM_LENGTH}
+                                    aria-label="Medida personalizada"
+                                    autoFocus
+                                />
+                                <button
+                                    className={styles.customMeasureConfirm}
+                                    onClick={handleConfirmCustom}
+                                >
+                                    Aplicar
+                                </button>
+                            </div>
+                            {measureError && <span className={styles.customMeasureErrorMsg}>{measureError}</span>}
+                        </motion.div>
+                    )}
+                </AnimatePresence>
+            </div>
         </div>
     );
 }
