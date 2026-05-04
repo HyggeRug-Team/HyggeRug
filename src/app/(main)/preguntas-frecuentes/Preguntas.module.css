@@ -1,0 +1,141 @@
+.faqWrapper {
+    padding: 160px 20px 100px;
+    min-height: 100vh;
+}
+
+.container {
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.header {
+    text-align: center;
+    margin-bottom: 80px;
+}
+
+.badgeGlow {
+    display: inline-block;
+    background: var(--hover-text);
+    color: var(--black);
+    padding: 4px 12px;
+    font-size: 0.7rem;
+    font-weight: 900;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    box-shadow: 4px 4px 0px var(--highlight-text);
+    margin-bottom: 15px;
+}
+
+.titleLoud {
+    font-family: var(--font-titles);
+    font-size: 4.5rem;
+    color: var(--white);
+    line-height: 0.9;
+    letter-spacing: -2px;
+    text-transform: uppercase;
+}
+
+/* BLOG FEED STYLE */
+.faqFeed {
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+}
+
+.faqArticle {
+    background: #0a0a0a;
+    border: 1px solid #1a1a1a;
+    padding: 40px;
+    transition: 0.3s;
+    position: relative;
+    overflow: hidden;
+}
+
+.faqArticle:hover {
+    border-color: var(--highlight-text);
+    transform: translateX(10px);
+}
+
+.faqArticle::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 4px;
+    background: var(--highlight-text);
+    opacity: 0;
+    transition: 0.3s;
+}
+
+.faqArticle:hover::before {
+    opacity: 1;
+}
+
+.articleMeta {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 15px;
+}
+
+.categoryTag {
+    background: rgba(255, 255, 255, 0.05);
+    color: var(--highlight-text);
+    padding: 4px 12px;
+    font-size: 0.7rem;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.date {
+    font-size: 0.75rem;
+    color: var(--grey-500);
+    font-weight: 700;
+}
+
+.articleTitle {
+    font-family: var(--font-titles);
+    font-size: 1.8rem;
+    color: var(--white);
+    margin-bottom: 20px;
+    line-height: 1.2;
+}
+
+.articleContent {
+    font-size: 1.1rem;
+    color: var(--grey-400);
+    line-height: 1.8;
+    font-family: var(--font-plus-jakarta);
+}
+
+/* Search bar brutalista */
+.searchContainer {
+    margin-bottom: 60px;
+    position: relative;
+}
+
+.searchBar {
+    width: 100%;
+    background: #111;
+    border: 2px solid #222;
+    padding: 20px 30px;
+    color: var(--white);
+    font-family: var(--font-plus-jakarta);
+    font-size: 1.1rem;
+    box-shadow: 10px 10px 0px #000;
+    transition: 0.3s;
+}
+
+.searchBar:focus {
+    outline: none;
+    border-color: var(--hover-text);
+    box-shadow: 15px 15px 0px var(--hover-text);
+    transform: translate(-5px, -5px);
+}
+
+@media (max-width: 768px) {
+    .titleLoud { font-size: 3rem; }
+    .faqArticle { padding: 30px; }
+}
