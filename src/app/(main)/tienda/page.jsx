@@ -11,6 +11,12 @@
  * 2. SEO: Los metadatos y la carga inicial de datos ocurren en el servidor.
  * 3. Modularidad: La lógica visual está en componentes de la carpeta /sections.
  */
+
+export const metadata = {
+    title: 'Catálogo de Diseños | Galería Colectiva de Alfombras',
+    description: 'Explora nuestra colección de alfombras diseñadas por la comunidad. Piezas únicas de tufting listas para ser fabricadas artesanalmente para ti.',
+    keywords: 'galería de diseños, alfombras únicas, tufting art, comprar alfombras personalizadas, diseños comunidad'
+};
 import React from 'react';
 import { getProducts } from '@/lib/db/products';
 import { getWishlist } from '@/lib/db/wishlist';

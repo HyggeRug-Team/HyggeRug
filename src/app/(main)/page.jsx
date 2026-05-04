@@ -4,6 +4,12 @@ import FeaturedDrops from '@/components/sections/FeaturedDrops/FeaturedDrops';
 import InfoSection from '@/components/sections/InfoSection/InfoSection';
 import { getRandomProducts } from '@/lib/db/products';
 
+export const metadata = {
+  title: 'Inicio | Alfombras Personalizadas y Tufting Art',
+  description: 'Descubre Hygge Rug, tu taller de alfombras artesanales en Madrid. Explora diseños de la comunidad o crea tu propia alfombra personalizada con IA y tufting hecho a mano.',
+  keywords: 'tufting, alfombras personalizadas, artesania Madrid, decoración urbana, alfombras IA, handmade rugs'
+};
+
 /**
  * @file page.jsx (Home)
  * @description Página principal de Hygge Rug (tienda de alfombras personalizadas).

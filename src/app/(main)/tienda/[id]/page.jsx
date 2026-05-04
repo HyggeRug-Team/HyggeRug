@@ -1,7 +1,30 @@
 /**
- * PÁGINA DE DETALLE DE PRODUCTO (Server Component)
- * Obtiene los datos de la DB y renderiza la vista detallada.
+ * @file page.jsx (Detalle de Producto)
+ * @description Vista individual de una alfombra del catálogo.
+ *
+ * [Nuestro enfoque]
+ * Utilizamos generateMetadata para inyectar dinámicamente el nombre y la descripción 
+ * del producto en los motores de búsqueda y redes sociales.
+ *
+ * [Por qué lo hemos hecho así]
+ * Cada diseño es único. Tener metadatos específicos para cada ID mejora 
+ * drásticamente el SEO de larga cola (long-tail keywords).
  */
+
+export async function generateMetadata({ params }) {
+    const { id } = await params;
+    const product = await getProductWithSizes(id);
+    
+    if (!product) return { title: 'Producto no encontrado' };
+
+    return {
+        title: `${product.name} | Alfombra Artesanal`,
+        description: product.description || `Diseño exclusivo de tufting: ${product.name}. Hecho a mano por Hygge Rug en Madrid.`,
+        openGraph: {
+            images: [product.image_url ?? '/rug-mario.png'],
+        },
+    };
+}
 import React from 'react';
 import { notFound } from 'next/navigation';
 import { getProductWithSizes } from '@/lib/db/products';

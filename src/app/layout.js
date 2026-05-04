@@ -43,13 +43,27 @@ const rubikBubbles = Rubik_Bubbles({
 });
 
 export const metadata = {
-  title: 'Hygge Rug | Alfombras Artesanales',
-  description: 'Alfombras artesanales hechas a mano con diseño único',
+  title: {
+    default: 'Hygge Rug | Alfombras Artesanales de Tufting en Madrid',
+    template: '%s | Hygge Rug'
+  },
+  description: 'Taller de alfombras artesanales en Madrid. Especialistas en tufting hand-made, diseños personalizados y creación con IA. Arte textil urbano para tu hogar.',
+  keywords: ['tufting', 'alfombras personalizadas', 'Madrid', 'artesanía', 'decoración urbana', 'Hygge Rug', 'regalos originales', 'arte textil'],
   icons: {
     icon: '/HeadIcon.ico', 
     apple: '/HeadIcon.ico',
   },
+  openGraph: {
+    title: 'Hygge Rug | Alfombras Artesanales',
+    description: 'Transformamos hilos en sensaciones. Alfombras únicas hechas a mano en Madrid.',
+    url: 'https://hyggerug.com',
+    siteName: 'Hygge Rug',
+    locale: 'es_ES',
+    type: 'website',
+  },
 };
+
+import { CartProvider } from '@/context/CartContext';
 
 export default function RootLayout({ children }) {
   return (
@@ -72,7 +86,9 @@ export default function RootLayout({ children }) {
           minHeight: '100vh',
           overflowX: 'hidden'
         }}>
-          {children}
+          <CartProvider>
+            {children}
+          </CartProvider>
           <SpeedInsights/>
         </main>
       </body>
