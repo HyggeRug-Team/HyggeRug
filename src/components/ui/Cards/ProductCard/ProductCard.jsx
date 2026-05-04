@@ -139,13 +139,6 @@ const ProductCard = ({
                 {/* LADO DERECHO: INFO */}
                 <div className={styles.listInfo}>
                     <div className={styles.infoContent}>
-                        <div className={styles.meta}>
-                            <span className={styles.categoryName}>{displayCategory}</span>
-                            <div className={styles.stars}>
-                                <FaStar /> <FaStar /> <FaStar /> <FaStar /> <FaStar />
-                            </div>
-                        </div>
-                        
                         <div className={styles.headerMain}>
                             <Link href={finalHref} className={styles.titleLink}>
                                 <h3 className={styles.listTitle}>{title}</h3>

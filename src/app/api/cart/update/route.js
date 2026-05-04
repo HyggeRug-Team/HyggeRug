@@ -18,7 +18,7 @@ export async function PATCH(req) {
             `SELECT op.order_product_id 
              FROM order_product op
              JOIN orders o ON o.order_id = op.order_id
-             WHERE op.order_product_id = ? AND o.user_id = ? AND o.order_status = 'dise\u00F1ando'`,
+             WHERE op.order_product_id = ? AND o.user_id = ? AND o.order_status = 'en_carrito'`,
             [orderProductId, session.userId]
         );
 

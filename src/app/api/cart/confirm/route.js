@@ -16,7 +16,7 @@ export async function POST(req) {
         // Obtener el carrito activo
         const [orders] = await db.query(
             `SELECT order_id FROM orders 
-             WHERE user_id = ? AND order_status = 'dise\u00F1ando' 
+             WHERE user_id = ? AND order_status = 'en_carrito' 
              LIMIT 1`,
             [session.userId]
         );

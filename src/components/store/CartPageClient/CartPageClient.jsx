@@ -30,10 +30,26 @@ import {
     FaCircleCheck,
     FaTriangleExclamation,
     FaPencil,
+    FaChevronLeft,
+    FaHouse,
+    FaPhone,
+    FaCity,
+    FaEarthEurope,
+    FaEnvelopeOpenText,
+    FaShieldHeart,
+    FaTruckFast,
+    FaPalette,
+    FaClockRotateLeft,
 } from 'react-icons/fa6';
+import Link from 'next/link';
+import PrimaryButton from '@/components/ui/Buttons/PrimaryButton/PrimaryButton';
+import SecondaryButton from '@/components/ui/Buttons/SecondaryButton/SecondaryButton';
+import TertiaryButton from '@/components/ui/Buttons/TertiaryButton/TertiaryButton';
+import { useCart } from '@/context/CartContext';
 import styles from './CartPageClient.module.css';
 
 export default function CartPageClient() {
+    const { refreshCartCount } = useCart();
     const router = useRouter();
 
     /* ── Estado principal ── */
@@ -51,6 +67,21 @@ export default function CartPageClient() {
 
     /* Controla si la lista completa de direcciones está expandida o solo se ve la activa */
     const [showAddressList, setShowAddressList] = useState(false);
+    const [showNewAddressForm, setShowNewAddressForm] = useState(false);
+
+    /* ── Estado para nueva dirección ── */
+    const [newAddress, setNewAddress] = useState({
+        calle: '',
+        portal_piso_puerta: '',
+        ciudad: '',
+        provincia: '',
+        codigo_postal: '',
+        pais: 'España',
+        phone_number: '',
+        is_default: false
+    });
+    const [addressLoading, setAddressLoading] = useState(false);
+    const [formErrors, setFormErrors] = useState({});
 
     /* ── Estado del modal de confirmación ── */
     const [showModal, setShowModal]   = useState(false);
@@ -75,13 +106,14 @@ export default function CartPageClient() {
             /* Marcamos como seleccionada la dirección predeterminada, o la primera si no hay ninguna */
             const defaultAddr = addrList.find(a => a.is_default) ?? addrList[0] ?? null;
             setSelectedAddress(defaultAddr?.address_id ?? null);
+            refreshCartCount();
         } catch {
             setItems([]);
             setAddresses([]);
         } finally {
             setLoading(false);
         }
-    }, []);
+    }, [refreshCartCount]);
 
     useEffect(() => { fetchData(); }, [fetchData]);
 
@@ -103,6 +135,7 @@ export default function CartPageClient() {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ orderProductId, quantity: newQty }),
         });
+        refreshCartCount();
     }
 
     /**
@@ -119,6 +152,7 @@ export default function CartPageClient() {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ orderProductId }),
         });
+        refreshCartCount();
     }
 
     /**
@@ -184,7 +218,62 @@ export default function CartPageClient() {
     const handleSelectAddress = (addressId) => {
         setSelectedAddress(addressId);
         setShowAddressList(false);
+        setShowNewAddressForm(false);
     };
+
+    /* Validar Formulario */
+    const validateAddress = () => {
+        const errors = {};
+        if (newAddress.calle.length < 5) errors.calle = "Mínimo 5 caracteres";
+        if (newAddress.ciudad.length < 2) errors.ciudad = "Ciudad no válida";
+        if (!/^\d{5}$/.test(newAddress.codigo_postal)) errors.codigo_postal = "CP debe tener 5 dígitos";
+        if (newAddress.provincia.length < 2) errors.provincia = "Provincia no válida";
+        if (!/^[6789]\d{8}$/.test(newAddress.phone_number.replace(/\s/g, ''))) {
+            errors.phone_number = "Teléfono no válido (9 dígitos)";
+        }
+        setFormErrors(errors);
+        return Object.keys(errors).length === 0;
+    };
+
+    /* Crear nueva dirección */
+    async function handleCreateAddress(e) {
+        if (e) e.preventDefault();
+        
+        if (!validateAddress()) return;
+
+        setAddressLoading(true);
+        try {
+            const res = await fetch('/api/addresses', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(newAddress),
+            });
+            if (!res.ok) throw new Error('Error al crear dirección');
+            const created = await res.json();
+            
+            setAddresses(prev => [...prev, created]);
+            setSelectedAddress(created.address_id);
+            setShowNewAddressForm(false);
+            setShowAddressList(false);
+            setFormErrors({});
+            
+            // Reset form
+            setNewAddress({
+                calle: '',
+                portal_piso_puerta: '',
+                ciudad: '',
+                provincia: '',
+                codigo_postal: '',
+                pais: 'España',
+                phone_number: '',
+                is_default: false
+            });
+        } catch (err) {
+            alert(err.message);
+        } finally {
+            setAddressLoading(false);
+        }
+    }
 
     /* ── Cálculos del resumen ── */
     const subtotal       = items.reduce((sum, i) => sum + i.unit_price * i.quantity, 0);
@@ -203,7 +292,16 @@ export default function CartPageClient() {
         <main className={styles.cartPage}>
             <div className={styles.cartContainer}>
 
-                <h1 className={styles.pageTitle}>TU <span className={styles.titleAccent}>CESTA</span></h1>
+                <div className={styles.headerTop}>
+                    <Link href="/tienda" className={styles.backBtn}>
+                        <FaChevronLeft /> Volver a la tienda
+                    </Link>
+                </div>
+
+                <h1 className={styles.pageTitle}>
+                    TU <span className={styles.titleAccent}>CESTA</span>
+                    {items.length > 0 && <span className={styles.itemCountBadge}>{items.length} {items.length === 1 ? 'ARTÍCULO' : 'ARTÍCULOS'}</span>}
+                </h1>
 
                 {items.length === 0 ? (
                     <div className={styles.emptyCart}>
@@ -220,7 +318,7 @@ export default function CartPageClient() {
 
                             {/* Lista de items */}
                             <section className={styles.card}>
-                                <h2 className={styles.cardTitle}>Productos ({items.length})</h2>
+                                <div className={styles.cardTitle}>01. PRODUCTOS ({items.length})</div>
                                 <div className={styles.itemList}>
                                     {items.map(item => (
                                         <div key={item.order_product_id} className={styles.item}>
@@ -304,16 +402,15 @@ export default function CartPageClient() {
                                         }}
                                         disabled={!!appliedDiscount}
                                     />
-                                    <button
-                                        className={styles.discountBtn}
+                                    <PrimaryButton 
+                                        text={appliedDiscount ? 'QUITAR' : discountLoading ? '...' : 'APLICAR'}
                                         onClick={appliedDiscount
                                             ? () => { setAppliedDiscount(null); setDiscountCode(''); }
                                             : handleApplyDiscount
                                         }
                                         disabled={discountLoading}
-                                    >
-                                        {appliedDiscount ? 'QUITAR' : discountLoading ? '...' : 'APLICAR'}
-                                    </button>
+                                        className={styles.discountActionBtn}
+                                    />
                                 </div>
                                 {discountError && (
                                     <p className={styles.discountError}>{discountError}</p>
@@ -369,33 +466,33 @@ export default function CartPageClient() {
                                 ) : (
                                     <>
                                         {/* Vista compacta: dirección activa + botón "Cambiar" */}
-                                        {activeAddress && !showAddressList && (
-                                            <div className={styles.activeAddressCard}>
-                                                <div className={styles.activeAddressInfo}>
-                                                    <span className={styles.activeAddressDefault}>
-                                                        {activeAddress.is_default ? '★ Predeterminada' : 'Seleccionada'}
+                                        {activeAddress && !showAddressList && !showNewAddressForm && (
+                                            <div className={styles.addressDisplayCard}>
+                                                <div className={styles.addressCardHeader}>
+                                                    <span className={styles.statusLabel}>
+                                                        {activeAddress.is_default ? '★ DIRECCIÓN PREDETERMINADA' : 'DIRECCIÓN SELECCIONADA'}
                                                     </span>
-                                                    <span className={styles.addressStreet}>
-                                                        {activeAddress.calle}{activeAddress.portal_piso_puerta ? `, ${activeAddress.portal_piso_puerta}` : ''}
-                                                    </span>
-                                                    <span className={styles.addressCity}>
-                                                        {activeAddress.codigo_postal} {activeAddress.ciudad}, {activeAddress.provincia}
-                                                    </span>
-                                                </div>
-                                                {addresses.length > 1 && (
-                                                    <button
-                                                        className={styles.changeAddressBtn}
+                                                    <button 
+                                                        className={styles.editAddressLink}
                                                         onClick={() => setShowAddressList(true)}
-                                                        aria-label="Cambiar dirección de envío"
                                                     >
-                                                        <FaPencil /> Cambiar
+                                                        <FaPencil /> CAMBIAR
                                                     </button>
-                                                )}
+                                                </div>
+                                                <div className={styles.addressInfoBox}>
+                                                    <p className={styles.streetLine}>
+                                                        {activeAddress.calle}
+                                                        {activeAddress.portal_piso_puerta && <span className={styles.extraInfo}>, {activeAddress.portal_piso_puerta}</span>}
+                                                    </p>
+                                                    <p className={styles.cityLine}>
+                                                        {activeAddress.codigo_postal} {activeAddress.ciudad}, {activeAddress.provincia}
+                                                    </p>
+                                                </div>
                                             </div>
                                         )}
 
                                         {/* Lista expandida para cambiar dirección */}
-                                        {showAddressList && (
+                                        {showAddressList && !showNewAddressForm && (
                                             <div className={styles.addressList}>
                                                 {addresses.map(addr => (
                                                     <button
@@ -419,41 +516,177 @@ export default function CartPageClient() {
                                                         </div>
                                                     </button>
                                                 ))}
+                                                <div className={styles.addNewAddrWrapper}>
+                                                    <TertiaryButton 
+                                                        text="Añadir nueva dirección"
+                                                        onClick={() => setShowNewAddressForm(true)}
+                                                    />
+                                                </div>
                                             </div>
+                                        )}
+
+                                        {/* Formulario nueva dirección */}
+                                        {showNewAddressForm && (
+                                            <form className={styles.newAddressForm} onSubmit={handleCreateAddress}>
+                                                <div className={styles.formGrid}>
+                                                    <div className={styles.formGroup}>
+                                                        <label><FaHouse /> Calle y número</label>
+                                                        <input 
+                                                            required
+                                                            type="text" 
+                                                            placeholder="Ej. Calle Mayor 123"
+                                                            value={newAddress.calle}
+                                                            className={formErrors.calle ? styles.inputError : ''}
+                                                            onChange={e => {
+                                                                setNewAddress({...newAddress, calle: e.target.value});
+                                                                if (formErrors.calle) setFormErrors({...formErrors, calle: null});
+                                                            }}
+                                                        />
+                                                        {formErrors.calle && <span className={styles.errorMsg}>{formErrors.calle}</span>}
+                                                    </div>
+                                                    <div className={styles.formGroup}>
+                                                        <label><FaEnvelopeOpenText /> Portal, piso...</label>
+                                                        <input 
+                                                            type="text" 
+                                                            placeholder="Ej. 2ºB"
+                                                            value={newAddress.portal_piso_puerta}
+                                                            onChange={e => setNewAddress({...newAddress, portal_piso_puerta: e.target.value})}
+                                                        />
+                                                    </div>
+                                                    <div className={styles.formRow}>
+                                                        <div className={styles.formGroup}>
+                                                            <label><FaCity /> Ciudad</label>
+                                                            <input 
+                                                                required
+                                                                type="text" 
+                                                                placeholder="Madrid"
+                                                                value={newAddress.ciudad}
+                                                                className={formErrors.ciudad ? styles.inputError : ''}
+                                                                onChange={e => {
+                                                                    setNewAddress({...newAddress, ciudad: e.target.value});
+                                                                    if (formErrors.ciudad) setFormErrors({...formErrors, ciudad: null});
+                                                                }}
+                                                            />
+                                                            {formErrors.ciudad && <span className={styles.errorMsg}>{formErrors.ciudad}</span>}
+                                                        </div>
+                                                        <div className={styles.formGroup}>
+                                                            <label>C.P.</label>
+                                                            <input 
+                                                                required
+                                                                type="text" 
+                                                                placeholder="28001"
+                                                                value={newAddress.codigo_postal}
+                                                                className={formErrors.codigo_postal ? styles.inputError : ''}
+                                                                onChange={e => {
+                                                                    setNewAddress({...newAddress, codigo_postal: e.target.value});
+                                                                    if (formErrors.codigo_postal) setFormErrors({...formErrors, codigo_postal: null});
+                                                                }}
+                                                            />
+                                                            {formErrors.codigo_postal && <span className={styles.errorMsg}>{formErrors.codigo_postal}</span>}
+                                                        </div>
+                                                    </div>
+                                                    <div className={styles.formGroup}>
+                                                        <label><FaEarthEurope /> Provincia</label>
+                                                        <input 
+                                                            required
+                                                            type="text" 
+                                                            placeholder="Madrid"
+                                                            value={newAddress.provincia}
+                                                            className={formErrors.provincia ? styles.inputError : ''}
+                                                            onChange={e => {
+                                                                setNewAddress({...newAddress, provincia: e.target.value});
+                                                                if (formErrors.provincia) setFormErrors({...formErrors, provincia: null});
+                                                            }}
+                                                        />
+                                                        {formErrors.provincia && <span className={styles.errorMsg}>{formErrors.provincia}</span>}
+                                                    </div>
+                                                    <div className={styles.formGroup}>
+                                                        <label><FaPhone /> Teléfono</label>
+                                                        <input 
+                                                            required
+                                                            type="tel" 
+                                                            placeholder="600 000 000"
+                                                            value={newAddress.phone_number}
+                                                            className={formErrors.phone_number ? styles.inputError : ''}
+                                                            onChange={e => {
+                                                                setNewAddress({...newAddress, phone_number: e.target.value});
+                                                                if (formErrors.phone_number) setFormErrors({...formErrors, phone_number: null});
+                                                            }}
+                                                        />
+                                                        {formErrors.phone_number && <span className={styles.errorMsg}>{formErrors.phone_number}</span>}
+                                                    </div>
+                                                </div>
+                                                <div className={styles.formActions}>
+                                                    <SecondaryButton 
+                                                        text="CANCELAR"
+                                                        onClick={() => setShowNewAddressForm(false)}
+                                                        className={styles.formActionBtn}
+                                                    />
+                                                    <SecondaryButton 
+                                                        text="GUARDAR Y USAR"
+                                                        onClick={handleCreateAddress}
+                                                        variant="whitePink"
+                                                        className={styles.formActionBtn}
+                                                        disabled={addressLoading}
+                                                    />
+                                                </div>
+                                            </form>
                                         )}
                                     </>
                                 )}
                             </section>
 
                             {/* Botón confirmar */}
-                            <button
-                                className={styles.confirmBtn}
+                            <SecondaryButton 
+                                text="CONFIRMAR ENCARGO"
                                 onClick={() => setShowModal(true)}
                                 disabled={!selectedAddress || items.length === 0}
-                            >
-                                CONFIRMAR ENCARGO
-                            </button>
+                                className={styles.confirmBtnFull}
+                            />
+
+                            <div className={styles.trustBadges}>
+                                <div className={styles.trustItem}>
+                                    <FaShieldHeart />
+                                    <span>Pago 100% Seguro</span>
+                                </div>
+                                <div className={styles.trustItem}>
+                                    <FaTruckFast />
+                                    <span>Envío Asegurado</span>
+                                </div>
+                                <div className={styles.trustItem}>
+                                    <FaPalette />
+                                    <span>Artesanía Real</span>
+                                </div>
+                            </div>
 
                         </aside>
                     </div>
                 )}
             </div>
 
-            {/* ── MODAL DE AVISO ── */}
+            {/* ── MODAL DE AVISO (PREMIUM) ── */}
             {showModal && (
                 <div className={styles.modalOverlay} onClick={() => !confirming && setShowModal(false)}>
-                    <div className={styles.modal} onClick={e => e.stopPropagation()}>
-                        <div className={styles.modalIcon}>
-                            <FaTriangleExclamation />
+                    <div className={styles.modalCard} onClick={e => e.stopPropagation()}>
+                        <div className={styles.modalIconBox}>
+                            <FaTriangleExclamation className={styles.modalIconWarn} />
                         </div>
                         <h3 className={styles.modalTitle}>Antes de confirmar</h3>
-                        <p className={styles.modalText}>
-                            Tu pedido pasará a <strong>pendiente de aprobación</strong>. La artesana revisará los detalles y se pondrá en contacto contigo antes de proceder con el cobro.
-                        </p>
-                        <p className={styles.modalText}>
-                            Si tienes artículos personalizados en tu cesta, el proceso puede tardar unos días hasta que el diseño final sea acordado.
-                        </p>
-                        <div className={styles.modalActions}>
+                        
+                        <div className={styles.modalBody}>
+                            <p className={styles.modalMainText}>
+                                Tu pedido pasará a <span className={styles.accentText}>pendiente de aprobación</span>. La artesana revisará los detalles y se pondrá en contacto contigo antes de proceder con el cobro.
+                            </p>
+                            
+                            <div className={styles.infoNote}>
+                                <FaPalette />
+                                <p>
+                                    Si tienes artículos personalizados en tu cesta, el proceso puede tardar unos días hasta que el diseño final sea acordado.
+                                </p>
+                            </div>
+                        </div>
+
+                        <div className={styles.modalFooter}>
                             <button
                                 className={styles.modalCancel}
                                 onClick={() => setShowModal(false)}

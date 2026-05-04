@@ -12,7 +12,7 @@ import styles from './product.module.css';
  * @param {number}      quantity     - Cantidad actual
  * @param {Function}    setQuantity  - Setter del estado de cantidad
  */
-export default function ProductBuyActions({ productId, selectedSize, basePrice, quantity, setQuantity, onAddSuccess }) {
+export default function ProductBuyActions({ productId, productName, productImage, selectedSize, basePrice, quantity, setQuantity, onAddSuccess }) {
     const [status, setStatus] = useState('idle'); // 'idle' | 'loading' | 'success' | 'error' | 'no-size'
     const router = useRouter();
 

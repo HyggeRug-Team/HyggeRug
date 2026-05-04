@@ -23,7 +23,7 @@ export async function POST(req) {
         // Buscar si ya existe un pedido borrador (carrito) para este usuario
         const [existingOrders] = await db.query(
             `SELECT order_id FROM orders 
-             WHERE user_id = ? AND order_status = 'diseñando' 
+             WHERE user_id = ? AND order_status = 'en_carrito' 
              LIMIT 1`,
             [userId]
         );
@@ -34,9 +34,9 @@ export async function POST(req) {
             // Reutilizar el carrito abierto
             orderId = existingOrders[0].order_id;
         } else {
-            // Crear un nuevo pedido en estado borrador
+            // Crear un nuevo pedido en estado borrador (carrito)
             const [result] = await db.query(
-                `INSERT INTO orders (user_id, order_status) VALUES (?, 'diseñando')`,
+                `INSERT INTO orders (user_id, order_status) VALUES (?, 'en_carrito')`,
                 [userId]
             );
             orderId = result.insertId;

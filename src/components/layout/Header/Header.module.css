@@ -92,6 +92,29 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  position: relative;
+}
+
+.cartBadge {
+  position: absolute;
+  top: -2px;
+  right: -2px;
+  background: #000;
+  color: var(--white);
+  font-size: 0.6rem;
+  font-weight: 900;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1.5px solid var(--highlight-text);
+  box-shadow: 0 0 10px rgba(255, 0, 85, 0.4);
+  text-shadow: 0 0 2px var(--highlight-text);
+  pointer-events: none;
+  z-index: 10;
+  padding: 0;
 }
 
 .iconBtn:hover {

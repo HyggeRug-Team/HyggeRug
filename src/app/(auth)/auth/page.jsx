@@ -1,8 +1,9 @@
 import AuthForm from '@/components/auth/AuthForm/AuthForm';
 
 export const metadata = {
-  title: 'Acceso | Hygge Rug',
-  description: 'Inicia sesión o regístrate en Hygge Rug'
+  title: 'Acceso | Hygge Rug - Únete a la Comunidad',
+  description: 'Inicia sesión o regístrate en Hygge Rug para gestionar tus pedidos personalizados, guardar tus diseños favoritos y acceder al Laboratorio IA.',
+  keywords: 'login, registro, Hygge Rug, cuenta usuario, pedidos personalizados, tufting community'
 };
 
 /**

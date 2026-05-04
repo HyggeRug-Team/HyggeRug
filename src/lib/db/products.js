@@ -3,7 +3,7 @@
  * @description Archivo para conectar los Productos del catálogo con su info en base de datos.
  * Se usa para extraer alfombras y variantes (tamaños, precios).
  */
-import { db } from '@/lib/db';
+import { db } from "@/lib/db";
 
 /**
  * FUNCIÓN RECOLECTORA DEL ESCAPARATE DE PRODUCTOS
@@ -12,8 +12,8 @@ import { db } from '@/lib/db';
  * @returns {Promise<Array>} Listado de productos enriquecido con categorías
  */
 export async function getProducts() {
-    try {
-        const [rows] = await db.query(`
+  try {
+    const [rows] = await db.query(`
             SELECT
                 p.product_id,
                 p.name,
@@ -28,11 +28,14 @@ export async function getProducts() {
                 ), p.base_price) AS min_price
             FROM products p
             LEFT JOIN categories c ON p.category_id = c.category_id
+            WHERE p.public = 1 AND p.community = 1
         `);
-        return rows;
-    } catch (error) {
-        throw new Error(`getProducts: error al obtener productos – ${error.message}`);
-    }
+    return rows;
+  } catch (error) {
+    throw new Error(
+      `getProducts: error al obtener productos – ${error.message}`,
+    );
+  }
 }
 
 /**
@@ -41,8 +44,9 @@ export async function getProducts() {
  * @param {number} limit - Cantidad de productos a extraer
  */
 export async function getRandomProducts(limit = 7) {
-    try {
-        const [rows] = await db.query(`
+  try {
+    const [rows] = await db.query(
+      `
             SELECT
                 product_id,
                 name,
@@ -51,11 +55,15 @@ export async function getRandomProducts(limit = 7) {
             WHERE image_url IS NOT NULL
             ORDER BY RAND()
             LIMIT ?
-        `, [limit]);
-        return rows;
-    } catch (error) {
-        throw new Error(`getRandomProducts: error al obtener productos – ${error.message}`);
-    }
+        `,
+      [limit],
+    );
+    return rows;
+  } catch (error) {
+    throw new Error(
+      `getRandomProducts: error al obtener productos – ${error.message}`,
+    );
+  }
 }
 
 /**
@@ -64,8 +72,9 @@ export async function getRandomProducts(limit = 7) {
  * @param {number} productId - El identificador numérico de tu base de datos
  */
 export async function getProductWithSizes(productId) {
-    try {
-        const [rows] = await db.query(`
+  try {
+    const [rows] = await db.query(
+      `
             SELECT
                 p.product_id,
                 p.name,
@@ -81,35 +90,39 @@ export async function getProductWithSizes(productId) {
             LEFT JOIN product_sizes ps ON ps.product_id = p.product_id AND ps.active = 1
             WHERE p.product_id = ?
             ORDER BY ps.price ASC
-        `, [productId]);
+        `,
+      [productId],
+    );
 
-        if (!rows.length) return null;
+    if (!rows.length) return null;
 
-        const product = {
-            product_id:  rows[0].product_id,
-            name:        rows[0].name,
-            description: rows[0].description,
-            base_price:  rows[0].base_price,
-            image_url:   rows[0].image_url,
-            category:    rows[0].category,
-            sizes:       [],
-        };
+    const product = {
+      product_id: rows[0].product_id,
+      name: rows[0].name,
+      description: rows[0].description,
+      base_price: rows[0].base_price,
+      image_url: rows[0].image_url,
+      category: rows[0].category,
+      sizes: [],
+    };
 
-        const seenSizes = new Set();
+    const seenSizes = new Set();
 
-        for (const row of rows) {
-            if (row.size_id && !seenSizes.has(row.size_id)) {
-                seenSizes.add(row.size_id);
-                product.sizes.push({
-                    size_id:         row.size_id,
-                    size_label:      row.size_label,
-                    price:           row.price
-                });
-            }
-        }
-
-        return product;
-    } catch (error) {
-        throw new Error(`getProductWithSizes: error al obtener el producto ${productId} – ${error.message}`);
+    for (const row of rows) {
+      if (row.size_id && !seenSizes.has(row.size_id)) {
+        seenSizes.add(row.size_id);
+        product.sizes.push({
+          size_id: row.size_id,
+          size_label: row.size_label,
+          price: row.price,
+        });
+      }
     }
+
+    return product;
+  } catch (error) {
+    throw new Error(
+      `getProductWithSizes: error al obtener el producto ${productId} – ${error.message}`,
+    );
+  }
 }

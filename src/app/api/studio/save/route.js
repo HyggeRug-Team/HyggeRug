@@ -69,7 +69,7 @@ export async function POST(req) {
         // 4. Buscar o crear carrito activo
         const [existingOrders] = await db.query(
             `SELECT order_id FROM orders 
-             WHERE user_id = ? AND order_status = 'dise\u00F1ando' 
+             WHERE user_id = ? AND order_status = 'en_carrito' 
              LIMIT 1`,
             [session.userId]
         );
@@ -79,17 +79,17 @@ export async function POST(req) {
             orderId = existingOrders[0].order_id;
         } else {
             const [orderResult] = await db.query(
-                `INSERT INTO orders (user_id, order_status) VALUES (?, 'dise\u00F1ando')`,
+                `INSERT INTO orders (user_id, order_status) VALUES (?, 'en_carrito')`,
                 [session.userId]
             );
             orderId = orderResult.insertId;
         }
 
-        // 5. Añadir al carrito
+        // 5. Añadir al carrito (guardando también la imagen en final_design)
         await db.query(
-            `INSERT INTO order_product (order_id, product_id, product_size_id, quantity, unit_price)
-             VALUES (?, ?, ?, 1, ?)`,
-            [orderId, productId, productSizeId, price]
+            `INSERT INTO order_product (order_id, product_id, product_size_id, quantity, unit_price, final_design)
+             VALUES (?, ?, ?, 1, ?, ?)`,
+            [orderId, productId, productSizeId, price, blob.url]
         );
 
         return NextResponse.json({ success: true, productId, orderId, price, sizeLabel });

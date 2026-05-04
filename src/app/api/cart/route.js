@@ -19,17 +19,19 @@ export async function GET() {
                 p.name,
                 p.description,
                 p.image_url,
+                op.user_image,
+                op.final_design,
                 s.size AS size_label
             FROM orders o
             JOIN order_product op ON op.order_id = o.order_id
             JOIN products p ON p.product_id = op.product_id
             LEFT JOIN product_sizes s ON s.product_size_id = op.product_size_id
-            WHERE o.user_id = ? AND o.order_status NOT IN ('pendiente de aprobaci\u00F3n','comprobando pago','tejiendo','enviado','recibido')
+            WHERE o.user_id = ? AND o.order_status = 'en_carrito'
             AND o.order_id = (
                 SELECT order_id FROM orders 
-                WHERE user_id = ? AND order_status = 'dise\u00F1ando'
+                WHERE user_id = ? AND order_status = 'en_carrito'
                 LIMIT 1
-    )`,
+            )`,
             [session.userId, session.userId]
         );
         return NextResponse.json({ items });

@@ -21,13 +21,14 @@ export async function createOrder(orderData) {
         const [orderResult] = await conn.query(`
             INSERT INTO orders
                 (user_id, address_id, total_amount, payment_id, payment_method, order_status)
-            VALUES (?, ?, ?, ?, ?, 'diseñando')
+            VALUES (?, ?, ?, ?, ?, ?)
         `, [
             orderData.userId,
             orderData.addressId,
-            orderData.totalAmount,           // Total a cobrar al cliente
-            orderData.paymentId ?? null,     // Id de la plataforma de pago (Stripe)
-            orderData.paymentMethod ?? null, // Ejemplo: 'tarjeta' o 'paypal'
+            orderData.totalAmount,                        // Total a cobrar al cliente
+            orderData.paymentId ?? null,                  // Id de la plataforma de pago (Stripe)
+            orderData.paymentMethod ?? null,              // Ejemplo: 'tarjeta' o 'paypal'
+            orderData.orderStatus ?? 'en_carrito',        // Por defecto empieza en el carrito
         ]);
 
         // Guardamos el ID que la base de datos le ha dado automáticamente (AI) a este pedido
@@ -37,10 +38,12 @@ export async function createOrder(orderData) {
         for (const item of orderData.items) {
             await conn.query(`
                 INSERT INTO order_product
-                    (order_id, price, quantity, user_image, final_design)
-                VALUES (?, ?, ?, ?, ?)
+                    (order_id, product_id, product_size_id, price, quantity, user_image, final_design)
+                VALUES (?, ?, ?, ?, ?, ?, ?)
             `, [
                 orderId,
+                item.productId ?? 1,      // ID del producto (1 por defecto)
+                item.sizeId ?? null,      // ID de la talla
                 item.price,               // Precio unitario
                 item.quantity ?? 1,
                 item.userImage ?? null,   
@@ -67,7 +70,7 @@ export async function createOrder(orderData) {
  */
 export async function getOrdersByUser(userId) {
     try {
-        // quantity INT NOT NULL DEFAULT 1
+        // Excluimos los que siguen siendo carrito (en_carrito) — esos aún no son pedidos reales
         const [rows] = await db.query(`
             SELECT
                 o.order_id,
@@ -84,7 +87,7 @@ export async function getOrdersByUser(userId) {
             FROM orders o
             LEFT JOIN order_product oi ON oi.order_id = o.order_id
             LEFT JOIN products p ON p.product_id = oi.product_id
-            WHERE o.user_id = ?
+            WHERE o.user_id = ? AND o.order_status != 'en_carrito'
             ORDER BY o.creation_date DESC
         `, [userId]);
 
@@ -92,6 +95,38 @@ export async function getOrdersByUser(userId) {
         return groupOrderRows(rows);
     } catch (error) {
         throw new Error(`getOrdersByUser: error al obtener pedidos del usuario ${userId} – ${error.message}`);
+    }
+}
+
+/**
+ * FUNCIÓN PARA OBTENER EL CARRITO ACTIVO DE UN USUARIO
+ * Devuelve solo los pedidos con order_status = 'en_carrito' (aún no confirmados).
+ */
+export async function getCartByUser(userId) {
+    try {
+        const [rows] = await db.query(`
+            SELECT
+                o.order_id,
+                o.order_status,
+                o.total_amount,
+                o.payment_method,
+                o.creation_date,
+                o.updated_date,
+                oi.product_id,
+                oi.quantity,
+                oi.unit_price,
+                p.name as product_name,
+                p.image_url
+            FROM orders o
+            LEFT JOIN order_product oi ON oi.order_id = o.order_id
+            LEFT JOIN products p ON p.product_id = oi.product_id
+            WHERE o.user_id = ? AND o.order_status = 'en_carrito'
+            ORDER BY o.creation_date DESC
+        `, [userId]);
+
+        return groupOrderRows(rows);
+    } catch (error) {
+        throw new Error(`getCartByUser: error al obtener el carrito del usuario ${userId} – ${error.message}`);
     }
 }
 
@@ -130,7 +165,9 @@ export async function getOrderById(orderId) {
  */
 export async function updateOrderStatus(orderId, status) {
     // Array para evitar que se pasen estados falsos por seguridad (protección extra)
+    // 'en_carrito' es el estado inicial antes de confirmar el pedido
     const VALID_STATUSES = [
+        'en_carrito',              // Aún en el carrito, no es un pedido real
         'diseñando',
         'pendiente de aprobación',
         'comprobando pago',
