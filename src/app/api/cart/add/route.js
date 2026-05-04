@@ -10,7 +10,7 @@ export async function POST(req) {
         return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
-    const { productId, sizeId, quantity, unitPrice } = await req.json();
+    const { productId, sizeId, quantity, unitPrice, customSizeLabel } = await req.json();
 
     // Validación básica de datos recibidos
     if (!productId || !sizeId || !unitPrice || !quantity || quantity < 1) {
@@ -42,12 +42,32 @@ export async function POST(req) {
             orderId = result.insertId;
         }
 
+        let finalSizeId = sizeId;
+
+        // Si es una medida personalizada nueva, la registramos en la BBDD con active = 0
+        if (customSizeLabel) {
+            const [existingSize] = await db.query(
+                `SELECT product_size_id FROM product_sizes WHERE product_id = ? AND size = ? LIMIT 1`,
+                [productId, customSizeLabel]
+            );
+
+            if (existingSize.length > 0) {
+                finalSizeId = existingSize[0].product_size_id;
+            } else {
+                const [insertResult] = await db.query(
+                    `INSERT INTO product_sizes (product_id, size, price, active) VALUES (?, ?, ?, 0)`,
+                    [productId, customSizeLabel, unitPrice]
+                );
+                finalSizeId = insertResult.insertId;
+            }
+        }
+
         // Comprobar si ya existe esa combinación producto+talla en el carrito
         const [existingItem] = await db.query(
             `SELECT order_product_id, quantity FROM order_product 
-             WHERE order_id = ? AND product_id = ? AND size_id = ? 
+             WHERE order_id = ? AND product_id = ? AND product_size_id = ? 
              LIMIT 1`,
-            [orderId, productId, sizeId]
+            [orderId, productId, finalSizeId]
         );
 
         if (existingItem.length > 0) {
@@ -61,9 +81,9 @@ export async function POST(req) {
         } else {
             // Nueva línea en el carrito con snapshot del precio actual
             await db.query(
-                `INSERT INTO order_product (order_id, product_id, size_id, quantity, unit_price) 
+                `INSERT INTO order_product (order_id, product_id, product_size_id, quantity, unit_price) 
                  VALUES (?, ?, ?, ?, ?)`,
-                [orderId, productId, sizeId, quantity, unitPrice]
+                [orderId, productId, finalSizeId, quantity, unitPrice]
             );
         }
 

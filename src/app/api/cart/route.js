@@ -19,11 +19,11 @@ export async function GET() {
                 p.name,
                 p.description,
                 p.image_url,
-                s.dimensions AS size_label
+                s.size AS size_label
             FROM orders o
             JOIN order_product op ON op.order_id = o.order_id
             JOIN products p ON p.product_id = op.product_id
-            LEFT JOIN sizes s ON s.size_id = op.size_id
+            LEFT JOIN product_sizes s ON s.product_size_id = op.product_size_id
             WHERE o.user_id = ? AND o.order_status NOT IN ('pendiente de aprobaci\u00F3n','comprobando pago','tejiendo','enviado','recibido')
             AND o.order_id = (
                 SELECT order_id FROM orders 
