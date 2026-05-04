@@ -75,28 +75,23 @@ export async function uploadProfileImage(formData) {
  */
 export async function updateUserData(field, value) {
     try {
-        console.log(`[ACTION] Actualizando ${field} a "${value}"...`);
         const allowedFields = ['nickname', 'email', 'profile_image'];
         const session = await getSession();
-        
+
         if (session && allowedFields.includes(field)) {
-            // Buscamos el ID en el payload (en el login se guarda como userId)
             const userId = session.userId || session.user_id || session.id;
-            console.log(`[ACTION] Usuario ID: ${userId}`);
-            
+
             if (!userId) {
                 console.error("[ACTION] No se pudo encontrar el ID de usuario en la sesión");
                 return { success: false };
             }
 
             const query = `UPDATE users SET ${field} = ? WHERE user_id = ?`;
-            const [result] = await db.query(query, [value, userId]);
-            
-            console.log("[ACTION] Resultado query:", result);
+            await db.query(query, [value, userId]);
 
             // Forzamos revalidación de todas las páginas del dashboard
-            revalidatePath('/dashboard', 'layout'); 
-            
+            revalidatePath('/dashboard', 'layout');
+
             return { success: true };
         } else {
             console.error("[ACTION] Campo no permitido o sesión no válida:", field);

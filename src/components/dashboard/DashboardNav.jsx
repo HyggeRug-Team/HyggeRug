@@ -86,7 +86,7 @@ export function DashboardLogout({ user }) {
   const pathname = usePathname();
   const popupRef = useRef(null);
 
-  const avatarUrl = user?.profileImage || "/profile-default.png";
+  const avatarUrl = user?.profileImage || user?.profile_image || "/profile-default.png";
   const userName  = user?.nickname || "Usuario";
 
   // Cerramos el popup al cambiar de ruta
