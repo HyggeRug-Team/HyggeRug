@@ -26,48 +26,52 @@ export default function ProductDetailClient({ product }) {
 
             <div className={styles.productContainer}>
 
-                <ProductHeader product={product} />
+                <div className={styles.heroSection}>
+                    <ProductHeader product={product} />
 
-                <div className={styles.mainGrid}>
+                    <div className={styles.mainGrid}>
+                        {/* COLUMNA IZQUIERDA: VISUAL */}
+                        <section className={styles.visualCol}>
+                            <ProductGallery product={product} />
+                        </section>
 
-                    {/* COLUMNA IZQUIERDA: VISUAL */}
-                    <section className={styles.visualCol}>
-                        <ProductGallery product={product} />
-                        <ProductDescription description={product.description} />
-                    </section>
+                        {/* COLUMNA DERECHA: COMPRA (STICKY) */}
+                        <aside className={styles.purchaseCol}>
+                            <div className={styles.purchaseCard}>
 
-                    {/* COLUMNA DERECHA: COMPRA (STICKY) */}
-                    <aside className={styles.purchaseCol}>
-                        <div className={styles.purchaseCard}>
+                                <ProductPrice
+                                    basePrice={product.basePrice}
+                                    selectedSizePrice={selectedSize?.price ?? null}
+                                />
 
-                            <ProductPrice
-                                basePrice={product.basePrice}
-                                selectedSizePrice={selectedSize?.customMeasure ? selectedSize.price : null}
-                            />
+                                <ProductSizeSelector
+                                    sizes={product.sizes || []}
+                                    selectedSize={selectedSize}
+                                    setSelectedSize={setSelectedSize}
+                                />
 
-                            <ProductSizeSelector
-                                sizes={product.sizes || []}
-                                selectedSize={selectedSize}
-                                setSelectedSize={setSelectedSize}
-                            />
+                                <ProductBuyActions
+                                    productId={product.id}
+                                    productName={product.name}
+                                    productImage={product.image}
+                                    selectedSize={selectedSize}
+                                    basePrice={product.basePrice}
+                                    quantity={quantity}
+                                    setQuantity={setQuantity}
+                                    onAddSuccess={(item) => {
+                                        setPendingItem(item);
+                                        setCartOpen(true);
+                                    }}
+                                />
 
-                            <ProductBuyActions
-                                productId={product.id}
-                                productName={product.name}
-                                productImage={product.image}
-                                selectedSize={selectedSize}
-                                basePrice={product.basePrice}
-                                quantity={quantity}
-                                setQuantity={setQuantity}
-                                onAddSuccess={(item) => {
-                                    setPendingItem(item);
-                                    setCartOpen(true);
-                                }}
-                            />
+                            </div>
+                        </aside>
+                    </div>
+                </div>
 
-                        </div>
-                    </aside>
-
+                {/* FILA INFERIOR: DESCRIPCIÓN */}
+                <div className={styles.descriptionSection}>
+                    <ProductDescription description={product.description} />
                 </div>
             </div>
         </main>
