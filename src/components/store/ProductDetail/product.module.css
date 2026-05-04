@@ -88,7 +88,7 @@
     color: #888;
 }
 
-/* MAIN GRID (THOMANN LAYOUT) */
+/* MAIN GRID */
 .mainGrid {
     display: grid;
     grid-template-columns: 1fr 450px;
@@ -195,7 +195,7 @@
     border-radius: 50%;
 }
 
-/* RIGHT: PURCHASE CARD (COMPACT PREMIUM) */
+/* RIGHT: PURCHASE CARD */
 .purchaseCol {
     position: sticky;
     top: 100px;
@@ -247,173 +247,179 @@
     letter-spacing: 1px;
 }
 
-/* DROPDOWN JERÁRQUICO PREMIUM */
-.selectionGroup {
+/* SIZE SELECTOR (DISEÑO PILLS) */
+.sizeSelectorWrapper {
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 20px;
 }
 
-.label {
-    font-size: 0.75rem;
+.sizeSelectorHeader {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.sizeSelectorLabel {
+    font-size: 0.72rem;
+    font-weight: 900;
+    color: rgba(255, 255, 255, 0.4);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+.sizeSelectorSelected {
+    font-size: 0.85rem;
+    font-weight: 800;
+    color: var(--white);
+    background: rgba(255, 255, 255, 0.08);
+    padding: 4px 10px;
+    border-radius: 8px;
+}
+
+.sizeGroupBlock {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.sizeGroupTitle {
+    font-size: 0.65rem;
     font-weight: 900;
     color: rgba(255, 255, 255, 0.3);
     text-transform: uppercase;
-    letter-spacing: 1px;
-}
-
-.hierarchicalDropdown {
-    position: relative;
-    width: 100%;
-}
-
-.mainToggle {
-    width: 100%;
-    background: var(--card-bg);
-    border: 2px solid var(--white);
-    padding: 15px 20px;
-    border-radius: 12px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    cursor: pointer;
-    transition: all 0.2s;
-    box-shadow: var(--pop-shadow);
-}
-
-.mainToggle:hover {
-    transform: translate(-2px, -2px);
-    box-shadow: 7px 7px 0px rgba(0,0,0,1);
-    border-color: var(--highlight-text);
-}
-
-.toggleLabel {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    font-size: 0.85rem;
-    font-weight: 800;
-    color: #FFF;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-}
-
-.statusDot {
-    width: 6px;
-    height: 6px;
-    background: var(--highlight-text);
-    border-radius: 50%;
-    box-shadow: 0 0 8px var(--highlight-text);
-}
-
-.pinkChevron {
-    color: var(--highlight-text);
-    font-size: 1rem;
-    transition: transform 0.4s;
-}
-
-.mainToggle.open .pinkChevron {
-    transform: rotate(180deg);
-}
-
-.mainMenu {
-    position: absolute;
-    top: calc(100% + 15px);
-    bottom: auto;
-    left: 0;
-    right: 0;
-    background: var(--card-bg);
-    border: 2px solid var(--white);
-    border-radius: 12px;
-    padding: 15px;
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-    z-index: 100;
-    box-shadow: var(--pop-shadow);
-}
-
-.mainMenu::before {
-    content: '';
-    position: absolute;
-    top: -7px;
-    left: 50%;
-    transform: translateX(-50%) rotate(45deg);
-    width: 12px;
-    height: 12px;
-    background: var(--card-bg);
-    border-top: 2px solid var(--white);
-    border-left: 2px solid var(--white);
-}
-
-.categoryGroup {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    margin-bottom: 15px;
-}
-
-.categoryGroup:last-child {
-    margin-bottom: 0;
-}
-
-.categoryHeader {
-    text-align: center;
-    font-size: 0.75rem;
-    font-weight: 900;
-    color: rgba(255, 255, 255, 0.4);
     letter-spacing: 2px;
-    text-transform: uppercase;
-    margin: 5px 0;
+    margin: 0;
 }
 
-.sizeList {
+/* Contenedor flexible de píldoras */
+.sizePillContainer {
     display: flex;
-    flex-direction: column;
+    flex-wrap: wrap;
     gap: 8px;
 }
 
-.sizeOptionBtn {
-    width: 100%;
-    background: var(--primary-bg);
-    border: 2px solid transparent;
-    padding: 12px 18px;
-    border-radius: 8px;
-    display: flex;
-    justify-content: space-between;
+/* Píldora individual */
+.sizePill {
+    display: inline-flex;
     align-items: center;
+    gap: 8px;
+    padding: 10px 18px;
+    background: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 40px;
+    color: var(--white);
+    font-size: 0.85rem;
+    font-weight: 700;
     cursor: pointer;
-    transition: all 0.2s;
+    transition: all 0.2s ease;
 }
 
-.sizeOptionBtn:hover {
-    border-color: rgba(255, 255, 255, 0.3);
+.sizePill:hover {
+    border-color: rgba(255, 255, 255, 0.4);
     background: rgba(255, 255, 255, 0.05);
 }
 
-.sizeOptionActive {
-    background: var(--highlight-text);
+/* Estado activo de la píldora */
+.sizePillActive {
+    background: var(--highlight-text) !important;
+    border-color: var(--highlight-text) !important;
+    color: var(--white) !important;
+    box-shadow: 0 4px 15px rgba(255, 0, 85, 0.25);
+}
+
+/* Píldora especial "Personalizada" */
+.sizePillCustom {
+    border-style: dashed;
+    border-color: rgba(255, 255, 255, 0.3);
+}
+
+.sizePillCustom:hover {
+    border-style: solid;
     border-color: var(--highlight-text);
-    box-shadow: 3px 3px 0px rgba(0,0,0,1);
+}
+
+.customInputPanel {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    overflow: hidden;
+    margin-top: 4px;
+}
+
+.customInputRow {
+    display: flex;
+    gap: 8px;
+}
+
+.customMeasureInput {
+    flex: 1;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1.5px solid rgba(255, 255, 255, 0.2);
+    border-radius: 8px;
+    padding: 10px 14px;
+    color: #FFF;
+    font-size: 0.9rem;
+    font-weight: 700;
+    outline: none;
+    transition: border-color 0.2s;
+    font-family: monospace;
+    letter-spacing: 1px;
+}
+
+.customMeasureInput::placeholder {
+    color: rgba(255, 255, 255, 0.2);
+    font-weight: 400;
+    letter-spacing: 0;
+}
+
+.customMeasureInput:focus {
+    border-color: var(--highlight-text);
+}
+
+.customMeasureInputError {
+    border-color: #FF4444 !important;
+}
+
+.customMeasureConfirm {
+    flex-shrink: 0;
+    padding: 10px 20px;
+    background: var(--highlight-text);
+    border: none;
+    border-radius: 8px;
+    color: #FFF;
+    font-size: 0.82rem;
+    font-weight: 900;
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: opacity 0.15s, transform 0.15s;
+    box-shadow: 3px 3px 0px rgba(0, 0, 0, 0.8);
+}
+
+.customMeasureConfirm:hover {
+    opacity: 0.85;
     transform: translate(-1px, -1px);
 }
 
-.sizeOptionActive .sizeName,
-.sizeOptionActive .sizePrice {
-    color: var(--white);
+.customMeasureError {
+    font-size: 0.72rem;
+    color: #FF4444;
+    font-weight: 700;
+    margin: 0;
+    padding-left: 2px;
 }
 
-.sizeName {
-    font-size: 0.9rem;
-    font-weight: 800;
-    color: var(--white);
+.customMeasureHint {
+    font-size: 0.68rem;
+    color: rgba(255, 255, 255, 0.2);
+    margin: 0;
+    padding-left: 2px;
 }
 
-.sizePrice {
-    font-size: 0.9rem;
-    font-weight: 900;
-    color: var(--hover-text);
-}
+.selectionGroup { display: flex; flex-direction: column; gap: 10px; }
+.label { font-size: 0.75rem; font-weight: 900; color: rgba(255,255,255,0.3); text-transform: uppercase; letter-spacing: 1px; }
+.sizeName { font-size: 0.9rem; font-weight: 800; color: var(--white); }
+.sizePrice { font-size: 0.9rem; font-weight: 900; color: var(--hover-text); }
 
 /* CANTIDAD Y BOTÓN */
 .buyActions {

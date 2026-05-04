@@ -42,7 +42,7 @@ export default function ProductDetailClient({ product }) {
 
                             <ProductPrice
                                 basePrice={product.basePrice}
-                                selectedSizePrice={selectedSize?.price}
+                                selectedSizePrice={selectedSize?.customMeasure ? selectedSize.price : null}
                             />
 
                             <ProductSizeSelector
@@ -56,6 +56,7 @@ export default function ProductDetailClient({ product }) {
                                 productName={product.name}
                                 productImage={product.image}
                                 selectedSize={selectedSize}
+                                basePrice={product.basePrice}
                                 quantity={quantity}
                                 setQuantity={setQuantity}
                                 onAddSuccess={(item) => {

@@ -1,32 +1,62 @@
+/**
+ * @file CartPageClient.jsx
+ * @description Página de carrito de compras del usuario (Client Component de hoja)
+ *
+ * [Nuestro enfoque]
+ * Centraliza todo el estado interactivo del carrito: productos, cantidades, descuentos,
+ * selección de dirección de envío y confirmación del pedido
+ *
+ * [Por qué lo hemos hecho así]
+ * Al ser un Client Component de hoja, todo el estado de interacción vive aquí
+ * mientras que la página padre puede seguir siendo un Server Component,
+ * lo que mejora el rendimiento inicial de carga
+ *
+ * [Gestión de direcciones]
+ * - Preselecciona automáticamente la dirección marcada como predeterminada
+ * - Muestra de forma compacta la dirección activa con un botón de cambio
+ * - Al pulsar "Cambiar" se expande la lista completa para elegir otra opción
+ */
 "use client";
 
 import React, { useState, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
-import { FaXmark, FaPlus, FaMinus, FaTag, FaLocationDot, FaCircleCheck, FaTriangleExclamation } from 'react-icons/fa6';
+import {
+    FaXmark,
+    FaPlus,
+    FaMinus,
+    FaTag,
+    FaLocationDot,
+    FaCircleCheck,
+    FaTriangleExclamation,
+    FaPencil,
+} from 'react-icons/fa6';
 import styles from './CartPageClient.module.css';
 
 export default function CartPageClient() {
     const router = useRouter();
 
-    // Estado principal
-    const [items, setItems]           = useState([]);
-    const [addresses, setAddresses]   = useState([]);
-    const [loading, setLoading]       = useState(true);
+    /* ── Estado principal ── */
+    const [items, setItems]         = useState([]);
+    const [addresses, setAddresses] = useState([]);
+    const [loading, setLoading]     = useState(true);
 
-    // Estado del formulario
-    const [selectedAddress, setSelectedAddress] = useState(null);
-    const [customerNote, setCustomerNote]       = useState('');
-    const [discountCode, setDiscountCode]       = useState('');
-    const [appliedDiscount, setAppliedDiscount] = useState(null); // { code_id, discount_amount, ... }
-    const [discountError, setDiscountError]     = useState('');
-    const [discountLoading, setDiscountLoading] = useState(false);
+    /* ── Estado del formulario ── */
+    const [selectedAddress, setSelectedAddress]   = useState(null);
+    const [customerNote, setCustomerNote]         = useState('');
+    const [discountCode, setDiscountCode]         = useState('');
+    const [appliedDiscount, setAppliedDiscount]   = useState(null);
+    const [discountError, setDiscountError]       = useState('');
+    const [discountLoading, setDiscountLoading]   = useState(false);
 
-    // Estado del modal de confirmación
+    /* Controla si la lista completa de direcciones está expandida o solo se ve la activa */
+    const [showAddressList, setShowAddressList] = useState(false);
+
+    /* ── Estado del modal de confirmación ── */
     const [showModal, setShowModal]   = useState(false);
     const [confirming, setConfirming] = useState(false);
 
-    // Carga inicial del carrito y direcciones
+    /* ── Carga inicial del carrito y las direcciones del usuario ── */
     const fetchData = useCallback(async () => {
         setLoading(true);
         try {
@@ -42,7 +72,7 @@ export default function CartPageClient() {
             const addrList = Array.isArray(addrData) ? addrData : [];
             setAddresses(addrList);
 
-            // Pre-seleccionar dirección por defecto si existe
+            /* Marcamos como seleccionada la dirección predeterminada, o la primera si no hay ninguna */
             const defaultAddr = addrList.find(a => a.is_default) ?? addrList[0] ?? null;
             setSelectedAddress(defaultAddr?.address_id ?? null);
         } catch {
@@ -55,7 +85,15 @@ export default function CartPageClient() {
 
     useEffect(() => { fetchData(); }, [fetchData]);
 
-    // Actualizar cantidad de un item optimistamente
+    /* ── Acciones del carrito ── */
+
+    /**
+     * Actualiza la cantidad de un producto de forma optimista:
+     * primero refleja el cambio en la UI y luego lo persiste en el servidor
+     *
+     * @param {number} orderProductId - Identificador del producto en el pedido
+     * @param {number} newQty - Nueva cantidad seleccionada por el usuario
+     */
     async function handleQuantityChange(orderProductId, newQty) {
         setItems(prev => prev.map(i =>
             i.order_product_id === orderProductId ? { ...i, quantity: newQty } : i
@@ -67,7 +105,12 @@ export default function CartPageClient() {
         });
     }
 
-    // Eliminar item optimistamente
+    /**
+     * Elimina un producto del carrito de forma optimista:
+     * lo quita de la UI al instante y luego manda la petición al servidor
+     *
+     * @param {number} orderProductId - Identificador del producto a eliminar
+     */
     async function handleRemove(orderProductId) {
         setItems(prev => prev.filter(i => i.order_product_id !== orderProductId));
         if (appliedDiscount) setAppliedDiscount(null); // recalcular descuento
@@ -78,7 +121,10 @@ export default function CartPageClient() {
         });
     }
 
-    // Validar código de descuento
+    /**
+     * Valida el código de descuento contra el servidor y lo aplica si es correcto
+     * Si el código ya estaba aplicado no hace nada para evitar llamadas duplicadas
+     */
     async function handleApplyDiscount() {
         if (!discountCode.trim()) return;
         setDiscountLoading(true);
@@ -92,7 +138,6 @@ export default function CartPageClient() {
                 body: JSON.stringify({ code: discountCode.trim(), subtotal }),
             });
             const data = await res.json();
-
             if (!res.ok) {
                 setDiscountError(data.error);
             } else {
@@ -105,7 +150,7 @@ export default function CartPageClient() {
         }
     }
 
-    // Confirmar pedido
+    /* Envía el pedido al servidor y redirige al área de pedidos del dashboard si todo va bien */
     async function handleConfirm() {
         setConfirming(true);
         try {
@@ -127,19 +172,28 @@ export default function CartPageClient() {
             }
 
             setShowModal(false);
-            router.push('/dashboard'); // redirigir a panel de pedidos del usuario
+            router.push('/dashboard/pedidos');
         } catch {
-            alert('Error al confirmar el pedido');
+            alert('Error al confirmar el pedido. Inténtalo de nuevo.');
         } finally {
             setConfirming(false);
         }
     }
 
-    // Cálculos del resumen
-    const subtotal         = items.reduce((sum, i) => sum + i.unit_price * i.quantity, 0);
-    const discountAmount   = appliedDiscount?.discount_amount ?? 0;
-    const total            = Math.max(0, subtotal - discountAmount);
-    const formatPrice      = (n) => `${parseFloat(n).toFixed(2)}€`;
+    /* Guarda la dirección elegida y colapsa la lista para volver a la vista compacta */
+    const handleSelectAddress = (addressId) => {
+        setSelectedAddress(addressId);
+        setShowAddressList(false);
+    };
+
+    /* ── Cálculos del resumen ── */
+    const subtotal       = items.reduce((sum, i) => sum + i.unit_price * i.quantity, 0);
+    const discountAmount = appliedDiscount?.discount_amount ?? 0;
+    const total          = Math.max(0, subtotal - discountAmount);
+    const formatPrice    = (n) => `${parseFloat(n).toFixed(2)}€`;
+
+    /** Dirección actualmente seleccionada (objeto completo) */
+    const activeAddress = addresses.find(a => a.address_id === selectedAddress) ?? null;
 
     if (loading) {
         return <div className={styles.loadingState}>Cargando tu cesta...</div>;
@@ -185,7 +239,7 @@ export default function CartPageClient() {
                                                     <button
                                                         className={styles.removeBtn}
                                                         onClick={() => handleRemove(item.order_product_id)}
-                                                        aria-label="Eliminar"
+                                                        aria-label="Eliminar producto del carrito"
                                                     >
                                                         <FaXmark />
                                                     </button>
@@ -199,6 +253,7 @@ export default function CartPageClient() {
                                                             className={styles.qtyBtn}
                                                             onClick={() => handleQuantityChange(item.order_product_id, item.quantity - 1)}
                                                             disabled={item.quantity <= 1}
+                                                            aria-label="Reducir cantidad"
                                                         >
                                                             <FaMinus />
                                                         </button>
@@ -206,6 +261,7 @@ export default function CartPageClient() {
                                                         <button
                                                             className={styles.qtyBtn}
                                                             onClick={() => handleQuantityChange(item.order_product_id, item.quantity + 1)}
+                                                            aria-label="Aumentar cantidad"
                                                         >
                                                             <FaPlus />
                                                         </button>
@@ -250,7 +306,10 @@ export default function CartPageClient() {
                                     />
                                     <button
                                         className={styles.discountBtn}
-                                        onClick={appliedDiscount ? () => { setAppliedDiscount(null); setDiscountCode(''); } : handleApplyDiscount}
+                                        onClick={appliedDiscount
+                                            ? () => { setAppliedDiscount(null); setDiscountCode(''); }
+                                            : handleApplyDiscount
+                                        }
                                         disabled={discountLoading}
                                     >
                                         {appliedDiscount ? 'QUITAR' : discountLoading ? '...' : 'APLICAR'}
@@ -299,31 +358,70 @@ export default function CartPageClient() {
                             {/* Selector de dirección */}
                             <section className={styles.card}>
                                 <h2 className={styles.cardTitle}><FaLocationDot /> Dirección de envío</h2>
+
                                 {addresses.length === 0 ? (
                                     <p className={styles.noAddresses}>
                                         No tienes direcciones guardadas.{' '}
-                                        <button className={styles.linkBtn} onClick={() => router.push('/dashboard')}>
+                                        <button className={styles.linkBtn} onClick={() => router.push('/dashboard/direcciones')}>
                                             Añadir dirección
                                         </button>
                                     </p>
                                 ) : (
-                                    <div className={styles.addressList}>
-                                        {addresses.map(addr => (
-                                            <button
-                                                key={addr.address_id}
-                                                className={`${styles.addressCard} ${selectedAddress === addr.address_id ? styles.addressActive : ''}`}
-                                                onClick={() => setSelectedAddress(addr.address_id)}
-                                            >
-                                                <div className={styles.addressRadio}>
-                                                    <div className={styles.radioInner} />
+                                    <>
+                                        {/* Vista compacta: dirección activa + botón "Cambiar" */}
+                                        {activeAddress && !showAddressList && (
+                                            <div className={styles.activeAddressCard}>
+                                                <div className={styles.activeAddressInfo}>
+                                                    <span className={styles.activeAddressDefault}>
+                                                        {activeAddress.is_default ? '★ Predeterminada' : 'Seleccionada'}
+                                                    </span>
+                                                    <span className={styles.addressStreet}>
+                                                        {activeAddress.calle}{activeAddress.portal_piso_puerta ? `, ${activeAddress.portal_piso_puerta}` : ''}
+                                                    </span>
+                                                    <span className={styles.addressCity}>
+                                                        {activeAddress.codigo_postal} {activeAddress.ciudad}, {activeAddress.provincia}
+                                                    </span>
                                                 </div>
-                                                <div className={styles.addressText}>
-                                                    <span className={styles.addressStreet}>{addr.calle}{addr.portal_piso_puerta ? `, ${addr.portal_piso_puerta}` : ''}</span>
-                                                    <span className={styles.addressCity}>{addr.codigo_postal} {addr.ciudad}, {addr.provincia}</span>
-                                                </div>
-                                            </button>
-                                        ))}
-                                    </div>
+                                                {addresses.length > 1 && (
+                                                    <button
+                                                        className={styles.changeAddressBtn}
+                                                        onClick={() => setShowAddressList(true)}
+                                                        aria-label="Cambiar dirección de envío"
+                                                    >
+                                                        <FaPencil /> Cambiar
+                                                    </button>
+                                                )}
+                                            </div>
+                                        )}
+
+                                        {/* Lista expandida para cambiar dirección */}
+                                        {showAddressList && (
+                                            <div className={styles.addressList}>
+                                                {addresses.map(addr => (
+                                                    <button
+                                                        key={addr.address_id}
+                                                        className={`${styles.addressCard} ${selectedAddress === addr.address_id ? styles.addressActive : ''}`}
+                                                        onClick={() => handleSelectAddress(addr.address_id)}
+                                                    >
+                                                        <div className={styles.addressRadio}>
+                                                            <div className={styles.radioInner} />
+                                                        </div>
+                                                        <div className={styles.addressText}>
+                                                            <span className={styles.addressStreet}>
+                                                                {addr.calle}{addr.portal_piso_puerta ? `, ${addr.portal_piso_puerta}` : ''}
+                                                            </span>
+                                                            <span className={styles.addressCity}>
+                                                                {addr.codigo_postal} {addr.ciudad}, {addr.provincia}
+                                                            </span>
+                                                            {addr.is_default && (
+                                                                <span className={styles.defaultBadge}>Predeterminada</span>
+                                                            )}
+                                                        </div>
+                                                    </button>
+                                                ))}
+                                            </div>
+                                        )}
+                                    </>
                                 )}
                             </section>
 

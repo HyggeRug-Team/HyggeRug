@@ -12,7 +12,7 @@ import styles from './product.module.css';
  * @param {number}      quantity     - Cantidad actual
  * @param {Function}    setQuantity  - Setter del estado de cantidad
  */
-export default function ProductBuyActions({ productId, selectedSize, quantity, setQuantity, onAddSuccess }) {
+export default function ProductBuyActions({ productId, selectedSize, basePrice, quantity, setQuantity, onAddSuccess }) {
     const [status, setStatus] = useState('idle'); // 'idle' | 'loading' | 'success' | 'error' | 'no-size'
     const router = useRouter();
 
@@ -28,6 +28,8 @@ export default function ProductBuyActions({ productId, selectedSize, quantity, s
         onAddSuccess?.();          // <-- abre el sidebar
         router.refresh();
 
+        const finalPrice = selectedSize.customMeasure ? selectedSize.price : basePrice;
+
         try {
             const res = await fetch('/api/cart/add', {
                 method: 'POST',
@@ -35,7 +37,7 @@ export default function ProductBuyActions({ productId, selectedSize, quantity, s
                 body: JSON.stringify({
                     productId,
                     sizeId: selectedSize.id,
-                    unitPrice: selectedSize.price,
+                    unitPrice: finalPrice,
                     quantity: Number(quantity),
                 }),
             });

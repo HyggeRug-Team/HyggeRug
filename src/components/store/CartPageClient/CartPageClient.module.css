@@ -406,6 +406,67 @@
     text-decoration: underline;
 }
 
+/* ── Vista compacta: dirección activa seleccionada ── */
+.activeAddressCard {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 14px 16px;
+    background: rgba(255, 0, 85, 0.05);
+    border: 2px solid var(--highlight-text);
+    border-radius: 12px;
+}
+
+.activeAddressInfo {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    flex: 1;
+    min-width: 0;
+}
+
+.activeAddressDefault {
+    font-size: 0.68rem;
+    font-weight: 900;
+    color: var(--highlight-text);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 4px;
+}
+
+.changeAddressBtn {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 14px;
+    background: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 8px;
+    color: var(--grey-400);
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    cursor: pointer;
+    white-space: nowrap;
+    flex-shrink: 0;
+    transition: all 0.2s;
+}
+
+.changeAddressBtn:hover {
+    border-color: var(--highlight-text);
+    color: var(--highlight-text);
+}
+
+.defaultBadge {
+    font-size: 0.65rem;
+    font-weight: 900;
+    color: var(--highlight-text);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-top: 4px;
+}
+
 .addressList {
     display: flex;
     flex-direction: column;

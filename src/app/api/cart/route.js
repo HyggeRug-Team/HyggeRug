@@ -4,7 +4,6 @@ import { db } from '@/lib/db';
 
 export async function GET() {
     const session = await getSession();
-    console.log('[cart/get] userId:', session?.userId);
     if (!session?.userId) {
         return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }

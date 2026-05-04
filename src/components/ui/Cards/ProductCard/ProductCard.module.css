@@ -240,24 +240,32 @@
 
 .title {
   font-family: var(--font-body);
-  font-size: 1.15rem;
+  font-size: 1.1rem;
   font-weight: 800;
   color: #fff;
   margin: 0;
   line-height: 1.2;
   transition: color 0.3s ease;
+  white-space: nowrap;         /* evita salto de línea */
+  overflow: hidden;
+  text-overflow: ellipsis;     /* "..." si no cabe */
 }
 
 .headerMain {
   display: flex;
+  flex-wrap: nowrap;          /* precio SIEMPRE a la derecha, nunca debajo */
   justify-content: space-between;
   align-items: center;
-  gap: 12px;
+  gap: 8px;
+  width: 100%;
+  overflow: hidden;
 }
 
 .titleLink {
-  flex: 1;
+  flex: 1 1 0%;              /* ocupa el espacio disponible */
+  min-width: 0;              /* permite que el texto haga ellipsis */
   text-decoration: none;
+  overflow: hidden;
 }
 
 .title:hover {
@@ -331,11 +339,12 @@
 }
 
 .price {
-  font-size: 1.15rem;
+  font-size: clamp(0.85rem, 2vw, 1.1rem);
   font-weight: 900;
   color: var(--hover-text);
   font-family: var(--font-titles);
-  white-space: nowrap;
+  white-space: nowrap;         /* nunca parte el precio */
+  flex-shrink: 0;              /* precio no se encoge; el título cede */
 }
 
 /* Responsive adjustments */
@@ -345,14 +354,14 @@
     gap: 6px;
   }
   .title {
-    font-size: 0.9rem;
+    font-size: 0.85rem;   /* más pequeño en tarjetas compactas */
   }
   .description {
     font-size: 0.75rem;
     -webkit-line-clamp: 1;
   }
   .price {
-    font-size: 1rem;
+    font-size: clamp(0.75rem, 2.2vw, 1rem);
   }
   .requestedByBadge {
     top: 10px;
