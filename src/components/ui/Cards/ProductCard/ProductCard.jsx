@@ -114,7 +114,7 @@ const ProductCard = ({
                         {isFavorite ? <FaHeart style={{ color: 'var(--highlight-text)' }} /> : <FaRegHeart />}
                     </button>
 
-                    <Link href={finalHref}>
+                    <Link href={finalHref} className={styles.imageLinkAnchor}>
                         <Image 
                             src={image} 
                             alt={title} 
@@ -202,7 +202,7 @@ const ProductCard = ({
                     {isFavorite ? <FaHeart style={{ color: 'var(--highlight-text)' }} /> : <FaRegHeart />}
                 </button>
 
-                <Link href={finalHref}>
+                <Link href={finalHref} className={styles.imageLinkAnchor}>
                     <Image 
                         src={image} 
                         alt={title} 

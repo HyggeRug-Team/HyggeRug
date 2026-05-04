@@ -7,7 +7,7 @@
  * las secciones necesarias. Obtiene los datos de la BD y los inyecta en StoreSection.
  *
  * [Por qué lo hemos hecho así]
- * 1. Consistencia: Mismo patrón que la Home (ensamblaje de secciones).
+ * 1. Consistencia: Mismo patrón que la Home (ensamblaje de secciones). 
  * 2. SEO: Los metadatos y la carga inicial de datos ocurren en el servidor.
  * 3. Modularidad: La lógica visual está en componentes de la carpeta /sections.
  */
@@ -38,7 +38,7 @@ export default async function TiendaPage() {
         id:                 p.product_id,
         title:              p.name,
         description:        p.description,
-        price:              `${parseFloat(p.base_price).toFixed(2)}€`,
+        price:              `${parseFloat(p.min_price || p.base_price).toFixed(2)}€ +`,
         image:              p.main_image ?? '/rug-mario.png',
         category:           p.category ?? 'ALFOMBRA',
         requestedBy:        p.requested_by ?? null,

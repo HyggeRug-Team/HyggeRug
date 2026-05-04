@@ -20,7 +20,12 @@ export async function getProducts() {
                 p.description,
                 p.base_price,
                 p.image_url AS main_image,
-                c.name AS category
+                c.name AS category,
+                COALESCE((
+                    SELECT MIN(price)
+                    FROM product_sizes ps
+                    WHERE ps.product_id = p.product_id AND ps.active = 1
+                ), p.base_price) AS min_price
             FROM products p
             LEFT JOIN categories c ON p.category_id = c.category_id
         `);
@@ -68,13 +73,12 @@ export async function getProductWithSizes(productId) {
                 p.base_price,
                 p.image_url,
                 c.name AS category,
-                s.size_id,
-                s.dimensions AS size_label,
+                ps.product_size_id AS size_id,
+                ps.size AS size_label,
                 ps.price
             FROM products p
             LEFT JOIN categories c ON p.category_id = c.category_id
-            LEFT JOIN product_sizes ps ON ps.product_id = p.product_id
-            LEFT JOIN sizes s ON ps.size_id = s.size_id
+            LEFT JOIN product_sizes ps ON ps.product_id = p.product_id AND ps.active = 1
             WHERE p.product_id = ?
             ORDER BY ps.price ASC
         `, [productId]);
