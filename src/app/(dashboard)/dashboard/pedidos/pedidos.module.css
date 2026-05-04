@@ -14,9 +14,9 @@
     margin: 0 auto;
     display: flex;
     flex-direction: column;
-    gap: 50px;
+    gap: 10px;
     position: relative;
-    padding: 30px 20px 50px;
+    padding: 20px 20px 40px;
 }
 
 /* ========== HEADER (Estilo Hero Title) ========== */
@@ -24,24 +24,24 @@
     display: flex;
     justify-content: space-between;
     align-items: flex-end;
-    padding-bottom: 30px;
+    padding-bottom: 10px;
     border-bottom: 3px solid rgba(255, 255, 255, 0.1);
     position: relative;
 }
 
 .greeting h1 {
     font-family: var(--font-titles);
-    font-size: clamp(2.5rem, 5vw, 4rem);
+    font-size: clamp(2rem, 5vw, 3rem);
     margin: 0;
     line-height: 0.9;
     color: var(--white);
-    text-shadow: 4px 4px 0px var(--highlight-text); 
+    text-shadow: 3px 3px 0px var(--highlight-text); 
 }
 
 .greeting p {
     color: var(--grey-400);
-    font-size: 1.1rem;
-    margin-top: 10px;
+    font-size: 1rem;
+    margin-top: 8px;
     font-weight: 300;
     letter-spacing: 0.5px;
 }
@@ -76,9 +76,8 @@
 }
 
 /* ========== CONTENT AREA ========== */
-.mainContentGrid {
-    display: flex;
-    flex-direction: column;
+.mainContent {
+    width: 100%;
 }
 
 .ordersFullWidth {
@@ -208,6 +207,84 @@
     background: rgba(255,255,255,0.05);
     padding: 4px 10px;
     border-radius: 4px;
+}
+
+/* Status Tracker */
+.trackerWrapper {
+    margin-top: 25px;
+    width: 100%;
+}
+
+.trackerContainer {
+    position: relative;
+    padding: 10px 0 20px;
+}
+
+.trackerLine {
+    position: absolute;
+    top: 25px;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 2px;
+    z-index: 1;
+}
+
+.trackerProgress {
+    height: 100%;
+    background: var(--highlight-text);
+    border-radius: 2px;
+    transition: width 1s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 0 10px var(--highlight-text);
+}
+
+.trackerSteps {
+    display: flex;
+    justify-content: space-between;
+    position: relative;
+    z-index: 2;
+}
+
+.stepWrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+}
+
+.stepDot {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: var(--grey-900);
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.8rem;
+    font-weight: 800;
+    color: var(--grey-500);
+    transition: all 0.3s ease;
+}
+
+.stepActive .stepDot {
+    border-color: var(--highlight-text);
+    background: var(--black);
+    color: var(--highlight-text);
+    box-shadow: 0 0 15px rgba(255, 0, 85, 0.3);
+}
+
+.stepLabel {
+    font-size: 0.65rem;
+    font-weight: 700;
+    color: var(--grey-500);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.stepActive .stepLabel {
+    color: var(--white);
 }
 
 /* Items Section */
