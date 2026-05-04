@@ -30,7 +30,10 @@ import {
   FaLocationDot, 
   FaCreditCard, 
   FaChevronRight,
-  FaStore
+  FaStore,
+  FaPalette,
+  FaCircleCheck,
+  FaSpinner
 } from "react-icons/fa6";
 
 export const metadata = {
@@ -133,41 +136,50 @@ export default async function ResumenPage() {
           {hasOrders ? (
             <div className={styles.ordersList}>
               {recentOrders.map((order) => {
-                  let statusBadgeClass = styles.statusProcessing;
-                  let icon = <FaBoxOpen />;
+                  const statusInfo = {
+                    'diseñando': { class: styles.statusProcessing, icon: <FaPalette />, label: 'DISEÑANDO' },
+                    'pendiente de aprobación': { class: styles.statusProcessing, icon: <FaSpinner className={styles.spinIcon} />, label: 'PROCESANDO' },
+                    'comprobando pago': { class: styles.statusProcessing, icon: <FaSpinner className={styles.spinIcon} />, label: 'PROCESANDO' },
+                    'tejiendo': { class: styles.statusProcessing, icon: <FaPalette />, label: 'EN TALLER' },
+                    'enviado': { class: styles.statusShipped, icon: <FaTruckFast />, label: 'ENVIADO' },
+                    'recibido': { class: styles.statusDelivered, icon: <FaCircleCheck />, label: 'RECIBIDO' },
+                  }[order.order_status.toLowerCase()] || { class: styles.statusProcessing, icon: <FaBoxOpen />, label: order.order_status.toUpperCase() };
+
+                  const firstItem = order.items && order.items.length > 0 ? order.items[0] : null;
+                  const itemName = firstItem ? firstItem.product_name : 'Pedido Personalizado';
+                  const itemImage = firstItem ? firstItem.image_url : '/placeholder-rug.png';
                   
-                  if (order.order_status === 'enviado') {
-                      statusBadgeClass = styles.statusShipped;
-                      icon = <FaTruckFast />;
-                  } else if (order.order_status === 'recibido') {
-                      statusBadgeClass = styles.statusDelivered;
-                      icon = <FaBoxOpen />;
-                  }
-
-                  const formatItemName = order.items && order.items.length > 0 
-                      ? `${order.items[0].product_size || 'Alfombra Custom'}`
-                      : 'Diseño de la comunidad';
-
                   const qtyText = order.items && order.items.length > 1 
-                      ? ` y ${order.items.length - 1} artículo(s) más` 
+                      ? ` (+${order.items.length - 1} más)` 
                       : '';
 
                   return (
-                      <div key={order.order_id} className={`${styles.orderItem} ${statusBadgeClass}`}>
+                      <Link 
+                        key={order.order_id} 
+                        href={`/dashboard/pedidos/${order.order_id}`}
+                        className={`${styles.orderItem} ${statusInfo.class}`}
+                      >
                         <div className={styles.orderInfoMain}>
-                          <div className={styles.orderIcon}>
-                            {icon}
+                          <div className={styles.orderImageThumb}>
+                            <img src={itemImage} alt={itemName} />
                           </div>
                           <div className={styles.orderText}>
                             <h4>Pedido #{order.order_id}</h4>
-                            <p>{formatItemName}{qtyText}</p>
+                            <p>{itemName}{qtyText}</p>
                           </div>
                         </div>
                         <div className={styles.orderStatus}>
-                          <span className={styles.statusBadge}>{order.order_status.toUpperCase()}</span>
-                          <span className={styles.orderDate}>{parseFloat(order.total_amount).toFixed(2)}€</span>
+                          <span className={styles.statusBadge}>
+                            {statusInfo.icon} {statusInfo.label}
+                          </span>
+                          <div className={styles.orderMetaInfo}>
+                            <span className={styles.orderAmount}>{parseFloat(order.total_amount || 0).toFixed(2)}€</span>
+                            <span className={styles.orderDate}>
+                                {new Date(order.creation_date).toLocaleDateString('es-ES', { day: '2-digit', month: 'short' })}
+                            </span>
+                          </div>
                         </div>
-                      </div>
+                      </Link>
                   );
               })}
             </div>

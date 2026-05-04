@@ -1,0 +1,340 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+.controls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.filterTabs {
+  display: flex;
+  background: rgba(255, 255, 255, 0.05);
+  padding: 5px;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.filterTab {
+  position: relative;
+  padding: 8px 20px;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--grey-400);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  transition: color 0.3s;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.activeTab {
+  color: var(--white);
+}
+
+.activeIndicator {
+  position: absolute;
+  inset: 0;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  z-index: -1;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.searchWrapper {
+  position: relative;
+  flex: 1;
+  max-width: 400px;
+}
+
+.searchWrapper svg {
+  position: absolute;
+  left: 15px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--grey-500);
+}
+
+.searchWrapper input {
+  width: 100%;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 12px 15px 12px 45px;
+  border-radius: 12px;
+  color: var(--white);
+  font-family: var(--font-body);
+  transition: all 0.3s;
+}
+
+.searchWrapper input:focus {
+  outline: none;
+  border-color: var(--highlight-text);
+  background: rgba(255, 255, 255, 0.08);
+  box-shadow: 0 0 15px rgba(255, 0, 85, 0.2);
+}
+
+.ordersGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+  gap: 25px;
+}
+
+.orderCard {
+  background: var(--grey-900);
+  border: 2px dashed rgba(255, 255, 255, 0.2);
+  border-radius: 24px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  transition: all 0.3s ease;
+}
+
+.orderCard:hover {
+  border-color: var(--highlight-text);
+  transform: translateY(-5px);
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4);
+}
+
+.cardHeader {
+  padding: 15px 25px;
+  background: rgba(255, 255, 255, 0.03);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 2px dashed rgba(255, 255, 255, 0.1);
+}
+
+.orderIdGroup {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.orderLabel {
+  font-size: 0.65rem;
+  font-weight: 800;
+  color: var(--grey-500);
+  letter-spacing: 1px;
+}
+
+.orderNumber {
+  font-family: var(--font-titles);
+  font-size: 1.1rem;
+  color: var(--white);
+}
+
+.statusBadge {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 5px 12px;
+  border-radius: 8px;
+  font-size: 0.7rem;
+  font-weight: 800;
+  border: 1px solid;
+}
+
+.statusDesigning { border-color: var(--highlight-text); color: var(--highlight-text); }
+.statusProcessing { border-color: var(--hover-text); color: var(--hover-text); }
+.statusTufting { border-color: #9000ff; color: #c975ff; }
+.statusShipped { border-color: var(--button-before-hover); color: var(--button-before-hover); }
+.statusDelivered { border-color: #00ff80; color: #00ff80; }
+
+.spinIcon {
+  animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.cardBody {
+  padding: 25px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.orderMainInfo {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.metaRow {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.metaItem {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--grey-400);
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.metaItem svg {
+  color: var(--grey-600);
+}
+
+.itemsPreview {
+  display: flex;
+  align-items: center;
+}
+
+.itemThumb {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  border: 2px solid var(--grey-900);
+  overflow: hidden;
+  margin-left: -15px;
+  background: #000;
+}
+
+.itemThumb:first-child {
+  margin-left: 0;
+}
+
+.itemThumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.moreItems {
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  background: var(--grey-800);
+  border: 2px solid var(--grey-900);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.75rem;
+  font-weight: 800;
+  margin-left: -10px;
+  color: var(--white);
+}
+
+.cardActions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 15px;
+  margin-top: 5px;
+}
+
+.actionBtn {
+  width: 100% !important;
+  font-size: 0.75rem !important;
+  padding: 10px 5px !important;
+}
+
+.emptyState {
+  grid-column: 1 / -1;
+  padding: 60px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+  background: rgba(255, 255, 255, 0.02);
+  border-radius: 30px;
+  border: 2px dashed rgba(255, 255, 255, 0.1);
+}
+
+.emptyState h3 {
+  font-size: 1.5rem;
+  margin: 0;
+}
+
+.resetBtn {
+  margin-top: 10px;
+  background: transparent;
+  border: 1px dashed var(--highlight-text);
+  color: var(--highlight-text);
+  padding: 8px 20px;
+  border-radius: 8px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.resetBtn:hover {
+  background: var(--highlight-text);
+  color: var(--white);
+}
+
+@media (max-width: 768px) {
+  .ordersGrid {
+    grid-template-columns: 1fr;
+    gap: 15px;
+  }
+  .controls {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 15px;
+  }
+  .filterTabs {
+    width: 100%;
+    justify-content: center;
+    overflow-x: auto;
+    padding: 3px;
+  }
+  .filterTab {
+    padding: 8px 12px;
+    font-size: 0.75rem;
+    flex: 1;
+    white-space: nowrap;
+  }
+  .searchWrapper {
+    max-width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .orderCard {
+    border-radius: 20px;
+  }
+  .cardHeader {
+    padding: 12px 20px;
+    gap: 8px;
+  }
+  .orderNumber {
+    font-size: 1rem;
+  }
+  .cardBody {
+    padding: 20px;
+    gap: 15px;
+  }
+  .orderMainInfo {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+  }
+  .metaRow {
+    gap: 5px;
+  }
+  .metaItem {
+    font-size: 0.8rem;
+  }
+  .cardActions {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+  .actionBtn {
+    padding: 12px 5px !important;
+  }
+}

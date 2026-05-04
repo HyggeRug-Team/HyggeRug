@@ -36,12 +36,11 @@ export async function createOrder(orderData) {
         // 3. Insertar todas las alfombras (items) asociadas al carrito/pedido
         for (const item of orderData.items) {
             await conn.query(`
-                INSERT INTO order_products
+                INSERT INTO order_product
                     (order_id, price, quantity, user_image, final_design)
                 VALUES (?, ?, ?, ?, ?)
             `, [
                 orderId,
-                item.productSize ?? null, // Texto del tamaño
                 item.price,               // Precio unitario
                 item.quantity ?? 1,
                 item.userImage ?? null,   
@@ -78,9 +77,13 @@ export async function getOrdersByUser(userId) {
                 o.creation_date,
                 o.updated_date,
                 oi.product_id,
-                oi.quantity
+                oi.quantity,
+                oi.unit_price,
+                p.name as product_name,
+                p.image_url
             FROM orders o
-            LEFT JOIN order_product   oi ON oi.order_id = o.order_id
+            LEFT JOIN order_product oi ON oi.order_id = o.order_id
+            LEFT JOIN products p ON p.product_id = oi.product_id
             WHERE o.user_id = ?
             ORDER BY o.creation_date DESC
         `, [userId]);
@@ -104,11 +107,13 @@ export async function getOrderById(orderId) {
                 ua.provincia, ua.codigo_postal, ua.pais, ua.phone_number,
                 oi.product_id,
                 oi.quantity,
-                oi.user_image,
-                oi.final_design
+                oi.unit_price,
+                p.name as product_name,
+                p.image_url
             FROM orders o
-            LEFT JOIN userAddresses   ua ON ua.address_id = o.address_id
-            LEFT JOIN order_product    oi ON oi.order_id  = o.order_id
+            LEFT JOIN userAddresses ua ON ua.address_id = o.address_id
+            LEFT JOIN order_product oi ON oi.order_id = o.order_id
+            LEFT JOIN products p ON p.product_id = oi.product_id
             WHERE o.order_id = ?
         `, [orderId]);
 
@@ -182,11 +187,11 @@ function groupOrderRows(rows) {
         // Cada vez que lo vemos de nuevo o si es la 1°, apilamos el sub-item correspondiente (la alfombra comprada)
         if (row.product_id) {
             ordersMap.get(row.order_id).items.push({
-                product_id:      row.product_id,
-                price:        row.item_price,
+                product_id:   row.product_id,
+                price:        row.unit_price,
                 quantity:     row.quantity,
-                user_image:   row.user_image,
-                final_design: row.final_design,
+                product_name: row.product_name,
+                image_url:    row.image_url
             });
         }
     }

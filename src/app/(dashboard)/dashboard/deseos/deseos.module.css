@@ -7,7 +7,7 @@
     margin: 0 auto;
     display: flex;
     flex-direction: column;
-    gap: 50px;
+    gap: 30px;
     padding: 30px 20px 50px;
 }
 
@@ -15,7 +15,7 @@
     display: flex;
     justify-content: space-between;
     align-items: flex-end;
-    padding-bottom: 30px;
+    padding-bottom: 20px;
     border-bottom: 3px solid rgba(255, 255, 255, 0.1);
 }
 
@@ -37,8 +37,9 @@
 
 .wishlistGrid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-    gap: 30px;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 350px));
+    gap: 25px;
+    justify-content: flex-start;
 }
 
 /* Empty State - Estilo dashboard */
@@ -104,14 +105,21 @@
     color: #000;
 }
 
-/* Loading State */
+.contentArea {
+    width: 100%;
+    min-height: 400px;
+    display: flex;
+    flex-direction: column;
+}
+
 .loadingState {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    padding: 100px 20px;
+    padding: 60px 20px;
     gap: 20px;
+    flex: 1;
 }
 
 .loader {

@@ -1,0 +1,510 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+}
+
+.dashboardHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+  flex-wrap: wrap;
+  background: rgba(255, 255, 255, 0.02);
+  padding: 30px;
+  border-radius: 30px;
+  border: 2px solid rgba(255, 255, 255, 0.05);
+}
+
+.headerInfo h2 {
+  font-family: var(--font-titles);
+  font-size: 2rem;
+  margin: 0;
+  color: var(--white);
+  text-shadow: 4px 4px 0px #000;
+}
+
+.headerInfo p {
+  color: var(--grey-400);
+  font-size: 1rem;
+  margin-top: 8px;
+  font-weight: 500;
+}
+
+.newTicketBtn {
+  background: var(--white);
+  color: var(--black);
+  border: 3px solid #000;
+  padding: 15px 30px;
+  border-radius: 15px;
+  font-family: var(--font-titles);
+  font-weight: 400;
+  font-size: 1.1rem;
+  letter-spacing: 1px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  box-shadow: 6px 6px 0px var(--highlight-text);
+}
+
+.newTicketBtn:hover {
+  transform: translate(-3px, -3px);
+  box-shadow: 10px 10px 0px var(--highlight-text);
+  background: var(--hover-text);
+}
+
+.ticketsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 30px;
+}
+
+.ticketCard {
+  background: rgba(255, 255, 255, 0.02);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 24px;
+  padding: 30px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  position: relative;
+  overflow: hidden;
+}
+
+.ticketCard::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; width: 4px; height: 100%;
+  background: var(--highlight-text);
+  z-index: 2;
+}
+
+.ticketCard:hover {
+  background: rgba(255, 255, 255, 0.05);
+  border-color: var(--highlight-text);
+  transform: translateY(-8px);
+  box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+}
+
+.cardHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.ticketType {
+  font-family: var(--font-titles);
+  font-size: 0.8rem;
+  color: var(--highlight-text);
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  background: #000;
+  padding: 6px 15px;
+  border-radius: 10px;
+  border: 1px solid rgba(255,255,255,0.1);
+}
+
+.statusBadge {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.8rem;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.statusOpen { color: var(--hover-text); }
+.statusReview { color: var(--accent-purple); }
+.statusResolved { color: #00ff80; }
+.statusCancelled { color: var(--grey-500); }
+
+.cardBody h3 {
+  font-family: var(--font-body);
+  font-weight: 800;
+  font-size: 1.2rem;
+  margin: 0 0 12px 0;
+  text-shadow: none;
+  color: var(--white);
+}
+
+.ticketDesc {
+  font-size: 0.95rem;
+  color: var(--grey-400);
+  line-height: 1.6;
+  margin: 0;
+}
+
+.ticketMeta {
+  display: flex;
+  gap: 20px;
+  margin-top: 5px;
+}
+
+.orderTag, .dateTag {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--grey-600);
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.viewDetailsBtn {
+  margin-top: auto;
+  background: #000;
+  border: 2px solid rgba(255, 255, 255, 0.1);
+  color: var(--white);
+  padding: 12px;
+  border-radius: 15px;
+  font-family: var(--font-titles);
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.viewDetailsBtn:hover {
+  background: var(--white);
+  color: var(--black);
+  border-color: var(--white);
+  transform: scale(1.05);
+}
+
+.emptyState {
+  grid-column: 1 / -1;
+  padding: 80px 40px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 25px;
+  background: #0d0d0d;
+  border-radius: 40px;
+  border: 4px dashed rgba(255, 255, 255, 0.05);
+}
+
+.emptyIcon {
+  font-size: 4rem;
+  color: var(--grey-800);
+  filter: drop-shadow(0 0 20px rgba(0,0,0,0.5));
+}
+
+.emptyState h3 {
+  font-family: var(--font-titles);
+  font-size: 2rem;
+  margin: 0;
+  text-shadow: 4px 4px 0px #000;
+}
+
+.emptyState p {
+  color: var(--grey-500);
+  max-width: 450px;
+  font-size: 1.1rem;
+}
+
+.emptyState button {
+  background: var(--white) !important;
+  color: var(--black) !important;
+  border: 3px solid #000;
+  padding: 15px 40px;
+  border-radius: 15px;
+  font-family: var(--font-titles);
+  font-size: 1.2rem;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  box-shadow: 6px 6px 0px var(--highlight-text);
+}
+
+.emptyState button:hover {
+  transform: scale(1.05) translate(-3px, -3px);
+  box-shadow: 10px 10px 0px var(--highlight-text);
+  background: var(--white);
+}
+
+
+@media (max-width: 768px) {
+  .dashboardHeader { flex-direction: column; align-items: stretch; text-align: center; }
+}
+
+/* TICKET DETAIL MODAL */
+.modalOverlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.95);
+  backdrop-filter: blur(20px);
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.detailModal {
+  background: rgba(20, 20, 20, 0.8);
+  backdrop-filter: blur(20px);
+  width: 100%;
+  max-width: 700px;
+  max-height: 90vh;
+  border-radius: 32px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.5);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  position: relative;
+}
+
+.detailModal::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; width: 100%; height: 6px;
+  background: var(--highlight-text);
+  pointer-events: none;
+  z-index: 5;
+}
+
+.modalHeader {
+  padding: 40px;
+  border-bottom: 1px solid #111;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.modalHeaderLeft {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.modalBadge {
+  background: var(--highlight-text);
+  color: #fff;
+  padding: 5px 12px;
+  border-radius: 8px;
+  font-size: 0.7rem;
+  font-weight: 900;
+  text-transform: uppercase;
+  width: fit-content;
+}
+
+.modalHeaderLeft h2 {
+  font-family: var(--font-titles);
+  font-size: 2rem;
+  margin: 0;
+}
+
+.closeModal {
+  background: #111;
+  border: 1px solid #222;
+  width: 45px;
+  height: 45px;
+  border-radius: 12px;
+  color: var(--white);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  transition: all 0.2s;
+}
+
+.closeModal:hover {
+  background: var(--highlight-text);
+  border-color: #000;
+}
+
+.modalScroll {
+  padding: 40px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+.detailGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.detailGroup label {
+  font-size: 0.75rem;
+  font-weight: 800;
+  color: var(--grey-600);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.detailReason {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--white);
+}
+
+.detailRow {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+.detailDate {
+  font-size: 1rem;
+  color: var(--grey-300);
+  font-weight: 600;
+}
+
+.orderLink {
+  background: rgba(255, 255, 255, 0.05);
+  padding: 15px 20px;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: var(--hover-text);
+  font-weight: 800;
+  width: fit-content;
+}
+
+.descriptionBox {
+  background: rgba(0, 0, 0, 0.2);
+  padding: 25px;
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  color: var(--grey-300);
+  line-height: 1.8;
+  white-space: pre-wrap;
+}
+
+.modalFooter {
+  padding: 30px 40px;
+  background: rgba(0, 0, 0, 0.1);
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.closeBtnFooter {
+  width: 100%;
+  padding: 16px;
+  background: transparent;
+  border: 2px solid rgba(255, 255, 255, 0.1);
+  color: var(--grey-400);
+  border-radius: 12px;
+  font-family: var(--font-titles);
+  font-weight: 400;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.closeBtnFooter:hover {
+  border-color: var(--white);
+  color: var(--white);
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.metaGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 15px;
+  margin-top: 10px;
+}
+
+.miniDetail {
+  background: rgba(255, 255, 255, 0.03);
+  padding: 15px;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.miniDetail label {
+  font-size: 0.65rem;
+  font-weight: 900;
+  color: var(--grey-600);
+  text-transform: uppercase;
+  margin-bottom: 5px;
+  display: block;
+}
+
+.miniDetail p {
+  color: var(--white);
+  font-size: 0.9rem;
+  font-weight: 700;
+}
+
+
+
+@media (max-width: 600px) {
+  .modalOverlay {
+    padding: 0;
+  }
+
+  .detailModal {
+    height: 100dvh;
+    max-height: 100dvh;
+    border-radius: 0;
+    border: none;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .modalHeader {
+    padding: 30px 20px 20px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 15px;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+  }
+
+  .modalHeaderLeft {
+    width: 100%;
+  }
+
+  .modalHeaderLeft h2 {
+    font-size: 1.6rem;
+    margin-top: 5px;
+  }
+
+  .closeModal {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    width: 40px;
+    height: 40px;
+    background: rgba(255,255,255,0.05);
+  }
+
+  .modalScroll {
+    padding: 20px;
+    gap: 25px;
+    flex: 1;
+  }
+
+  .detailReason {
+    font-size: 1.1rem;
+  }
+
+  .detailRow, .metaGrid {
+    grid-template-columns: 1fr;
+    gap: 15px;
+  }
+
+  .miniDetail {
+    padding: 12px;
+  }
+
+  .modalFooter {
+    padding: 20px;
+    background: #000;
+  }
+
+  .orderLink {
+    width: 100%;
+    text-align: center;
+  }
+}

@@ -15,12 +15,13 @@
  * 2. Diseño atómico: lo podemos reutilizar sin romper el layout.
  * 3. Interactividad: incluye efectos de hover para que el usuario lo identifique como clicable.
  *
- * - Si recibe `url` renderiza un <a> para navegar.
+ * - Si recibe `url` renderiza un <Link> para navegar de forma SPA.
  * - Si solo recibe `onClick` renderiza un <button> para acciones en página.
  */
 import React from 'react'
 import styles from './PrimaryButton.module.css'
 import { sanitizeHref } from '@/lib/url';
+import Link from 'next/link';
 
 function PrimaryButton({ text, url, Icon, onClick, className }) {
     const combinedClassName = `${styles.primaryBtn} ${className || ''}`;
@@ -29,10 +30,10 @@ function PrimaryButton({ text, url, Icon, onClick, className }) {
     if (url) {
         const safeHref = sanitizeHref(url);
         return (
-            <a href={safeHref} className={combinedClassName} onClick={onClick}>
+            <Link href={safeHref} className={combinedClassName} onClick={onClick}>
                 {Icon && <Icon size={18} />}
                 <span>{text}</span>
-            </a>
+            </Link>
         );
     }
 

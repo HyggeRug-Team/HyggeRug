@@ -3,9 +3,9 @@
   margin: 0 auto;
   display: flex;
   flex-direction: column;
-  gap: 50px;
+  gap: 10px;
   position: relative;
-  padding: 30px 20px 50px;
+  padding: 20px 20px 40px;
 }
 
 /* ========== HEADER ========== */
@@ -13,24 +13,24 @@
   display: flex;
   justify-content: space-between;
   align-items: flex-end;
-  padding-bottom: 30px;
+  padding-bottom: 10px;
   border-bottom: 3px solid rgba(255, 255, 255, 0.1);
   position: relative;
 }
 
 .greeting h1 {
   font-family: var(--font-titles);
-  font-size: clamp(2.5rem, 5vw, 4rem);
+  font-size: clamp(2rem, 5vw, 3rem);
   margin: 0;
   line-height: 0.9;
   color: var(--white);
-  text-shadow: 4px 4px 0px var(--highlight-text); 
+  text-shadow: 3px 3px 0px var(--highlight-text); 
 }
 
 .greeting p {
   color: var(--grey-400);
-  font-size: 1.1rem;
-  margin-top: 10px;
+  font-size: 1rem;
+  margin-top: 8px;
   font-weight: 300;
   letter-spacing: 0.5px;
 }

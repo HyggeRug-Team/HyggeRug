@@ -48,3 +48,19 @@
     color: var(--highlight-text); 
     transform: scale(1.2);
 }
+
+/* Variante Blanco y Rosa (Resumen Style) */
+.whitePink {
+    background-color: var(--white);
+    color: var(--black);
+    border: 3px solid #000;
+    box-shadow: 6px 6px 0px var(--highlight-text);
+    text-shadow: none;
+}
+
+.whitePink:hover {
+    background-color: var(--white);
+    transform: translate(-3px, -3px);
+    box-shadow: 10px 10px 0px var(--highlight-text);
+    border-color: #000;
+}
