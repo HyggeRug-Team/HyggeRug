@@ -17,7 +17,6 @@ export default function ProductBuyActions({ productId, selectedSize, basePrice, 
     const router = useRouter();
 
     async function handleAdd() {
-        // Validar que se haya seleccionado una talla antes de añadir
         if (!selectedSize) {
             setStatus('no-size');
             setTimeout(() => setStatus('idle'), 2000);
@@ -25,11 +24,8 @@ export default function ProductBuyActions({ productId, selectedSize, basePrice, 
         }
 
         setStatus('loading');
-        onAddSuccess?.();          // <-- abre el sidebar
-        router.refresh();
 
         const finalPrice = selectedSize.price ?? basePrice;
-
         const payload = {
             productId,
             sizeId: selectedSize.id,
@@ -49,7 +45,6 @@ export default function ProductBuyActions({ productId, selectedSize, basePrice, 
             });
 
             if (res.status === 401) {
-                // Usuario no autenticado: redirigir al login
                 router.push('/auth');
                 return;
             }
@@ -57,12 +52,22 @@ export default function ProductBuyActions({ productId, selectedSize, basePrice, 
             if (!res.ok) throw new Error('Failed');
 
             setStatus('success');
-            // Refrescar para que el servidor actualice cualquier dato (ej: contador de carrito futuro)
+
+            // Abre el sidebar DESPUÉS de que el item ya está guardado en BD
+            // y pasa los datos del item para mostrarlo inmediatamente
+            onAddSuccess?.({
+                order_product_id: `pending-${Date.now()}`,
+                name: productName,
+                image_url: productImage,
+                size_label: selectedSize.label ?? null,
+                unit_price: finalPrice,
+                quantity: Number(quantity),
+            });
+
             router.refresh();
         } catch {
             setStatus('error');
         } finally {
-            // Volver al estado normal tras 2 segundos si no fue redirect
             setTimeout(() => setStatus('idle'), 2000);
         }
     }

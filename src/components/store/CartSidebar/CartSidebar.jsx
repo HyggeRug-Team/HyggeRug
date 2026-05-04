@@ -6,10 +6,17 @@ import Image from 'next/image';
 import { FaXmark, FaCartShopping, FaPlus, FaMinus } from 'react-icons/fa6';
 import styles from './CartSidebar.module.css';
 
-export default function CartSidebar({ isOpen, onClose }) {
+export default function CartSidebar({ isOpen, onClose, pendingItem }) {
     const [items, setItems] = useState([]);
     const [loading, setLoading] = useState(false);
     const router = useRouter();
+
+    // Muestra el item recién añadido de forma inmediata mientras llega el fetch
+    useEffect(() => {
+        if (pendingItem) {
+            setItems([pendingItem]);
+        }
+    }, [pendingItem]);
 
     const fetchCart = useCallback(async () => {
         setLoading(true);
@@ -24,6 +31,7 @@ export default function CartSidebar({ isOpen, onClose }) {
             setLoading(false);
         }
     }, []);
+
 
     useEffect(() => {
         if (isOpen) {

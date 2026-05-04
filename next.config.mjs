@@ -15,7 +15,12 @@ const nextConfig = {
       },
       {
         protocol: 'https',
-        hostname: 'hebbkx1anhila5yf.public.blob.vercel-storage.com', // Tu storage de Vercel
+        hostname: 'hebbkx1anhila5yf.public.blob.vercel-storage.com', // Tu storage de Vercel antiguo
+        pathname: '/**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'zvo29a5tvgqtzhct.public.blob.vercel-storage.com', // Tu nuevo storage de Vercel (Cuando mudamos a vercel en hyggeRug)
         pathname: '/**',
       },
     ],
