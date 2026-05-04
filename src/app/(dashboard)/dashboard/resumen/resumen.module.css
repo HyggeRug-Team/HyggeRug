@@ -180,6 +180,22 @@
 .statusShipped .statusBadge { border-color: var(--button-before-hover); color: var(--button-before-hover); }
 
 
+.orderImageThumb {
+  width: 60px;
+  height: 60px;
+  border-radius: 12px;
+  overflow: hidden;
+  background: #111;
+  border: 1px dashed rgba(255,255,255,0.2);
+  flex-shrink: 0;
+}
+
+.orderImageThumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
 .orderIcon {
   width: 50px;
   height: 50px;
@@ -191,6 +207,15 @@
   background: rgba(255,255,255,0.05);
   border: 1px dashed rgba(255,255,255,0.2);
   color: var(--grey-300);
+}
+
+.spinIcon {
+  animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
 }
 
 .orderInfoMain {
@@ -217,15 +242,29 @@
   display: flex;
   flex-direction: column;
   align-items: flex-end;
-  gap: 12px; /* Separación entre badge y fecha */
+  gap: 12px;
+}
+
+.orderMetaInfo {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 2px;
+}
+
+.orderAmount {
+  display: block;
+  text-align: right;
+  color: var(--highlight-text);
+  font-family: var(--font-titles);
+  font-size: 1.2rem;
+  letter-spacing: 0.5px;
 }
 
 .orderDate {
-  display: block;
-  text-align: right;
+  font-size: 0.7rem;
   color: var(--grey-500);
-  font-size: 0.75rem;
-  font-weight: 600;
+  font-weight: 700;
   text-transform: uppercase;
 }
 
@@ -439,6 +478,34 @@
   .headerSection { flex-direction: column; align-items: flex-start; gap: 20px; }
   .headerWidgets { width: 100%; justify-content: space-between; flex-wrap: wrap; }
   .viewAllLink { flex-grow: 1; justify-content: center; }
-  .orderItem { flex-direction: column; align-items: flex-start; gap: 15px; }
-  .orderStatus { width: 100%; display: flex; justify-content: space-between; align-items: center; }
+  
+  .orderItem { 
+    flex-direction: column; 
+    align-items: stretch; 
+    gap: 20px; 
+    padding: 20px;
+  }
+  
+  .orderInfoMain {
+    gap: 15px;
+  }
+
+  .orderStatus { 
+    flex-direction: row;
+    justify-content: space-between; 
+    align-items: center; 
+    padding-top: 15px;
+    border-top: 1px dashed rgba(255, 255, 255, 0.1);
+  }
+
+  .orderMetaInfo {
+    align-items: flex-end;
+  }
+}
+
+@media (max-width: 480px) {
+  .greeting h1 { font-size: 2rem; }
+  .sectionTitle { font-size: 1.4rem; }
+  .orderText h4 { font-size: 1rem; }
+  .orderAmount { font-size: 1.1rem; }
 }
