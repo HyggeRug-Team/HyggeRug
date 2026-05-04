@@ -1,64 +1,212 @@
 /* src/app/(main)/sobre-nosotros/page.module.css */
 .pageContainer {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 120px 40px 40px 40px; /* Padding top para compensar el header fijo */
-  display: flex;
-  flex-direction: column;
-}
-
-.featuresGrid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 2rem;
-  margin-top: 3rem;
-  margin-bottom: 3rem;
-}
-
-.statsGrid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 1.5rem;
-  margin-top: 2rem;
-}
-
-.reviewsGrid {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 2rem;
-  margin-top: 3rem;
-}
-
-.timelineWrapper {
-  max-width: 800px;
-  margin: 0 auto;
-  margin-top: 3rem;
-}
-
-.heroContent {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-  margin-bottom: 4rem;
-}
-
-.imageWrapper {
   width: 100%;
-  max-width: 900px;
-  height: 500px;
-  margin: 4rem auto;
-  position: relative;
-  border-radius: 24px;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 140px 5% 80px 5%;
   overflow: hidden;
-  border: 4px solid var(--accent-purple);
-  box-shadow: 15px 15px 0px var(--highlight-text);
-  transform: rotate(-1deg);
 }
 
-.imageWrapper img {
-  object-fit: cover;
+/* --- SECTION 1: HERO ASIMÉTRICO --- */
+.heroSplit {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr;
+  gap: 4rem;
+  align-items: center;
+  margin-bottom: 8rem;
+}
+
+.heroTextSide {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.titleMain {
+  font-family: var(--font-rubik-bubbles);
+  font-size: clamp(3.5rem, 8vw, 6rem);
+  line-height: 0.9;
+  color: #FFF;
+  text-transform: uppercase;
+  letter-spacing: -2px;
+  margin: 0;
+}
+
+.titleHighlight {
+  color: var(--accent-purple);
+  display: block;
+  filter: drop-shadow(4px 4px 0px var(--highlight-text));
+}
+
+.heroDescription {
+  font-size: 1.25rem;
+  line-height: 1.7;
+  color: var(--secondary-text);
+  max-width: 600px;
+}
+
+.heroVisualSide {
+  position: relative;
+  height: 600px;
+}
+
+.mainImageContainer {
   width: 100%;
-  height: 100%;
+  height: 80%;
+  position: relative;
+  border-radius: 30px;
+  overflow: hidden;
+  border: 2px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 20px 20px 60px rgba(0, 0, 0, 0.5);
+  transform: rotate(2deg);
+  z-index: 2;
+}
+
+.floatingImageBadge {
+  position: absolute;
+  bottom: 0;
+  left: -10%;
+  width: 50%;
+  height: 40%;
+  border-radius: 20px;
+  overflow: hidden;
+  border: 4px solid var(--highlight-text);
+  box-shadow: 10px 10px 0px var(--accent-cyan);
+  transform: rotate(-5deg);
+  z-index: 3;
+}
+
+/* --- SECTION 2: EL MANIFIESTO --- */
+.manifestoSection {
+  padding: 100px 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  margin-bottom: 8rem;
+  text-align: center;
+  position: relative;
+}
+
+.manifestoText {
+  font-size: clamp(1.8rem, 4vw, 3rem);
+  font-weight: 900;
+  line-height: 1.2;
+  color: #FFF;
+  max-width: 1000px;
+  margin: 0 auto;
+  text-transform: uppercase;
+  font-style: italic;
+  opacity: 0.9;
+}
+
+.manifestoText span {
+  color: var(--accent-cyan);
+  background: rgba(0, 255, 255, 0.1);
+  padding: 0 10px;
+}
+
+/* --- SECTION 3: LOS PILARES --- */
+.pillarsSection {
+  margin-bottom: 10rem;
+}
+
+.pillarsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 2.5rem;
+  margin-top: 4rem;
+}
+
+.pillarCard {
+  background: rgba(15, 15, 15, 0.4);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 3rem;
+  border-radius: 32px;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  position: relative;
+  overflow: hidden;
+}
+
+.pillarCard:hover {
+  transform: translateY(-10px) rotate(1deg);
+  border-color: var(--highlight-text);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+}
+
+.pillarIcon {
+  font-size: 3rem;
+  margin-bottom: 2rem;
+  display: inline-block;
+  color: var(--accent-purple);
+}
+
+.pillarTitle {
+  font-size: 1.8rem;
+  margin-bottom: 1rem;
+  color: #FFF;
+  font-family: var(--font-body);
+  font-weight: 800;
+}
+
+.pillarDesc {
+  color: var(--secondary-text);
+  line-height: 1.6;
+}
+
+/* --- SECTION 4: EL PROCESO --- */
+.processLayout {
+  display: grid;
+  grid-template-columns: 1fr 1.5fr;
+  gap: 6rem;
+  align-items: flex-start;
+  margin-bottom: 10rem;
+}
+
+.processVisual {
+  position: sticky;
+  top: 140px;
+}
+
+.actionImage {
+  width: 100%;
+  aspect-ratio: 4/5;
+  border-radius: 40px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  filter: grayscale(20%);
+}
+
+.actionImage:hover {
+  filter: grayscale(0%);
+}
+
+/* --- RESPONSIVE --- */
+@media (max-width: 1024px) {
+  .heroSplit, .processLayout {
+    grid-template-columns: 1fr;
+    gap: 3rem;
+  }
+  
+  .heroVisualSide {
+    height: 450px;
+  }
+  
+  .processVisual {
+    position: relative;
+    top: 0;
+  }
+}
+
+@media (max-width: 480px) {
+  .pageContainer {
+    padding-top: 100px;
+  }
+  
+  .titleMain {
+    font-size: 3rem;
+  }
+  
+  .manifestoText {
+    font-size: 1.5rem;
+  }
 }
