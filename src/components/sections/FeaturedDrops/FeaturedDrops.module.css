@@ -84,8 +84,10 @@
     gap: 30px;
 }
 
-@media (max-width: 1100px) {
-    .dropsGrid { grid-template-columns: repeat(2, 1fr); gap: 20px; }
+@media (max-width: 1024px) {
+    .dropsContainer { padding: 0 20px; }
+    .dropsGrid { grid-template-columns: repeat(2, 1fr); gap: 15px; }
+    .dropsWrapper { padding: 80px 0; }
     .sectionHeader { 
         flex-direction: column; 
         align-items: center; 
@@ -94,11 +96,6 @@
     }
     .sectionHeader::after { left: 50%; transform: translateX(-50%); }
     .headerActions { width: 100%; display: flex; justify-content: center; }
-}
-
-@media (max-width: 768px) {
-    .dropsGrid { grid-template-columns: repeat(2, 1fr); gap: 15px; }
-    .dropsWrapper { padding: 60px 0; }
     .titleLoud { font-size: 2.2rem; }
 }
 

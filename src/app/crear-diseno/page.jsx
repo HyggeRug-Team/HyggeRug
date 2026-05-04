@@ -256,8 +256,8 @@ export default function DesignStudioAI() {
                                                             className={`${styles.sizeCircle} ${rugSize === s.size_id.toString() ? styles.activeSize : ''}`}
                                                             onClick={() => setRugSize(s.size_id.toString())}
                                                         >
-                                                            <span className={styles.sizeKey}>{(parseFloat(s.price)).toFixed(0)}€</span>
                                                             <span className={styles.sizeLabel}>{s.size_label}</span>
+                                                            <span className={styles.sizeKey}>{(parseFloat(s.price)).toFixed(2)}€</span>
                                                         </button>
                                                     ))}
                                                     {/* Botón para viajar al menú de teclados */}
@@ -288,10 +288,10 @@ export default function DesignStudioAI() {
                                                     className={`${styles.sizeCircle} ${rugSize === s.size_id.toString() ? styles.activeSize : ''}`}
                                                     onClick={() => setRugSize(s.size_id.toString())}
                                                 >
-                                                    <span className={styles.sizeKey}>{(parseFloat(s.price)).toFixed(0)}€</span>
                                                     <span className={styles.sizeLabel}>
                                                         {s.size_label.replace('Teclado ', '').replace('(', '').replace(')', '')}
                                                     </span>
+                                                    <span className={styles.sizeKey}>{(parseFloat(s.price)).toFixed(2)}€</span>
                                                 </button>
                                             ))}
                                         </motion.div>
