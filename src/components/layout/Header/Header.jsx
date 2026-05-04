@@ -21,6 +21,7 @@ import Logo from "@/components/ui/Logo/Logo";
 import styles from "./Header.module.css";
 import Link from 'next/link';
 import MobileMenu from '@/components/layout/MobileMenu/MobileMenu';
+import { useCart } from '@/context/CartContext';
 import {
   FaHouse,
   FaPaintbrush,
@@ -33,6 +34,7 @@ import {
 } from "react-icons/fa6";
 
 function Header() {
+  const { cartCount } = useCart();
   const [isMenuOpen, setIsOpenMenu] = useState(false);
   const pathname = usePathname();
   // Comprobamos si estamos en la página de autenticación para simplificar la interfaz
@@ -58,8 +60,8 @@ function Header() {
 
   const MENU_ITEMS = [
     { id: 1, label: "Inicio", url: "/", icon: FaHouse },
-    { id: 2, label: "Personalizar", url: "/personalizar", icon: FaPaintbrush },
-    { id: 3, label: "Diseños de la comunidad", url: "/tienda", icon: FaImages },
+    { id: 2, label: "Diseñar", url: "/crear-diseno", icon: FaPaintbrush },
+    { id: 3, label: "Comunidad", url: "/tienda", icon: FaImages },
     { id: 6, label: "Buscar", url: "/buscar", icon: FaMagnifyingGlass },
     { id: 5, label: "Carrito", url: "/carrito", icon: FaCartShopping },
     { id: 4, label: "Cuenta", url: "/auth", icon: FaCircleUser },
@@ -75,8 +77,8 @@ function Header() {
         <>
           <nav className={styles.nav}>
             <Link href='/tienda' className={styles.navLink}>Diseños de la comunidad</Link>
-            <Link href='/personalizar' className={styles.navLink}>Personalizar</Link>
-            <Link href='/sobre-nosotros' className={styles.navLink}>Nosotros</Link>
+            <Link href='/crear-diseno' className={styles.navLink}>Personalizar</Link>
+            <Link href='/sobre-nosotros' className={styles.navLink}>Sobre Nosotros</Link>
           </nav>
 
           <div className={styles.buttonsMenu}>
@@ -87,6 +89,9 @@ function Header() {
                 <Link href={item.url} key={item.id} title={item.label}>
                   <button className={styles.iconBtn}>
                     <Icono size={22} />
+                    {item.id === 5 && cartCount > 0 && (
+                      <span className={styles.cartBadge}>{cartCount}</span>
+                    )}
                   </button>
                 </Link>
               );

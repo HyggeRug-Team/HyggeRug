@@ -98,10 +98,10 @@ function InfoSection() {
                 <div className={styles.badgeGlow}>CALIDAD SUPERIOR</div>
                 <h2 className={styles.popTitle}>ES ARTE.<br/>SE PISA.</h2>
                 <p className={styles.introText}>
-                    Hygge Rug no es una fábrica en cadena. Detrás de esta marca hay un único creador en Madrid confeccionando arte directamente sobre lienzo. Cada alfombra (*Tufting Rug*) está construida a mano exclusivamente por mí, utilizando lana técnica de colores vibrantes y acabados tridimensionales.
+                    Hygge Rug no es una fábrica en cadena. Detrás de esta marca hay una única creadora en Madrid confeccionando arte directamente sobre lienzo. Cada alfombra (*Tufting Rug*) está construida a mano exclusivamente por mí, utilizando lana técnica de colores vibrantes y acabados tridimensionales.
                 </p>
                 <p className={styles.introText}>
-                    Desde paneles de <strong>Anime y Manga</strong> o explosiones de estética <strong>Y2K y Retro</strong>, hasta <strong>arte abstracto</strong>, botánica o el logo de tu empresa. Ya sea decorando con piezas de nuestro catálogo o encargándonos una alfombra silueteada (Custom Order) irrompible, te llevas una pieza 1 de 1.
+                    Desde paneles de <strong>Anime y Manga</strong> o explosiones de estética <strong>Y2K y Retro</strong>, hasta <strong>arte abstracto</strong>, botánica o el logo de tu empresa. Ya sea decorando con piezas de nuestro catálogo o encargándome una alfombra silueteada (Custom Order) irrompible, te llevas una pieza 1 de 1.
                 </p>
             </div>
             <div className={styles.introRight}>

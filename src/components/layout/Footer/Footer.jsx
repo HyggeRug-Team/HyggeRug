@@ -25,28 +25,25 @@ function Footer() {
     {
       titulo: "Diseños de la comunidad",
       links: [
-        { nombre: "Novedades", url: "/Novedades" },
-        { nombre: "Más vendidos", url: "/Más_vendidos" },
-        { nombre: "A medida", url: "/A_medida" },
-        { nombre: "Pasilleras", url: "/Pasilleras" },
+        { nombre: "Ver Catálogo", url: "/tienda" },
+        { nombre: "Lo más nuevo", url: "/tienda" },
+        { nombre: "Pedido a medida", url: "/crear-diseno" },
       ],
     },
     {
       titulo: "Empresa",
       links: [
-        { nombre: "Nuestra historia", url: "/Nuestra_historia" },
-        { nombre: "Sostenibilidad", url: "/Sostenibilidad" },
-        { nombre: "Cuidados", url: "/Cuidados" },
-        { nombre: "Empleo", url: "/Empleo" },
+        { nombre: "Sobre Nosotros", url: "/sobre-nosotros" },
+        { nombre: "Artesanía", url: "/sobre-nosotros" },
+        { nombre: "Hygge Gang", url: "/sobre-nosotros" },
       ],
     },
     {
       titulo: "Ayuda",
       links: [
-        { nombre: "Envíos y devoluciones", url: "/Envíos_devoluciones" },
-        { nombre: "Preguntas frecuentes", url: "/Preguntas_frecuentes" },
-        { nombre: "Contacto", url: "/Contacto" },
-        { nombre: "Seguimiento", url: "/Seguimiento" },
+        { nombre: "Envíos y devoluciones", url: "/legal/envios-devoluciones" },
+        { nombre: "Preguntas frecuentes", url: "/preguntas-frecuentes" },
+        { nombre: "Contacto", url: "/contacto" },
       ],
     },
   ];
@@ -103,24 +100,21 @@ function Footer() {
             <>
               <div className={styles.footerShop}>
                 <h3>Diseños de la comunidad</h3>
-                <a href="/Novedades">Novedades</a>
-                <a href="/Más_vendidos">Más vendidos</a>
-                <a href="/A_medida">A medida</a>
-                <a href="/Pasilleras">Pasilleras</a>
+                <a href="/tienda">Ver Catálogo</a>
+                <a href="/tienda">Lo más nuevo</a>
+                <a href="/crear-diseno">Pedido a medida</a>
               </div>
               <div className={styles.footerCompany}>
                 <h3>Empresa</h3>
-                <a href="/Nuestra_historia">Nuestra historia</a>
-                <a href="/Sostenibilidad">Sostenibilidad</a>
-                <a href="/Cuidados">Cuidados</a>
-                <a href="/Empleo">Empleo</a>
+                <a href="/sobre-nosotros">Sobre Nosotros</a>
+                <a href="/sobre-nosotros">Artesanía</a>
+                <a href="/sobre-nosotros">Hygge Gang</a>
               </div>
               <div className={styles.footerHelp}>
                 <h3>Ayuda</h3>
-                <a href="/Envíos_devoluciones">Envíos y devoluciones</a>
-                <a href="/Preguntas_frecuentes">Preguntas frecuentes</a>
-                <a href="/Contacto">Contacto</a>
-                <a href="/Seguimiento">Seguimiento</a>
+                <a href="/legal/envios-devoluciones">Envíos y devoluciones</a>
+                <a href="/preguntas-frecuentes">Preguntas frecuentes</a>
+                <a href="/contacto">Contacto</a>
               </div>
             </>
           )}
@@ -129,8 +123,10 @@ function Footer() {
           <div className={styles.footerLegalContent}>
             <p>© 2026 Hygge Rug Inc. Hecho con amor (y lana).</p>
             <div className={styles.footerPolicy}>
-              <a href="/privacy-policy">Política de Privacidad</a>
-              <a href="/terms-of-service">Términos de Servicio</a>
+              <a href="/legal/privacidad">Privacidad</a>
+              <a href="/legal/terminos">Términos</a>
+              <a href="/legal/aviso-legal">Aviso Legal</a>
+              <a href="/legal/cookies">Cookies</a>
             </div>
           </div>
         </div>

@@ -17,9 +17,9 @@ export default function MarqueeStrip() {
   return (
     <div className={styles.marqueeWrapper}>
       <div className={styles.marqueeTrack}>
-        <span>/// ANIME Y MANGA /// ESTÉTICA Y2K /// WALL ART & ABSTRACTO /// CUSTOM ORDERS /// MINI RUGS /// CALIDAD PREMIUM /// TU ARTE EN EL SUELO ///</span>
-        <span>/// ANIME Y MANGA /// ESTÉTICA Y2K /// WALL ART & ABSTRACTO /// CUSTOM ORDERS /// MINI RUGS /// CALIDAD PREMIUM /// TU ARTE EN EL SUELO ///</span>
-        <span>/// ANIME Y MANGA /// ESTÉTICA Y2K /// WALL ART & ABSTRACTO /// CUSTOM ORDERS /// MINI RUGS /// CALIDAD PREMIUM /// TU ARTE EN EL SUELO ///</span>
+        <span>/// 100% HECHO A MANO EN MADRID /// LANA TÉCNICA PREMIUM /// DISEÑOS PERSONALIZADOS /// LABORATORIO IA /// CALIDAD ARTESANAL /// ENVÍOS SEGUROS /// PIEZAS ÚNICAS 1 DE 1 ///</span>
+        <span>/// 100% HECHO A MANO EN MADRID /// LANA TÉCNICA PREMIUM /// DISEÑOS PERSONALIZADOS /// LABORATORIO IA /// CALIDAD ARTESANAL /// ENVÍOS SEGUROS /// PIEZAS ÚNICAS 1 DE 1 ///</span>
+        <span>/// 100% HECHO A MANO EN MADRID /// LANA TÉCNICA PREMIUM /// DISEÑOS PERSONALIZADOS /// LABORATORIO IA /// CALIDAD ARTESANAL /// ENVÍOS SEGUROS /// PIEZAS ÚNICAS 1 DE 1 ///</span>
       </div>
     </div>
   );
