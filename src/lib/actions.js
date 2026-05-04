@@ -4,25 +4,49 @@
  * 
  * [Nuestro enfoque]
  * Centralizamos las mutaciones de datos en este archivo para garantizar que cualquier 
- * cambio (ya sea texto o archivos) pase por validaciones de sesión en el lado del servidor.
+ * cambio pase por validaciones de sesión en el lado del servidor. Para la gestión 
+ * de archivos, hemos migrado a un modelo de almacenamiento en la nube (Vercel Blob).
  * 
  * [Por qué lo hemos hecho así]
- * Al usar Server Actions de Next.js, eliminamos la necesidad de crear APIs REST complejas 
- * para acciones simples, permitiendo una revalidación de cache instantánea con `revalidatePath`.
- * Para las imágenes, optamos por almacenamiento local en `public/uploads` por simplicidad y velocidad.
+ * Las arquitecturas Serverless (como Vercel) no garantizan la persistencia de archivos 
+ * escritos en disco local. Al usar Vercel Blob, aseguramos que las fotos de perfil 
+ * sean permanentes, escalables y accesibles globalmente sin depender del servidor físico.
  */
 
 'use server'
 
 import { db } from '@/lib/db'; 
-import { cookies } from 'next/headers';
 import { revalidatePath } from 'next/cache';
 import { getSession } from './auth';
-import { writeFile, mkdir } from 'fs/promises';
-import { join } from 'path';
+import { put } from '@vercel/blob';
+import { createTicket } from './db/support';
 
 /**
- * SUBE UNA IMAGEN LOCAL AL SERVIDOR Y ACTUALIZA LA BBDD
+ * CREA UN TICKET DE SOPORTE (AYUDA / DEVOLUCIONES)
+ */
+export async function createSupportTicket(ticketData) {
+    try {
+        const session = await getSession();
+        if (!session) return { success: false, error: "Sesión no válida" };
+
+        const userId = session.userId || session.user_id || session.id;
+
+        const ticketId = await createTicket({
+            ...ticketData,
+            userId
+        });
+
+        revalidatePath('/dashboard/ayuda', 'layout');
+        return { success: true, ticketId };
+
+    } catch (error) {
+        console.error("[ACTION] Error creando ticket:", error);
+        return { success: false, error: error.message };
+    }
+}
+
+/**
+ * SUBE UNA IMAGEN A VERCEL BLOB Y ACTUALIZA LA BBDD
  * @param {FormData} formData - Datos del formulario con el archivo
  */
 export async function uploadProfileImage(formData) {
@@ -35,25 +59,15 @@ export async function uploadProfileImage(formData) {
 
         const userId = session.userId || session.user_id || session.id;
 
-        // Pasamos el archivo a bytes
-        const bytes = await file.arrayBuffer();
-        const buffer = Buffer.from(bytes);
-
-        // Definimos la ruta de guardado (public/uploads/avatars)
-        const uploadDir = join(process.cwd(), 'public', 'uploads', 'avatars');
-        
-        // Nos aseguramos de que la carpeta existe
-        await mkdir(uploadDir, { recursive: true });
-
         // Nombre de archivo único usando ID de usuario y timestamp
-        const fileName = `user_${userId}_${Date.now()}_${file.name}`;
-        const filePath = join(uploadDir, fileName);
+        const fileName = `avatars/user_${userId}_${Date.now()}_${file.name}`;
 
-        // Escribimos el archivo físicamente en el disco
-        await writeFile(filePath, buffer);
+        // Subimos directamente el archivo a Vercel Blob
+        const blob = await put(fileName, file, {
+            access: 'public',
+        });
 
-        // La ruta web será relativa a public
-        const publicUrl = `/uploads/avatars/${fileName}`;
+        const publicUrl = blob.url;
 
         // Guardamos en BBDD
         const query = 'UPDATE users SET profile_image = ? WHERE user_id = ?';
@@ -63,7 +77,7 @@ export async function uploadProfileImage(formData) {
         return { success: true, url: publicUrl };
 
     } catch (error) {
-        console.error("[ACTION] Error subiendo imagen:", error);
+        console.error("[ACTION] Error subiendo imagen a Vercel Blob:", error);
         return { success: false, error: error.message };
     }
 }
