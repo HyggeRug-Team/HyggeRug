@@ -7,7 +7,7 @@ export async function GET() {
     const session = await getSession();
     if (!session) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
-    const userId = session.user_id || session.id;
+    const userId = session.userId || session.user_id || session.id;
     const addresses = await getAddressesByUser(userId);
 
     return NextResponse.json(addresses);

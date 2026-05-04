@@ -47,7 +47,7 @@ export default async function ResumenPage() {
     redirect("/auth");
   }
 
-  const userId = session.user_id || session.id;
+  const userId = session.userId || session.user_id || session.id;
 
   // Lógica de BBDD
   let orders = [];
