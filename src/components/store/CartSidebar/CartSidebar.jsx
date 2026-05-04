@@ -7,9 +7,9 @@ import { FaXmark, FaCartShopping, FaPlus, FaMinus } from 'react-icons/fa6';
 import styles from './CartSidebar.module.css';
 
 export default function CartSidebar({ isOpen, onClose }) {
-    const [items, setItems]     = useState([]);
+    const [items, setItems] = useState([]);
     const [loading, setLoading] = useState(false);
-    const router                = useRouter();
+    const router = useRouter();
 
     const fetchCart = useCallback(async () => {
         setLoading(true);
@@ -26,7 +26,10 @@ export default function CartSidebar({ isOpen, onClose }) {
     }, []);
 
     useEffect(() => {
-        if (isOpen) fetchCart();
+        if (isOpen) {
+            const timer = setTimeout(() => fetchCart(), 400);
+            return () => clearTimeout(timer);
+        }
     }, [isOpen, fetchCart]);
 
     useEffect(() => {

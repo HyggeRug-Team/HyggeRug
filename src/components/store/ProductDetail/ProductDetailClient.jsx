@@ -12,13 +12,18 @@ import CartSidebar from '@/components/store/CartSidebar/CartSidebar';
 
 export default function ProductDetailClient({ product }) {
     const [selectedSize, setSelectedSize] = useState(product.sizes?.[0] || null);
-    const [quantity, setQuantity] = useState(1);
-    const [cartOpen, setCartOpen] = useState(false);
-
+    const [quantity, setQuantity]         = useState(1);
+    const [cartOpen, setCartOpen]         = useState(false);
+    const [pendingItem, setPendingItem]   = useState(null);
 
     return (
         <main className={styles.productWrapper}>
-            <CartSidebar isOpen={cartOpen} onClose={() => setCartOpen(false)} />
+            <CartSidebar
+                isOpen={cartOpen}
+                onClose={() => { setCartOpen(false); setPendingItem(null); }}
+                pendingItem={pendingItem}
+            />
+
             <div className={styles.productContainer}>
 
                 <ProductHeader product={product} />
@@ -48,10 +53,15 @@ export default function ProductDetailClient({ product }) {
 
                             <ProductBuyActions
                                 productId={product.id}
+                                productName={product.name}
+                                productImage={product.image}
                                 selectedSize={selectedSize}
                                 quantity={quantity}
                                 setQuantity={setQuantity}
-                                onAddSuccess={() => setCartOpen(true)}
+                                onAddSuccess={(item) => {
+                                    setPendingItem(item);
+                                    setCartOpen(true);
+                                }}
                             />
 
                         </div>
