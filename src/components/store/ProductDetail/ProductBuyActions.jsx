@@ -28,18 +28,24 @@ export default function ProductBuyActions({ productId, selectedSize, basePrice, 
         onAddSuccess?.();          // <-- abre el sidebar
         router.refresh();
 
-        const finalPrice = selectedSize.customMeasure ? selectedSize.price : basePrice;
+        const finalPrice = selectedSize.price ?? basePrice;
+
+        const payload = {
+            productId,
+            sizeId: selectedSize.id,
+            unitPrice: finalPrice,
+            quantity: Number(quantity),
+        };
+
+        if (selectedSize.customMeasure) {
+            payload.customSizeLabel = selectedSize.customMeasure;
+        }
 
         try {
             const res = await fetch('/api/cart/add', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    productId,
-                    sizeId: selectedSize.id,
-                    unitPrice: finalPrice,
-                    quantity: Number(quantity),
-                }),
+                body: JSON.stringify(payload),
             });
 
             if (res.status === 401) {
