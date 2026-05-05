@@ -1,0 +1,140 @@
+/* ── CART SUMMARY STYLES ── */
+
+.card {
+    background: var(--card-bg);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 20px;
+    padding: 28px;
+    margin-bottom: 16px;
+}
+
+.cardTitle {
+    font-size: 0.8rem;
+    font-weight: 900;
+    color: var(--grey-500);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.cardTitle svg { color: var(--highlight-text); }
+
+.summaryRows {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 20px;
+}
+
+.summaryRow {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.95rem;
+    color: var(--grey-400);
+    font-weight: 600;
+}
+
+.discountRow2 { color: #00FF88; }
+
+.summaryRowNote {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.9rem;
+    color: var(--grey-400);
+}
+
+.pendingLabel {
+    font-size: 0.8rem;
+    color: var(--grey-600);
+    font-style: italic;
+}
+
+.totalRow {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    padding-top: 16px;
+    border-top: 1px solid rgba(255,255,255,0.1);
+    margin-bottom: 8px;
+}
+
+.totalRow span:first-child {
+    font-size: 0.8rem;
+    font-weight: 900;
+    color: var(--grey-500);
+    letter-spacing: 2px;
+}
+
+.totalAmount {
+    font-size: 2.2rem;
+    font-weight: 900;
+    color: var(--white);
+    font-family: var(--font-titles);
+}
+
+.totalNote {
+    font-size: 0.75rem;
+    color: var(--grey-600);
+    line-height: 1.5;
+}
+
+.trustBadges {
+    margin-top: 35px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    padding-top: 25px;
+    border-top: 1px solid rgba(255,255,255,0.06);
+}
+
+.trustItem {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    text-align: center;
+}
+
+.trustItem svg {
+    font-size: 1.4rem;
+    color: var(--highlight-text);
+}
+
+.trustItem span {
+    font-size: 0.65rem;
+    font-weight: 800;
+    color: var(--grey-500);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.confirmBtnFull {
+    width: 100% !important;
+    margin-top: 10px;
+}
+
+/* RESPONSIVE: Ocultar botón redundante en móvil */
+@media (max-width: 600px) {
+    .card {
+        padding: 24px 20px;
+    }
+
+    .confirmBtnFull {
+        display: none !important; 
+    }
+
+    .hideOnMobile {
+        display: none !important;
+    }
+
+    .totalAmount {
+        font-size: 1.8rem;
+    }
+
+    .trustBadges {
+        margin-top: 25px;
+    }
+}

@@ -1,0 +1,344 @@
+/* ── ADDRESS SECTION STYLES ── */
+
+.card {
+    background: rgba(15, 15, 15, 0.6);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 24px;
+    padding: 32px;
+    margin-bottom: 16px;
+    width: 100%;
+    max-width: 100%; /* Asegurar que no sobrepase el padre */
+    box-sizing: border-box;
+}
+
+.cardTitle {
+    font-size: 0.75rem;
+    font-weight: 900;
+    color: var(--grey-500);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.cardTitle svg { color: var(--highlight-text); }
+
+.noAddresses {
+    font-size: 0.85rem;
+    color: var(--grey-600);
+    line-height: 1.5;
+}
+
+.linkBtn {
+    background: none;
+    border: none;
+    color: var(--highlight-text);
+    font-size: 0.85rem;
+    font-weight: 800;
+    cursor: pointer;
+    text-decoration: underline;
+}
+
+.addressDisplayCard {
+    background: #000;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 18px;
+    padding: 24px;
+    transition: all 0.3s ease;
+}
+
+.addressCardHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.statusLabel {
+    font-size: 0.6rem;
+    font-weight: 900;
+    color: var(--highlight-text);
+    letter-spacing: 2px;
+}
+
+.editAddressLink {
+    background: none;
+    border: none;
+    color: var(--grey-600);
+    font-size: 0.7rem;
+    font-weight: 800;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    transition: all 0.2s;
+    text-transform: uppercase;
+}
+
+.editAddressLink:hover {
+    color: var(--white);
+}
+
+.addressInfoBox {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.streetLine {
+    font-size: 1.1rem;
+    font-weight: 800;
+    color: var(--white);
+    margin: 0;
+}
+
+.extraInfo {
+    color: var(--grey-500);
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
+.cityLine {
+    font-size: 0.9rem;
+    color: var(--grey-500);
+    margin: 0;
+    font-weight: 500;
+}
+
+.changeAddressBtn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    padding: 12px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    color: var(--white);
+    font-size: 0.8rem;
+    font-weight: 800;
+    letter-spacing: 0.5px;
+    cursor: pointer;
+    transition: all 0.2s;
+    margin-top: 15px;
+}
+
+.changeAddressBtn:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.defaultBadge {
+    display: inline-block;
+    font-size: 0.6rem;
+    font-weight: 900;
+    color: var(--highlight-text);
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    margin-top: 8px;
+    padding: 4px 10px;
+    background: rgba(255, 0, 85, 0.1);
+    border: 1px solid rgba(255, 0, 85, 0.2);
+    border-radius: 6px;
+}
+
+.addressList {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.addressCard {
+    width: 100%;
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    padding: 16px;
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 14px;
+    cursor: pointer;
+    text-align: left;
+    transition: all 0.2s;
+}
+
+.addressActive {
+    border-color: var(--highlight-text);
+    background: rgba(255, 0, 85, 0.03);
+}
+
+.addressRadio {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    margin-top: 2px;
+}
+
+.addressActive .addressRadio { border-color: var(--highlight-text); }
+
+.radioInner {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: transparent;
+}
+
+.addressActive .radioInner { background: var(--highlight-text); }
+
+.addressText {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    min-width: 0; /* Evitar desbordamiento de texto */
+}
+
+.addressStreet {
+    font-size: 0.95rem;
+    font-weight: 800;
+    color: var(--white);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.addressCity {
+    font-size: 0.8rem;
+    color: var(--grey-600);
+    font-weight: 600;
+}
+
+/* FORMULARIO REDISEÑADO CON MEJOR CONTROL DE ANCHO */
+.newAddressForm {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    background: #000;
+    padding: 20px;
+    border-radius: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-sizing: border-box;
+    width: 100%;
+}
+
+.formGrid {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    width: 100%;
+}
+
+.formRow {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    width: 100%;
+}
+
+.formGroup {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    width: 100%;
+    min-width: 0; /* Clave para que el grid no se rompa */
+}
+
+.formGroup label {
+    font-size: 0.65rem;
+    font-weight: 900;
+    color: var(--grey-500);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    white-space: nowrap;
+}
+
+.formGroup label svg {
+    color: var(--highlight-text);
+    font-size: 0.75rem;
+}
+
+.formGroup input {
+    background: #080808;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 12px;
+    padding: 14px 16px;
+    color: var(--white);
+    font-size: 0.9rem;
+    transition: all 0.2s;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.formGroup input:focus {
+    outline: none;
+    border-color: var(--highlight-text);
+    background: rgba(255, 0, 85, 0.05);
+}
+
+.errorMsg {
+    color: #FF4D4D;
+    font-size: 0.65rem;
+    font-weight: 700;
+    margin-top: 4px;
+}
+
+.formActions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-top: 10px;
+    width: 100%;
+}
+
+.formActionBtn {
+    min-width: 0 !important;
+    width: 100% !important;
+    padding: 12px 10px !important;
+    font-size: 0.75rem !important;
+}
+
+/* RESPONSIVE */
+@media (max-width: 600px) {
+    .card { 
+        padding: 16px; 
+        border-radius: 20px;
+    }
+    .cardTitle {
+        font-size: 0.65rem;
+        margin-bottom: 15px;
+    }
+    .addressDisplayCard { 
+        padding: 16px; 
+    }
+    .streetLine { 
+        font-size: 0.9rem; 
+    }
+    .extraInfo, .cityLine {
+        font-size: 0.75rem;
+    }
+    .formRow { grid-template-columns: 1fr; gap: 12px; }
+    .formActions { grid-template-columns: 1fr; gap: 8px; }
+    
+    .newAddressForm {
+        padding: 15px;
+    }
+    .formGroup input {
+        padding: 10px 14px;
+        font-size: 0.8rem;
+    }
+    .changeAddressBtn {
+        padding: 10px;
+        font-size: 0.7rem;
+    }
+}
