@@ -243,14 +243,27 @@
   .contentLayout { 
     display: flex;
     flex-direction: column;
-    gap: 30px;
+    gap: 20px;
   }
-  .sidebar { display: contents; }
+  .sidebar { display: flex; flex-direction: column; gap: 20px; }
   .contactBox { order: 1; }
   .mainCol { order: 2; }
   .faqSidebar { order: 3; }
 }
 
 @media (max-width: 768px) {
-  .heroSection { flex-direction: column; align-items: flex-start; gap: 20px; }
+  .hubContainer { padding: 15px 10px; gap: 20px; } 
+  .heroSection { flex-direction: column; align-items: flex-start; gap: 15px; padding-bottom: 20px; }
+  .heroText h1 { font-size: 2.2rem; } 
+  .heroText p { font-size: 0.95rem; }
+  .contactBox, .faqSidebar { padding: 20px; border-radius: 20px; }
+}
+
+@media (max-width: 480px) {
+  .heroText h1 { font-size: 1.8rem; }
+  .contactBox h3 { font-size: 1.1rem; }
+  .contactItem { font-size: 0.8rem; padding: 10px 15px; }
+  .miniFaqList { gap: 8px; }
+  .miniFaqItem summary { padding: 10px; font-size: 0.8rem; }
+  .allFaqBtn { padding: 10px; font-size: 0.75rem; }
 }
