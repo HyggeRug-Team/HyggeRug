@@ -351,3 +351,105 @@
   .itemCard { grid-template-columns: 80px 1fr; }
   .itemTotal { grid-column: 1 / span 2; text-align: right; border-top: 1px dashed rgba(255,255,255,0.1); padding-top: 10px; }
 }
+
+/* Banner de acción requerida */
+.actionBanner {
+  display: flex;
+  gap: 25px;
+  align-items: flex-start;
+  background: rgba(255, 165, 0, 0.06);
+  border: 2px solid rgba(255, 165, 0, 0.5);
+  border-radius: 24px;
+  padding: 28px;
+  animation: pulseBorder 2.5s ease-in-out infinite;
+}
+
+@keyframes pulseBorder {
+  0%, 100% { border-color: rgba(255, 165, 0, 0.5); box-shadow: none; }
+  50% { border-color: rgba(255, 165, 0, 0.9); box-shadow: 0 0 20px rgba(255, 165, 0, 0.15); }
+}
+
+.actionBannerIcon {
+  color: orange;
+  flex-shrink: 0;
+  margin-top: 4px;
+}
+
+.actionBannerContent {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  width: 100%;
+}
+
+.actionBannerTitle {
+  font-size: 1.2rem;
+  color: orange;
+  margin: 0;
+  text-shadow: none;
+  font-family: var(--font-body);
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.actionBannerText {
+  color: var(--grey-300);
+  font-size: 0.95rem;
+  margin: 0;
+  line-height: 1.6;
+}
+
+.conceptHighlight {
+  color: orange;
+  background: rgba(255, 165, 0, 0.1);
+  padding: 2px 8px;
+  border-radius: 6px;
+  font-family: var(--font-body);
+  letter-spacing: 1px;
+}
+
+.actionBannerMethods {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.paymentMethodCard {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  background: rgba(0, 0, 0, 0.4);
+  border: 1px dashed rgba(255, 165, 0, 0.4);
+  border-radius: 14px;
+  padding: 14px 22px;
+}
+
+.paymentMethodLabel {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: var(--grey-500);
+  font-weight: 700;
+}
+
+.paymentMethodValue {
+  font-family: var(--font-titles);
+  font-size: 1.3rem;
+  color: var(--white);
+  letter-spacing: 2px;
+}
+
+.paymentMethodDivider {
+  color: var(--grey-600);
+  font-size: 1rem;
+  font-weight: 700;
+}
+
+/* Responsive del banner */
+@media (max-width: 768px) {
+  .actionBanner { flex-direction: column; gap: 15px; }
+  .actionBannerMethods { flex-direction: column; align-items: flex-start; }
+  .paymentMethodDivider { align-self: center; }
+}

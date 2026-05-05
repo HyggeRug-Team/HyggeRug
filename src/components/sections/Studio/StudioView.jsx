@@ -7,28 +7,28 @@ import { motion, AnimatePresence } from 'framer-motion';
 
 // Medidas estándar de teclado hardcodeadas
 const KEYBOARD_PRESETS = [
-    { label: '100%',      width: 45, height: 15 },
+    { label: '100%', width: 45, height: 15 },
     { label: 'TKL (80%)', width: 37, height: 15 },
-    { label: '75%',       width: 32, height: 15 },
-    { label: '65%',       width: 30, height: 11 },
-    { label: '60%',       width: 28, height: 10 },
-    { label: '40%',       width: 24, height: 8  },
+    { label: '75%', width: 32, height: 15 },
+    { label: '65%', width: 30, height: 11 },
+    { label: '60%', width: 28, height: 10 },
+    { label: '40%', width: 24, height: 8 },
 ];
 
 export default function DesignStudioAI() {
-    const [prompt, setPrompt]           = useState('');
+    const [prompt, setPrompt] = useState('');
     const [isGenerating, setIsGenerating] = useState(false);
-    const [aiResult, setAiResult]       = useState(null);
-    const [attempts, setAttempts]       = useState(null);
+    const [aiResult, setAiResult] = useState(null);
+    const [attempts, setAttempts] = useState(null);
     const [weeklyLimit, setWeeklyLimit] = useState(null);
-    const [nextReset, setNextReset]     = useState(null);
+    const [nextReset, setNextReset] = useState(null);
 
-    const [uploadedImage, setUploadedImage]     = useState(null);
+    const [uploadedImage, setUploadedImage] = useState(null);
     const [imagePreviewUrl, setImagePreviewUrl] = useState(null);
     const fileInputRef = useRef(null);
 
     // Dimensiones libres en lugar de tallas fijas
-    const [width, setWidth]   = useState('');
+    const [width, setWidth] = useState('');
     const [height, setHeight] = useState('');
 
     // Submenu de presets de teclado
@@ -151,9 +151,9 @@ export default function DesignStudioAI() {
     };
 
     // Cálculos derivados de las dimensiones
-    const parsedWidth  = parseFloat(width)  || 0;
+    const parsedWidth = parseFloat(width) || 0;
     const parsedHeight = parseFloat(height) || 0;
-    const isOverLimit  = parsedWidth > config.maxWidth || parsedHeight > config.maxHeight;
+    const isOverLimit = parsedWidth > config.maxWidth || parsedHeight > config.maxHeight;
 
     const displayPrice = parsedWidth > 0 && parsedHeight > 0 && !isOverLimit
         ? (parsedWidth * parsedHeight * config.pricePerCm2).toFixed(2)
@@ -170,7 +170,7 @@ export default function DesignStudioAI() {
         if (!aiResult || parsedWidth <= 0 || parsedHeight <= 0 || isOverLimit) return;
 
         try {
-            const base64Data   = aiResult.split(',')[1];
+            const base64Data = aiResult.split(',')[1];
             const mimeTypeData = aiResult.split(';')[0].split(':')[1];
 
             const res = await fetch('/api/studio/save', {
@@ -178,9 +178,9 @@ export default function DesignStudioAI() {
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
                     imageBase64: base64Data,
-                    mimeType:    mimeTypeData,
-                    width:       parsedWidth,
-                    height:      parsedHeight,
+                    mimeType: mimeTypeData,
+                    width: parsedWidth,
+                    height: parsedHeight,
                 }),
             });
 
@@ -301,7 +301,7 @@ export default function DesignStudioAI() {
                                             className={styles.keyboardPresetsBtn}
                                             onClick={() => setShowKeyboardPresets(true)}
                                         >
-                                            ⌨️ Ver medidas estándar de teclado
+                                            Medidas de teclados
                                         </button>
                                     </motion.div>
                                 ) : (
@@ -315,11 +315,10 @@ export default function DesignStudioAI() {
                                         {KEYBOARD_PRESETS.map(preset => (
                                             <button
                                                 key={preset.label}
-                                                className={`${styles.keyboardPresetBtn} ${
-                                                    parsedWidth === preset.width && parsedHeight === preset.height
+                                                className={`${styles.keyboardPresetBtn} ${parsedWidth === preset.width && parsedHeight === preset.height
                                                         ? styles.keyboardPresetActive
                                                         : ''
-                                                }`}
+                                                    }`}
                                                 onClick={() => {
                                                     setWidth(String(preset.width));
                                                     setHeight(String(preset.height));

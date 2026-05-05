@@ -20,6 +20,7 @@ import styles from './OrdersHistory.module.css';
 import Link from 'next/link';
 import PrimaryButton from "@/components/ui/Buttons/PrimaryButton/PrimaryButton";
 import SecondaryButton from "@/components/ui/Buttons/SecondaryButton/SecondaryButton";
+import { MdOutlinePayments } from "react-icons/md";
 import { 
   FaPalette, 
   FaSpinner, 
@@ -47,15 +48,16 @@ export default function OrdersHistory({ initialOrders }) {
     switch (status.toLowerCase()) {
       case 'diseñando':
         return { icon: <FaPalette />, text: 'DISEÑANDO', class: styles.statusDesigning, step: 1, type: 'en curso' };
-      case 'comprobando pago':
       case 'pendiente de aprobación':
-        return { icon: <FaSpinner className={styles.spinIcon} />, text: 'PROCESANDO', class: styles.statusProcessing, step: 2, type: 'en curso' };
+        return { icon: <FaSpinner className={styles.spinIcon} />, text: 'REVISANDO', class: styles.statusProcessing, step: 2, type: 'en curso' };
+      case 'comprobando pago':
+        return { icon: <MdOutlinePayments/>, text: 'PAGO PENDIENTE', class: styles.statusShipped, step: 3, type: 'en curso' };
       case 'tejiendo':
-        return { icon: <FaPalette />, text: 'EN TALLER', class: styles.statusTufting, step: 3, type: 'en curso' };
+        return { icon: <FaPalette />, text: 'EN TALLER', class: styles.statusTufting, step: 4, type: 'en curso' };
       case 'enviado':
-        return { icon: <FaTruckFast />, text: 'ENVIADO', class: styles.statusShipped, step: 4, type: 'en curso' };
+        return { icon: <FaTruckFast />, text: 'ENVIADO', class: styles.statusShipped, step: 5, type: 'en curso' };
       case 'recibido':
-        return { icon: <FaCircleCheck />, text: 'ENTREGADO', class: styles.statusDelivered, step: 5, type: 'entregados' };
+        return { icon: <FaCircleCheck />, text: 'ENTREGADO', class: styles.statusDelivered, step: 6, type: 'entregados' };
       default:
         return { icon: <FaSpinner />, text: status.toUpperCase(), class: styles.statusDefault, step: 1, type: 'en curso' };
     }

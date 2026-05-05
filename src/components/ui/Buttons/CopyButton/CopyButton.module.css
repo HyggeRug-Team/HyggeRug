@@ -1,0 +1,50 @@
+/* components/CopyConceptButton.module.css */
+.conceptButton {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255, 165, 0, 0.1);
+  border: 1px dashed rgba(255, 165, 0, 0.4);
+  border-radius: 6px;
+  padding: 2px 8px;
+  cursor: pointer;
+  transition: all 0.2s;
+  color: var(--grey-400);
+}
+
+.conceptButton:hover {
+  background: rgba(255, 165, 0, 0.2);
+  border-color: orange;
+}
+
+.conceptHighlight {
+  color: orange;
+  font-family: var(--font-body);
+  letter-spacing: 1px;
+}
+/* components/CopyButton.module.css */
+.copyButton {
+  /* Reset total de estilos de botón */
+  all: unset;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  /* Hereda todo del padre (color, font, etc.) */
+  color: inherit;
+  font: inherit;
+}
+
+.copyButton:hover {
+  opacity: 0.8;
+}
+
+.copyIcon {
+  color: var(--grey-600);
+  flex-shrink: 0;
+  transition: color 0.2s;
+}
+
+.copyButton:hover .copyIcon {
+  color: var(--grey-400);
+}

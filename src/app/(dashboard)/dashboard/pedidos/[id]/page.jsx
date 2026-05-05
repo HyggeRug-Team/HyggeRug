@@ -18,15 +18,18 @@ import { redirect } from "next/navigation";
 import { getOrderById } from "@/lib/db/orders";
 import styles from "./orderDetail.module.css";
 import Link from "next/link";
-import { 
-  FaChevronLeft, 
-  FaCalendarDays, 
-  FaCreditCard, 
-  FaLocationDot, 
-  FaBoxOpen, 
-  FaCircleCheck, 
-  FaTruckFast, 
-  FaSpinner, 
+import CopyButton from "@/components/ui/Buttons/CopyButton/CopyButton";
+import { MdOutlinePayments } from "react-icons/md";
+import { getConfigValues } from "@/lib/db/config";
+import {
+  FaChevronLeft,
+  FaCalendarDays,
+  FaCreditCard,
+  FaLocationDot,
+  FaBoxOpen,
+  FaCircleCheck,
+  FaTruckFast,
+  FaSpinner,
   FaPalette,
   FaFileInvoiceDollar,
   FaPhone
@@ -50,7 +53,10 @@ export default async function OrderDetailPage({ params }) {
     redirect("/auth");
   }
 
-  const order = await getOrderById(id);
+  const [order, config] = await Promise.all([
+    getOrderById(id),
+    getConfigValues(["bizum_phone", "bank_account"])
+  ]);
 
   if (!order) {
     return (
@@ -68,36 +74,38 @@ export default async function OrderDetailPage({ params }) {
   const getStatusInfo = (status) => {
     switch (status.toLowerCase()) {
       case 'diseñando':
-        return { icon: <FaPalette />, text: 'DISEÑANDO', class: styles.statusDesigning, step: 1 };
-      case 'comprobando pago':
+        return { icon: <FaPalette />, text: 'DISEÑANDO', class: styles.statusDesigning, step: 1, type: 'en curso' };
       case 'pendiente de aprobación':
-        return { icon: <FaSpinner className={styles.spinIcon} />, text: 'PROCESANDO', class: styles.statusProcessing, step: 2 };
+        return { icon: <FaSpinner className={styles.spinIcon} />, text: 'REVISANDO', class: styles.statusProcessing, step: 2, type: 'en curso' };
+      case 'comprobando pago':
+        return { icon: <MdOutlinePayments />, text: 'PAGO PENDIENTE', class: styles.statusShipped, step: 3, type: 'en curso' };
       case 'tejiendo':
-        return { icon: <FaPalette />, text: 'EN TALLER', class: styles.statusTufting, step: 3 };
+        return { icon: <FaPalette />, text: 'EN TALLER', class: styles.statusTufting, step: 4, type: 'en curso' };
       case 'enviado':
-        return { icon: <FaTruckFast />, text: 'ENVIADO', class: styles.statusShipped, step: 4 };
+        return { icon: <FaTruckFast />, text: 'ENVIADO', class: styles.statusShipped, step: 5, type: 'en curso' };
       case 'recibido':
-        return { icon: <FaCircleCheck />, text: 'ENTREGADO', class: styles.statusDelivered, step: 5 };
+        return { icon: <FaCircleCheck />, text: 'ENTREGADO', class: styles.statusDelivered, step: 6, type: 'entregados' };
       default:
-        return { icon: <FaSpinner />, text: status.toUpperCase(), class: styles.statusDefault, step: 1 };
+        return { icon: <FaSpinner />, text: status.toUpperCase(), class: styles.statusDefault, step: 1, type: 'en curso' };
     }
   };
 
   const statusInfo = getStatusInfo(order.order_status);
-  const orderDate = new Date(order.creation_date).toLocaleDateString('es-ES', { 
-    day: '2-digit', 
-    month: 'long', 
+  const orderDate = new Date(order.creation_date).toLocaleDateString('es-ES', {
+    day: '2-digit',
+    month: 'long',
     year: 'numeric',
     hour: '2-digit',
     minute: '2-digit'
   });
 
   const steps = [
-    { id: 1, label: 'Diseño' },
-    { id: 2, label: 'Pago' },
-    { id: 3, label: 'Taller' },
-    { id: 4, label: 'Envío' },
-    { id: 5, label: 'Listo' }
+    { id: 1, label: 'Diseñando', icon: <FaPalette size={14} /> },
+    { id: 2, label: 'Revisando', icon: <FaSpinner size={14} /> },
+    { id: 3, label: 'Pago', icon: <MdOutlinePayments size={14} /> },
+    { id: 4, label: 'En taller', icon: <FaPalette size={14} /> },
+    { id: 5, label: 'Enviado', icon: <FaTruckFast size={14} /> },
+    { id: 6, label: 'Entregado', icon: <FaCircleCheck size={14} /> },
   ];
 
   return (
@@ -113,7 +121,40 @@ export default async function OrderDetailPage({ params }) {
           </div>
         </div>
       </header>
-
+      {/* INSTRUCCIONES DE ACCIÓN - solo visible cuando requiere acción del cliente */}
+      {order.order_status.toLowerCase() === 'comprobando pago' && (
+        <div className={styles.actionBanner}>
+          <div className={styles.actionBannerIcon}>
+            <MdOutlinePayments size={32} />
+          </div>
+          <div className={styles.actionBannerContent}>
+            <h2 className={styles.actionBannerTitle}>Acción requerida: Completa tu pago</h2>
+            <p className={styles.actionBannerText}>
+              Para continuar con tu pedido, realiza el pago por <strong>Bizum</strong> o <strong>transferencia bancaria </strong>
+              con el concepto exacto:  <CopyButton value={`Pago #${order.order_id}`} className={styles.conceptHighlight} />
+            </p>
+            <div className={styles.actionBannerMethods}>
+              <div className={styles.paymentMethodCard}>
+                <span className={styles.paymentMethodLabel}>Bizum</span>
+                <CopyButton
+                  value={config.bizum_phone}
+                  label={config.bizum_phone?.replace(/(\d{3})(\d{3})(\d{3})/, "$1 $2 $3") || "Número no disponible"}
+                  className={styles.paymentMethodValue}
+                />
+              </div>
+              <div className={styles.paymentMethodDivider}>ó</div>
+              <div className={styles.paymentMethodCard}>
+                <span className={styles.paymentMethodLabel}>Transferencia</span>
+                <CopyButton
+                  value={config.bank_account || "Número no disponible"}
+                  label={config.bank_account}
+                  className={styles.paymentMethodValue}
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
       <main className={styles.grid}>
         {/* COLUMNA IZQUIERDA: ARTÍCULOS */}
         <section className={styles.itemsSection}>
@@ -141,25 +182,31 @@ export default async function OrderDetailPage({ params }) {
 
         {/* COLUMNA DERECHA: RESUMEN Y ESTADO */}
         <aside className={styles.sidebar}>
-          
+
           {/* TRACKER VISUAL */}
           <div className={styles.card}>
             <h3 className={styles.cardTitle}>Estado del pedido</h3>
             <div className={styles.trackerContainer}>
               <div className={styles.trackerLine}>
-                <div 
-                  className={styles.trackerProgress} 
+                <div
+                  className={styles.trackerProgress}
                   style={{ height: `${((statusInfo.step - 1) / (steps.length - 1)) * 100}%` }}
                 />
               </div>
               <div className={styles.trackerSteps}>
                 {steps.map((step) => (
-                  <div 
-                    key={step.id} 
+                  <div
+                    key={step.id}
                     className={`${styles.stepWrapper} ${statusInfo.step >= step.id ? styles.stepActive : ''}`}
                   >
                     <div className={styles.stepDot}>
-                      {statusInfo.step > step.id ? <FaCircleCheck size={14} /> : step.id}
+                      {/* Completado: check | Actual: icono del estado | Pendiente: número */}
+                      {statusInfo.step > step.id
+                        ? <FaCircleCheck size={14} />
+                        : statusInfo.step === step.id
+                          ? step.icon
+                          : step.id
+                      }
                     </div>
                     <span className={styles.stepLabel}>{step.label}</span>
                   </div>
@@ -177,7 +224,7 @@ export default async function OrderDetailPage({ params }) {
                 <p>{order.address.calle} {order.address.portal_piso_puerta}</p>
                 <p>{order.address.codigo_postal}, {order.address.pais}</p>
                 {order.address.phone_number && (
-                  <p className={styles.phone}><FaPhone size={12}/> {order.address.phone_number}</p>
+                  <p className={styles.phone}><FaPhone size={12} /> {order.address.phone_number}</p>
                 )}
               </div>
             ) : (
