@@ -203,6 +203,7 @@ function groupOrderRows(rows) {
         if (!ordersMap.has(row.order_id)) {
             ordersMap.set(row.order_id, {
                 order_id:          row.order_id,
+                user_id:           row.user_id,
                 order_status:      row.order_status,
                 total_amount:      row.total_amount,
                 payment_method:    row.payment_method,

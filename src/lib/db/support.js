@@ -8,7 +8,7 @@ export async function createTicket(ticketData) {
         const [result] = await db.query(`
             INSERT INTO support_tickets 
                 (user_id, order_id, type, reason, description, status)
-            VALUES (?, ?, ?, ?, ?, 'open')
+            VALUES (?, ?, ?, ?, ?, 'abierto')
         `, [
             ticketData.userId,
             ticketData.orderId || null,

@@ -38,10 +38,10 @@ export default function SupportDashboard({ initialTickets = [], orders = [], ini
 
   const getStatusLabel = (status) => {
     switch (status) {
-      case 'open': return { text: 'Abierto', icon: <FaCircleQuestion />, class: styles.statusOpen };
-      case 'in_review': return { text: 'En revisión', icon: <FaClock />, class: styles.statusReview };
-      case 'resolved': return { text: 'Resuelto', icon: <FaCircleCheck />, class: styles.statusResolved };
-      case 'cancelled': return { text: 'Cancelado', icon: <FaXmark />, class: styles.statusCancelled };
+      case 'abierto': return { text: 'Abierto', icon: <FaCircleQuestion />, class: styles.statusOpen };
+      case 'en_revision': return { text: 'En revisión', icon: <FaClock />, class: styles.statusReview };
+      case 'resuelto': return { text: 'Resuelto', icon: <FaCircleCheck />, class: styles.statusResolved };
+      case 'cancelado': return { text: 'Cancelado', icon: <FaXmark />, class: styles.statusCancelled };
       default: return { text: status, icon: <FaCircleQuestion />, class: styles.statusOpen };
     }
   };
@@ -49,6 +49,7 @@ export default function SupportDashboard({ initialTickets = [], orders = [], ini
   const getTypeLabel = (type) => {
     const t = type?.toLowerCase();
     switch (t) {
+      case 'devolucion':
       case 'return': return 'Devolución';
       case 'asistencia':
       case 'help': 
@@ -201,6 +202,15 @@ export default function SupportDashboard({ initialTickets = [], orders = [], ini
                        {formatDescription(selectedTicket.description)}
                     </div>
                  </div>
+
+                 {selectedTicket.resolution_message && (
+                    <div className={styles.detailGroup}>
+                       <label>Resolución del Equipo</label>
+                       <div className={styles.resolutionBox}>
+                          {selectedTicket.resolution_message}
+                       </div>
+                    </div>
+                 )}
 
                  {/* Extraemos metadatos de la descripción si existen */}
                  <div className={styles.metaGrid}>
