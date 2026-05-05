@@ -1,0 +1,733 @@
+/*
+ * @file OrderDetail.module.css
+ * @description Estilos para el detalle del pedido.
+ * 
+ * [Nuestro enfoque]
+ * La visualización de un pedido no debe ser aburrida. Usamos una estética de bordes 
+ * discontinuos ("dashed") que evoca el proceso de corte y confección de nuestras alfombras. 
+ * Separamos claramente los estilos de escritorio de los táctiles para asegurar que 
+ * la ergonomía sea perfecta en cualquier dispositivo.
+ * 
+ * [Por qué lo hemos hecho así]
+ * Unimos la funcionalidad con la marca. El uso de bordes discontinuos, sombras de color 
+ * y fondos con cierta transparencia (glassmorphism) crea una interfaz que se siente 
+ * técnica pero artesanal. Además, el posicionamiento dinámico de la barra inferior 
+ * en móviles evita que el sidebar del dashboard la tape, algo crítico para la usabilidad.
+ */
+
+/* ── Contenedor General (Desktop) ── */
+.detailContainer {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 40px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+/* ── Cabecera: El punto de partida ── */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 2px dashed rgba(255, 255, 255, 0.1);
+  padding-bottom: 20px;
+}
+
+.headerLeft {
+  display: flex;
+  align-items: center;
+  gap: 30px;
+}
+
+.backButton {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--grey-400);
+  font-weight: 700;
+  text-transform: uppercase;
+  font-size: 0.8rem;
+  transition: all 0.2s;
+}
+
+.backButton:hover {
+  color: var(--white);
+  transform: translateX(-5px); /* Pequeño guiño visual al usuario */
+}
+
+.headerLeft h1 {
+  font-size: 2.5rem;
+  margin: 0;
+  text-shadow: 4px 4px 0px var(--highlight-text); /* El sello de Hygge Rug */
+}
+
+/* ── Badges de Estado: Claridad visual inmediata ── */
+.statusBadge {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 18px;
+  border-radius: 10px;
+  font-weight: 800;
+  font-size: 0.85rem;
+  letter-spacing: 1px;
+  border: 2px solid;
+  background: var(--black);
+}
+
+/* Colores específicos según el estado */
+.statusDesigning { border-color: var(--highlight-text); color: var(--highlight-text); }
+.statusProcessing { border-color: var(--hover-text); color: var(--hover-text); }
+.statusTufting { border-color: #9000ff; color: #c975ff; }
+.statusShipped { border-color: var(--button-before-hover); color: var(--button-before-hover); }
+.statusDelivered { border-color: #00ff80; color: #00ff80; }
+
+.spinIcon {
+  animation: spin 2s linear infinite; /* Para estados en proceso */
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* ── Tracker Horizontal (Desktop): El camino de la alfombra ── */
+.desktopTrackerCard {
+  background: rgba(0,0,0,0.2);
+  border: 2px dashed rgba(255, 255, 255, 0.1);
+  border-radius: 24px;
+  padding: 30px;
+  margin-bottom: 10px;
+}
+
+.desktopTrackerWrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+  padding: 0 40px;
+}
+
+.desktopTrackerLine {
+  position: absolute;
+  top: 25px;
+  left: 60px;
+  right: 60px;
+  height: 2px;
+  background: rgba(255, 255, 255, 0.1);
+  z-index: 1;
+}
+
+.desktopTrackerProgress {
+  height: 100%;
+  background: var(--highlight-text);
+  box-shadow: 0 0 10px var(--highlight-text);
+  transition: width 1s ease;
+}
+
+.desktopStep {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  position: relative;
+  z-index: 2;
+  width: 100px;
+}
+
+.desktopStepDot {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: var(--black);
+  border: 2px solid rgba(255, 255, 255, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--grey-600);
+  font-size: 1.2rem;
+  transition: all 0.3s;
+}
+
+.desktopStepActive .desktopStepDot {
+  border-color: var(--highlight-text);
+  color: var(--highlight-text);
+  box-shadow: 0 0 15px rgba(255, 0, 85, 0.3);
+}
+
+.desktopStepLabel {
+  font-size: 0.75rem;
+  font-weight: 800;
+  color: var(--grey-500);
+  text-transform: uppercase;
+  text-align: center;
+  letter-spacing: 1px;
+}
+
+.desktopStepActive .desktopStepLabel {
+  color: var(--white);
+}
+
+/* ── Grid Layout (Desktop): Organización y jerarquía ── */
+.grid {
+  display: grid;
+  grid-template-columns: 1fr 350px;
+  gap: 30px;
+  align-items: start;
+}
+
+.sectionTitle {
+  font-family: var(--font-body);
+  font-size: 1.1rem;
+  font-weight: 800;
+  color: var(--grey-400);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 20px;
+}
+
+.itemsList {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.itemCard {
+  display: grid;
+  grid-template-columns: 80px 1fr auto;
+  align-items: center;
+  gap: 20px;
+  background: rgba(255, 255, 255, 0.03);
+  padding: 15px 25px;
+  border-radius: 20px;
+  border: 2px dashed rgba(255, 255, 255, 0.1);
+}
+
+.itemImage {
+  width: 80px;
+  height: 80px;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.itemImage img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.itemDetails h3 {
+  font-size: 1.1rem;
+  margin: 0 0 5px 0;
+}
+
+.itemMeta {
+  display: flex;
+  gap: 15px;
+  font-size: 0.85rem;
+  color: var(--grey-500);
+}
+
+.itemTotal {
+  font-family: var(--font-titles);
+  font-size: 1.4rem;
+  color: var(--white);
+}
+
+/* ── Sidebar: Detalles informativos ── */
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.card {
+  background: rgba(0,0,0,0.3);
+  border: 2px dashed rgba(255, 255, 255, 0.1);
+  border-radius: 24px;
+  padding: 25px;
+}
+
+.cardTitle {
+  font-size: 0.9rem;
+  margin-bottom: 15px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--grey-400);
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.addressInfo p {
+  color: var(--grey-400);
+  margin-bottom: 4px;
+  font-size: 0.9rem;
+}
+
+.addressCity {
+  font-weight: 800;
+  color: var(--white) !important;
+}
+
+/* Resumen de facturación */
+.paymentSummary {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.summaryRow {
+  display: flex;
+  justify-content: space-between;
+  color: var(--grey-400);
+  font-size: 0.9rem;
+}
+
+.free {
+  color: #00ff80;
+  font-weight: 800;
+}
+
+.totalRow {
+  border-top: 1px dashed rgba(255, 255, 255, 0.1);
+  padding-top: 15px;
+  margin-top: 5px;
+  color: var(--white);
+  font-weight: 800;
+  font-size: 1.3rem;
+}
+
+.orderMeta {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  color: var(--grey-600);
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+/* ── Banner de Acción: Cuando necesitamos la atención del usuario ── */
+.actionBanner {
+  display: flex;
+  gap: 25px;
+  align-items: flex-start;
+  background: rgba(255, 165, 0, 0.05);
+  border: 2px dashed orange;
+  border-radius: 24px;
+  padding: 25px;
+}
+
+.actionBannerIcon {
+  color: orange;
+  margin-top: 5px;
+}
+
+.actionBannerContent {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 100%;
+}
+
+.actionBannerTitle {
+  font-size: 1.1rem;
+  color: orange;
+  margin: 0;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.actionBannerText {
+  color: var(--grey-300);
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+/* Tarjetas de métodos de pago en el banner */
+.actionBannerMethods {
+  display: flex;
+  gap: 15px;
+  margin-top: 5px;
+}
+
+.paymentMethodCard {
+  background: rgba(0,0,0,0.4);
+  border: 1px dashed rgba(255, 165, 0, 0.5);
+  border-radius: 12px;
+  padding: 12px 20px;
+}
+
+.paymentMethodLabel {
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  color: var(--grey-500);
+}
+
+.paymentMethodValue {
+  font-family: var(--font-titles);
+  font-size: 1.2rem;
+  color: var(--white);
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   OPTIMIZACIÓN TÁCTIL (Touch View)
+   Ergonomía, pulgares y consistencia visual.
+   ───────────────────────────────────────────────────────────────────────────── */
+
+.touchDetailContainer {
+  padding: 0px 20px 140px 20px; /* Espacio extra abajo para no tapar el contenido con la barra flotante */
+}
+
+.touchHeader {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  margin-bottom: 0;
+  padding-top: 5px;
+}
+
+.touchBackButton {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--grey-500);
+  font-weight: 700;
+  text-transform: uppercase;
+  font-size: 0.65rem;
+  letter-spacing: 2px;
+}
+
+.touchTitle {
+  font-size: 2.4rem;
+  margin: 0;
+  line-height: 1;
+  text-shadow: 4px 4px 0px var(--highlight-text);
+}
+
+.touchOrderID {
+  color: var(--white);
+}
+
+.touchItemsSection {
+  margin-top: -40px;
+}
+
+.touchItemsList {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+/* Cards de artículos en móvil: Misma estética "dashed" que en escritorio */
+.touchItemCard {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  background: rgba(255, 255, 255, 0.03);
+  padding: 14px;
+  border-radius: 20px;
+  border: 2px dashed rgba(255, 255, 255, 0.1);
+}
+
+.touchItemImage {
+  width: 65px;
+  height: 65px;
+  border-radius: 14px;
+  overflow: hidden;
+  flex-shrink: 0;
+  background: #000;
+}
+
+.touchItemImage img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.touchItemDetails h3 {
+  font-size: 1rem;
+  margin: 0;
+  color: var(--white);
+  font-weight: 800;
+}
+
+.touchItemMeta {
+  font-size: 0.8rem;
+  color: var(--grey-500);
+  margin-top: 4px;
+}
+
+.touchItemTotal {
+  font-weight: 900;
+  font-size: 1.1rem;
+  color: var(--white);
+  font-family: var(--font-titles);
+}
+
+.touchSidebar {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  margin-top: 30px;
+}
+
+/* Tarjetas de información en móvil */
+.touchCard {
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 24px;
+  padding: 22px;
+  border: 2px dashed rgba(255, 255, 255, 0.1);
+}
+
+.touchCardTitle {
+  font-size: 0.75rem;
+  font-weight: 900;
+  color: var(--grey-500);
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-transform: uppercase;
+}
+
+.touchAddress {
+  font-size: 0.95rem;
+  color: var(--grey-300);
+  line-height: 1.6;
+}
+
+.touchSummaryRow {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.95rem;
+  margin-bottom: 10px;
+  color: var(--grey-400);
+}
+
+.touchTotalRow {
+  margin-top: 12px;
+  padding-top: 15px;
+  border-top: 1px dashed rgba(255, 255, 255, 0.1);
+  font-weight: 900;
+  font-size: 1.3rem;
+  color: var(--white);
+}
+
+/* Banner de acción móvil: Respetando la estética "dashed" naranja */
+.touchActionBanner {
+  margin-top: 30px;
+  border-radius: 28px !important;
+  padding: 24px !important;
+  border: 2px dashed orange !important;
+  background: rgba(255, 165, 0, 0.05);
+}
+
+.touchActionBannerTitle {
+  font-size: 1rem !important;
+  color: orange;
+  font-weight: 800;
+}
+
+.touchActionBannerText {
+  font-size: 0.85rem !important;
+  opacity: 0.8;
+  color: var(--grey-300);
+}
+
+.touchActionMethods {
+  margin-top: 10px;
+  display: flex;
+  gap: 12px;
+  width: 100%;
+}
+
+.touchPaymentCard {
+  flex: 1;
+  padding: 12px !important;
+  border: 1px dashed rgba(255, 165, 0, 0.5) !important;
+  background: rgba(0,0,0,0.4);
+  border-radius: 12px;
+}
+
+.touchPaymentValueBizum {
+  font-size: 1.1rem !important;
+  font-family: var(--font-titles);
+}
+
+.touchPaymentValueIBAN {
+  font-size: 0.8rem !important;
+  font-family: var(--font-titles);
+}
+
+.touchOrderMeta {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 10px;
+  font-size: 0.75rem !important;
+  color: var(--grey-600);
+}
+
+/* ── BARRA DE ESTADO FLOTANTE (Bottom Bar) ──
+   Esta barra detecta el ancho del sidebar del dashboard para no taparlo.
+   Es una solución inteligente para layouts complejos. */
+.bottomStatusBar {
+  position: fixed;
+  bottom: 20px;
+  left: 295px; /* Calculado como 280px sidebar + 15px de gap */
+  right: 15px;
+  background: rgba(10, 10, 10, 0.85);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  z-index: 1000;
+  backdrop-filter: blur(20px);
+  border-radius: 24px;
+  transition: left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Adaptamos la posición según los diferentes anchos del sidebar */
+@media (max-width: 1200px) {
+  .bottomStatusBar {
+    left: 265px; /* 250px sidebar + 15px gap */
+  }
+}
+
+@media (max-width: 992px) {
+  .bottomStatusBar {
+    left: 95px; /* 80px sidebar + 15px gap */
+  }
+}
+
+@media (max-width: 768px) {
+  .bottomStatusBar {
+    left: 15px; /* El sidebar es ahora un drawer, la barra ocupa todo el ancho */
+  }
+}
+
+.bottomStatusHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+.bottomStatusInfo {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+/* Icono de estado: Borde sólido para mejor definición */
+.bottomStatusIcon {
+  width: 44px;
+  height: 44px;
+  border-radius: 14px;
+  background: rgba(255, 0, 85, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--highlight-text);
+  font-size: 1.4rem;
+  border: 2px solid rgba(255, 0, 85, 0.2);
+}
+
+.bottomStatusText {
+  display: flex;
+  flex-direction: column;
+}
+
+.bottomStatusLabel {
+  font-size: 0.65rem;
+  color: var(--grey-500);
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  font-weight: 700;
+}
+
+.bottomStatusValue {
+  font-weight: 900;
+  color: var(--white);
+  font-size: 1.1rem;
+  text-transform: uppercase;
+}
+
+/* Badge de pasos (ej: 2/6): Borde sólido y limpio */
+.stepBadge {
+  background: rgba(255, 255, 255, 0.05);
+  padding: 6px 12px;
+  border-radius: 10px;
+  font-size: 0.75rem;
+  font-weight: 800;
+  color: var(--grey-400);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Tracker de progreso horizontal */
+.horizontalTracker {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  position: relative;
+  padding: 0 5px;
+  height: 30px;
+}
+
+.horizontalLine {
+  position: absolute;
+  top: 50%;
+  left: 10px;
+  right: 10px;
+  height: 4px;
+  background: rgba(255, 255, 255, 0.05);
+  transform: translateY(-50%);
+  z-index: 1;
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.horizontalProgress {
+  height: 100%;
+  background: var(--highlight-text);
+  box-shadow: 0 0 15px var(--highlight-text);
+  transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.miniStepWrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  z-index: 2;
+}
+
+/* Puntos del tracker: Bordes sólidos para mayor nitidez */
+.miniStepDot {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: #0a0a0a;
+  border: 2px solid rgba(255, 255, 255, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.6rem;
+  font-weight: 800;
+  color: var(--grey-600);
+  transition: all 0.4s ease;
+}
+
+.miniStepActive .miniStepDot {
+  border-color: var(--highlight-text);
+  color: var(--highlight-text);
+  background: #000;
+  box-shadow: 0 0 12px rgba(255, 0, 85, 0.5);
+  transform: scale(1.1);
+}
