@@ -220,12 +220,22 @@
 }
 
 @media (max-width: 1100px) {
-    .mainGrid { grid-template-columns: 1fr; }
+    .mainGrid { grid-template-columns: 1fr; gap: 60px; }
     .titleLoud { font-size: 4rem; }
     .description { max-width: 100%; }
 }
 
-@media (max-width: 600px) {
-    .formCard { padding: 30px; }
-    .socialGrid { grid-template-columns: 1fr; }
+@media (max-width: 768px) {
+    .contactoWrapper { padding: 120px 15px 60px; }
+    .titleLoud { font-size: 3rem; }
+    .description { font-size: 1rem; margin-bottom: 40px; }
+    .formCard { padding: 40px 25px; border-radius: 24px; }
+}
+
+@media (max-width: 480px) {
+    .titleLoud { font-size: 2.2rem; }
+    .infoCard { padding: 20px; gap: 15px; }
+    .infoText p { font-size: 0.9rem; }
+    .socialCard { padding: 20px; flex-direction: column; align-items: flex-start; gap: 15px; }
+    .socialBtn { width: 100%; text-align: center; }
 }

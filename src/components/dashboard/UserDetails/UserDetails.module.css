@@ -228,8 +228,24 @@
     z-index: 1;
 }
 
-@keyframes fadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
+@media (max-width: 480px) {
+    .detailsCard {
+        padding: 1.5rem;
+        border-radius: 20px;
+    }
+    
+    .profileHeader {
+        gap: 1rem;
+        margin-bottom: 1.5rem;
+    }
+
+    .pointsValue {
+        font-size: 1.8rem;
+    }
+
+    .profileImage {
+        width: 100px;
+        height: 100px;
+    }
 }
 

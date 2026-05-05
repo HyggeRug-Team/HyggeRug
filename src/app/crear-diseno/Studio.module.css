@@ -823,7 +823,7 @@
     .mainContent {
         flex-direction: column;
         height: 100%;
-        overflow: hidden; /* Cero scroll global, experiencia App 100% */
+        overflow: hidden;
         position: relative;
     }
 
@@ -833,38 +833,47 @@
         align-items: center;
         gap: 10px;
         position: absolute;
-        top: 20px;
-        left: 20px;
+        top: 110px;
+        left: 50%;
+        transform: translateX(-50%);
         z-index: 50;
-        background: rgba(255, 255, 255, 0.1);
-        backdrop-filter: blur(10px);
-        border: 1px solid rgba(255, 255, 255, 0.2);
+        background: rgba(0, 0, 0, 0.6);
+        backdrop-filter: blur(15px);
+        border: 1px solid var(--highlight-text);
         color: #fff;
-        padding: 12px 18px;
+        padding: 10px 20px;
         border-radius: 99px;
         font-family: var(--font-body);
         font-weight: 800;
-        font-size: 0.75rem;
+        font-size: 0.7rem;
         cursor: pointer;
-        transition: all 0.3s ease;
+        transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
         text-transform: uppercase;
         letter-spacing: 1px;
-        box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+        box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        animation: pulseBtn 3s infinite;
+        white-space: nowrap;
+    }
+    
+    @keyframes pulseBtn {
+        0% { box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.4); }
+        70% { box-shadow: 0 0 0 10px rgba(255, 255, 255, 0); }
+        100% { box-shadow: 0 0 0 0 rgba(255, 255, 255, 0); }
     }
     .mobileFloatingBtn:active {
-        background: rgba(255, 255, 255, 0.2);
-        transform: scale(0.96);
+        transform: translateX(-50%) scale(0.95);
+        background: var(--highlight-text);
     }
 
     /* CANVAS - OCUPA EL CENTRO RESTANTE */
     .canvasArea {
-        flex: 1; /* Ocupa todo el espacio entre el topBar y el checkoutPanel */
+        flex: 1;
         width: 100%;
-        padding: 80px 20px 20px 20px; /* Padding top para dejar sitio al botón hamburguesa */
+        padding: 80px 20px 20px 20px;
         display: flex;
         justify-content: center;
         align-items: center;
-        min-height: 0; /* Crucial en flex para evitar desbordamiento */
+        min-height: 0;
     }
 
     .viewport {
@@ -872,7 +881,7 @@
         max-width: 500px;
         height: auto;
         aspect-ratio: 1;
-        max-height: 100%; /* No superará la caja central */
+        max-height: 100%;
         border-radius: 30px;
         margin: 0 auto;
         box-shadow: 0 20px 40px rgba(0,0,0,0.6);
@@ -950,32 +959,44 @@
         width: 100%;
         max-width: 100%;
         margin: 0;
-        padding: 20px 30px;
-        border-radius: 30px 30px 0 0;
+        padding: 10px 15px; 
+        border-radius: 20px 20px 0 0;
         background: #FFD701;
-        box-shadow: 0 -15px 40px rgba(0,0,0,0.3);
+        box-shadow: 0 -10px 30px rgba(0,0,0,0.3);
         position: relative;
         z-index: 10;
-        flex-shrink: 0; /* Previene que sea colapsado por el Canvas */
+        flex-shrink: 0;
         clip-path: none;
     }
     
-    .receiptBody {
-        gap: 15px; /* Más compacto para ahorrar espacio vertical */
+    .receiptTitle {
+        margin-bottom: 8px; 
+        padding-bottom: 4px;
+        font-size: 0.85rem;
     }
+
+    .receiptBody {
+        gap: 6px; 
+    }
+
+    .receiptLine {
+        font-size: 0.75rem;
+    }
+
     .totalLine {
-        flex-direction: row; /* Total y texto en la misma línea para ahorrar altura */
+        flex-direction: row;
         justify-content: space-between;
         align-items: center;
-        margin-bottom: 15px;
+        margin-top: 2px;
+        margin-bottom: 5px; 
     }
     .totalLine strong {
-        font-size: 2.2rem;
+        font-size: 1.5rem; 
     }
     .buyAction {
-        padding: 18px;
-        font-size: 1.1rem;
-        border-radius: 20px;
+        padding: 12px; 
+        font-size: 0.9rem;
+        border-radius: 12px;
     }
 }
 /* 4. VERTICAL CONSTRAINTS (SHORT SCREENS) */
@@ -988,43 +1009,45 @@
 
 /* 5. MOBILE (MICRO-SCREENS < 480px) */
 @media (max-width: 480px) {
-    .topBar { padding: 0 15px; height: 55px; }
-    .brandTitle { font-size: 1rem; }
-    .backButton { padding: 6px 10px; font-size: 0.65rem; gap: 6px; }
+    .topBar { padding: 0 15px; height: 50px; }
+    .brandTitle { font-size: 0.9rem; }
+    .backButton { padding: 5px 8px; font-size: 0.6rem; gap: 4px; }
 
     .mobileFloatingBtn {
-        top: 15px;
-        left: 15px;
-        padding: 10px 14px;
-        font-size: 0.65rem;
+        top: 85px;
+        left: 50%;
+        transform: translateX(-50%);
+        padding: 6px 12px;
+        font-size: 0.55rem;
     }
 
-    .canvasArea { padding: 65px 15px 15px 15px; }
-    .viewport { border-radius: 20px; }
+    .canvasArea { padding: 45px 10px 10px 10px; }
+    .viewport { border-radius: 12px; }
 
     .checkoutPanel {
-        padding: 20px 15px 15px 15px; 
-        border-radius: 24px 24px 0 0;
+        padding: 8px 12px 6px 12px; 
+        border-radius: 15px 15px 0 0;
     }
     
-    .receiptTitle { font-size: 1rem; margin-bottom: 12px; padding-bottom: 8px; }
-    .receiptLine { font-size: 0.85rem; }
-    .receiptLine span:first-child { font-size: 0.65rem; }
-    .divider { margin: 12px 0; }
-    .totalLine strong { font-size: 1.8rem; }
-    .buyAction { padding: 16px; font-size: 1rem; border-radius: 16px; }
+    .receiptTitle { font-size: 0.75rem; margin-bottom: 5px; }
+    .receiptLine { display: none; }
+    .receiptLine:first-child { display: flex; font-size: 0.65rem; }
+    .divider { margin: 5px 0; }
+    .totalLine { margin-bottom: 4px; }
+    .totalLine strong { font-size: 1.2rem; }
+    .buyAction { padding: 10px; font-size: 0.8rem; border-radius: 10px; }
 
     /* Sidebar interno móvil */
-    .controlPanel { padding: 25px 15px; }
-    .graffitiTag { font-size: 1.2rem; }
-    .sizeSelection { gap: 6px; }
-    .sizeCircle { padding: 12px 6px; border-radius: 10px; } 
-    .sizeKey { font-size: 0.95rem; }
-    .sizeLabel { font-size: 0.65rem; }
-    .mainAction { padding: 14px; font-size: 1rem; border-radius: 12px; }
-    .labelNeon { font-size: 0.75rem; }
-    .promptInput { height: 70px; }
-    .uploadButton { padding: 12px; }
+    .controlPanel { padding: 15px; }
+    .graffitiTag { font-size: 1rem; }
+    .sizeSelection { gap: 4px; }
+    .sizeCircle { padding: 8px 4px; border-radius: 6px; } 
+    .sizeKey { font-size: 0.8rem; }
+    .sizeLabel { font-size: 0.5rem; }
+    .mainAction { padding: 10px; font-size: 0.8rem; border-radius: 8px; }
+    .labelNeon { font-size: 0.6rem; }
+    .promptInput { height: 50px; }
+    .uploadButton { padding: 8px; }
 }
 
 /* 6. TOUCH DEVICES (OVERRIDE HOVERS) */
