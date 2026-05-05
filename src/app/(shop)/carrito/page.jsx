@@ -425,7 +425,7 @@ export default function CartPage() {
                                 <span className={styles.stickyPriceValue}>{formatPrice(total)}</span>
                             </div>
                             <SecondaryButton 
-                                text={confirming ? '...' : 'COMPRAR AHORA'}
+                                text={confirming ? '...' : 'CONFIRMAR PEDIDO'}
                                 onClick={() => setShowModal(true)}
                                 disabled={!selectedAddress}
                                 className={styles.premiumConfirmBtn}
