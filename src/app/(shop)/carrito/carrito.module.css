@@ -1,0 +1,510 @@
+/* ── CARRITO PAGE STYLES ── */
+
+.cartPage {
+    min-height: 100vh;
+    padding: 100px 0 80px;
+    display: flex;
+    justify-content: center;
+}
+
+.cartContainer {
+    width: 100%;
+    max-width: 1200px;
+    padding: 0 40px;
+    margin: 0 auto;
+}
+
+.pageTitle {
+    font-size: clamp(2.8rem, 6vw, 4.5rem);
+    color: var(--white);
+    margin: 0 0 40px 0;
+    letter-spacing: -2px;
+    font-family: var(--font-titles);
+    text-transform: uppercase;
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.headerTop {
+    margin-bottom: 25px;
+}
+
+.backBtn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--grey-600);
+    font-size: 0.75rem;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    transition: all 0.2s ease;
+}
+
+.backBtn:hover {
+    color: var(--white);
+}
+
+.backBtn svg {
+    font-size: 0.7rem;
+}
+
+.titleAccent {
+    color: var(--highlight-text);
+    text-shadow: 4px 4px 0px #000;
+}
+
+.itemCountBadge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--highlight-text);
+    color: var(--white);
+    font-size: 0.65rem;
+    font-weight: 900;
+    padding: 6px 14px;
+    border-radius: 12px;
+    box-shadow: 4px 4px 0px #000;
+    transform: rotate(-2deg);
+}
+
+.loadingState {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 60vh;
+    font-size: 0.9rem;
+    color: var(--grey-600);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+.emptyCart {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 24px;
+    padding: 80px 0;
+    color: var(--grey-600);
+    font-size: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+.shopBtn {
+    padding: 14px 32px;
+    background: var(--highlight-text);
+    color: var(--white);
+    border: none;
+    border-radius: 10px;
+    font-weight: 900;
+    font-size: 0.85rem;
+    letter-spacing: 2px;
+    cursor: pointer;
+    box-shadow: 4px 4px 0px rgba(0,0,0,1);
+    transition: all 0.2s;
+}
+
+.shopBtn:hover {
+    transform: translate(-2px, -2px);
+    box-shadow: 6px 6px 0px rgba(0,0,0,1);
+}
+
+/* GRID PRINCIPAL */
+.cartGrid {
+    display: grid;
+    grid-template-columns: 1fr 360px;
+    gap: 30px;
+    align-items: start;
+}
+
+.leftCol {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.rightCol {
+    position: sticky;
+    top: 100px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+/* CARD BASE */
+.card {
+    background: rgba(15, 15, 15, 0.6);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 24px;
+    padding: 32px;
+    transition: all 0.3s;
+}
+
+.cardTitle {
+    font-size: 0.75rem;
+    font-weight: 900;
+    color: var(--grey-500);
+    text-transform: uppercase;
+    letter-spacing: 2.5px;
+    margin-bottom: 25px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.noteInput {
+    width: 100%;
+    background: #000;
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 16px;
+    color: var(--white);
+    font-family: var(--font-body);
+    font-size: 0.95rem;
+    padding: 18px;
+    resize: vertical;
+    transition: border-color 0.2s;
+}
+
+.noteInput::placeholder { color: var(--grey-700); }
+
+.noteInput:focus {
+    outline: none;
+    border-color: var(--highlight-text);
+}
+
+/* STICKY BOTTOM BAR FOR MOBILE */
+.mobileStickyBar {
+    display: none;
+    position: fixed;
+    bottom: 15px;
+    left: 15px;
+    right: 15px;
+    background: rgba(0, 0, 0, 0.95);
+    backdrop-filter: blur(15px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 25px;
+    padding: 14px 20px;
+    z-index: 100;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.8);
+    animation: slideUpMobile 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes slideUpMobile {
+    from { transform: translateY(150%); }
+    to { transform: translateY(0); }
+}
+
+.stickyTotal {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.stickyTotalLabel {
+    font-size: 0.6rem;
+    font-weight: 900;
+    color: var(--grey-600);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+.stickyTotalAmount {
+    font-size: 1.6rem;
+    font-weight: 900;
+    color: var(--white);
+    font-family: var(--font-titles);
+}
+
+.stickyConfirmBtn {
+    min-width: 140px !important;
+    height: 48px !important;
+}
+
+/* RESPONSIVE */
+@media (max-width: 1100px) {
+    .cartGrid {
+        grid-template-columns: 1fr;
+    }
+    .rightCol {
+        position: static;
+    }
+}
+
+@media (max-width: 600px) {
+    .cartPage { padding: 30px 0 110px; }
+    .cartContainer { padding: 0 16px; }
+    
+    .pageTitle { 
+        font-size: 1.8rem; 
+        margin-bottom: 25px; 
+        flex-direction: row;
+        align-items: center;
+        justify-content: flex-start;
+        gap: 12px;
+    }
+    
+    .itemCountBadge {
+        transform: none;
+        margin-left: 0;
+    }
+
+    .card { 
+        padding: 24px 20px; 
+        border-radius: 20px; 
+    }
+    
+    .mobileStickyBar { display: flex; }
+}
+
+/* ── VISTA TÁCTIL MÓVIL ── */
+
+.touchVersion {
+    padding: 0;
+    min-height: 100vh;
+    position: relative;
+    overflow-x: hidden;
+}
+
+
+
+.touchContainer {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    padding-bottom: 200px;
+}
+
+/* 1. ENCABEZADO MÓVIL */
+.touchHero {
+    padding: 50px 24px 30px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.heroTopRow {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 5px;
+}
+
+.touchBackLink {
+    color: var(--grey-500);
+    font-size: 0.7rem;
+    font-weight: 900;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.touchCountPill {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: var(--grey-400);
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 0.65rem;
+    font-weight: 800;
+    letter-spacing: 1px;
+}
+
+.touchMainTitle {
+    font-size: 2.8rem;
+    line-height: 0.85;
+    margin: 0;
+    font-family: var(--font-titles);
+    text-transform: uppercase;
+}
+
+.heroSubText {
+    font-size: 0.75rem;
+    color: var(--grey-600);
+    font-weight: 600;
+    margin-top: 2px;
+}
+
+/* 2. SECCIONES DEL CARRITO */
+.touchJourney {
+    padding: 0 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+}
+
+.journeySection {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.journeyHeader {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.journeyLine {
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(to right, var(--highlight-text), transparent);
+}
+
+.journeyTitle {
+    font-size: 0.75rem;
+    font-weight: 900;
+    color: var(--grey-500);
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    text-shadow: none;
+}
+
+/* 3. CARDS */
+.touchGlassCard {
+    background: rgba(10, 10, 10, 0.7);
+    backdrop-filter: blur(25px) saturate(150%);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 24px;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+    padding: 5px 0;
+}
+
+.touchDoubleCard {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.touchNoteBox {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 24px;
+    padding: 20px;
+}
+
+.touchNoteInput {
+    width: 100%;
+    background: transparent;
+    border: none;
+    color: var(--white);
+    font-family: var(--font-body);
+    font-size: 0.9rem;
+    resize: none;
+}
+
+.touchNoteInput:focus { outline: none; }
+
+/* 5. BARRA DE ACCIÓN FLOTANTE */
+.premiumStickyBar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgba(5, 5, 5, 0.92);
+    backdrop-filter: blur(40px);
+    padding: 15px 20px 35px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.stickyMain {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 15px;
+}
+
+.stickyPriceGroup {
+    display: flex;
+    flex-direction: column;
+}
+
+.stickyPriceLabel {
+    font-size: 0.55rem;
+    font-weight: 900;
+    color: var(--grey-600);
+    letter-spacing: 1px;
+}
+
+.stickyPriceValue {
+    font-size: 1.8rem;
+    line-height: 1;
+    font-family: var(--font-titles);
+    color: var(--white);
+    text-shadow: 2px 2px 0px rgba(0,0,0,0.5);
+}
+
+.premiumConfirmBtn {
+    flex: 1;
+}
+
+.stickyDisclaimer {
+    font-size: 0.6rem;
+    color: var(--grey-600);
+    text-align: center;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+}
+
+.stickySavingBanner {
+    background: rgba(255, 215, 1, 0.1);
+    border: 1px solid rgba(255, 215, 1, 0.2);
+    color: var(--hover-text);
+    padding: 8px;
+    text-align: center;
+    border-radius: 12px;
+    font-size: 0.65rem;
+    font-weight: 800;
+}
+
+/* 6. EMPTY STATE */
+.emptyCartTouch {
+    padding: 120px 30px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+}
+
+.emptyVisual {
+    font-size: 6rem;
+    filter: drop-shadow(0 0 40px rgba(255, 0, 85, 0.4));
+}
+
+.emptyCartTouch h2 {
+    font-size: 3rem;
+    margin: 0;
+}
+
+.emptyCartTouch p {
+    color: var(--grey-500);
+    max-width: 200px;
+}
+
+.touchShopBtn {
+    background: var(--white);
+    color: var(--black);
+    padding: 18px 40px;
+    border-radius: 18px;
+    font-weight: 900;
+    border: none;
+    box-shadow: 6px 6px 0px var(--highlight-text);
+}
+
+.touchBottomSpacer {
+    height: 80px;
+}
+
+
