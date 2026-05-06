@@ -38,6 +38,14 @@ export default function EditableAvatar({ currentImage, onSave }) {
         const file = e.target.files[0];
         if (!file) return;
 
+        // --- Catch de tamaño en cliente (2MB) ---
+        // Comprobamos el tamaño antes de gastar ancho de banda subiendo el archivo.
+        const MAX_SIZE = 2 * 1024 * 1024;
+        if (file.size > MAX_SIZE) {
+            alert("¡Vaya! Esta imagen pesa demasiado. Intenta subir una que ocupe menos de 2MB.");
+            return;
+        }
+
         setIsUploading(true);
         const formData = new FormData();
         formData.append('file', file);

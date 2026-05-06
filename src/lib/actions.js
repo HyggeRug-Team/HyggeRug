@@ -114,6 +114,16 @@ export async function uploadProfileImage(formData) {
 
         const userId = session.userId || session.user_id || session.id;
 
+        // --- Catch de tamaño (2MB) ---
+        // Validamos el peso del archivo antes de subirlo a la nube.
+        const MAX_SIZE = 2 * 1024 * 1024; // 2 Megabytes
+        if (file.size > MAX_SIZE) {
+            return { 
+                success: false, 
+                error: "La imagen es demasiado pesada. El límite para fotos de perfil es de 2MB para mantener la web rápida." 
+            };
+        }
+
         // Nombre de archivo único usando ID de usuario y timestamp
         const fileName = `avatars/user_${userId}_${Date.now()}_${file.name}`;
 
