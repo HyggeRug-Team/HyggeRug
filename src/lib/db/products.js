@@ -1,7 +1,15 @@
 /**
  * @file products.js
- * @description Archivo para conectar los Productos del catálogo con su info en base de datos.
- * Se usa para extraer alfombras y variantes (tamaños, precios).
+ * @description Gestión de datos del catálogo de alfombras.
+ * 
+ * [Nuestro enfoque]
+ * Centralizamos aquí todas las consultas relacionadas con las alfombras. Nos aseguramos 
+ * de que la información de precios y variantes esté siempre sincronizada con la DB.
+ * 
+ * [Por qué lo hemos hecho así]
+ * Separamos la lógica de base de datos para que los componentes (Server o Client) no 
+ * tengan que lidiar con SQL. Además, aplicamos filtros de seguridad (public=1) 
+ * directamente en la fuente para evitar errores en el escaparate.
  */
 import { db } from "@/lib/db";
 
@@ -52,7 +60,7 @@ export async function getRandomProducts(limit = 7) {
                 name,
                 image_url
             FROM products
-            WHERE image_url IS NOT NULL
+            WHERE image_url IS NOT NULL AND public = 1 AND community = 1
             ORDER BY RAND()
             LIMIT ?
         `,

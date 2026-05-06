@@ -2,6 +2,7 @@ import HeroSection from '@/components/sections/HeroSection/HeroSection';
 import MarqueeStrip from '@/components/sections/MarqueeStrip/MarqueeStrip';
 import FeaturedDrops from '@/components/sections/FeaturedDrops/FeaturedDrops';
 import InfoSection from '@/components/sections/InfoSection/InfoSection';
+import FunnyNotification from '@/components/ui/FunnyNotification/FunnyNotification';
 import { getRandomProducts } from '@/lib/db/products';
 
 export const metadata = {
@@ -12,15 +13,15 @@ export const metadata = {
 
 /**
  * @file page.jsx (Home)
- * @description Página principal de Hygge Rug (tienda de alfombras personalizadas).
+ * @description La cara visible de Hygge Rug.
  *
  * [Nuestro enfoque]
- * Hemos construido la home con dos bloques claros: el hero (impacto inicial) y la sección
- * informativa (por qué elegirnos).
+ * Construimos la home como un escaparate dinámico. Inyectamos productos reales en 
+ * el hero y activamos un "Easter Egg" humorístico para conectar con el usuario.
  *
  * [Por qué lo hemos hecho así]
- * Así el usuario entiende rápido el producto y el valor de la marca, sin páginas largas
- * antes de tiempo.
+ * Al usar SSR (Server Side Rendering) para los productos aleatorios, garantizamos 
+ * que la página cargue rápido pero con contenido siempre fresco en cada visita.
  */
 export default async function Home() {
   const customCards = await getRandomProducts(7);
@@ -31,6 +32,7 @@ export default async function Home() {
       <MarqueeStrip />
       <FeaturedDrops />
       <InfoSection />
+      <FunnyNotification products={customCards} />
     </>
   );
 }

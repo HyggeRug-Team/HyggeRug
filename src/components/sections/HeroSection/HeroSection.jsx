@@ -1,15 +1,15 @@
 /**
  * @file HeroSection.jsx
- * @description Sección principal (hero) de la página de inicio de Hygge Rug.
+ * @description El impacto visual inicial de la web.
  *
  * [Nuestro enfoque]
- * Renderiza el titular principal, la descripción de marca y el abanico de 7 tarjetas
- * de producto con efecto de rotación. Los productos se inyectan desde el Server Component
- * padre (Home), por lo que este componente puede mantenerse como Server Component.
+ * Presentamos la marca con un abanico dinámico de alfombras. Ahora inyectamos diseños 
+ * reales de la comunidad que vienen directamente del servidor para que el hero se sienta vivo.
  *
  * [Por qué lo hemos hecho así]
- * Sin hooks ni event listeners directos, no hay razón para incluir 'use client'.
- * Mantenerlo como Server Component mejora el rendimiento (menos JS enviado al cliente).
+ * Combinamos productos destacados con una rotación calculada para crear profundidad. 
+ * Si un diseño no tiene una promo específica, usamos su nombre en mayúsculas para 
+ * que cada carta tenga personalidad propia y no dependa de textos genéricos.
  */
 import React from "react";
 import styles from "./HeroSection.module.css";
@@ -34,7 +34,7 @@ function HeroSection({ customCards }) {
         id: c.product_id,
         src: c.image_url,
         label: c.name,
-        title: c.promo_title || "DESTACADO",
+        title: c.promo_title || c.name.toUpperCase(),
         rot: rotations[i % rotations.length]
       }))
     : defaultCards;
