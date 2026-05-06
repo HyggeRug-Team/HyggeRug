@@ -1,16 +1,16 @@
 /**
  * @file actions.js
- * @description Acciones de servidor (Server Actions) para la gestión del perfil y archivos.
+ * @description Orquestador de lógica del lado del servidor (Server Actions).
  * 
  * [Nuestro enfoque]
- * Centralizamos las mutaciones de datos en este archivo para garantizar que cualquier 
- * cambio pase por validaciones de sesión en el lado del servidor. Para la gestión 
- * de archivos, hemos migrado a un modelo de almacenamiento en la nube (Vercel Blob).
+ * Aquí centralizamos todas las operaciones que necesitan "tocar" la base de datos o 
+ * servicios externos (como el correo). Al usar Server Actions, mantenemos la lógica 
+ * sensible fuera del navegador del cliente, haciendo que todo sea más seguro y rápido.
  * 
  * [Por qué lo hemos hecho así]
- * Las arquitecturas Serverless (como Vercel) no garantizan la persistencia de archivos 
- * escritos en disco local. Al usar Vercel Blob, aseguramos que las fotos de perfil 
- * sean permanentes, escalables y accesibles globalmente sin depender del servidor físico.
+ * Separar las acciones de los componentes visuales nos permite reutilizar funciones 
+ * (como obtener pedidos o crear tickets) en cualquier parte de la web sin repetir código. 
+ * Además, nos facilita el manejo de errores de forma centralizada y profesional.
  */
 
 'use server'
@@ -20,9 +20,12 @@ import { revalidatePath } from 'next/cache';
 import { getSession } from './auth';
 import { put } from '@vercel/blob';
 import { createTicket } from './db/support';
+import { createReturn } from './db/returns';
 
+/* ─── Soporte y Atención al Cliente ─── */
 /**
- * CREA UN TICKET DE SOPORTE (AYUDA / DEVOLUCIONES)
+ * Crea un ticket de soporte. Lo usamos para que el usuario pueda enviar dudas 
+ * o solicitar devoluciones sin complicaciones.
  */
 export async function createSupportTicket(ticketData) {
     try {
@@ -31,19 +34,71 @@ export async function createSupportTicket(ticketData) {
 
         const userId = session.userId || session.user_id || session.id;
 
-        const ticketId = await createTicket({
-            ...ticketData,
-            userId
-        });
+        // Aseguramos que los campos tengan valores válidos para la BBDD
+        const finalTicketData = {
+            userId,
+            orderId: ticketData.orderId || null,
+            type: ticketData.type || 'soporte',
+            subject: ticketData.subject || 'Consulta sobre pedido',
+            description: ticketData.description || 'Consulta enviada desde el portal del cliente'
+        };
+
+        const ticketId = await createTicket(finalTicketData);
 
         revalidatePath('/dashboard/ayuda', 'layout');
         return { success: true, ticketId };
 
     } catch (error) {
-        console.error("[ACTION] Error creando ticket:", error);
+        console.error("[ACTION] Error crítico creando ticket:", error);
+        return { success: false, error: "Error en base de datos" };
+    }
+}
+
+/**
+ * SOLICITA UNA DEVOLUCIÓN DE UN PEDIDO
+ */
+export async function requestReturnAction(returnData) {
+    try {
+        const session = await getSession();
+        if (!session) return { success: false, error: "Sesión no válida" };
+
+        const userId = session.userId || session.user_id || session.id;
+
+        const returnId = await createReturn({
+            ...returnData,
+            userId
+        });
+
+        revalidatePath('/dashboard/devoluciones', 'layout');
+        return { success: true, returnId };
+
+    } catch (error) {
+        console.error("[ACTION] Error solicitando devolución:", error);
         return { success: false, error: error.message };
     }
 }
+
+
+/**
+ * OBTIENE LOS PEDIDOS DEL USUARIO
+ */
+export async function getUserOrdersAction() {
+    try {
+        const session = await getSession();
+        if (!session) return { success: false, error: "Sesión no válida" };
+
+        const userId = session.userId || session.user_id || session.id;
+        
+        const { getOrdersByUser } = await import('./db/orders');
+        const orders = await getOrdersByUser(userId);
+
+        return { success: true, orders };
+    } catch (error) {
+        console.error("[ACTION] Error obteniendo pedidos:", error);
+        return { success: false, error: "No se pudieron cargar los pedidos." };
+    }
+}
+
 
 /**
  * SUBE UNA IMAGEN A VERCEL BLOB Y ACTUALIZA LA BBDD
@@ -83,9 +138,49 @@ export async function uploadProfileImage(formData) {
 }
 
 /**
+ * OBTIENE EL ÚLTIMO PEDIDO DEL USUARIO CON DETALLES
+ */
+export async function getLatestOrderAction() {
+    try {
+        const session = await getSession();
+        if (!session) return { success: false, error: "Sesión no válida" };
+
+        const userId = session.userId || session.user_id || session.id;
+
+        // Buscamos el último pedido real
+        const [rows] = await db.query(`
+            SELECT 
+                o.order_id, o.order_status as status, o.total_amount, o.creation_date,
+                p.name as product_name, p.image_url
+            FROM orders o
+            LEFT JOIN order_product oi ON oi.order_id = o.order_id
+            LEFT JOIN products p ON p.product_id = oi.product_id
+            WHERE o.user_id = ? AND o.order_status != 'en_carrito'
+            ORDER BY o.creation_date DESC
+            LIMIT 1
+        `, [userId]);
+
+        if (rows.length === 0) return { success: true, order: null };
+
+        return { 
+            success: true, 
+            order: {
+                order_id: rows[0].order_id,
+                status: rows[0].status,
+                total: rows[0].total_amount,
+                date: rows[0].creation_date,
+                product: rows[0].product_name,
+                image: rows[0].image_url
+            } 
+        };
+    } catch (error) {
+        console.error("[ACTION] Error en getLatestOrderAction:", error);
+        return { success: false, error: error.message };
+    }
+}
+
+/**
  * ACTUALIZA DATOS DEL USUARIO EN LA BBDD
- * @param {string} field - El campo a modificar (nickname, email, etc.)
- * @param {any} value - El nuevo valor
  */
 export async function updateUserData(field, value) {
     try {
@@ -94,25 +189,13 @@ export async function updateUserData(field, value) {
 
         if (session && allowedFields.includes(field)) {
             const userId = session.userId || session.user_id || session.id;
-
-            if (!userId) {
-                console.error("[ACTION] No se pudo encontrar el ID de usuario en la sesión");
-                return { success: false };
-            }
-
             const query = `UPDATE users SET ${field} = ? WHERE user_id = ?`;
             await db.query(query, [value, userId]);
-
-            // Forzamos revalidación de todas las páginas del dashboard
             revalidatePath('/dashboard', 'layout');
-
             return { success: true };
-        } else {
-            console.error("[ACTION] Campo no permitido o sesión no válida:", field);
-            return { success: false };
         }
+        return { success: false };
     } catch (error) {
-        console.error("[ACTION] Error en updateUserData:", error);
         return { success: false };
     }
 }

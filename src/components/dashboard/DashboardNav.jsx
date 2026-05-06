@@ -26,22 +26,36 @@ import {
   FaHeart,
   FaBell,
   FaQuestion,
-  FaArrowRightFromBracket,
+  FaArrowRightFromBracket
 } from "react-icons/fa6";
 import Logo from "@/components/ui/Logo/Logo";
 import LogoutButton from "@/components/ui/Buttons/LogoutButton/LogoutButton";
 
-/* ── Links de navegación del dashboard ── */
-const NAV_LINKS = [
-  { href: "/dashboard/resumen",      icon: <FaBookOpen size={18} />,        label: "Resumen" },
-  { href: "/dashboard/pedidos",      icon: <FaBagShopping size={18} />,     label: "Mis Pedidos" },
-  { href: "/dashboard/devoluciones", icon: <FaArrowRotateLeft size={18} />, label: "Devoluciones" },
-  { href: "/dashboard/direcciones",  icon: <FaLocationDot size={18} />,     label: "Mis Direcciones" },
-  { href: "/dashboard/cuenta",       icon: <FaUser size={18} />,            label: "Detalles de la Cuenta" },
-  { href: "/dashboard/pagos",        icon: <FaCreditCard size={18} />,      label: "Métodos de Pago" },
-  { href: "/dashboard/deseos",       icon: <FaHeart size={18} />,           label: "Lista de Deseos" },
-  { href: "/dashboard/alertas",      icon: <FaBell size={18} />,            label: "Mis alertas" },
-  { href: "/dashboard/ayuda",        icon: <FaQuestion size={18} />,        label: "Ayuda" },
+/* ── Links de navegación del dashboard organizados por categorías ── */
+const NAV_GROUPS = [
+  {
+    title: "Actividad",
+    links: [
+      { href: "/dashboard/resumen",      icon: <FaBookOpen size={18} />,        label: "Resumen" },
+      { href: "/dashboard/pedidos",      icon: <FaBagShopping size={18} />,     label: "Mis Pedidos" },
+      { href: "/dashboard/deseos",       icon: <FaHeart size={18} />,           label: "Lista de Deseos" },
+    ]
+  },
+  {
+    title: "Perfil",
+    links: [
+      { href: "/dashboard/cuenta",       icon: <FaUser size={18} />,            label: "Detalles de la Cuenta" },
+      { href: "/dashboard/direcciones",  icon: <FaLocationDot size={18} />,     label: "Mis Direcciones" },
+      { href: "/dashboard/pagos",        icon: <FaCreditCard size={18} />,      label: "Métodos de Pago" },
+    ]
+  },
+  {
+    title: "Soporte",
+    links: [
+      { href: "/dashboard/devoluciones", icon: <FaArrowRotateLeft size={18} />, label: "Devoluciones" },
+      { href: "/dashboard/ayuda",        icon: <FaQuestion size={18} />,        label: "Ayuda" },
+    ]
+  }
 ];
 
 /* ──────────────────────────────────────
@@ -67,11 +81,18 @@ export function DashboardNav() {
 
       {/* Menú de navegación */}
       <nav className={styles.sidebarMenu}>
-        {NAV_LINKS.map(({ href, icon, label }) => (
-          <Link key={href} href={href} className={isActive(href)}>
-            {icon}
-            <span>{label}</span>
-          </Link>
+        {NAV_GROUPS.map((group) => (
+          <div key={group.title} className={styles.navGroup}>
+            <h3 className={styles.navGroupTitle}>{group.title}</h3>
+            <div className={styles.navGroupLinks}>
+              {group.links.map(({ href, icon, label }) => (
+                <Link key={href} href={href} className={isActive(href)}>
+                  {icon}
+                  <span>{label}</span>
+                </Link>
+              ))}
+            </div>
+          </div>
         ))}
       </nav>
     </>
