@@ -25,7 +25,7 @@ export async function getReturnsByUser(userId) {
             SELECT 
                 r.*, 
                 o.total_amount as order_total
-            FROM returns r
+            FROM order_returns r
             JOIN orders o ON o.order_id = r.order_id
             WHERE r.user_id = ?
             ORDER BY r.creation_date DESC
@@ -38,3 +38,23 @@ export async function getReturnsByUser(userId) {
     }
 }
 
+/**
+ * CREA UNA NUEVA SOLICITUD DE DEVOLUCIÓN
+ * @param {Object} returnData - Datos de la devolución (userId, orderId, reason)
+ * @returns {Promise<number>} ID de la devolución creada
+ */
+export async function createReturn(returnData) {
+    try {
+        const [result] = await db.query(`
+            INSERT INTO order_returns (user_id, order_id, reason, status)
+            VALUES (?, ?, ?, 'pendiente')
+        `, [
+            returnData.userId,
+            returnData.orderId,
+            returnData.reason
+        ]);
+        return result.insertId;
+    } catch (error) {
+        throw new Error(`createReturn: error al crear devolución – ${error.message}`);
+    }
+}
