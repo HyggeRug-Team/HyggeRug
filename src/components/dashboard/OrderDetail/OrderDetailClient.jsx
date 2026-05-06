@@ -16,7 +16,9 @@
  */
 "use client";
 
+import React, { useState } from "react";
 import { useIsTouchDevice } from "@/hooks/useIsTouchDevice";
+import { AnimatePresence } from "framer-motion";
 import styles from "./OrderDetail.module.css";
 import Link from "next/link";
 import { 
@@ -29,14 +31,17 @@ import {
   FaFileInvoiceDollar,
   FaCalendarDays,
   FaCreditCard,
-  FaPhone
+  FaPhone,
+  FaArrowRotateLeft
 } from "react-icons/fa6";
 import { MdOutlinePayments } from "react-icons/md";
 import CopyButton from "@/components/ui/Buttons/CopyButton/CopyButton";
+import ReturnRequestModal from "./ReturnRequestModal";
 
 export default function OrderDetailClient({ order, config }) {
   // Detectamos si es un dispositivo táctil para cambiar el layout por completo
   const isTouch = useIsTouchDevice();
+  const [showReturnModal, setShowReturnModal] = useState(false);
 
   /**
    * Mapeamos el estado del pedido a iconos y colores específicos.
@@ -180,8 +185,28 @@ export default function OrderDetailClient({ order, config }) {
             <div className={styles.touchOrderMeta}>
               <FaCalendarDays /> Pedido realizado el {orderDate}
             </div>
+
+            {/* BOTÓN DE DEVOLUCIÓN (Solo si está entregado) */}
+            {order.order_status.toLowerCase() === 'recibido' && (
+              <button 
+                className={styles.touchReturnButton}
+                onClick={() => setShowReturnModal(true)}
+              >
+                <FaArrowRotateLeft /> SOLICITAR DEVOLUCIÓN
+              </button>
+            )}
           </div>
         </main>
+
+        {/* MODAL DE DEVOLUCIÓN */}
+        <AnimatePresence>
+          {showReturnModal && (
+            <ReturnRequestModal 
+              orderId={order.order_id} 
+              onClose={() => setShowReturnModal(false)} 
+            />
+          )}
+        </AnimatePresence>
 
         {/* 
             BARRA DE ESTADO INFERIOR (Floating Status)
@@ -373,8 +398,28 @@ export default function OrderDetailClient({ order, config }) {
           <div className={styles.orderMeta}>
             <FaCalendarDays /> Pedido realizado el {orderDate}
           </div>
+
+          {/* BOTÓN DE DEVOLUCIÓN (Escritorio) */}
+          {order.order_status.toLowerCase() === 'recibido' && (
+            <button 
+              className={styles.returnButton}
+              onClick={() => setShowReturnModal(true)}
+            >
+              <FaArrowRotateLeft /> SOLICITAR DEVOLUCIÓN
+            </button>
+          )}
         </aside>
       </main>
+
+      {/* MODAL DE DEVOLUCIÓN */}
+      <AnimatePresence>
+        {showReturnModal && (
+          <ReturnRequestModal 
+            orderId={order.order_id} 
+            onClose={() => setShowReturnModal(false)} 
+          />
+        )}
+      </AnimatePresence>
     </div>
   );
 }

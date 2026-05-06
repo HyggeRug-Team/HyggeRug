@@ -1,6 +1,17 @@
-/* ============================================
-   SIDEBAR
-   ============================================ */
+/* 
+  @file Sidebar.module.css
+  @description Estilos para el esqueleto de navegación lateral.
+  
+  [Nuestro enfoque]
+  La barra lateral es el mapa del usuario. Hemos diseñado este espacio para que sea 
+  la columna vertebral del Dashboard, adaptándose dinámicamente: desde un panel 
+  completo en escritorio hasta un menú táctil ágil en dispositivos móviles.
+  
+  [Por qué lo hemos hecho así]
+  Usamos variables de CSS para que los colores y transiciones sean consistentes, 
+  asegurando que la navegación se sienta ligera y profesional en cualquier tamaño 
+  de pantalla sin comprometer el rendimiento.
+*/
 
 /* ========== BOTÓN HAMBURGER (solo móvil) ========== */
 .hamburger {
@@ -193,8 +204,30 @@
 .sidebarMenu {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 24px;
   flex-shrink: 0;
+}
+
+.navGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.navGroupTitle {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--grey-500);
+  margin: 0 0 4px 20px;
+  font-weight: 700;
+  opacity: 0.6;
+}
+
+.navGroupLinks {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
 }
 
 /* --- Enlaces (Base) --- */
@@ -478,7 +511,8 @@
     border: 1px solid transparent;
   }
 
-  .sidebarMenu a span {
+  .sidebarMenu a span,
+  .navGroupTitle {
     display: none;
   }
 
@@ -554,6 +588,8 @@
   /* Botón de cierre visible en drawer */
   .closeBtn {
     display: flex;
+    right: 14px;
+    left: auto;
   }
 
   /* Logo completo en el drawer */
@@ -593,6 +629,11 @@
 
   .sidebarMenu a span {
     display: inline;
+  }
+
+  .navGroupTitle {
+    display: block;
+    margin-left: 18px;
   }
 
   .sidebarMenu a:hover {

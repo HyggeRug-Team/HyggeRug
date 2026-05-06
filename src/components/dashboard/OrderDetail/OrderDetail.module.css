@@ -16,6 +16,16 @@
  */
 
 /* ── Contenedor General (Desktop) ── */
+/* 
+  @file OrderDetail.module.css
+  @description Estilos para la vista detallada del pedido.
+  
+  [Nuestro enfoque]
+  Buscamos una interfaz que respire y sea legible. Usamos un sistema de cuadrícula (grid) 
+  en escritorio y un flujo vertical en móvil para que los datos del pedido se consuman 
+  de forma natural.
+*/
+
 .detailContainer {
   max-width: 1200px;
   margin: 0 auto;
@@ -636,6 +646,45 @@
   color: var(--highlight-text);
   font-size: 1.4rem;
   border: 2px solid rgba(255, 0, 85, 0.2);
+}
+.returnButton {
+  width: 100%;
+  margin-top: 20px;
+  background: transparent;
+  border: 1px dashed var(--highlight-text);
+  color: var(--highlight-text);
+  padding: 14px;
+  border-radius: 12px;
+  font-weight: 600;
+  font-size: 0.85rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  transition: all 0.3s ease;
+}
+
+.returnButton:hover {
+  background: rgba(255, 0, 85, 0.05);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(255, 0, 85, 0.1);
+}
+
+.touchReturnButton {
+  width: 100%;
+  margin-top: 16px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: var(--grey-400);
+  padding: 16px;
+  border-radius: 16px;
+  font-weight: 600;
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
 }
 
 .bottomStatusText {
