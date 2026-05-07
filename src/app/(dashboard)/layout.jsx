@@ -36,7 +36,7 @@ export default async function DashboardLayout({ children }) {
       <Sidebar
         footer={<DashboardLogout user={user} />}
       >
-        <DashboardNav />
+        <DashboardNav user={user} />
       </Sidebar>
 
       <main>

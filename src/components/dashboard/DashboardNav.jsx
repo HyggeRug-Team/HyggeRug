@@ -61,11 +61,34 @@ const NAV_GROUPS = [
 /* ──────────────────────────────────────
    DashboardNav  (va como children del Sidebar)
    ────────────────────────────────────── */
-export function DashboardNav() {
+export function DashboardNav({ user }) {
   const pathname = usePathname();
+  const isAdmin = user?.rol === 'admin';
 
   const isActive = (path) =>
     pathname.startsWith(path) ? styles.active : "";
+
+  // Aquí ocurre la magia: si el usuario es admin, le cambiamos el menú por completo.
+  // Así no tiene que ver cosas de cliente que no le sirven.
+  const filteredGroups = isAdmin 
+    ? [
+        {
+          title: "Administración",
+          links: [
+            { href: "/dashboard/admin",      icon: <FaBookOpen size={18} />,        label: "Panel General" },
+            { href: "/dashboard/admin/pedidos", icon: <FaBagShopping size={18} />,     label: "Gestionar Pedidos" },
+            { href: "/dashboard/admin/usuarios", icon: <FaUser size={18} />,           label: "Control de Usuarios" },
+          ]
+        },
+        {
+          title: "Configuración",
+          links: [
+            { href: "/dashboard/admin/tienda",  icon: <FaLocationDot size={18} />,     label: "Ajustes de Tienda" },
+            { href: "/dashboard/admin/soporte", icon: <FaQuestion size={18} />,        label: "Tickets Soporte" },
+          ]
+        }
+      ]
+    : NAV_GROUPS;
 
   return (
     <>
@@ -81,7 +104,7 @@ export function DashboardNav() {
 
       {/* Menú de navegación */}
       <nav className={styles.sidebarMenu}>
-        {NAV_GROUPS.map((group) => (
+        {filteredGroups.map((group) => (
           <div key={group.title} className={styles.navGroup}>
             <h3 className={styles.navGroupTitle}>{group.title}</h3>
             <div className={styles.navGroupLinks}>

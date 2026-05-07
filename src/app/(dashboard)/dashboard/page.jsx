@@ -1,17 +1,35 @@
 import { redirect } from "next/navigation";
+import { getSession } from "@/lib/auth";
+import { getUserById } from "@/lib/db/users";
 
 /**
- * @file page.jsx (Dashboard Home)
- * @description Punto de entrada del dashboard. Redirigimos a “Resumen”.
- *
+ * @file page.jsx (Dashboard Entry)
+ * @description Punto de entrada que redirige al usuario según su rol.
+ * 
  * [Nuestro enfoque]
- * Hemos elegido que el primer sitio al que llega el usuario sea la vista “Resumen”,
- * porque es donde mejor se entiende el panel.
- *
+ * Hemos creado un "maestro de llaves" en la raíz del dashboard. En lugar de dejar 
+ * que el usuario aterrice en un sitio genérico, miramos su perfil y lo enviamos 
+ * directo a su zona de trabajo (Admin o Cliente).
+ * 
  * [Por qué lo hemos hecho así]
- * Redirigir desde el root reduce confusión y hace que el usuario no tenga que
- * decidir qué pantalla abrir.
+ * Para evitar que un administrador vea por error interfaces de cliente (como "Mis Pedidos") 
+ * y para mantener las carpetas organizadas. Es más limpio tener una redirección 
+ * central que manejar condicionales en cada sub-página.
  */
-export default function DashboardPage() {
-  redirect("/dashboard/resumen");
+export default async function DashboardPage() {
+  const session = await getSession();
+  
+  if (!session) {
+    redirect("/auth");
+  }
+
+  const userId = session.userId || session.user_id || session.id;
+  const user = await getUserById(userId).catch(() => null);
+
+  // Redirección inteligente según el rol
+  if (user?.rol === 'admin') {
+    redirect("/dashboard/admin");
+  } else {
+    redirect("/dashboard/resumen");
+  }
 }

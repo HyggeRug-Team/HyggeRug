@@ -21,8 +21,9 @@ import { db } from '@/lib/db';
  */
 export async function getUserById(userId) {
     try {
+        // IMPORTANTE: Hemos añadido 'rol' para saber si el usuario es admin o customer
         const [rows] = await db.query(
-            'SELECT user_id, nickname, email, profile_image, hygge_points, creation_date FROM users WHERE user_id = ?',
+            'SELECT user_id, nickname, email, profile_image, hygge_points, creation_date, rol FROM users WHERE user_id = ?',
             [userId]
         );
         return rows[0] || null;
