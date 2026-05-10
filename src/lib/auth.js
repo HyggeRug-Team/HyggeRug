@@ -45,3 +45,17 @@ export async function getSession() {
   // Si al verificar la sesión es falsa devuelve null y si es verdadera devuelve payload (Esto es basicamente un json con la info de la sesion)
   return await verifySession(token);
 }
+
+// Construye el payload de sesión de forma estandarizada.
+// Úsala en cualquier ruta de login para garantizar que el token siempre tiene los mismos campos.
+export function buildSessionPayload(user) {
+  return {
+    userId: user.user_id,
+    nickname: user.nickname,
+    profileImage: user.profile_image,
+    email: user.email,
+    role: user.rol,
+    hyggePoints: user.hygge_points,
+    authProvider: user.auth_provider,
+  };
+}

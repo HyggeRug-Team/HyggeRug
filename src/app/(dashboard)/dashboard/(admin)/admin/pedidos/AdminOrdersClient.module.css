@@ -1,0 +1,580 @@
+/*
+ * @file AdminOrdersClient.module.css
+ * @description Estilos para el panel de gestión de pedidos del administrador.
+ *
+ * [Sistema de variables CSS personalizadas por tarjeta/grupo]
+ * Usamos --group-color (en el acordeón) y --card-accent (en la tarjeta) como
+ * variables locales pasadas inline desde el componente. Esto nos permite reutilizar
+ * las mismas clases para los 6 estados con colores diferentes sin duplicar CSS.
+ */
+
+/* ── Contenedor general de la página ── */
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  padding: 10px 0 40px;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+/* ── Cabecera de la página ── */
+.pageHeader {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 10px;
+  padding-bottom: 20px;
+  border-bottom: 2px dashed rgba(255, 255, 255, 0.08);
+}
+
+.pageHeaderLeft {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.pageTitle {
+  font-family: var(--font-titles);
+  font-size: 3rem;
+  margin: 0;
+  text-shadow: 4px 4px 0px var(--highlight-text);
+  line-height: 1;
+}
+
+/* Badge con el número de pedidos activos */
+.activeBadge {
+  background: rgba(255, 0, 85, 0.1);
+  border: 1px solid rgba(255, 0, 85, 0.3);
+  color: var(--highlight-text);
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.pageSubtitle {
+  color: var(--grey-500);
+  font-size: 0.9rem;
+  margin: 0;
+}
+
+/* ── Lista de acordeones ── */
+.accordionList {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* ── Grupo de acordeón ──
+   El borde izquierdo de color es el elemento visual que identifica el estado. */
+.accordionGroup {
+  border-radius: 20px;
+  border: 2px dashed rgba(255, 255, 255, 0.12);
+  overflow: hidden;
+  /* Borde izquierdo coloreado según --group-color */
+  box-shadow: inset 4px 0 0 0 var(--group-color, rgba(255, 255, 255, 0.1));
+  transition: border-color 0.3s;
+}
+
+.accordionGroup:hover {
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+/* El grupo 'recibido' tiene un aspecto más apagado para indicar que está archivado */
+.completedGroup {
+  opacity: 0.7;
+  border-style: solid;
+  border-color: rgba(255, 255, 255, 0.06);
+}
+
+.completedGroup:hover {
+  opacity: 0.9;
+}
+
+/* ── Cabecera del acordeón (botón clickable) ── */
+.accordionHeader {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 18px 24px;
+  background: rgba(255, 255, 255, 0.03);
+  border: none;
+  cursor: pointer;
+  transition: background 0.2s;
+  text-align: left;
+}
+
+.accordionHeader:hover {
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.accordionHeaderLeft {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+/* Icono del estado con el color del grupo */
+.accordionIcon {
+  font-size: 1.1rem;
+  color: var(--group-color);
+  display: flex;
+  align-items: center;
+}
+
+.accordionLabel {
+  font-size: 0.85rem;
+  font-weight: 900;
+  color: var(--grey-200, var(--white));
+  letter-spacing: 2px;
+}
+
+/* Badge con el número de pedidos en ese estado */
+.accordionCount {
+  font-size: 0.75rem;
+  font-weight: 800;
+  padding: 2px 10px;
+  border-radius: 20px;
+  border: 1px solid var(--group-color);
+  color: var(--group-color);
+  background: transparent;
+  min-width: 28px;
+  text-align: center;
+}
+
+.accordionHeaderRight {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+/* Etiqueta "ARCHIVADO" visible solo en el grupo 'recibido' */
+.archivedTag {
+  font-size: 0.65rem;
+  font-weight: 800;
+  letter-spacing: 2px;
+  color: var(--grey-600);
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px dashed rgba(255, 255, 255, 0.1);
+  padding: 3px 10px;
+  border-radius: 6px;
+}
+
+.chevron {
+  display: flex;
+  align-items: center;
+  color: var(--grey-500);
+  font-size: 0.85rem;
+}
+
+/* ── Cuerpo del acordeón ── */
+.accordionBody {
+  padding: 20px;
+  background: rgba(0, 0, 0, 0.15);
+}
+
+/* Estado vacío dentro del grupo */
+.emptyGroup {
+  padding: 25px;
+  text-align: center;
+  color: var(--grey-600);
+  font-size: 0.85rem;
+  font-weight: 600;
+  border: 1px dashed rgba(255, 255, 255, 0.07);
+  border-radius: 14px;
+  letter-spacing: 1px;
+}
+
+/* Grid de tarjetas: se ajusta al ancho disponible con un mínimo razonable */
+.cardsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+  gap: 16px;
+}
+
+/* ─────────────────────────────────────────────────────────────────
+   TARJETA DE PEDIDO
+   ───────────────────────────────────────────────────────────────── */
+
+.orderCard {
+  position: relative; /* Necesario para el overlay de carga */
+  background: var(--grey-900, #0f0f0f);
+  border: 2px dashed rgba(255, 255, 255, 0.15);
+  border-radius: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  overflow: hidden;
+  transition: all 0.25s ease;
+}
+
+.orderCard:hover {
+  border-color: var(--card-accent, var(--highlight-text));
+  transform: translateY(-3px);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.5), 0 0 0 1px var(--card-accent, transparent);
+}
+
+/* Las tarjetas de 'recibido' tienen menor contraste para indicar que están cerradas */
+.completedCard {
+  border-style: solid;
+  border-color: rgba(255, 255, 255, 0.07);
+  background: rgba(10, 10, 10, 0.5);
+}
+
+.completedCard:hover {
+  border-color: rgba(0, 255, 128, 0.3);
+  transform: translateY(-2px);
+}
+
+/* ── Cabecera de la tarjeta: ID + usuario ── */
+.cardHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px 18px;
+  background: rgba(255, 255, 255, 0.025);
+  border-bottom: 1px dashed rgba(255, 255, 255, 0.08);
+  gap: 10px;
+}
+
+.cardOrderId {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  flex-shrink: 0;
+}
+
+.cardIdLabel {
+  font-size: 0.6rem;
+  font-weight: 800;
+  color: var(--grey-600);
+  letter-spacing: 2px;
+}
+
+.cardIdNumber {
+  font-family: var(--font-titles);
+  font-size: 1rem;
+  color: var(--white);
+  line-height: 1;
+}
+
+/* Sección de info del usuario en la tarjeta */
+.cardUser {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0; /* Permite truncar el texto */
+}
+
+.cardAvatar {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid rgba(255, 255, 255, 0.1);
+  flex-shrink: 0;
+}
+
+.cardAvatarFallback {
+  width: 34px;
+  height: 34px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--grey-600);
+  font-size: 1.5rem;
+  flex-shrink: 0;
+}
+
+.cardUserInfo {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.cardUserName {
+  font-size: 0.85rem;
+  font-weight: 800;
+  color: var(--white);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.cardUserEmail {
+  font-size: 0.72rem;
+  color: var(--grey-500);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* ── Cuerpo de la tarjeta: meta + artículos ── */
+.cardBody {
+  padding: 14px 18px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  flex: 1;
+}
+
+.cardMeta {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+/* Ítem de metadatos (fecha, precio, nota) */
+.metaItem {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--grey-400);
+}
+
+.metaItem svg {
+  color: var(--grey-600);
+  flex-shrink: 0;
+}
+
+/* Tag especial para indicar que hay nota del cliente */
+.noteTag {
+  color: orange;
+}
+
+.noteTag svg {
+  color: orange;
+}
+
+/* Preview de miniaturas de artículos */
+.itemsPreview {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.itemThumb {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  border: 2px solid var(--grey-900, #0f0f0f);
+  overflow: hidden;
+  margin-left: -12px;
+  background: #111;
+  flex-shrink: 0;
+}
+
+.itemThumb:first-child {
+  margin-left: 0;
+}
+
+.itemThumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Badge "+N" cuando hay más de 3 artículos */
+.moreItems {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: var(--grey-800, #1a1a1a);
+  border: 2px solid var(--grey-900, #0f0f0f);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.7rem;
+  font-weight: 800;
+  color: var(--white);
+  margin-left: -10px;
+}
+
+.noItems {
+  font-size: 0.75rem;
+  color: var(--grey-600);
+  font-style: italic;
+}
+
+/* ── Acciones: botones de estado + enlace al detalle ── */
+.cardActions {
+  display: grid;
+  /* 3 columnas: prev - detail - next (se adapta si falta algún botón) */
+  grid-template-columns: 1fr auto 1fr;
+  gap: 8px;
+  padding: 12px 18px;
+  border-top: 1px dashed rgba(255, 255, 255, 0.08);
+  align-items: center;
+}
+
+/* Botón de cambio de estado (base compartida) */
+.statusBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 8px 10px;
+  border-radius: 10px;
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 1px;
+  border: 1px dashed rgba(255, 255, 255, 0.15);
+  background: transparent;
+  color: var(--grey-400);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.statusBtn:hover:not(:disabled) {
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--white);
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+.statusBtn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+/* El botón "siguiente" (avanzar) tiene el acento del estado destino */
+.statusBtnNext {
+  justify-self: end;
+  border-color: rgba(255, 255, 255, 0.2);
+  color: var(--white);
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.statusBtnNext:hover:not(:disabled) {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: var(--card-accent);
+  color: var(--card-accent);
+  box-shadow: 0 0 12px rgba(0, 0, 0, 0.4);
+}
+
+/* El botón de revertir en 'recibido' tiene estilo de alerta sutil */
+.revertBtn {
+  border-color: rgba(255, 0, 85, 0.25);
+  color: var(--highlight-text);
+}
+
+.revertBtn:hover:not(:disabled) {
+  background: rgba(255, 0, 85, 0.08);
+  border-color: var(--highlight-text);
+  color: var(--highlight-text);
+}
+
+/* Botón de enlace al detalle: ocupa la columna central */
+.detailLink {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 14px;
+  border-radius: 10px;
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 1px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--grey-300);
+  transition: all 0.2s ease;
+  white-space: nowrap;
+  justify-self: center;
+}
+
+.detailLink:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--white);
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+/* ── Overlay de carga al cambiar estado ── */
+.loadingOverlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.65);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 18px;
+  backdrop-filter: blur(4px);
+  z-index: 10;
+}
+
+.spinIcon {
+  font-size: 1.5rem;
+  color: var(--highlight-text);
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+/* ─────────────────────────────────────────────────────────────────
+   RESPONSIVE
+   ───────────────────────────────────────────────────────────────── */
+
+@media (max-width: 1024px) {
+  .cardsGrid {
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  }
+}
+
+@media (max-width: 768px) {
+  .pageTitle {
+    font-size: 2.2rem;
+  }
+
+  .cardsGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .accordionHeader {
+    padding: 14px 18px;
+  }
+
+  .accordionLabel {
+    font-size: 0.75rem;
+    letter-spacing: 1px;
+  }
+}
+
+@media (max-width: 480px) {
+  .pageHeader {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+  }
+
+  .cardBody {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .cardActions {
+    /* En móvil muy pequeño, los botones van en columna */
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto auto;
+  }
+
+  .detailLink {
+    grid-column: 1 / -1;
+    justify-content: center;
+    order: -1; /* El detalle va primero en móvil */
+  }
+
+  .statusBtnNext {
+    justify-self: auto;
+  }
+}

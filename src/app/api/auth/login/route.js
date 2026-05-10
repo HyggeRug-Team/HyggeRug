@@ -27,16 +27,7 @@ export async function POST(request) {
     }
 
     // 4. ¡ÉXITO! Creamos el Token (Payload)
-    const token = await createSession({
-      userId: user.user_id,
-      nickname: user.nickname,
-      profileImage: user.profile_image,
-      email: user.email,
-      role: user.role,
-      hyggePoints: user.hygge_points,
-      // Esto si es == google no mostramos el cambiar contraseña por ejemplo
-      authProvider: user.auth_provider,
-    });
+    const token = await createSession(buildSessionPayload(user));
 
     // 5. Guardamos el token en una COOKIE
     // Esto es lo que el Proxy revisará en cada página
