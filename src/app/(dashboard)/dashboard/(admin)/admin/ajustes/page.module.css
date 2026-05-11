@@ -1,0 +1,483 @@
+/**
+ * @file page.module.css
+ * @description Estilos premium para el panel de Ajustes de la Tienda.
+ * 
+ * [Nuestro enfoque]
+ * Mejoramos la estructura a un Grid responsivo para aprovechar la pantalla. 
+ * Aplicamos la identidad "Hygge Rug" al 100%: bordes discontinuos gruesos, 
+ * sombras sólidas (pop-style), el rosa característico para títulos clave, 
+ * y un layout de tarjetas verticales equilibradas.
+ */
+
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 35px;
+  padding: 10px 0 50px;
+  max-width: 1500px;
+  margin: 0 auto;
+}
+
+/* ── CABECERA ── */
+.pageHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 20px;
+  padding-bottom: 25px;
+  border-bottom: 2px dashed rgba(255, 255, 255, 0.15);
+}
+
+.pageHeaderLeft {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.pageTitle {
+  font-family: var(--font-titles);
+  font-size: 3.5rem;
+  margin: 0;
+  text-shadow: 4px 4px 0px var(--highlight-text);
+  line-height: 1;
+}
+
+.pageSubtitle {
+  color: var(--grey-400);
+  font-size: 0.95rem;
+  margin: 0;
+  letter-spacing: 0.5px;
+}
+
+.addBtn {
+  background: var(--highlight-text);
+  color: #fff;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 12px;
+  font-size: 0.9rem;
+  font-weight: 900;
+  text-transform: uppercase;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  transition: all 0.2s ease;
+  box-shadow: 5px 5px 0 #000;
+  letter-spacing: 1px;
+}
+
+.addBtn:hover {
+  transform: translate(-3px, -3px);
+  box-shadow: 8px 8px 0 #000;
+  background: var(--hover-text);
+  color: #000;
+}
+
+/* ── TOOLBAR (Búsqueda) ── */
+.toolbar {
+  display: flex;
+  gap: 15px;
+  align-items: center;
+  flex-wrap: wrap;
+  background: rgba(0, 0, 0, 0.2);
+  padding: 15px 20px;
+  border-radius: 20px;
+  border: 2px dashed rgba(255, 255, 255, 0.1);
+}
+
+.searchWrapper {
+  position: relative;
+  flex: 1;
+  min-width: 300px;
+}
+
+.searchIcon {
+  position: absolute;
+  left: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--highlight-text);
+  font-size: 1.2rem;
+}
+
+.searchInput {
+  width: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  border: 2px dashed rgba(255, 255, 255, 0.1);
+  border-radius: 14px;
+  padding: 16px 20px 16px 55px;
+  color: var(--white);
+  font-size: 1rem;
+  outline: none;
+  transition: all 0.3s ease;
+  box-shadow: inset 0 2px 10px rgba(0,0,0,0.5);
+}
+
+.searchInput:focus {
+  border-color: var(--highlight-text);
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.clearSearch {
+  position: absolute;
+  right: 15px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(255, 255, 255, 0.1);
+  border: none;
+  color: var(--white);
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.clearSearch:hover {
+  background: var(--highlight-text);
+  color: #fff;
+  transform: translateY(-50%) scale(1.1);
+}
+
+/* ── LISTA DE AJUSTES (GRID) ── */
+.configList {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+  gap: 25px;
+}
+
+.configCard {
+  background: rgba(255, 255, 255, 0.02);
+  border: 2px dashed rgba(255, 255, 255, 0.1);
+  border-radius: 24px;
+  padding: 25px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  box-shadow: inset 0 0 20px rgba(0,0,0,0.2);
+}
+
+.configCard:hover {
+  background: rgba(255, 255, 255, 0.04);
+  border-color: rgba(255, 255, 255, 0.3);
+  transform: translateY(-5px);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.4), inset 0 0 20px rgba(0,0,0,0.2);
+}
+
+.configHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 15px;
+}
+
+.configKeyWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.configKey {
+  font-family: var(--font-titles);
+  font-size: 1.6rem;
+  color: var(--white);
+  margin: 0;
+  text-shadow: 2px 2px 0px rgba(0,0,0,0.8);
+  word-break: break-all;
+}
+
+.configIdBadge {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: var(--grey-400);
+  padding: 4px 10px;
+  border-radius: 8px;
+  font-size: 0.75rem;
+  font-weight: 800;
+  align-self: flex-start;
+}
+
+.configDesc {
+  color: var(--grey-400);
+  font-size: 0.95rem;
+  margin: 0;
+  line-height: 1.5;
+  flex: 1; /* Empuja los elementos inferiores hacia abajo */
+}
+
+.configValueWrapper {
+  background: rgba(0, 0, 0, 0.4);
+  border: 2px dashed rgba(255, 255, 255, 0.1);
+  padding: 15px 20px;
+  border-radius: 16px;
+  margin-top: 10px;
+  border-left: 4px solid var(--hover-text);
+}
+
+.configValueLabel {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  font-weight: 900;
+  color: var(--hover-text);
+  display: block;
+  margin-bottom: 6px;
+  letter-spacing: 1px;
+}
+
+.configValue {
+  font-family: var(--font-titles);
+  font-size: 1.4rem;
+  color: var(--white);
+  margin: 0;
+  word-break: break-all;
+}
+
+.configActions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 10px;
+  padding-top: 20px;
+  border-top: 2px dashed rgba(255, 255, 255, 0.1);
+}
+
+.actionBtn {
+  background: rgba(255, 255, 255, 0.05);
+  border: 2px dashed rgba(255, 255, 255, 0.2);
+  color: var(--white);
+  padding: 8px 16px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: 0.85rem;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.actionBtn:hover {
+  background: var(--white);
+  color: #000;
+  border-style: solid;
+  transform: translateY(-2px);
+  box-shadow: 3px 3px 0 #000;
+}
+
+.deleteBtn {
+  color: var(--grey-400);
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+.deleteBtn:hover {
+  background: var(--highlight-text);
+  color: #fff;
+  border-color: var(--highlight-text);
+}
+
+/* ── MODAL DE EDICIÓN / CREACIÓN ── */
+.modalBackdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.85);
+  backdrop-filter: blur(12px);
+  z-index: 5000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.modal {
+  width: 100%;
+  max-width: 550px;
+  background: #0a0a0a;
+  border: 2px dashed rgba(255, 255, 255, 0.15);
+  border-radius: 30px;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.8);
+  overflow: hidden;
+}
+
+.modalHeader {
+  padding: 25px 30px;
+  background: rgba(255, 255, 255, 0.02);
+  border-bottom: 2px dashed rgba(255, 255, 255, 0.1);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.modalTitle {
+  font-family: var(--font-titles);
+  font-size: 1.8rem;
+  margin: 0;
+  color: var(--highlight-text);
+  text-shadow: 2px 2px 0px #000;
+}
+
+.closeBtn {
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.1);
+  color: var(--white);
+  font-size: 1.2rem;
+  cursor: pointer;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+}
+
+.closeBtn:hover {
+  background: var(--highlight-text);
+  border-color: var(--highlight-text);
+  transform: rotate(90deg);
+}
+
+.modalBody {
+  padding: 30px;
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+}
+
+.inputGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.inputGroup label {
+  font-size: 0.85rem;
+  font-weight: 900;
+  color: var(--grey-400);
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+}
+
+.inputGroup input,
+.inputGroup textarea {
+  width: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  border: 2px dashed rgba(255, 255, 255, 0.15);
+  border-radius: 16px;
+  padding: 16px 20px;
+  color: var(--white);
+  font-family: var(--font-body);
+  font-size: 1.05rem;
+  outline: none;
+  transition: all 0.3s ease;
+  box-shadow: inset 0 2px 10px rgba(0,0,0,0.5);
+}
+
+.inputGroup input:focus,
+.inputGroup textarea:focus {
+  border-color: var(--highlight-text);
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.modalFooter {
+  padding: 25px 30px;
+  border-top: 2px dashed rgba(255, 255, 255, 0.1);
+  display: flex;
+  justify-content: flex-end;
+  gap: 15px;
+  background: rgba(0,0,0,0.2);
+}
+
+.cancelBtn {
+  background: transparent;
+  color: var(--grey-400);
+  border: 2px dashed rgba(255, 255, 255, 0.2);
+  padding: 12px 25px;
+  border-radius: 14px;
+  font-weight: 800;
+  cursor: pointer;
+  transition: all 0.2s;
+  text-transform: uppercase;
+  font-size: 0.85rem;
+}
+
+.cancelBtn:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--white);
+  border-style: solid;
+}
+
+.saveBtn {
+  background: var(--highlight-text);
+  color: #fff;
+  border: none;
+  padding: 12px 30px;
+  border-radius: 14px;
+  font-weight: 900;
+  cursor: pointer;
+  transition: all 0.2s;
+  box-shadow: 5px 5px 0 #000;
+  text-transform: uppercase;
+  font-size: 0.85rem;
+}
+
+.saveBtn:hover {
+  transform: translate(-3px, -3px);
+  box-shadow: 8px 8px 0 #000;
+}
+
+.saveBtn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+/* ── ESTADOS VACÍOS / CARGA ── */
+.loadingContainer,
+.emptyState {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 60vh;
+  gap: 25px;
+  color: var(--grey-500);
+}
+
+.spinIcon {
+  font-size: 4rem;
+  color: var(--highlight-text);
+  animation: spin 1s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+  filter: drop-shadow(0 0 10px rgba(255, 0, 85, 0.3));
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* ── RESPONSIVE ── */
+@media (max-width: 768px) {
+  .configList {
+    grid-template-columns: 1fr;
+  }
+  
+  .pageHeader {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .addBtn {
+    width: 100%;
+    justify-content: center;
+  }
+}

@@ -26,7 +26,8 @@ import {
   FaHeart,
   FaBell,
   FaQuestion,
-  FaArrowRightFromBracket
+  FaArrowRightFromBracket,
+  FaGear
 } from "react-icons/fa6";
 import Logo from "@/components/ui/Logo/Logo";
 import LogoutButton from "@/components/ui/Buttons/LogoutButton/LogoutButton";
@@ -84,7 +85,8 @@ export function DashboardNav({ user }) {
         {
           title: "Configuración",
           links: [
-            { href: "/dashboard/admin/tienda",  icon: <FaLocationDot size={18} />,     label: "Ajustes de Tienda" },
+            // Reemplazamos FaLocationDot por FaGear para "Ajustes de Tienda"
+            { href: "/dashboard/admin/ajustes",  icon: <FaGear size={18} />,     label: "Ajustes de Tienda" },
             { href: "/dashboard/admin/soporte", icon: <FaQuestion size={18} />,        label: "Tickets Soporte" },
           ]
         }
