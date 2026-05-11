@@ -38,6 +38,7 @@ const NAV_GROUPS = [
     links: [
       { href: "/dashboard/resumen",      icon: <FaBookOpen size={18} />,        label: "Resumen" },
       { href: "/dashboard/pedidos",      icon: <FaBagShopping size={18} />,     label: "Mis Pedidos" },
+      { href: "/dashboard/alertas",      icon: <FaBell size={18} />,            label: "Alertas" },
       { href: "/dashboard/deseos",       icon: <FaHeart size={18} />,           label: "Lista de Deseos" },
     ]
   },

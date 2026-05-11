@@ -16,7 +16,8 @@
  */
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect, Suspense } from "react";
+import { useSearchParams } from "next/navigation";
 import { useIsTouchDevice } from "@/hooks/useIsTouchDevice";
 import { AnimatePresence } from "framer-motion";
 import styles from "./OrderDetail.module.css";
@@ -37,11 +38,23 @@ import {
 import { MdOutlinePayments } from "react-icons/md";
 import CopyButton from "@/components/ui/Buttons/CopyButton/CopyButton";
 import ReturnRequestModal from "./ReturnRequestModal";
+import OrderChatModal from "./OrderChatModal";
+import { FaComment } from "react-icons/fa6";
+import PrimaryButton from "@/components/ui/Buttons/PrimaryButton/PrimaryButton";
 
 export default function OrderDetailClient({ order, config }) {
   // Detectamos si es un dispositivo táctil para cambiar el layout por completo
   const isTouch = useIsTouchDevice();
+  const searchParams = useSearchParams();
   const [showReturnModal, setShowReturnModal] = useState(false);
+  const [showChatModal, setShowChatModal] = useState(false);
+
+  // Abrir chat automáticamente si viene por parámetro (ej: desde notificación)
+  useEffect(() => {
+    if (searchParams.get('chat') === 'true') {
+      setShowChatModal(true);
+    }
+  }, [searchParams]);
 
   /**
    * Mapeamos el estado del pedido a iconos y colores específicos.
@@ -195,6 +208,16 @@ export default function OrderDetailClient({ order, config }) {
                 <FaArrowRotateLeft /> SOLICITAR DEVOLUCIÓN
               </button>
             )}
+
+            {/* BOTÓN DE CHAT (Móvil) */}
+            <div className={styles.touchChatWrapper}>
+              <PrimaryButton 
+                text="HABLAR CON SOPORTE"
+                Icon={FaComment}
+                onClick={() => setShowChatModal(true)}
+                className={`${styles.chatBtnCustom} ${order.order_status.toLowerCase() === 'pendiente de aprobación' ? styles.chatHighlight : ''}`}
+              />
+            </div>
           </div>
         </main>
 
@@ -204,6 +227,16 @@ export default function OrderDetailClient({ order, config }) {
             <ReturnRequestModal 
               orderId={order.order_id} 
               onClose={() => setShowReturnModal(false)} 
+            />
+          )}
+        </AnimatePresence>
+
+        {/* MODAL DE CHAT */}
+        <AnimatePresence>
+          {showChatModal && (
+            <OrderChatModal 
+              orderId={order.order_id} 
+              onClose={() => setShowChatModal(false)} 
             />
           )}
         </AnimatePresence>
@@ -408,6 +441,16 @@ export default function OrderDetailClient({ order, config }) {
               <FaArrowRotateLeft /> SOLICITAR DEVOLUCIÓN
             </button>
           )}
+
+          {/* BOTÓN DE CHAT (Escritorio) */}
+          <div className={styles.chatWrapper}>
+            <PrimaryButton 
+              text="CHAT CON EL EQUIPO"
+              Icon={FaComment}
+              onClick={() => setShowChatModal(true)}
+              className={`${styles.chatBtnCustom} ${order.order_status.toLowerCase() === 'pendiente de aprobación' ? styles.chatHighlight : ''}`}
+            />
+          </div>
         </aside>
       </main>
 
@@ -417,6 +460,16 @@ export default function OrderDetailClient({ order, config }) {
           <ReturnRequestModal 
             orderId={order.order_id} 
             onClose={() => setShowReturnModal(false)} 
+          />
+        )}
+      </AnimatePresence>
+
+      {/* MODAL DE CHAT */}
+      <AnimatePresence>
+        {showChatModal && (
+          <OrderChatModal 
+            orderId={order.order_id} 
+            onClose={() => setShowChatModal(false)} 
           />
         )}
       </AnimatePresence>

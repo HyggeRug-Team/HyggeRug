@@ -64,6 +64,7 @@ export const metadata = {
 };
 
 import { CartProvider } from '@/context/CartContext';
+import NotificationListener from '@/components/dashboard/NotificationListener/NotificationListener';
 
 export default function RootLayout({ children }) {
   return (
@@ -87,6 +88,7 @@ export default function RootLayout({ children }) {
           overflowX: 'hidden'
         }}>
           <CartProvider>
+            <NotificationListener />
             {children}
           </CartProvider>
           <SpeedInsights/>

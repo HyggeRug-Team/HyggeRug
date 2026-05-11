@@ -230,15 +230,28 @@
 
 .cardActions {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 15px;
+  grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+  gap: 12px;
   margin-top: 5px;
 }
 
 .actionBtn {
   width: 100% !important;
-  font-size: 0.75rem !important;
+  font-size: 0.7rem !important;
   padding: 10px 5px !important;
+  min-width: 0 !important;
+}
+
+.chatActionBtn {
+  background-color: var(--hover-text) !important;
+  color: #000 !important;
+  animation: chatPulse 2s infinite;
+}
+
+@keyframes chatPulse {
+  0% { transform: scale(1); box-shadow: 4px 4px 0px #000; }
+  50% { transform: scale(1.04); box-shadow: 6px 6px 0px #000; }
+  100% { transform: scale(1); box-shadow: 4px 4px 0px #000; }
 }
 
 .emptyState {

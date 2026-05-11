@@ -1,0 +1,222 @@
+/* OrderChatModal.module.css */
+
+.backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(8px);
+  z-index: 2000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.modal {
+  width: 100%;
+  max-width: 500px;
+  background: var(--card-bg, #111);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 24px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+}
+
+.header {
+  padding: 16px 20px;
+  background: rgba(255, 255, 255, 0.03);
+  border-bottom: 1px dashed rgba(255, 255, 255, 0.1);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.headerLeft {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.avatar {
+  width: 40px;
+  height: 40px;
+  background: var(--highlight-text, #ff0055);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+}
+
+.headerText h3 {
+  font-size: 1rem;
+  margin: 0;
+  color: white;
+}
+
+.headerText p {
+  font-size: 0.75rem;
+  margin: 0;
+  color: var(--grey-500);
+}
+
+.closeBtn {
+  background: none;
+  border: none;
+  color: var(--grey-500);
+  font-size: 1.2rem;
+  cursor: pointer;
+  padding: 5px;
+  transition: color 0.2s;
+}
+
+.closeBtn:hover {
+  color: white;
+}
+
+.messagesContainer {
+  flex: 1;
+  padding: 20px;
+  max-height: 400px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  background: rgba(0, 0, 0, 0.1);
+}
+
+.loading, .empty {
+  text-align: center;
+  padding: 40px 20px;
+  color: var(--grey-500);
+  font-size: 0.9rem;
+}
+
+.spin {
+  animation: spin 1s linear infinite;
+  font-size: 1.5rem;
+  margin-bottom: 10px;
+  color: var(--highlight-text);
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.bubbleWrapper {
+  max-width: 85%;
+  display: flex;
+  flex-direction: column;
+}
+
+.bubbleCustomer {
+  align-self: flex-end;
+}
+
+.bubbleAdmin {
+  align-self: flex-start;
+}
+
+.bubble {
+  padding: 12px 16px;
+  border-radius: 18px;
+  position: relative;
+}
+
+.bubbleCustomer .bubble {
+  background: var(--highlight-text);
+  color: white;
+  border-bottom-right-radius: 4px;
+}
+
+.bubbleAdmin .bubble {
+  background: rgba(255, 255, 255, 0.08);
+  color: white;
+  border: 1px dashed rgba(255, 255, 255, 0.15);
+  border-bottom-left-radius: 4px;
+}
+
+.bubble p {
+  margin: 0;
+  font-size: 0.95rem;
+  line-height: 1.4;
+}
+
+.time {
+  display: block;
+  font-size: 0.65rem;
+  margin-top: 4px;
+  opacity: 0.7;
+}
+
+.bubbleCustomer .time {
+  text-align: right;
+}
+
+.inputArea {
+  padding: 16px 20px;
+  background: rgba(255, 255, 255, 0.02);
+  border-top: 1px dashed rgba(255, 255, 255, 0.1);
+  display: flex;
+  gap: 12px;
+  align-items: flex-end;
+}
+
+.inputArea textarea {
+  flex: 1;
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px dashed rgba(255, 255, 255, 0.2);
+  border-radius: 12px;
+  padding: 10px 14px;
+  color: white;
+  font-family: inherit;
+  font-size: 0.9rem;
+  outline: none;
+  resize: none;
+  height: 44px;
+  transition: border-color 0.2s;
+}
+
+.inputArea textarea:focus {
+  border-color: var(--highlight-text);
+}
+
+.sendBtn {
+  width: 44px;
+  height: 44px;
+  background: var(--highlight-text);
+  border: none;
+  border-radius: 10px;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.sendBtn:hover:not(:disabled) {
+  transform: scale(1.05);
+  box-shadow: 0 0 15px rgba(255, 0, 85, 0.3);
+}
+
+.sendBtn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  background: var(--grey-700);
+}
+
+/* ── Custom Scrollbar ── */
+.messagesContainer::-webkit-scrollbar {
+  width: 4px;
+}
+.messagesContainer::-webkit-scrollbar-track {
+  background: transparent;
+}
+.messagesContainer::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+}

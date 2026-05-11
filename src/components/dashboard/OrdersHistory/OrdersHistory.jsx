@@ -31,12 +31,15 @@ import {
   FaChevronRight,
   FaBoxOpen,
   FaStore,
-  FaMagnifyingGlass
+  FaMagnifyingGlass,
+  FaComment
 } from "react-icons/fa6";
+import OrderChatModal from '../OrderDetail/OrderChatModal';
 
 export default function OrdersHistory({ initialOrders }) {
   const [activeFilter, setActiveFilter] = useState('todos');
   const [searchTerm, setSearchTerm] = useState('');
+  const [showChatOrder, setShowChatOrder] = useState(null);
 
   const filters = [
     { id: 'todos', label: 'Todos' },
@@ -166,6 +169,14 @@ export default function OrdersHistory({ initialOrders }) {
                         url={`/dashboard/ayuda?order=${order.order_id}`}
                         className={styles.actionBtn}
                       />
+                      {order.order_status.toLowerCase() === 'pendiente de aprobación' && (
+                        <PrimaryButton 
+                          text="CHAT" 
+                          Icon={FaComment}
+                          onClick={() => setShowChatOrder(order.order_id)}
+                          className={`${styles.actionBtn} ${styles.chatActionBtn}`}
+                        />
+                      )}
                       <PrimaryButton 
                         text="VER DETALLES" 
                         url={`/dashboard/pedidos/${order.order_id}`}
@@ -195,6 +206,15 @@ export default function OrdersHistory({ initialOrders }) {
           )}
         </AnimatePresence>
       </div>
+
+      <AnimatePresence>
+        {showChatOrder && (
+          <OrderChatModal 
+            orderId={showChatOrder}
+            onClose={() => setShowChatOrder(null)}
+          />
+        )}
+      </AnimatePresence>
     </div>
   );
 }

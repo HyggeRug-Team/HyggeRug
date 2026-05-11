@@ -1,30 +1,36 @@
-import styles from "./alertas.module.css";
-import React from 'react';
-
-export const metadata = {
-  title: "Mis Alertas | Hygge Rug",
-  description: "Notificaciones y avisos importantes",
-};
-
 /**
  * @file alertas/page.jsx
- * @description Vista principal de “Mis Alertas”.
- *
- * [Nuestro enfoque]
- * Hemos creado esta sección para que el usuario vea avisos importantes en un único sitio.
- *
- * [Por qué lo hemos hecho así]
- * Estructurar primero la UI como “contenedor” nos ayuda a añadir más tarde datos reales
- * sin rehacer el layout.
+ * @description Centro de notificaciones y alertas para el usuario.
  */
-export default function AlertasPage() {
+
+import { cookies } from "next/headers";
+import { verifySession } from "@/lib/auth";
+import { redirect } from "next/navigation";
+import AlertasClient from "./AlertasClient";
+import styles from "./alertas.module.css";
+
+export const metadata = {
+  title: "Alertas | Hygge Rug",
+  description: "Centro de notificaciones",
+};
+
+export default async function AlertasPage() {
+  const cookieStore = await cookies();
+  const token = cookieStore.get("session_token")?.value;
+  const session = await verifySession(token);
+
+  if (!session) {
+    redirect("/auth");
+  }
+
   return (
     <div className={styles.container}>
-      <h1 className={styles.pageTitle}>Mis Alertas</h1>
+      <header className={styles.header}>
+        <h1>Notificaciones</h1>
+        <p>Mantente al tanto de tus pedidos y mensajes del taller.</p>
+      </header>
       
-      <div className={styles.alertsList}>
-        {/* Notificaciones */}
-      </div>
+      <AlertasClient />
     </div>
   );
 }

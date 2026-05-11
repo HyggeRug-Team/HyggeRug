@@ -671,20 +671,27 @@
   box-shadow: 0 4px 12px rgba(255, 0, 85, 0.1);
 }
 
-.touchReturnButton {
-  width: 100%;
-  margin-top: 16px;
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  color: var(--grey-400);
-  padding: 16px;
-  border-radius: 16px;
-  font-weight: 600;
-  font-size: 0.9rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 12px;
+.touchChatWrapper {
+  margin-top: 12px;
+}
+
+.chatBtnCustom {
+  width: 100% !important;
+  min-width: 0 !important;
+  padding: 12px !important;
+  font-size: 0.85rem !important;
+}
+
+.chatHighlight {
+  background-color: var(--hover-text) !important;
+  color: #000 !important;
+  animation: chatPulse 2s infinite !important;
+}
+
+@keyframes chatPulse {
+  0% { transform: scale(1); box-shadow: 5px 5px 0px #000; }
+  50% { transform: scale(1.02); box-shadow: 8px 8px 0px #000; }
+  100% { transform: scale(1); box-shadow: 5px 5px 0px #000; }
 }
 
 .bottomStatusText {

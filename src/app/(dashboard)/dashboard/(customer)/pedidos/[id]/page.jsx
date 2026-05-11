@@ -21,6 +21,7 @@ import OrderDetailClient from "@/components/dashboard/OrderDetail/OrderDetailCli
 import styles from "@/components/dashboard/OrderDetail/OrderDetail.module.css";
 import { FaBoxOpen } from "react-icons/fa6";
 import Link from "next/link";
+import { Suspense } from "react";
 
 export async function generateMetadata({ params }) {
   const { id } = await params;
@@ -64,5 +65,9 @@ export default async function OrderDetailPage({ params }) {
   }
 
   // Delegamos el renderizado al componente de cliente para manejar la vista táctil
-  return <OrderDetailClient order={order} config={config} />;
+  return (
+    <Suspense fallback={<div>Cargando detalles...</div>}>
+      <OrderDetailClient order={order} config={config} />
+    </Suspense>
+  );
 }
