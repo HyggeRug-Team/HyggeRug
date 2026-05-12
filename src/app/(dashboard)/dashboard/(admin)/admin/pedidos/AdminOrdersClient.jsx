@@ -375,7 +375,7 @@ function AdminOrderCard({ order, config, isCompleted, isLoading, onStatusChange 
 
         {/* Enlace al detalle del pedido */}
         <Link
-          href={`/admin/pedidos/${order.order_id}`}
+          href={`/dashboard/admin/pedidos/${order.order_id}`}
           className={styles.detailLink}
           title="Ver detalle completo del pedido"
         >

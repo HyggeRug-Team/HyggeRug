@@ -1,0 +1,757 @@
+/*
+ * @file AdminOrderDetailClient.module.css
+ * @description Estilos para la vista detallada del pedido en el panel de admin.
+ *              Sigue la estética Tufting Pop: bordes dashed, acento rojo, dark mode.
+ */
+
+/* ── Contenedor general ── */
+.container {
+  max-width: 1300px;
+  margin: 0 auto;
+  padding: 20px 0 60px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+/* ── Header ── */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 16px;
+  padding-bottom: 20px;
+  border-bottom: 2px dashed rgba(255, 255, 255, 0.1);
+}
+
+.headerLeft {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+.backBtn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--grey-500);
+  font-size: 0.75rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  transition: all 0.2s;
+}
+
+.backBtn:hover {
+  color: var(--white);
+  transform: translateX(-4px);
+}
+
+.title {
+  font-family: var(--font-titles);
+  font-size: 2.8rem;
+  margin: 0;
+  line-height: 1;
+  text-shadow: 4px 4px 0px var(--highlight-text);
+}
+
+.title span {
+  color: var(--white);
+}
+
+/* Controles de estado en el header */
+.headerActions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.statusBadge {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  border-radius: 10px;
+  font-size: 0.8rem;
+  font-weight: 800;
+  letter-spacing: 1px;
+  border: 2px solid var(--status-color, rgba(255,255,255,0.2));
+  color: var(--status-color, var(--grey-400));
+  background: var(--black);
+}
+
+/* Botones de avance/retroceso de estado */
+.statusBtnPrev,
+.statusBtnNext {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 14px;
+  border-radius: 10px;
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 1px;
+  border: 1px dashed rgba(255, 255, 255, 0.2);
+  background: transparent;
+  color: var(--grey-400);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.statusBtnPrev:hover:not(:disabled),
+.statusBtnNext:hover:not(:disabled) {
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--white);
+  border-color: rgba(255, 255, 255, 0.35);
+}
+
+.statusBtnNext:hover:not(:disabled) {
+  border-color: var(--next-color, var(--highlight-text));
+  color: var(--next-color, var(--highlight-text));
+}
+
+.statusBtnPrev:disabled,
+.statusBtnNext:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+/* ── Tracker horizontal ── */
+.trackerCard {
+  background: rgba(0, 0, 0, 0.2);
+  border: 2px dashed rgba(255, 255, 255, 0.1);
+  border-radius: 24px;
+  padding: 28px 40px;
+}
+
+.trackerWrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  position: relative;
+  padding: 0 25px;
+}
+
+.trackerLine {
+  position: absolute;
+  top: 22px;
+  left: 50px;
+  right: 50px;
+  height: 2px;
+  background: rgba(255, 255, 255, 0.08);
+  z-index: 1;
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.trackerProgress {
+  height: 100%;
+  background: var(--highlight-text);
+  box-shadow: 0 0 10px var(--highlight-text);
+  transition: width 0.8s ease;
+}
+
+.trackerStep {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  position: relative;
+  z-index: 2;
+  width: 90px;
+}
+
+.trackerDot {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: var(--black);
+  border: 2px solid rgba(255, 255, 255, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--grey-600);
+  font-size: 1rem;
+  transition: all 0.3s;
+}
+
+.trackerStepActive .trackerDot {
+  border-color: var(--highlight-text);
+  color: var(--highlight-text);
+  box-shadow: 0 0 14px rgba(255, 0, 85, 0.3);
+}
+
+.trackerLabel {
+  font-size: 0.7rem;
+  font-weight: 800;
+  color: var(--grey-600);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  text-align: center;
+}
+
+.trackerStepActive .trackerLabel {
+  color: var(--white);
+}
+
+/* ── Grid principal (2 columnas) ── */
+.grid {
+  display: grid;
+  grid-template-columns: 1fr 360px;
+  gap: 24px;
+  align-items: start;
+}
+
+/* ── Sección de artículos ── */
+.sectionTitle {
+  font-family: var(--font-body);
+  font-size: 0.85rem;
+  font-weight: 900;
+  color: var(--grey-500);
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  margin-bottom: 16px;
+}
+
+.itemsList {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* Tarjeta de artículo */
+.itemCard {
+  background: rgba(255, 255, 255, 0.02);
+  border: 2px dashed rgba(255, 255, 255, 0.12);
+  border-radius: 20px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  transition: border-color 0.2s;
+}
+
+.itemCard:hover {
+  border-color: rgba(255, 255, 255, 0.25);
+}
+
+.itemHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.itemName {
+  font-size: 1.1rem;
+  margin: 0 0 8px;
+  color: var(--white);
+}
+
+.itemMeta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.itemMetaChip {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 6px;
+  padding: 3px 10px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--grey-400);
+}
+
+.itemTotal {
+  font-family: var(--font-titles);
+  font-size: 1.5rem;
+  color: var(--white);
+  flex-shrink: 0;
+}
+
+/* Nota del artículo */
+.itemNote {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  background: rgba(255, 165, 0, 0.05);
+  border: 1px dashed rgba(255, 165, 0, 0.3);
+  border-radius: 10px;
+  padding: 10px 14px;
+  color: var(--grey-300);
+  font-size: 0.85rem;
+}
+
+.itemNote svg {
+  color: orange;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+/* Grid de imágenes del artículo */
+.imagesGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: 12px;
+}
+
+.imageWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.imageLabel {
+  font-size: 0.65rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--grey-600);
+}
+
+.imageLink {
+  display: block;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px dashed rgba(255, 255, 255, 0.15);
+  transition: border-color 0.2s;
+}
+
+.imageLink:hover {
+  border-color: var(--highlight-text);
+}
+
+.itemImage {
+  width: 100%;
+  aspect-ratio: 1;
+  object-fit: cover;
+  display: block;
+}
+
+.noImages {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--grey-600);
+  font-size: 0.8rem;
+  padding: 10px 0;
+}
+
+/* ── Sidebar ── */
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* Tarjeta genérica del sidebar */
+.card {
+  background: rgba(0, 0, 0, 0.3);
+  border: 2px dashed rgba(255, 255, 255, 0.1);
+  border-radius: 22px;
+  padding: 22px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+/* Tarjeta resaltada (pendiente de aprobación) */
+.cardHighlight {
+  border-color: rgba(255, 165, 0, 0.4);
+  background: rgba(255, 165, 0, 0.04);
+}
+
+.cardTitle {
+  font-size: 0.78rem;
+  font-weight: 900;
+  color: var(--grey-500);
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0;
+}
+
+/* ── Tarjeta de contacto del usuario ── */
+.userContact {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.userContactAvatar {
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 2px solid rgba(255, 255, 255, 0.1);
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--grey-600);
+}
+
+.userContactAvatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.userContactInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+
+.userContactName {
+  font-weight: 800;
+  color: var(--white);
+  font-size: 0.95rem;
+}
+
+.userContactEmail {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.78rem;
+  color: var(--grey-400);
+  transition: color 0.2s;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.userContactEmail:hover {
+  color: var(--white);
+}
+
+/* Botón de ir al chat */
+.chatLink {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 10px;
+  border-radius: 12px;
+  border: 1px dashed rgba(255, 255, 255, 0.2);
+  background: transparent;
+  color: var(--grey-400);
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 1px;
+  transition: all 0.2s;
+}
+
+.chatLink:hover {
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--white);
+  border-color: rgba(255, 255, 255, 0.35);
+}
+
+/* ── Tarjeta de precio ── */
+.priceDisplay {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.priceAmount {
+  font-family: var(--font-titles);
+  font-size: 2rem;
+  color: var(--white);
+  line-height: 1;
+}
+
+.priceEditBtn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 14px;
+  border-radius: 8px;
+  border: 1px dashed orange;
+  background: transparent;
+  color: orange;
+  font-size: 0.72rem;
+  font-weight: 800;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.priceEditBtn:hover {
+  background: rgba(255, 165, 0, 0.08);
+}
+
+/* Modo edición del precio */
+.priceEditWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.priceInputRow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.priceInput {
+  flex: 1;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 165, 0, 0.5);
+  border-radius: 10px;
+  padding: 10px 14px;
+  color: var(--white);
+  font-family: var(--font-titles);
+  font-size: 1.5rem;
+  transition: border-color 0.2s;
+}
+
+.priceInput:focus {
+  outline: none;
+  border-color: orange;
+  box-shadow: 0 0 12px rgba(255, 165, 0, 0.2);
+}
+
+.priceCurrency {
+  font-family: var(--font-titles);
+  font-size: 1.5rem;
+  color: var(--grey-500);
+}
+
+.priceError {
+  font-size: 0.75rem;
+  color: var(--highlight-text);
+  margin: 0;
+}
+
+.priceEditActions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+.priceCancel,
+.priceSave {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 9px;
+  border-radius: 10px;
+  font-size: 0.75rem;
+  font-weight: 800;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.priceCancel {
+  background: transparent;
+  border: 1px dashed rgba(255, 255, 255, 0.2);
+  color: var(--grey-400);
+}
+
+.priceCancel:hover:not(:disabled) {
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--white);
+}
+
+.priceSave {
+  background: rgba(255, 165, 0, 0.1);
+  border: 1px solid orange;
+  color: orange;
+}
+
+.priceSave:hover:not(:disabled) {
+  background: rgba(255, 165, 0, 0.2);
+}
+
+.priceSave:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Filas resumen de precio */
+.priceSummaryRows {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  border-top: 1px dashed rgba(255, 255, 255, 0.08);
+  padding-top: 14px;
+  margin-top: 4px;
+}
+
+.priceSummaryRow {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.85rem;
+  color: var(--grey-400);
+}
+
+.free {
+  color: #00ff80;
+  font-weight: 800;
+}
+
+.priceTotalRow {
+  font-weight: 800;
+  color: var(--white);
+  font-size: 1rem;
+}
+
+/* ── Dirección ── */
+.addressInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.addressInfo p {
+  font-size: 0.88rem;
+  color: var(--grey-400);
+  margin: 0;
+}
+
+.addressCity {
+  font-weight: 800;
+  color: var(--white) !important;
+}
+
+.addressPhone {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--grey-500) !important;
+}
+
+/* ── Nota del pedido ── */
+.noteText {
+  font-size: 0.88rem;
+  color: var(--grey-300);
+  line-height: 1.6;
+  margin: 0;
+  background: rgba(255, 255, 255, 0.02);
+  border-radius: 10px;
+  padding: 12px;
+  border: 1px dashed rgba(255, 255, 255, 0.08);
+}
+
+/* ── Info del pedido (fechas, pago) ── */
+.metaList {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.metaRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+}
+
+.metaLabel {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.78rem;
+  color: var(--grey-600);
+  font-weight: 600;
+}
+
+.metaValue {
+  font-size: 0.82rem;
+  color: var(--grey-300);
+  font-weight: 600;
+  text-align: right;
+}
+
+.metaCode {
+  font-family: var(--font-titles);
+  font-size: 0.75rem;
+  color: var(--grey-400);
+  word-break: break-all;
+}
+
+/* ── Spinner ── */
+.spinIcon {
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+/* ─────────────────────────────────────────────────────────────────
+   RESPONSIVE
+   ───────────────────────────────────────────────────────────────── */
+
+@media (max-width: 1100px) {
+  .grid {
+    grid-template-columns: 1fr 320px;
+  }
+}
+
+@media (max-width: 900px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+
+  /* En tablet/móvil el sidebar va debajo de los artículos */
+  .sidebar {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+  }
+}
+
+@media (max-width: 768px) {
+  .header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .headerActions {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .title {
+    font-size: 2.2rem;
+  }
+
+  .trackerCard {
+    padding: 20px 16px;
+    overflow-x: auto;
+  }
+
+  .trackerWrapper {
+    min-width: 560px;
+  }
+
+  .imagesGrid {
+    grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+  }
+}
+
+@media (max-width: 560px) {
+  .sidebar {
+    grid-template-columns: 1fr;
+  }
+
+  .headerActions {
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .statusBadge {
+    order: -1;
+    width: 100%;
+    justify-content: center;
+  }
+}
