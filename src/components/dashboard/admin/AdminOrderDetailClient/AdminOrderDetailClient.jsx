@@ -67,6 +67,20 @@ async function downloadImage(url, label = 'imagen') {
     window.open(url, '_blank');
   }
 }
+/* ─────────────────────────────────────────────────────────────────
+   FORMAT DATE — formateo de fechas de forma manual
+   ───────────────────────────────────────────────────────────────── */
+  function formatDate(dateStr) {
+    if (!dateStr) return '—';
+    const d = new Date(dateStr);
+    const months = ['ene', 'feb', 'mar', 'abr', 'may', 'jun', 'jul', 'ago', 'sep', 'oct', 'nov', 'dic'];
+    const day = String(d.getUTCDate()).padStart(2, '0');
+    const month = months[d.getUTCMonth()];
+    const year = d.getUTCFullYear();
+    const hour = String(d.getUTCHours()).padStart(2, '0');
+    const min = String(d.getUTCMinutes()).padStart(2, '0');
+    return `${day} ${month} ${year}, ${hour}:${min}`;
+  }
 
 /* ─────────────────────────────────────────────────────────────────
    IMAGE MODAL — pantalla completa con descarga
@@ -121,9 +135,7 @@ export default function AdminOrderDetailClient({ order: initialOrder }) {
   const statusCfg = STATUS_CONFIG[order.order_status] || {};
   const currentStep = currentIdx + 1;
 
-  const orderDate = new Date(order.creation_date).toLocaleDateString('es-ES', {
-    day: '2-digit', month: 'long', year: 'numeric', hour: '2-digit', minute: '2-digit',
-  });
+  const orderDate = formatDate(order.creation_date);
 
   const handleStatusChange = useCallback(async (newStatus) => {
     const prev = order.order_status;
@@ -507,16 +519,5 @@ function PriceCard({ orderId, totalAmount, isPendingApproval, discountCode, disc
       </div>
     </div>
   );
-  // Formateo manual con UTC para evitar diferencias server/client
-function formatDate(dateStr) {
-  if (!dateStr) return '—';
-  const d = new Date(dateStr);
-  const months = ['ene','feb','mar','abr','may','jun','jul','ago','sep','oct','nov','dic'];
-  const day    = String(d.getUTCDate()).padStart(2, '0');
-  const month  = months[d.getUTCMonth()];
-  const year   = d.getUTCFullYear();
-  const hour   = String(d.getUTCHours()).padStart(2, '0');
-  const min    = String(d.getUTCMinutes()).padStart(2, '0');
-  return `${day} ${month} ${year}, ${hour}:${min}`;
-}
+  
 }
