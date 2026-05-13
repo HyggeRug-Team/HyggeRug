@@ -17,7 +17,8 @@
  * Centralizar fuentes, metadatos y fondo global aquí evita repetir código y asegura
  * una experiencia visual consistente en toda la aplicación.
  */
-import { Plus_Jakarta_Sans, Rubik, Rubik_Bubbles } from 'next/font/google';
+import { Plus_Jakarta_Sans } from 'next/font/google';
+import localFont from 'next/font/local';
 import './globals.css';
 import { SpeedInsights } from "@vercel/speed-insights/next"
 
@@ -30,16 +31,27 @@ const plusJakartaSans = Plus_Jakarta_Sans({
   variable: '--font-plus-jakarta',
 });
 
-const rubik = Rubik({
-  subsets: ['latin'],
-  weight: ['300', '400', '500', '600', '700'],
+const rubik = localFont({
+  src: [
+    {
+      path: '../../public/fonts/Rubik-VariableFont_wght.ttf',
+      style: 'normal',
+    },
+    {
+      path: '../../public/fonts/Rubik-Italic-VariableFont_wght.ttf',
+      style: 'italic',
+    }
+  ],
   variable: '--font-rubik',
+  display: 'swap',
 });
 
-const rubikBubbles = Rubik_Bubbles({
-  subsets: ['latin'],
-  weight: ['400'],
+const rubikBubbles = localFont({
+  src: '../../public/fonts/RubikBubbles-Regular.ttf',
   variable: '--font-rubik-bubbles',
+  weight: '400',
+  style: 'normal',
+  display: 'swap',
 });
 
 export const metadata = {
