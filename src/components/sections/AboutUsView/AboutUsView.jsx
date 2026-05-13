@@ -1,6 +1,6 @@
 /**
  * @file AboutUsView.jsx
- * @description Vista rediseñada de "Sobre Nosotros" con estética premium pop-grunge y animaciones integrales.
+ * @description Vista rediseñada de "Sobre Nosotros" con estética pop-grunge y animaciones integrales.
  *
  * [Nuestro enfoque]
  * Hemos transformado la página en una narrativa visual asimétrica. Usamos una cuadrícula 
@@ -82,7 +82,7 @@ export default function AboutUsView() {
     const qualityStats = [
         { icon: <FaFeather />, label: "LANA TÉCNICA", text: "Suave al tacto pero ultra resistente al trote diario." },
         { icon: <FaShieldAlt />, label: "BASE ANTI-SLIP", text: "Acabado en TPR para que la alfombra no se mueva ni un milímetro." },
-        { icon: <FaBoxOpen />, label: "UNBOXING PREMIUM", text: "Cuidamos cada detalle del envío para que la experiencia empiece al abrir la caja." },
+        { icon: <FaBoxOpen />, label: "UNBOXING EXCLUSIVO", text: "Cuidamos cada detalle del envío para que la experiencia empiece al abrir la caja." },
     ];
 
     return (
@@ -112,7 +112,7 @@ export default function AboutUsView() {
                         <span className={styles.titleHighlight}>WITH SOUL</span>
                     </h1>
                     <p className={styles.heroDescription}>
-                        Soy una artesana en Madrid transformando ideas salvajes en piezas textiles de alta fidelidad. Hygge Rug nació para romper con la decoración genérica y traer el arte urbano directamente a tus pies.
+                        Somos un equipo en Madrid transformando ideas salvajes en piezas textiles de alta fidelidad. Hygge Rug nació para romper con la decoración genérica y traer el arte urbano directamente a tus pies.
                     </p>
                 </motion.div>
 
@@ -125,8 +125,8 @@ export default function AboutUsView() {
                 >
                     <div className={styles.mainImageContainer}>
                         <Image 
-                            src="/images/about/workshop_premium.png" 
-                            alt="Hygge Rug Workshop" 
+                            src="/images/about/workshop_main.png" 
+                            alt="Nuestro taller en Madrid" 
                             fill 
                             priority
                             style={{ objectFit: 'cover' }}
@@ -154,7 +154,7 @@ export default function AboutUsView() {
                 className={styles.manifestoSection}
             >
                 <p className={styles.manifestoText}>
-                    "NO HACEMOS ALFOMBRAS. CREAMOS <span>PUNTOS DE ENCUENTRO</span> ENTRE TU IMAGINACIÓN Y LA LANA MÁS PREMIUM DEL MERCADO."
+                    "NO HACEMOS ALFOMBRAS. CREAMOS <span>PUNTOS DE ENCUENTRO</span> ENTRE TU IMAGINACIÓN Y LA MEJOR LANA DEL MERCADO."
                 </p>
             </motion.section>
 
@@ -217,7 +217,7 @@ export default function AboutUsView() {
                         badge="WORKFLOW" 
                         icon={FaRegHandshake} 
                         title="EL PROCESO ARTESANAL" 
-                        description="Cada Hygge Rug pasa por mis manos. De principio a fin."
+                        description="Cada Hygge Rug pasa por nuestras manos. De principio a fin."
                     />
                     <div style={{ marginTop: '3rem' }}>
                         <Timeline steps={processSteps} />

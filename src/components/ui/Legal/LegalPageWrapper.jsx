@@ -2,7 +2,7 @@
 
 /**
  * @file LegalPageWrapper.jsx
- * @description Componente envoltorio para páginas legales con estética premium.
+ * @description Componente envoltorio para páginas legales con estética cuidada.
  * 
  * [Nuestro enfoque]
  * Creamos una estructura limpia y muy legible para textos largos, utilizando 

@@ -10,7 +10,7 @@
  * [Por qué lo hemos hecho así]
  * Separar las acciones de los componentes visuales nos permite reutilizar funciones 
  * (como obtener pedidos o crear tickets) en cualquier parte de la web sin repetir código. 
- * Además, nos facilita el manejo de errores de forma centralizada y profesional.
+ * Además, nos facilita el manejo de errores de forma centralizada y clara.
  */
 
 'use server'
@@ -39,7 +39,7 @@ export async function createSupportTicket(ticketData) {
             userId,
             orderId: ticketData.orderId || null,
             type: ticketData.type || 'soporte',
-            subject: ticketData.subject || 'Consulta sobre pedido',
+            reason: ticketData.reason || ticketData.subject || 'Consulta sobre pedido',
             description: ticketData.description || 'Consulta enviada desde el portal del cliente'
         };
 
@@ -50,7 +50,7 @@ export async function createSupportTicket(ticketData) {
 
     } catch (error) {
         console.error("[ACTION] Error crítico creando ticket:", error);
-        return { success: false, error: "Error en base de datos" };
+        return { success: false, error: error.message };
     }
 }
 

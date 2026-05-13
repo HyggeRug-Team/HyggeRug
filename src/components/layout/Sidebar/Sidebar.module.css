@@ -1,19 +1,6 @@
-/* 
-  @file Sidebar.module.css
-  @description Estilos para el esqueleto de navegación lateral.
-  
-  [Nuestro enfoque]
-  La barra lateral es el mapa del usuario. Hemos diseñado este espacio para que sea 
-  la columna vertebral del Dashboard, adaptándose dinámicamente: desde un panel 
-  completo en escritorio hasta un menú táctil ágil en dispositivos móviles.
-  
-  [Por qué lo hemos hecho así]
-  Usamos variables de CSS para que los colores y transiciones sean consistentes, 
-  asegurando que la navegación se sienta ligera y profesional en cualquier tamaño 
-  de pantalla sin comprometer el rendimiento.
-*/
+/* --- ESTRUCTURA DE NAVEGACIÓN LATERAL --- */
 
-/* ========== BOTÓN HAMBURGER (solo móvil) ========== */
+/* --- BOTÓN HAMBURGER (Móvil) --- */
 .hamburger {
   display: none;
   position: fixed;
@@ -31,7 +18,11 @@
   color: var(--white);
   opacity: 1;
   transform: scale(1);
-  transition: background 0.2s ease, border-color 0.2s ease, opacity 0.2s ease, transform 0.2s ease;
+  transition:
+    background 0.2s ease,
+    border-color 0.2s ease,
+    opacity 0.2s ease,
+    transform 0.2s ease;
 }
 
 .hamburger:hover {
@@ -39,14 +30,13 @@
   border-color: var(--highlight-text);
 }
 
-/* Se oculta con transición suave mientras el drawer está abierto */
 .hamburgerHidden {
   opacity: 0;
   transform: scale(0.8);
   pointer-events: none;
 }
 
-/* ========== OVERLAY (solo móvil, cuando el drawer está abierto) ========== */
+/* --- CAPA DE FONDO (Overlay) --- */
 .overlay {
   display: none;
   position: fixed;
@@ -57,14 +47,15 @@
 }
 
 @keyframes fadeInOverlay {
-  from { opacity: 0; }
-  to   { opacity: 1; }
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
-/* ========== SIDEBAR PRINCIPAL (Desktop) ==========
-   Usamos flex-direction: column para distribuir el espacio
-   verticalmente de forma fiable en todos los tamaños.
-   height: 100dvh refleja el viewport real en cada dispositivo. */
+/* --- CONTENIDO DEL SIDEBAR (Escritorio) --- */
 .sidebarContent {
   display: flex;
   flex-direction: column;
@@ -72,13 +63,11 @@
   height: 100dvh;
   border-right: 1px solid rgba(255, 255, 255, 0.05);
   position: relative;
-  overflow: hidden;        
+  overflow: hidden;
   transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-
-
-/* ========== BOTÓN CERRAR (solo aparece en drawer móvil) ========== */
+/* --- BOTÓN CERRAR (Móvil) --- */
 .closeBtn {
   display: none;
   position: absolute;
@@ -93,7 +82,9 @@
   justify-content: center;
   cursor: pointer;
   color: var(--grey-400);
-  transition: background 0.25s ease, color 0.25s ease;
+  transition:
+    background 0.25s ease,
+    color 0.25s ease;
   z-index: 2;
 }
 
@@ -102,8 +93,7 @@
   color: var(--highlight-text);
 }
 
-/* ========== WRAPPER DEL ÁREA DE SCROLL ==========
-   Posición relative para anclar el gradiente fade encima. */
+/* --- SECCIÓN DE DESPLAZAMIENTO --- */
 .topSectionWrapper {
   flex: 1;
   min-height: 0;
@@ -112,13 +102,9 @@
   flex-direction: column;
 }
 
-/* ========== SECCIÓN SUPERIOR ==========
-   flex: 1 + min-height: 0 + overflow-y: auto permite que el menú
-   haga scroll interno cuando el contenido supera la altura visible,
-   sin que el footer quede oculto debajo. */
 .topSection {
   flex: 1;
-  min-height: 0;             /* imprescindible para que overflow funcione */
+  min-height: 0;
   overflow-y: auto;
   overflow-x: hidden;
   display: flex;
@@ -127,9 +113,8 @@
   margin-left: 40px;
   position: relative;
   z-index: 1;
-  /* Scrollbar discreta */
   scrollbar-width: thin;
-  scrollbar-color: rgba(255,255,255,0.08) transparent;
+  scrollbar-color: rgba(255, 255, 255, 0.08) transparent;
 }
 
 .topSection::-webkit-scrollbar {
@@ -139,20 +124,17 @@
   background: transparent;
 }
 .topSection::-webkit-scrollbar-thumb {
-  background: rgba(255,255,255,0.08);
+  background: rgba(255, 255, 255, 0.08);
   border-radius: 4px;
 }
 
-/* ========== FADE HINT "hay más contenido" ==========
-   Gradiente suave en la parte inferior del área de scroll.
-   Solo visible (opacity 1) cuando hasMoreBelow === true. */
+/* --- INDICADOR DE SCROLL --- */
 .scrollFade {
   position: absolute;
   bottom: 0;
   left: 0;
   right: 0;
   height: 72px;
-  /* Gradiente desde transparente hasta el color de fondo del sidebar */
   background: linear-gradient(
     to bottom,
     transparent 0%,
@@ -165,23 +147,20 @@
   align-items: flex-end;
   justify-content: center;
   padding-bottom: 10px;
-  /* Oculto por defecto: sin transición brusca */
   opacity: 0;
   transition: opacity 0.3s ease;
 }
 
-/* Se activa cuando el JS detecta que hay más contenido debajo */
 .scrollFadeVisible {
   opacity: 1;
 }
 
-/* Icono de chevron pulsante dentro del fade */
 .scrollFadeIcon {
   color: rgba(255, 255, 255, 0.5);
   flex-shrink: 0;
 }
 
-/* --- Logo completo (desktop) --- */
+/* --- LOGO --- */
 .logoFull {
   display: flex;
   justify-content: center;
@@ -191,7 +170,6 @@
   flex-shrink: 0;
 }
 
-/* --- Logo compacto/HR (tablet) --- */
 .logoCompact {
   display: none;
   justify-content: center;
@@ -200,7 +178,7 @@
   flex-shrink: 0;
 }
 
-/* ========== MENÚ DE NAVEGACIÓN ========== */
+/* --- MENÚ DE NAVEGACIÓN --- */
 .sidebarMenu {
   display: flex;
   flex-direction: column;
@@ -230,7 +208,6 @@
   gap: 4px;
 }
 
-/* --- Enlaces (Base) --- */
 .sidebarMenu a {
   display: flex;
   align-items: center;
@@ -249,7 +226,6 @@
   overflow: hidden;
 }
 
-/* Iconos */
 .sidebarMenu a svg {
   transition: all 0.4s ease;
   color: var(--grey-500);
@@ -257,9 +233,12 @@
   flex-shrink: 0;
 }
 
-/* --- HOVER --- */
 .sidebarMenu a:hover {
-  background: linear-gradient(90deg, rgba(255, 255, 255, 0.03) 0%, transparent 100%);
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0.03) 0%,
+    transparent 100%
+  );
   color: var(--white);
   padding-left: 25px;
 }
@@ -269,15 +248,18 @@
   transform: scale(1.1);
 }
 
-/* --- ACTIVE --- */
 .active {
-  background: linear-gradient(90deg, rgba(255, 0, 85, 0.08) 0%, transparent 100%) !important;
+  background: linear-gradient(
+    90deg,
+    rgba(255, 0, 85, 0.08) 0%,
+    transparent 100%
+  ) !important;
   color: var(--white) !important;
   border-right-color: var(--highlight-text) !important;
 }
 
 .active::after {
-  content: '';
+  content: "";
   position: absolute;
   right: 0;
   top: 0;
@@ -292,23 +274,18 @@
   filter: drop-shadow(0 0 8px rgba(255, 0, 85, 0.4));
 }
 
-/* ========== SECCIÓN INFERIOR (slot footer del Sidebar) ==========
-   flex-shrink: 0 garantiza que el footer nunca se comprima
-   ni quede oculto por el contenido superior. */
+/* --- PIE DE PÁGINA (Sidebar) --- */
 .footerSection {
   flex-shrink: 0;
   position: relative;
   z-index: 10;
 }
 
-/* Contenedor relativo para anclar el popup */
 .logoutWrapper {
   position: relative;
   z-index: 10;
 }
 
-/* ── Popup flotante de logout ──
-   Solo se activa en tablet (solo iconos) via media query */
 .logoutPopup {
   display: none;
   position: fixed;
@@ -327,13 +304,18 @@
 }
 
 @keyframes popupSlideIn {
-  from { opacity: 0; transform: translateX(-8px); }
-  to   { opacity: 1; transform: translateX(0); }
+  from {
+    opacity: 0;
+    transform: translateX(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
 }
 
-/* Flecha apuntando hacia la IZQUIERDA (hacia el sidebar) */
 .logoutPopup::after {
-  content: '';
+  content: "";
   position: absolute;
   left: -6px;
   bottom: 22px;
@@ -375,7 +357,6 @@
   margin: 0 -4px;
 }
 
-/* Botón de cerrar sesión dentro del popup */
 .logoutPopupBtn {
   width: 100%;
   display: flex;
@@ -389,7 +370,9 @@
   font-size: 0.85rem;
   font-weight: 500;
   cursor: pointer;
-  transition: background 0.2s ease, color 0.2s ease;
+  transition:
+    background 0.2s ease,
+    color 0.2s ease;
   text-align: left;
 }
 
@@ -398,7 +381,6 @@
   color: var(--highlight-text);
 }
 
-/* ── Barra de perfil/logout ── */
 .logout {
   display: flex;
   align-items: center;
@@ -408,7 +390,10 @@
   background: rgba(255, 255, 255, 0.04);
   margin: 0 20px 20px 20px;
   cursor: pointer;
-  transition: background 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+  transition:
+    background 0.2s ease,
+    border-color 0.2s ease,
+    transform 0.2s ease;
   border: 1px solid rgba(255, 255, 255, 0.05);
   position: relative;
   z-index: 1;
@@ -440,7 +425,9 @@
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  transition: opacity 0.3s ease, max-width 0.3s ease;
+  transition:
+    opacity 0.3s ease,
+    max-width 0.3s ease;
 }
 
 .logoutButton {
@@ -464,9 +451,7 @@
   transform: translateX(2px);
 }
 
-/* ==================================================
-   RESPONSIVE — Tablet grande (≤ 1200px)
-   ================================================== */
+/* --- RESPONSIVE --- */
 @media (max-width: 1200px) {
   .topSection {
     margin-left: 32px;
@@ -477,9 +462,6 @@
   }
 }
 
-/* ==================================================
-   RESPONSIVE — Tablet (≤ 992px): sidebar solo iconos
-   ================================================== */
 @media (min-width: 769px) and (max-width: 992px) {
   .topSection {
     margin-left: 0;
@@ -490,9 +472,12 @@
   .scrollFade {
     display: none;
   }
-
-  .logoFull    { display: none; }
-  .logoCompact { display: flex; }
+  .logoFull {
+    display: none;
+  }
+  .logoCompact {
+    display: flex;
+  }
 
   .sidebarMenu {
     align-items: center;
@@ -500,7 +485,6 @@
     gap: 6px;
   }
 
-  /* Centramos los links y ocultamos el texto */
   .sidebarMenu a {
     width: auto;
     padding: 12px;
@@ -527,12 +511,10 @@
     border-color: var(--highlight-text) !important;
   }
 
-  /* Quitamos el pseudo-element de borde derecho en tablet */
   .active::after {
     display: none;
   }
 
-  /* Logout compacto: solo avatar, centrado */
   .logout {
     flex-direction: column;
     align-items: center;
@@ -547,28 +529,20 @@
     display: none;
   }
 
-  /* Activamos el popup SOLO en este breakpoint (tablet con iconos) */
   .logoutPopup {
     display: flex;
   }
 }
 
-/* ==================================================
-   RESPONSIVE — Móvil (≤ 768px): drawer lateral
-   ================================================== */
 @media (max-width: 768px) {
-
-  /* Mostramos el botón hamburger */
   .hamburger {
     display: flex;
   }
 
-  /* Overlay al abrir el drawer */
   .overlayVisible {
     display: block;
   }
 
-  /* ── Drawer lateral ── */
   .sidebarContent {
     position: fixed;
     top: 0;
@@ -585,18 +559,19 @@
     transform: translateX(0);
   }
 
-  /* Botón de cierre visible en drawer */
   .closeBtn {
     display: flex;
     right: 14px;
     left: auto;
   }
 
-  /* Logo completo en el drawer */
-  .logoFull    { display: flex; }
-  .logoCompact { display: none; }
+  .logoFull {
+    display: flex;
+  }
+  .logoCompact {
+    display: none;
+  }
 
-  /* ── Área de contenido: ocupa el espacio libre y hace scroll ── */
   .topSection {
     margin-left: 24px;
     align-items: flex-start;
@@ -604,13 +579,11 @@
     padding-bottom: 8px;
   }
 
-  /* Fade visible también en drawer móvil */
   .scrollFade {
     display: flex;
     height: 60px;
   }
 
-  /* Menú restaurado al estilo de texto completo */
   .sidebarMenu {
     align-items: flex-start;
     width: 100%;
@@ -638,7 +611,11 @@
 
   .sidebarMenu a:hover {
     padding-left: 23px;
-    background: linear-gradient(90deg, rgba(255, 255, 255, 0.03) 0%, transparent 100%);
+    background: linear-gradient(
+      90deg,
+      rgba(255, 255, 255, 0.03) 0%,
+      transparent 100%
+    );
     border-color: transparent;
   }
 
@@ -646,7 +623,6 @@
     display: block;
   }
 
-  /* ── Footer: nunca se aplasta ── */
   .footerSection {
     flex-shrink: 0;
     position: relative;
@@ -670,9 +646,6 @@
   }
 }
 
-/* ==================================================
-   RESPONSIVE — Móvil pequeño (≤ 480px)
-   ================================================== */
 @media (max-width: 480px) {
   .sidebarContent {
     width: min(260px, 88vw);

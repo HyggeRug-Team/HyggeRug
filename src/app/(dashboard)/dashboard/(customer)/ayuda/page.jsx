@@ -9,7 +9,7 @@
  * 
  * [Por qué lo hemos hecho así]
  * Una buena gestión de incidencias y devoluciones es lo que separa a una tienda común 
- * de una marca premium. Al automatizar la selección de pedidos y tipos de incidencia, 
+ * de una marca de confianza. Al automatizar la selección de pedidos y tipos de incidencia, 
  * facilitamos la comunicación y resolvemos fricciones rápidamente.
  */
 

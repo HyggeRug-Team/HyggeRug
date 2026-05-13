@@ -5,7 +5,7 @@
  * [Nuestro enfoque]
  * Estas tarjetas son las protagonistas de nuestra sección principal (Hero). Hemos buscado que
  * no sean “simples fotos”, sino un elemento interactivo que se entienda rápido y se sienta
- * premium.
+ * exclusivo.
  *
  * [Por qué lo hemos hecho así]
  * Elegimos un abanico 3D y una animación de hover porque ayudan a comunicar variedad de diseños

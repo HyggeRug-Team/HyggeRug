@@ -1,4 +1,6 @@
-/* Overlay oscuro */
+/* --- PANEL DEL CARRITO (CartSidebar) --- */
+
+/* --- CAPA DE FONDO (Overlay) --- */
 .overlay {
     display: none;
     position: fixed;
@@ -17,7 +19,7 @@
     to   { opacity: 1; }
 }
 
-/* Panel lateral */
+/* --- CONTENEDOR DEL PANEL --- */
 .sidebar {
     position: fixed;
     top: 0;
@@ -39,7 +41,7 @@
     transform: translateX(0);
 }
 
-/* CABECERA */
+/* --- CABECERA --- */
 .header {
     display: flex;
     align-items: center;
@@ -86,7 +88,7 @@
     border-color: var(--highlight-text);
 }
 
-/* CUERPO */
+/* --- CUERPO DEL CARRITO --- */
 .body {
     flex: 1;
     overflow-y: auto;
@@ -113,7 +115,7 @@
     height: 200px;
 }
 
-/* ITEM */
+/* --- PRODUCTOS (Items) --- */
 .item {
     display: flex;
     gap: 16px;
@@ -196,7 +198,75 @@
     color: var(--hover-text);
 }
 
-/* PIE */
+/* --- CONTROLES DE CANTIDAD --- */
+.qtyControls {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: var(--card-bg);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 8px;
+    padding: 4px 8px;
+}
+
+.qtyBtn {
+    width: 22px;
+    height: 22px;
+    border-radius: 6px;
+    background: transparent;
+    border: none;
+    color: var(--grey-400);
+    font-size: 0.65rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.qtyBtn:hover:not(:disabled) {
+    color: var(--white);
+    background: rgba(255, 255, 255, 0.08);
+}
+
+.qtyBtn:disabled {
+    opacity: 0.2;
+    cursor: not-allowed;
+}
+
+.qtyValue {
+    font-size: 0.9rem;
+    font-weight: 900;
+    color: var(--white);
+    min-width: 16px;
+    text-align: center;
+}
+
+.removeBtn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: 24px;
+    height: 24px;
+    border-radius: 6px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    color: var(--grey-600);
+    font-size: 0.7rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.removeBtn:hover {
+    background: rgba(255, 0, 85, 0.15);
+    color: var(--highlight-text);
+    border-color: var(--highlight-text);
+}
+
+/* --- PIE DEL PANEL (Totales) --- */
 .footer {
     padding: 20px 28px 28px;
     border-top: 1px solid rgba(255, 255, 255, 0.06);

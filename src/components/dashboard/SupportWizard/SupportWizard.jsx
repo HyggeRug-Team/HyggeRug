@@ -1,21 +1,17 @@
-'use client';
-
 /**
  * @file SupportWizard.jsx
- * @description Asistente multi-paso para la creación de tickets de soporte técnico.
- * 
+ * @description Asistente multi-paso para crear tickets de soporte desde el dashboard.
+ *
  * [Nuestro enfoque]
- * Guía al usuario a través de un flujo lógico de 4 pasos (Categoría -> Contexto -> Detalle -> Resumen).
- * Utilizamos un "Portal" para asegurar que la interfaz flote por encima de cualquier otro 
- * elemento del DOM, evitando conflictos de z-index o recortes de scroll.
- * 
+ * Hemos dividido el proceso en 4 pasos (Categoría → Contexto → Detalle → Resumen)
+ * para guiar al usuario sin agobiarlo con un formulario largo. Usamos un Portal para
+ * que el modal flote por encima de cualquier elemento del DOM sin conflictos de z-index.
+ *
  * [Por qué lo hemos hecho así]
- * 1. Reducción de fricción: Dividir el formulario en pasos evita abrumar al usuario.
- * 2. Datos Estructurados: Al forzar la selección de subcategorías y preferencias, 
- *    facilitamos el trabajo posterior en el ERP/CRM de gestión.
- * 3. Portabilidad: Puede ser invocado desde cualquier página (Ayuda, Dashboard, FAQs) 
- *    pasándole los parámetros de entrada correspondientes.
+ * Al forzar la selección de subcategorías y preferencias de contacto, los tickets
+ * llegan estructurados y son más fáciles de gestionar por parte del equipo del taller.
  */
+'use client';
 
 import React, { useState, useEffect } from 'react';
 import { createPortal } from 'react-dom';
@@ -34,7 +30,7 @@ import SecondaryButton from "@/components/ui/Buttons/SecondaryButton/SecondaryBu
 import { createSupportTicket } from "@/lib/actions";
 import CustomSelect from "@/components/ui/Inputs/CustomSelect/CustomSelect";
 
-export default function SupportWizard({ orders = [], initialOrderId = null, onClose }) {
+export default function SupportWizard({ orders = [], initialOrderId = null, onClose, onSuccess }) {
   // --- ESTADOS DEL ASISTENTE ---
   const [step, setStep] = useState(initialOrderId ? 2 : 1);
   const [formData, setFormData] = useState({
@@ -49,8 +45,21 @@ export default function SupportWizard({ orders = [], initialOrderId = null, onCl
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
   const [tip, setTip] = useState(null);
+  const [errorMessage, setErrorMessage] = useState(null);
 
-  // Mapeamos los pedidos para el CustomSelect premium
+  // Traducción de errores técnicos a mensajes amigables para el usuario.
+  // Hemos añadido este mapeo para que si la base de datos falla, el cliente
+  // no vea un "Internal Server Error" feo, sino algo que entienda.
+  const formatFriendlyError = (err) => {
+    if (!err) return "Vaya, ha ocurrido un error inesperado al procesar tu solicitud.";
+    const e = err.toLowerCase();
+    if (e.includes("foreign key") || e.includes("order_id")) return "No hemos podido vincular el pedido. Por favor, asegúrate de que el número es correcto.";
+    if (e.includes("connection") || e.includes("econnrefused")) return "No se ha podido conectar con el taller. Revisa tu internet o inténtalo de nuevo.";
+    if (e.includes("data too long")) return "El mensaje es demasiado extenso. Por favor, intenta resumirlo un poco.";
+    return "No se ha podido guardar tu ticket. Por favor, inténtalo de nuevo en unos minutos o contáctanos por email.";
+  };
+
+  // Mapeamos los pedidos para el CustomSelect de nuestra lista
   const orderOptions = orders.map(o => ({
     value: o.order_id,
     label: `Pedido #${o.order_id} - ${new Date(o.creation_date).toLocaleDateString()}`
@@ -127,11 +136,26 @@ export default function SupportWizard({ orders = [], initialOrderId = null, onCl
     
     const result = await createSupportTicket(finalData);
     if (result.success) {
+      // Si el ticket se crea bien, disparamos la actualización optimista en el Dashboard
       setIsSuccess(true);
+      
+      // Actualización optimista: avisamos al dashboard del nuevo ticket
+      if (onSuccess) {
+        onSuccess({
+          ticket_id: result.ticketId || Math.floor(Math.random() * 1000),
+          order_id: formData.orderId,
+          type: formData.type,
+          reason: formData.reason,
+          description: `[Resolución: ${formData.resolution}] [SubTipo: ${formData.subType}] - ${formData.description}`,
+          status: 'abierto',
+          creation_date: new Date().toISOString()
+        });
+      }
+
       // Cerramos automáticamente tras el éxito
       setTimeout(() => onClose && onClose(), 3500);
     } else {
-      alert("Lo sentimos, hubo un error: " + result.error);
+      setErrorMessage(formatFriendlyError(result.error));
     }
     setIsSubmitting(false);
   };
@@ -307,6 +331,23 @@ export default function SupportWizard({ orders = [], initialOrderId = null, onCl
               </AnimatePresence>
             </div>
           </>
+        ) : errorMessage ? (
+          /* VISTA DE ERROR PERSONALIZADA */
+          <motion.div initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} className={styles.errorView}>
+            <div className={styles.errorIcon}><FaTriangleExclamation /></div>
+            <h2>¡Vaya! Algo no ha salido bien</h2>
+            <p>{errorMessage}</p>
+            <div style={{ marginTop: '30px', width: '100%' }}>
+              <PrimaryButton text="VOLVER A INTENTARLO" onClick={() => setErrorMessage(null)} />
+              <button 
+                className={styles.closeBtnFooter} 
+                style={{ marginTop: '15px', background: 'transparent', border: 'none', color: '#666', cursor: 'pointer', width: '100%', fontWeight: 700 }}
+                onClick={onClose}
+              >
+                CANCELAR Y CERRAR
+              </button>
+            </div>
+          </motion.div>
         ) : (
           /* VISTA DE ÉXITO */
           <motion.div initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} className={styles.successView}>

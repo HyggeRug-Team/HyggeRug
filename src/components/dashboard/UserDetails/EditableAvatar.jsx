@@ -1,15 +1,19 @@
 /**
  * @file EditableAvatar.jsx
- * @description Componente de cliente para la gestión interactiva de la foto de perfil.
+ * @description Gestión interactiva de la identidad visual del usuario (Avatar).
  * 
  * [Nuestro enfoque]
- * Separamos la lógica de la imagen en un componente cliente para manejar la interactividad 
- * del explorador de archivos y las vistas previas sin sobrecargar el Server Component padre.
+ * Hemos diseñado este componente para que cambiar la foto de perfil no sea un trámite, 
+ * sino una experiencia gratificante. Usamos pre-visualizaciones instantáneas 
+ * y validaciones de tamaño en el cliente para que el usuario no pierda tiempo.
  * 
  * [Por qué lo hemos hecho así]
- * Implementamos dos vías de actualización: carga directa de archivos locales (PC) y 
- * enlace por URL. Esto da libertad total al usuario para personalizar su identidad 
- * visual de la forma más cómoda posible.
+ * 1. Optimización: Validamos que la imagen no pese más de 2MB antes de subirla 
+ *    para ahorrar ancho de banda y mantener la base de datos ligera.
+ * 2. Mejor respuesta visual: Sustituimos los alerts genéricos por nuestro nuevo 
+ *    FeedbackModal, manteniendo la estética cuidada en cada mensaje.
+ * 3. Integración Vercel: La subida se realiza directamente a Blob para 
+ *    garantizar la máxima velocidad de carga en toda la plataforma.
  */
 'use client';
 
@@ -18,15 +22,13 @@ import styles from './UserDetails.module.css';
 import { FaUserPen, FaCloudArrowUp } from "react-icons/fa6";
 import TertiaryButton from '@/components/ui/Buttons/TertiaryButton/TertiaryButton';
 import { uploadProfileImage } from '@/lib/actions';
+import FeedbackModal from '@/components/ui/Feedback/FeedbackModal';
 
-/**
- * @file EditableAvatar.jsx
- * @description Componente cliente para gestionar la visualización y edición de la foto de perfil.
- */
 export default function EditableAvatar({ currentImage, onSave }) {
     const [showModal, setShowModal] = useState(false);
     const [tempUrl, setTempUrl] = useState(currentImage || "");
     const [isUploading, setIsUploading] = useState(false);
+    const [notification, setNotification] = useState({ isOpen: false, type: 'success', title: '', message: '' });
     const fileInputRef = useRef(null);
 
     const handleConfirm = () => {
@@ -42,7 +44,12 @@ export default function EditableAvatar({ currentImage, onSave }) {
         // Comprobamos el tamaño antes de gastar ancho de banda subiendo el archivo.
         const MAX_SIZE = 2 * 1024 * 1024;
         if (file.size > MAX_SIZE) {
-            alert("¡Vaya! Esta imagen pesa demasiado. Intenta subir una que ocupe menos de 2MB.");
+            setNotification({
+                isOpen: true,
+                type: 'error',
+                title: 'Imagen muy pesada',
+                message: 'Para mantener la web rápida, el límite de peso es de 2MB. Por favor, reduce su tamaño.'
+            });
             return;
         }
 
@@ -57,7 +64,12 @@ export default function EditableAvatar({ currentImage, onSave }) {
             setTempUrl(result.url);
             setShowModal(false);
         } else {
-            alert("Error al subir la imagen: " + result.error);
+            setNotification({
+                isOpen: true,
+                type: 'error',
+                title: 'Error de subida',
+                message: result.error || 'No hemos podido guardar la imagen. Revisa tu conexión.'
+            });
         }
         setIsUploading(false);
     };
@@ -122,6 +134,14 @@ export default function EditableAvatar({ currentImage, onSave }) {
                     </div>
                 </div>
             )}
+
+            <FeedbackModal 
+                isOpen={notification.isOpen}
+                type={notification.type}
+                title={notification.title}
+                message={notification.message}
+                onClose={() => setNotification({ ...notification, isOpen: false })}
+            />
         </>
     );
 }

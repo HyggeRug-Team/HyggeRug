@@ -1,4 +1,5 @@
-/* Fondo limpio y premium usando gradientes oscuros y ruido sutil */
+/* --- DISEÑO DE AUTENTICACIÓN --- */
+/* Fondo limpio usando gradientes oscuros y ruido sutil */
 .authLayout {
   min-height: 100vh;
   display: flex;

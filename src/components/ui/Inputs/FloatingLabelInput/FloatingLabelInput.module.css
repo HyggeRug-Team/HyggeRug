@@ -46,7 +46,7 @@
   border-radius: 4px;
 }
 
-/* EFECTO PREMIUM AL ENFOCAR */
+/* EFECTO AVANZADO AL ENFOCAR */
 .inputGroup input:focus + label,
 .inputGroup input:not(:placeholder-shown) + label {
   top: 0;
