@@ -296,7 +296,26 @@
   grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
   gap: 12px;
 }
+/* Contenedor que agrupa imágenes normales + ajustada */
+.imagesContainer {
+  display: flex;
+  align-items: flex-start;
+  gap: 0;
+}
 
+.imagesGrid {
+  flex: 1;
+  /* el resto de estilos que ya tienes */
+}
+
+/* Sección del diseño ajustado separada por línea sutil */
+.adjustedSection {
+  padding-left: 18px;
+  margin-left: 18px;
+  border-left: 1px solid rgba(255, 255, 255, 0.08);
+  flex-shrink: 0;
+  width: 160px;
+}
 .imageWrapper {
   display: flex;
   flex-direction: column;
@@ -754,4 +773,243 @@
     width: 100%;
     justify-content: center;
   }
+}
+/* ── Image Modal ── */
+.modalBackdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.9);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.modalContent {
+  background: var(--grey-900, #0f0f0f);
+  border: 2px dashed rgba(255, 255, 255, 0.15);
+  border-radius: 24px;
+  overflow: hidden;
+  max-width: 90vw;
+  max-height: 90vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.modalHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px 20px;
+  border-bottom: 1px dashed rgba(255, 255, 255, 0.1);
+  gap: 16px;
+}
+
+.modalLabel {
+  font-size: 0.75rem;
+  font-weight: 800;
+  color: var(--grey-400);
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+}
+
+.modalActions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.modalDownloadBtn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 14px;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px dashed rgba(255, 255, 255, 0.2);
+  color: var(--white);
+  font-size: 0.75rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.modalDownloadBtn:hover {
+  background: rgba(255, 255, 255, 0.12);
+  border-color: var(--highlight-text);
+  color: var(--highlight-text);
+}
+
+.modalCloseBtn {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: var(--grey-400);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+}
+
+.modalCloseBtn:hover {
+  background: rgba(255, 0, 85, 0.1);
+  border-color: var(--highlight-text);
+  color: var(--highlight-text);
+}
+
+.modalImage {
+  max-width: 100%;
+  max-height: calc(90vh - 70px);
+  object-fit: contain;
+  display: block;
+}
+
+/* ── Imágenes clickables ── */
+/* Antes eran <a>, ahora son <button> con reset de estilos */
+.imageBtn {
+  display: block;
+  width: 100%;
+  padding: 0;
+  background: none;
+  border: 1px dashed rgba(255, 255, 255, 0.15);
+  border-radius: 12px;
+  overflow: hidden;
+  cursor: pointer;
+  transition: border-color 0.2s;
+}
+
+.imageBtn:hover {
+  border-color: var(--highlight-text);
+}
+
+/* ── Badges de comunidad / público / privado ── */
+.itemNameRow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.badgeCommunity,
+.badgePublic,
+.badgePrivate {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 3px 10px;
+  border-radius: 6px;
+  font-size: 0.65rem;
+  font-weight: 800;
+  letter-spacing: 1px;
+  border: 1px solid;
+  white-space: nowrap;
+}
+
+.badgeCommunity {
+  color: #c975ff;
+  border-color: rgba(201, 117, 255, 0.4);
+  background: rgba(201, 117, 255, 0.08);
+}
+
+.badgePublic {
+  color: #00ff80;
+  border-color: rgba(0, 255, 128, 0.3);
+  background: rgba(0, 255, 128, 0.06);
+}
+
+.badgePrivate {
+  color: var(--grey-500);
+  border-color: rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.03);
+}
+
+/* ── Slot de diseño ajustado ── */
+.adjustedUploadBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  aspect-ratio: 1;
+  border: 2px dashed rgba(255, 255, 255, 0.2);
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.02);
+  color: var(--grey-500);
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 1px;
+  cursor: pointer;
+  transition: all 0.2s;
+  flex-direction: column;
+}
+
+.adjustedUploadBtn:hover:not(:disabled) {
+  border-color: var(--highlight-text);
+  color: var(--highlight-text);
+  background: rgba(255, 0, 85, 0.05);
+}
+
+.adjustedUploadBtn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Placeholder vacío para estados donde no hay imagen ni opción de subir */
+.adjustedEmpty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  aspect-ratio: 1;
+  border: 1px dashed rgba(255, 255, 255, 0.07);
+  border-radius: 12px;
+  color: var(--grey-700);
+  font-size: 1.2rem;
+}
+
+/* Input de archivo oculto */
+.hiddenInput {
+  display: none;
+}
+
+/* ── Fila de descuento en el precio ── */
+.discountLabel {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--grey-500);
+  font-size: 0.85rem;
+}
+
+.discountLabel svg {
+  color: var(--grey-600);
+  flex-shrink: 0;
+}
+
+/* Badge con el código de descuento */
+.discountCode {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px dashed rgba(255, 255, 255, 0.15);
+  border-radius: 5px;
+  padding: 1px 7px;
+  font-size: 0.72rem;
+  font-weight: 800;
+  color: var(--grey-300);
+  letter-spacing: 1px;
+}
+
+/* Valor del descuento cuando hay código activo */
+.discountValue {
+  color: #00ff80;
+  font-weight: 800;
+  font-size: 0.85rem;
+}
+
+/* Valor cuando no hay descuento (0.00€) */
+.discountEmpty {
+  color: var(--grey-600);
+  font-size: 0.85rem;
 }

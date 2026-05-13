@@ -16,57 +16,65 @@ export async function generateMetadata({ params }) {
 
 async function getOrderDetail(id) {
   const [rows] = await db.query(`
-    SELECT
-      o.order_id,
-      o.order_status,
-      o.total_amount,
-      o.creation_date,
-      o.updated_date,
-      o.customer_note,
-      o.payment_method,
-      o.payment_id,
-      u.user_id,
-      u.nickname,
-      u.email,
-      u.profile_image,
-      ua.calle,
-      ua.portal_piso_puerta,
-      ua.ciudad,
-      ua.provincia,
-      ua.codigo_postal,
-      ua.phone_number,
-      COALESCE(
-        JSON_ARRAYAGG(
-          CASE WHEN op.order_product_id IS NOT NULL
-          THEN JSON_OBJECT(
-            'order_product_id', op.order_product_id,
-            'product_id',       op.product_id,
-            'product_name',     p.name,
-            'product_image',    p.image_url,
-            'user_image',       op.user_image,
-            'final_design',     op.final_design,
-            'customer_note',    op.customer_note,
-            'quantity',         op.quantity,
-            'unit_price',       op.unit_price,
-            'size',             ps.size
-          )
-          END
-        ),
-        JSON_ARRAY()
-      ) AS items
-    FROM orders o
-    LEFT JOIN users u             ON o.user_id          = u.user_id
-    LEFT JOIN userAddresses ua    ON o.address_id       = ua.address_id
-    LEFT JOIN order_product op    ON o.order_id         = op.order_id
-    LEFT JOIN products p          ON op.product_id      = p.product_id
-    LEFT JOIN product_sizes ps    ON op.product_size_id = ps.product_size_id
-    WHERE o.order_id = ? AND o.order_status != 'en_carrito'
-    GROUP BY
-      o.order_id, o.order_status, o.total_amount, o.creation_date,
-      o.updated_date, o.customer_note, o.payment_method, o.payment_id,
-      u.user_id, u.nickname, u.email, u.profile_image,
-      ua.calle, ua.portal_piso_puerta, ua.ciudad,
-      ua.provincia, ua.codigo_postal, ua.phone_number
+      SELECT
+        o.order_id,
+        o.order_status,
+        o.total_amount,
+        o.creation_date,
+        o.updated_date,
+        o.customer_note,
+        o.payment_method,
+        o.payment_id,
+        u.user_id,
+        u.nickname,
+        u.email,
+        u.profile_image,
+        ua.calle,
+        ua.portal_piso_puerta,
+        ua.ciudad,
+        ua.provincia,
+        ua.codigo_postal,
+        ua.phone_number,
+        dc.code           AS discount_code,
+        dc.discount_type  AS discount_type,
+        dc.discount_value AS discount_value,
+        COALESCE(
+          JSON_ARRAYAGG(
+            CASE WHEN op.order_product_id IS NOT NULL
+            THEN JSON_OBJECT(
+              'order_product_id', op.order_product_id,
+              'product_id',       op.product_id,
+              'product_name',     p.name,
+              'product_image',    p.image_url,
+              'user_image',       op.user_image,
+              'final_design',     op.final_design,
+              'adjusted_image',   op.adjusted_image,
+              'customer_note',    op.customer_note,
+              'quantity',         op.quantity,
+              'unit_price',       op.unit_price,
+              'size',             ps.size,
+              'community',        p.community,
+              'is_public',        p.public
+            )
+            END
+          ),
+          JSON_ARRAY()
+        ) AS items
+      FROM orders o
+      LEFT JOIN users u             ON o.user_id          = u.user_id
+      LEFT JOIN userAddresses ua    ON o.address_id       = ua.address_id
+      LEFT JOIN order_product op    ON o.order_id         = op.order_id
+      LEFT JOIN products p          ON op.product_id      = p.product_id
+      LEFT JOIN product_sizes ps    ON op.product_size_id = ps.product_size_id
+      LEFT JOIN discount_codes dc   ON o.code_id          = dc.code_id
+      WHERE o.order_id = ? AND o.order_status != 'en_carrito'
+      GROUP BY
+        o.order_id, o.order_status, o.total_amount, o.creation_date,
+        o.updated_date, o.customer_note, o.payment_method, o.payment_id,
+        u.user_id, u.nickname, u.email, u.profile_image,
+        ua.calle, ua.portal_piso_puerta, ua.ciudad,
+        ua.provincia, ua.codigo_postal, ua.phone_number,
+        dc.code, dc.discount_type, dc.discount_value
   `, [id]);
 
   const order = rows[0];
