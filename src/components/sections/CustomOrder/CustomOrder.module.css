@@ -1,0 +1,245 @@
+/* --- ESTRUCTURA GENERAL --- */
+.personalizarWrapper {
+    padding: clamp(80px, 12vh, 180px) 20px clamp(60px, 8vh, 140px);
+    min-height: 100vh;
+    position: relative;
+    z-index: 1;
+}
+
+.container {
+    max-width: 1100px;
+    margin: 0 auto;
+}
+
+/* --- CABECERA --- */
+.header {
+    text-align: center;
+    margin-bottom: 60px;
+}
+
+.title {
+    font-family: var(--font-titles);
+    font-size: clamp(2.5rem, 8vw, 5rem);
+    color: var(--white);
+    text-shadow: 8px 8px 0px var(--highlight-text);
+    text-transform: uppercase;
+    margin-bottom: 15px;
+    line-height: 1;
+}
+
+.subtitle {
+    font-family: var(--font-plus-jakarta);
+    font-size: 1.1rem;
+    color: var(--grey-400);
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+/* --- CUADRÍCULA FORMULARIO + BARRA LATERAL --- */
+.formGrid {
+    display: grid;
+    grid-template-columns: 1fr 400px;
+    gap: 40px;
+    align-items: start;
+}
+
+.formCard {
+    width: 100%;
+    background: rgba(255, 255, 255, 0.03);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 24px;
+    padding: 3rem;
+    position: relative;
+    box-shadow: 
+      0 20px 50px rgba(0, 0, 0, 0.5),
+      inset 0 0 0 1px rgba(255, 255, 255, 0.05);
+}
+
+/* --- CAMPOS DEL FORMULARIO --- */
+.inputGroup {
+    margin-bottom: 25px;
+}
+
+.label {
+    display: block;
+    font-family: var(--font-titles);
+    font-size: 0.85rem;
+    color: var(--secondary-text);
+    margin-bottom: 10px;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    opacity: 0.8;
+}
+
+.textarea {
+    width: 100%;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    padding: 15px;
+    color: var(--white);
+    font-family: var(--font-plus-jakarta);
+    font-size: 0.95rem;
+    transition: 0.3s;
+    min-height: 120px;
+    resize: vertical;
+}
+
+.textarea:focus {
+    border-color: var(--highlight-text);
+    background: rgba(255, 255, 255, 0.05);
+    outline: none;
+}
+
+.inputHint {
+    color: var(--grey-500);
+    font-size: 0.8rem;
+    margin-top: 6px;
+}
+
+/* --- ZONA DE SUBIDA DE IMAGEN --- */
+.uploadArea {
+    border: 2px dashed rgba(255, 255, 255, 0.1);
+    border-radius: 15px;
+    padding: 30px;
+    text-align: center;
+    cursor: pointer;
+    transition: 0.3s;
+    position: relative;
+    overflow: hidden;
+    background: rgba(255, 255, 255, 0.02);
+}
+
+.uploadArea:hover {
+    border-color: var(--highlight-text);
+    background: rgba(255, 255, 255, 0.04);
+}
+
+.uploadIcon {
+    font-size: 2.5rem;
+    color: var(--highlight-text);
+    margin-bottom: 10px;
+    opacity: 0.8;
+}
+
+.uploadText {
+    font-weight: 700;
+    color: var(--grey-300);
+    font-size: 0.9rem;
+}
+
+.previewImage {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 10px;
+}
+
+.removeImage {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: var(--highlight-text);
+    color: white;
+    border: none;
+    padding: 5px 8px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.8rem;
+    z-index: 10;
+}
+
+/* --- BARRA LATERAL --- */
+.sidebar {
+    position: sticky;
+    top: 140px;
+}
+
+.infoBox {
+    background: rgba(0,0,0,0.4);
+    border: 1px solid rgba(255,255,255,0.05);
+    padding: 35px;
+    border-radius: 24px;
+    backdrop-filter: blur(10px);
+}
+
+.infoTitle {
+    font-family: var(--font-titles);
+    font-size: 1.1rem;
+    color: var(--white);
+    margin-bottom: 25px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+.infoList {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.infoItem {
+    display: flex;
+    gap: 15px;
+    font-size: 0.9rem;
+    color: var(--grey-400);
+    line-height: 1.6;
+}
+
+.infoItem svg {
+    color: var(--highlight-text);
+    flex-shrink: 0;
+    margin-top: 2px;
+}
+
+/* --- BOTÓN DE ENVÍO --- */
+.submitBtn {
+    width: 100%;
+    background: var(--highlight-text);
+    color: var(--white);
+    border: none;
+    padding: 18px;
+    border-radius: 12px;
+    font-family: var(--font-titles);
+    font-size: 1.1rem;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    margin-top: 10px;
+    font-weight: 900;
+    letter-spacing: 1px;
+}
+
+.submitBtn:hover:not(:disabled) {
+    transform: translateY(-3px);
+    background: var(--hover-text);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+}
+
+.submitBtn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+/* --- RESPONSIVE --- */
+@media (max-width: 1024px) {
+    .formGrid {
+        grid-template-columns: 1fr;
+    }
+    .sidebar {
+        position: static;
+        order: -1;
+    }
+}
+
+@media (max-width: 600px) {
+    .formCard {
+        padding: 2rem 1.5rem;
+    }
+    .title {
+        font-size: 2.5rem;
+    }
+}

@@ -3,7 +3,7 @@
  * @description Tarjeta de producto para la galería de la comunidad.
  *
  * [Nuestro enfoque]
- * Este componente renderiza cada diseño individual con un enfoque premium, 
+ * Este componente renderiza cada diseño individual con un enfoque exclusivo, 
  * soportando tanto vista de cuadrícula como de lista.
  *
  * [Por qué lo hemos hecho así]
@@ -31,6 +31,7 @@ import { motion } from 'framer-motion';
 import { FaStar, FaRegHeart, FaHeart, FaCartPlus, FaArrowRightLong } from 'react-icons/fa6';
 import { useIsTouchDevice } from '@/hooks/useIsTouchDevice';
 import SecondaryButton from '@/components/ui/Buttons/SecondaryButton/SecondaryButton';
+import FeedbackModal from '@/components/ui/Feedback/FeedbackModal';
 import styles from './ProductCard.module.css';
 
 const ProductCard = ({ 
@@ -48,6 +49,7 @@ const ProductCard = ({
 }) => {
     const [isFavorite, setIsFavorite] = React.useState(initialIsFavorite);
     const [loading, setLoading] = React.useState(false);
+    const [notification, setNotification] = React.useState({ isOpen: false, type: 'success', title: '', message: '' });
     const isTouch = useIsTouchDevice();
 
     // Fallbacks profesionales
@@ -74,7 +76,13 @@ const ProductCard = ({
             });
 
             if (res.status === 401) {
-                alert('Debes iniciar sesión para guardar favoritos');
+                // Si el usuario no ha entrado, le avisamos con un modal elegante
+                setNotification({
+                    isOpen: true,
+                    type: 'error',
+                    title: 'Inicia Sesión',
+                    message: 'Debes entrar en tu cuenta para guardar diseños en tus favoritos.'
+                });
                 return;
             }
 
@@ -239,6 +247,14 @@ const ProductCard = ({
                     </Link>
                 )}
             </div>
+
+            <FeedbackModal 
+                isOpen={notification.isOpen}
+                type={notification.type}
+                title={notification.title}
+                message={notification.message}
+                onClose={() => setNotification({ ...notification, isOpen: false })}
+            />
         </motion.div>
     );
 };

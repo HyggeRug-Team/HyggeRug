@@ -1,16 +1,14 @@
 /**
  * @file InfoSection.jsx
- * @description Área informativa sobre la artesanía de la marca (Tufting real), Laboratorio IA y reseñas.
+ * @description Sección informativa sobre el proceso artesanal del taller y las reseñas.
  *
  * [Nuestro enfoque]
- * Dividimos la compleja información artesanal en bloques ágiles: una introducción corta 
- * y rotunda, un grid de tarjetas de proceso (ProcessCard), un espacio enmarcado para 
- * la tecnología (Banner IA) y las pegatinas de reseñas (ReviewSticker).
+ * Hemos dividido la información en bloques visuales: una introducción directa,
+ * tarjetas de proceso (ProcessCard), el banner de IA y las reseñas de clientes.
  *
  * [Por qué lo hemos hecho así]
- * Para lograr la retención de clientes en un negocio Made-to-Order artesanal, se debían
- * explicar los procesos, sin caer en muros de texto aburridos. Optamos por la síntesis 
- * agresiva (estética pop grunge) garantizando legibilidad y confianza en el creador de Madrid.
+ * Queremos explicar nuestro proceso sin aburrir al visitante con mucho texto.
+ * La síntesis y el diseño visual hacen que sea más fácil generar confianza rápido.
  */
 "use client";
 import React, { useState, useRef } from "react";
@@ -71,7 +69,7 @@ function InfoSection() {
       variant: "secondary"
     },
     {
-      text: "Lana premium y un agarre bestial al suelo. Se nota que cada puntada está hecha a mano.",
+      text: "Lana de alta calidad y un agarre bestial al suelo. Se nota que cada puntada está hecha a mano.",
       author: "ANA B., Artista Visual",
       rating: 5,
       rotation: -5,
@@ -98,10 +96,10 @@ function InfoSection() {
                 <div className={styles.badgeGlow}>CALIDAD SUPERIOR</div>
                 <h2 className={styles.popTitle}>ES ARTE.<br/>SE PISA.</h2>
                 <p className={styles.introText}>
-                    Hygge Rug no es una fábrica en cadena. Detrás de esta marca hay una única creadora en Madrid confeccionando arte directamente sobre lienzo. Cada alfombra (*Tufting Rug*) está construida a mano exclusivamente por mí, utilizando lana técnica de colores vibrantes y acabados tridimensionales.
+                    Hygge Rug no es una fábrica en cadena. Detrás de esta marca hay un equipo en Madrid confeccionando arte directamente sobre lienzo. Cada alfombra (*Tufting Rug*) está construida a mano exclusivamente por nosotros, utilizando lana técnica de colores vibrantes y acabados tridimensionales.
                 </p>
                 <p className={styles.introText}>
-                    Desde paneles de <strong>Anime y Manga</strong> o explosiones de estética <strong>Y2K y Retro</strong>, hasta <strong>arte abstracto</strong>, botánica o el logo de tu empresa. Ya sea decorando con piezas de nuestro catálogo o encargándome una alfombra silueteada (Custom Order) irrompible, te llevas una pieza 1 de 1.
+                    Desde paneles de <strong>Anime y Manga</strong> o explosiones de estética <strong>Y2K y Retro</strong>, hasta <strong>arte abstracto</strong>, botánica o el logo de tu empresa. Ya sea decorando con piezas de nuestro catálogo o encargándonos una alfombra silueteada (Custom Order) irrompible, te llevas una pieza 1 de 1.
                 </p>
             </div>
             <div className={styles.introRight}>
@@ -120,7 +118,7 @@ function InfoSection() {
                         <source src="/uploads/videos/tiktok_index.mp4" type="video/mp4" />
                     </video>
                     
-                    {/* Botón de Sonido Premium */}
+                    {/* Botón de Sonido */}
                     <button className={styles.soundToggle} onClick={toggleSound}>
                         {isMuted ? <HiOutlineVolumeOff /> : <HiOutlineVolumeUp />}
                     </button>
@@ -151,7 +149,7 @@ function InfoSection() {
            <div className={styles.aiBannerText}>
               <span className={styles.aiNeonTitle}>LABORATORIO I.A.</span>
               <h3>¿No encuentras lo que buscas en el Catálogo?</h3>
-              <p>Si tienes una paranoia extrema para tu alfombra, usa el motor de Inteligencia Artificial. Describe tu idea y la I.A. escupirá un boceto salvaje listo para que yo lo borde a mano en mi taller.</p>
+              <p>Si tienes una paranoia extrema para tu alfombra, usa el motor de Inteligencia Artificial. Describe tu idea y la I.A. generará un boceto salvaje listo para que nosotros lo bordemos a mano en nuestro taller.</p>
            </div>
            <div className={styles.aiBannerAction}>
                <SecondaryButton 

@@ -1,13 +1,17 @@
-'use client';
-
 /**
  * @file AboutUsSection.jsx
- * @description Rediseño cinematográfico de la sección "Sobre Nosotros".
- * 
+ * @description Sección "Sobre Nosotros" con animaciones de entrada y diseño editorial.
+ *
  * [Nuestro enfoque]
- * Utilizamos tipografía SplitText para impacto visual, una cuadrícula editorial 
- * y elementos flotantes que transmiten la naturaleza artesanal y premium de la marca.
+ * Hemos apostado por tipografía grande y animaciones de scroll para que esta sección
+ * transmita la personalidad artesanal del taller. Cada dato del equipo se presenta
+ * con una tarjeta animada para que sea fácil de leer y memorable.
+ *
+ * [Por qué lo hemos hecho así]
+ * Queremos que quien llegue aquí sienta que detrás de las alfombras hay personas reales,
+ * no una empresa genérica, así que hemos priorizado el tono cercano y visual.
  */
+'use client';
 
 import React from 'react';
 import Image from 'next/image';
@@ -28,14 +32,14 @@ const AboutUsSection = () => {
       id: '02',
       icon: <FaMagic />,
       title: 'Generación por IA',
-      text: 'Introduce un texto (prompt) o una imagen en nuestra web, la Inteligencia Artificial genera un diseño único y yo lo convierto en una alfombra real.',
+      text: 'Introduce un texto (prompt) o una imagen en nuestra web, la Inteligencia Artificial genera un diseño único y nosotros lo convertimos en una alfombra real.',
       color: 'var(--accent-cyan)'
     },
     {
       id: '03',
       icon: <FaPalette />,
       title: 'Personalización Total',
-      text: 'Envíame directamente la imagen o idea que tienes en mente y trabajaré contigo para crear una alfombra 100% a medida.',
+      text: 'Envíanos directamente la imagen o idea que tienes en mente y trabajaremos contigo para crear una alfombra 100% a medida.',
       color: 'var(--highlight-text)'
     }
   ];
@@ -73,7 +77,7 @@ const AboutUsSection = () => {
                 viewport={{ once: true }}
                 transition={{ delay: 0.5 }}
               >
-                Bienvenidos a mi taller. Soy una única persona emprendedora detrás de Hygge Rug, encargándome de todo el proceso: desde diseñar el boceto y atender tus dudas, hasta disparar la última hebra de lana con la pistola de tufting. Busco transmitir la calidez de lo hecho a mano y el concepto danés <strong>'Hygge'</strong>: comodidad, hogar y bienestar.
+                Bienvenidos a nuestro taller. Somos un equipo de personas emprendedoras detrás de Hygge Rug, encargándonos de todo el proceso: desde diseñar el boceto y atender vuestras dudas, hasta disparar la última hebra de lana con la pistola de tufting. Buscamos transmitir la calidez de lo hecho a mano y el concepto danés <strong>'Hygge'</strong>: comodidad, hogar y bienestar.
               </motion.p>
             </div>
 
@@ -181,8 +185,8 @@ const AboutUsSection = () => {
             <div className={styles.aiBannerText}>
               <h3>¿LISTO PARA TU PROPIA PIEZA?</h3>
               <p>
-                Ya sea un diseño de nuestra comunidad o tu idea más salvaje, 
-                estoy listo para ponerme manos a la obra.
+                Ya sea un diseño de nuestra comunidad o vuestra idea más salvaje, 
+                estamos listos para ponernos manos a la obra.
               </p>
             </div>
             <motion.a 

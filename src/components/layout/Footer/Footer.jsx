@@ -25,9 +25,9 @@ function Footer() {
     {
       titulo: "Diseños de la comunidad",
       links: [
-        { nombre: "Ver Catálogo", url: "/tienda" },
-        { nombre: "Lo más nuevo", url: "/tienda" },
-        { nombre: "Pedido a medida", url: "/crear-diseno" },
+        { nombre: "Explorar Comunidad", url: "/tienda" },
+        { nombre: "Personalizar", url: "/personalizar" },
+        { nombre: "Laboratorio IA", url: "/crear-diseno" },
       ],
     },
     {
@@ -100,9 +100,9 @@ function Footer() {
             <>
               <div className={styles.footerShop}>
                 <h3>Diseños de la comunidad</h3>
-                <a href="/tienda">Ver Catálogo</a>
-                <a href="/tienda">Lo más nuevo</a>
-                <a href="/crear-diseno">Pedido a medida</a>
+                <a href="/tienda">Explorar Comunidad</a>
+                <a href="/personalizar">Personalizar</a>
+                <a href="/crear-diseno">Laboratorio IA</a>
               </div>
               <div className={styles.footerCompany}>
                 <h3>Empresa</h3>

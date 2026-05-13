@@ -285,7 +285,20 @@
   text-align: center;
 }
 
-.successIcon { font-size: 4rem; color: #00ff80; margin-bottom: 20px; }
+.successIcon, .errorIcon { font-size: 4rem; margin-bottom: 20px; }
+.successIcon { color: #00ff80; }
+.errorIcon { color: #ff3333; }
+
+.errorView {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px;
+  text-align: center;
+}
+
 .ticketId {
   margin-top: 20px;
   font-family: var(--font-titles);

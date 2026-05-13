@@ -1,4 +1,16 @@
-import { db } from '@/lib/db';
+/**
+ * @file support.js
+ * @description Funciones de acceso a datos para la gestión de tickets de soporte.
+ * 
+ * [Nuestro enfoque]
+ * Hemos centralizado aquí todas las consultas SQL relacionadas con el soporte para 
+ * que la lógica de negocio no se mezcle con los detalles de la base de datos.
+ * 
+ * [Por qué lo hemos hecho así]
+ * Incluimos JOINs para traer los datos del usuario y el pedido en una sola consulta,
+ * y usamos parámetros preparados (?) en todas las queries para evitar inyecciones SQL.
+ */
+import { db } from '@/lib/db'; 
 
 /**
  * CREAR UN NUEVO TICKET DE SOPORTE / DEVOLUCIÓN

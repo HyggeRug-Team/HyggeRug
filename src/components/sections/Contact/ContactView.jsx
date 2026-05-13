@@ -1,9 +1,9 @@
 /**
  * @file ContactView.jsx
- * @description Vista interactiva de contacto con formulario premium.
+ * @description Vista interactiva de contacto con formulario exclusivo.
  *
  * [Nuestro enfoque]
- * Encapsulamos el formulario y la interactividad en este componente cliente. 
+ * Hemos encapsulado el formulario y la interactividad en este componente cliente. 
  * Reutilizamos los componentes de entrada del sistema de diseño (FloatingLabelInput).
  *
  * [Por qué lo hemos hecho así]
@@ -19,6 +19,7 @@ import styles from '@/app/(main)/contacto/Contacto.module.css';
 import FloatingLabelInput from '@/components/ui/Inputs/FloatingLabelInput/FloatingLabelInput';
 import SubmitButton from '@/components/ui/Buttons/SubmitButton/SubmitButton';
 import CustomSelect from '@/components/ui/Inputs/CustomSelect/CustomSelect';
+import FeedbackModal from '@/components/ui/Feedback/FeedbackModal';
 import { FaEnvelope, FaMapMarkerAlt, FaClock, FaInstagram, FaTiktok, FaChevronRight } from 'react-icons/fa';
 
 export default function ContactView() {
@@ -29,12 +30,13 @@ export default function ContactView() {
         message: ''
     });
     const [isLoading, setIsLoading] = useState(false);
+    const [notification, setNotification] = useState({ isOpen: false, type: 'success', title: '', message: '' });
 
     const subjectOptions = [
-        { value: 'pedido', label: 'Estado de mi pedido' },
-        { value: 'personalizado', label: 'Pedido 100% Personalizado' },
         { value: 'collab', label: 'Colaboraciones' },
-        { value: 'otros', label: 'Otras paranoias' }
+        { value: 'personalizado', label: 'Dudas sobre diseños a medida' },
+        { value: 'workshop', label: 'Workshops y talleres' },
+        { value: 'otros', label: 'Otros temas' }
     ];
 
     const handleChange = (e) => {
@@ -45,10 +47,35 @@ export default function ContactView() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         setIsLoading(true);
-        setTimeout(() => {
-            alert('¡Mensaje enviado al taller!');
+        
+        try {
+            const response = await fetch('/api/contact', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(formData)
+            });
+
+            if (response.ok) {
+                setNotification({
+                    isOpen: true,
+                    type: 'success',
+                    title: '¡Mensaje Enviado!',
+                    message: 'Hemos recibido tu consulta. El equipo del taller te responderá muy pronto al correo indicado.'
+                });
+                setFormData({ name: '', email: '', subject: '', message: '' });
+            } else {
+                throw new Error('Error en el envío');
+            }
+        } catch (error) {
+            setNotification({
+                isOpen: true,
+                type: 'error',
+                title: 'Error de envío',
+                message: 'No hemos podido enviar vuestro mensaje. Por favor, intentadlo de nuevo más tarde.'
+            });
+        } finally {
             setIsLoading(false);
-        }, 1500);
+        }
     };
 
     return (
@@ -94,7 +121,7 @@ export default function ContactView() {
                         </div>
                     </motion.div>
 
-                    {/* PARTE DERECHA: FORMULARIO PREMIUM */}
+                    {/* PARTE DERECHA: FORMULARIO DEL TALLER */}
                     <motion.div 
                         initial={{ opacity: 0, scale: 0.95 }}
                         animate={{ opacity: 1, scale: 1 }}
@@ -184,6 +211,14 @@ export default function ContactView() {
                 </motion.section>
 
             </div>
+
+            <FeedbackModal 
+                isOpen={notification.isOpen}
+                type={notification.type}
+                title={notification.title}
+                message={notification.message}
+                onClose={() => setNotification({ ...notification, isOpen: false })}
+            />
         </div>
     );
 }

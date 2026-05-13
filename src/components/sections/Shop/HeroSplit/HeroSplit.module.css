@@ -1,8 +1,9 @@
+/* --- ESTRUCTURA HERO --- */
 .heroWrapper {
     width: 100%;
     max-width: 1200px;
-    margin: 0 auto; /* Centramos el contenido */
-    padding: 120px 40px 80px; /* Espacio premium superior y lateral */
+    margin: 0 auto;
+    padding: 120px 40px 80px;
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 60px;
@@ -22,6 +23,7 @@
     justify-content: center;
 }
 
+/* --- TIPOGRAFÍA Y BADGE --- */
 .tagBadge {
     display: inline-block;
     background: var(--highlight-text);
@@ -73,6 +75,7 @@
     justify-content: flex-start;
 }
 
+/* --- RESPONSIVE --- */
 @media (max-width: 1024px) {
     .mainHeading {
         font-size: 3rem;

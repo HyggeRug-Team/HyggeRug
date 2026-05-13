@@ -10,7 +10,7 @@
  * 1. Gestión de Tipografías: Cargamos las fuentes de forma optimizada con Next.js Fonts.
  *    "Rubik Bubbles" para títulos creativos y "Rubik" para textos de cuerpo.
  * 2. SEO y Metadatos: Título, descripción e icono de pestaña para buscadores.
- * 3. Fondo Global Persistente (SilkBackground): Capa fija con textura oscura premium.
+ * 3. Fondo Global Persistente (SilkBackground): Capa fija con textura oscura y profunda.
  *    Al colocarlo aquí, el fondo nunca se interrumpe al navegar entre páginas.
  *
  * [Por qué lo hemos hecho así]

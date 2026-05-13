@@ -1,3 +1,4 @@
+/* --- ESTRUCTURA GENERAL --- */
 .contactoWrapper {
     padding: 160px 20px 100px;
     min-height: 100vh;
@@ -8,7 +9,6 @@
     margin: 0 auto;
 }
 
-/* ESTRUCTURA ASIMÉTRICA */
 .mainGrid {
     display: grid;
     grid-template-columns: 1fr 500px;
@@ -16,7 +16,7 @@
     align-items: start;
 }
 
-/* LADO IZQUIERDO: TEXTO E INFO */
+/* --- BLOQUE DE TEXTO E INFO --- */
 .contentSide {
     padding-top: 20px;
 }
@@ -36,24 +36,23 @@
 
 .titleLoud {
     font-family: var(--font-titles);
-    font-size: 5rem;
+    font-size: clamp(2.5rem, 9vw, 5.5rem);
     color: var(--white);
-    line-height: 0.9;
+    line-height: 0.95;
     letter-spacing: -2px;
     text-transform: uppercase;
-    margin-bottom: 30px;
+    margin-bottom: 25px;
 }
 
 .description {
     font-family: var(--font-plus-jakarta);
-    font-size: 1.1rem;
+    font-size: clamp(0.95rem, 2vw, 1.1rem);
     color: var(--grey-400);
     line-height: 1.8;
     max-width: 500px;
-    margin-bottom: 60px;
+    margin-bottom: clamp(30px, 5vw, 60px);
 }
 
-/* STICKERS DE CONTACTO */
 .infoStack {
     display: flex;
     flex-direction: column;
@@ -94,13 +93,13 @@
     font-size: 1.1rem;
 }
 
-/* LADO DERECHO: EL FORMULARIO (ESTILO LOGIN) */
+/* --- BLOQUE DEL FORMULARIO --- */
 .formCard {
     background: rgba(255, 255, 255, 0.03);
     backdrop-filter: blur(20px);
     border: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: 32px;
-    padding: 50px;
+    padding: clamp(25px, 5vw, 50px);
     position: relative;
     box-shadow: 0 40px 100px rgba(0, 0, 0, 0.6);
 }
@@ -120,25 +119,24 @@
 
 .form h2 {
     font-family: var(--font-titles);
-    font-size: 1.8rem;
+    font-size: clamp(1.4rem, 4vw, 1.8rem);
     color: var(--white);
-    margin-bottom: 10px;
+    margin-bottom: 8px;
 }
 
 .form p {
     color: var(--grey-500);
     font-size: 0.9rem;
-    margin-bottom: 40px;
+    margin-bottom: clamp(20px, 4vw, 40px);
 }
 
 .inputGrid {
     display: grid;
     grid-template-columns: 1fr;
     gap: 20px;
-    margin-bottom: 30px;
+    margin-bottom: 25px;
 }
 
-/* Select especial */
 .selectWrapper {
     position: relative;
 }
@@ -153,35 +151,23 @@
     font-weight: 700;
 }
 
-.customSelect {
-    width: 100%;
-    background: rgba(0,0,0,0.3);
-    border: 1px solid rgba(255,255,255,0.1);
-    padding: 15px 20px;
-    color: var(--white);
-    border-radius: 12px;
-    font-family: var(--font-plus-jakarta);
-    appearance: none;
-    cursor: pointer;
-}
-
-/* FOOTER SECTION: SOCIALS */
+/* --- SECCIÓN REDES SOCIALES --- */
 .socialSection {
-    margin-top: 100px;
-    padding-top: 60px;
+    margin-top: clamp(60px, 10vw, 100px);
+    padding-top: 50px;
     border-top: 1px dashed rgba(255,255,255,0.1);
 }
 
 .socialGrid {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
     gap: 20px;
 }
 
 .socialCard {
     background: #000;
     border: 1px solid #111;
-    padding: 30px;
+    padding: clamp(20px, 3vw, 30px);
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -206,7 +192,7 @@
 
 .socialInfo span {
     font-weight: 900;
-    font-size: 1.1rem;
+    font-size: clamp(0.9rem, 2vw, 1.1rem);
     color: var(--white);
 }
 
@@ -219,23 +205,21 @@
     text-decoration: none;
 }
 
+/* --- MEDIA QUERIES --- */
 @media (max-width: 1100px) {
-    .mainGrid { grid-template-columns: 1fr; gap: 60px; }
-    .titleLoud { font-size: 4rem; }
+    .mainGrid { grid-template-columns: 1fr; gap: 50px; }
+    .titleLoud { letter-spacing: -1px; }
     .description { max-width: 100%; }
 }
 
 @media (max-width: 768px) {
-    .contactoWrapper { padding: 120px 15px 60px; }
-    .titleLoud { font-size: 3rem; }
-    .description { font-size: 1rem; margin-bottom: 40px; }
-    .formCard { padding: 40px 25px; border-radius: 24px; }
+    .contactoWrapper { padding: 100px 15px 50px; }
+    .socialGrid { grid-template-columns: 1fr; }
 }
 
 @media (max-width: 480px) {
-    .titleLoud { font-size: 2.2rem; }
     .infoCard { padding: 20px; gap: 15px; }
     .infoText p { font-size: 0.9rem; }
-    .socialCard { padding: 20px; flex-direction: column; align-items: flex-start; gap: 15px; }
+    .socialCard { flex-direction: column; align-items: flex-start; gap: 15px; }
     .socialBtn { width: 100%; text-align: center; }
 }

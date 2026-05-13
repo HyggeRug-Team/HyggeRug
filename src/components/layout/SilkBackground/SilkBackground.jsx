@@ -1,6 +1,19 @@
-/*
- * Componente: SilkBackground
- * Descripción: Fondo animado complejo utilizando Three.js (React Three Fiber) y Shaders personalizados para crear un efecto de "seda" fluida e interactiva. Provee una experiencia visual premium.
+/**
+ * @file SilkBackground.jsx
+ * @description Fondo animado dinámico utilizando WebGL y Shaders.
+ * 
+ * [Nuestro enfoque]
+ * Hemos implementado este fondo de "seda" para dar una profundidad visual única 
+ * a la web. Queremos que el usuario sienta que la página está viva, pero sin 
+ * que el fondo distraiga del contenido principal.
+ * 
+ * [Por qué lo hemos hecho así]
+ * 1. Rendimiento: Usamos React Three Fiber y Shaders personalizados para 
+ *    delegar el renderizado a la GPU, manteniendo la fluidez de la interfaz.
+ * 2. Estética: El efecto de movimiento orgánico refuerza la naturaleza 
+ *    textil y artesanal de nuestras alfombras.
+ * 3. Inmersión: Al ser un fondo persistente, genera una experiencia visual 
+ *    exclusiva y coherente en todas las secciones.
  */
 'use client';
 
@@ -104,7 +117,7 @@ const SilkPlane = forwardRef(function SilkPlane({ uniforms }, ref) {
 });
 SilkPlane.displayName = 'SilkPlane';
 
-// Aquí montamos el fondo de seda que le da el toque premium a toda la web
+// Aquí montamos el fondo de seda que le da el toque exclusivo a toda la web
 const SilkBackground = ({ speed = 0.5, scale = 1, color = '#2C2E33', noiseIntensity = 1.5, rotation = 0 }) => {
   const meshRef = useRef();
 

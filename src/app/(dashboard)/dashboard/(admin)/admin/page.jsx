@@ -4,7 +4,7 @@
  * 
  * [Nuestro enfoque]
  * Aquí el administrador tiene el control global. Por ahora hemos montado un "cascarón" 
- * visual que respeta la estética premium de la tienda, pero con widgets pensados 
+ * visual que respeta la estética exclusiva de la tienda, pero con widgets pensados 
  * para métricas de negocio en lugar de pedidos personales.
  * 
  * [Por qué lo hemos hecho así]

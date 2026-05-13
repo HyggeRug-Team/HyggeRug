@@ -41,7 +41,7 @@ export async function sendWelcomeEmail(toEmail, nickname) {
       {
         name: "Gorillaz Edition",
         main_image: "/rug-gorillaz.png",
-        description: "Lana técnica premium sobre lienzo artesanal.",
+        description: "Lana técnica de alta calidad sobre lienzo artesanal.",
       },
     ];
   }
@@ -133,7 +133,7 @@ export async function sendWelcomeEmail(toEmail, nickname) {
                   <td style="padding: 24px 28px;">
                     <p style="margin: 0; font-size: 11px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: ${brand.yellow};">Tu nueva ventaja</p>
                     <p style="margin: 8px 0 0 0; font-size: 15px; color: #FFFFFF; line-height: 1.6;">
-                      Ya puedes gestionar tus pedidos personalizados y acceder a lanzamientos limitados <strong>antes que nadie</strong>.
+                      Ya puedes gestionar tus pedidos personalizados y acceder a lanzamientos especiales <strong>antes que nadie</strong>.
                     </p>
                   </td>
                 </tr>
@@ -223,3 +223,34 @@ export async function sendWelcomeEmail(toEmail, nickname) {
 
   return transporter.sendMail(mailOptions);
 }
+
+/**
+ * ENVÍA UN EMAIL DE CONTACTO AL TALLER
+ * Hemos creado este helper para que el equipo reciba las dudas de los clientes
+ * directamente en el correo corporativo con un formato limpio y ordenado.
+ */
+export async function sendContactEmail({ name, email, subject, message }) {
+  const html = `
+    <div style="font-family: sans-serif; padding: 20px; color: #333;">
+      <h2 style="color: #FF0055;">Nuevo Mensaje de Contacto</h2>
+      <p><strong>Nombre:</strong> ${name}</p>
+      <p><strong>Email:</strong> ${email}</p>
+      <p><strong>Motivo:</strong> ${subject}</p>
+      <hr style="border: 0; border-top: 1px solid #eee; margin: 20px 0;">
+      <p><strong>Mensaje:</strong></p>
+      <div style="background: #f9f9f9; padding: 15px; border-radius: 8px; border-left: 4px solid #FF0055;">
+        ${message.replace(/\n/g, '<br>')}
+      </div>
+    </div>
+  `;
+
+  const mailOptions = {
+    from: `"Web Contact" <${process.env.EMAIL_USER}>`,
+    to: process.env.EMAIL_USER, // Se envía al taller
+    replyTo: email,
+    subject: `[CONTACTO] ${subject} - ${name}`,
+    html,
+  };
+
+  return transporter.sendMail(mailOptions);
+}

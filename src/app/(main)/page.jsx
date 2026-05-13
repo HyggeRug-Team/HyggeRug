@@ -1,3 +1,15 @@
+/**
+ * @file page.jsx (Home)
+ * @description La cara visible de Hygge Rug.
+ *
+ * [Nuestro enfoque]
+ * Hemos construido la página principal como un escaparate dinámico. Inyectamos 
+ * productos reales de la comunidad y activamos notificaciones para conectar con el usuario.
+ *
+ * [Por qué lo hemos hecho así]
+ * Al usar SSR (Server Side Rendering) para los productos, garantizamos que la 
+ * página cargue rápido pero con contenido siempre fresco en cada visita.
+ */
 import HeroSection from '@/components/sections/HeroSection/HeroSection';
 import MarqueeStrip from '@/components/sections/MarqueeStrip/MarqueeStrip';
 import FeaturedDrops from '@/components/sections/FeaturedDrops/FeaturedDrops';
@@ -11,18 +23,6 @@ export const metadata = {
   keywords: 'tufting, alfombras personalizadas, artesania Madrid, decoración urbana, alfombras IA, handmade rugs'
 };
 
-/**
- * @file page.jsx (Home)
- * @description La cara visible de Hygge Rug.
- *
- * [Nuestro enfoque]
- * Construimos la home como un escaparate dinámico. Inyectamos productos reales en 
- * el hero y activamos un "Easter Egg" humorístico para conectar con el usuario.
- *
- * [Por qué lo hemos hecho así]
- * Al usar SSR (Server Side Rendering) para los productos aleatorios, garantizamos 
- * que la página cargue rápido pero con contenido siempre fresco en cada visita.
- */
 export default async function Home() {
   const customCards = await getRandomProducts(7);
 

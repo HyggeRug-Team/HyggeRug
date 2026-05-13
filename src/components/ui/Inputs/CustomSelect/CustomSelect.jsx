@@ -1,10 +1,10 @@
 /**
  * @file CustomSelect.jsx
- * @description Componente de selección personalizado con estilo premium y animaciones.
+ * @description Componente de selección personalizado con estilo exclusivo y animaciones.
  *
  * [Nuestro enfoque]
  * Hemos creado este selector para sustituir los selects nativos del navegador, que suelen 
- * romper la estética "dark & premium" de nuestra web. Permite una personalización total 
+ * romper la estética cuidada de nuestra web. Permite una personalización total 
  * de colores, bordes y animaciones.
  *
  * [Por qué lo hemos hecho así]

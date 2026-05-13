@@ -1,21 +1,17 @@
-'use client';
-
 /**
  * @file SupportDashboard.jsx
- * @description Panel de control para visualizar y gestionar tickets de soporte.
- * 
+ * @description Panel del cliente para ver y gestionar sus tickets de soporte.
+ *
  * [Nuestro enfoque]
- * Presentamos una interfaz limpia donde el usuario puede ver el historial de sus 
- * solicitudes de ayuda. La interactividad se gestiona mediante sub-modales internos 
- * (TicketDetailModal) para mantener la fluidez del dashboard principal.
- * 
+ * Hemos diseñado una interfaz donde el usuario ve el historial de sus solicitudes
+ * de ayuda. El detalle de cada ticket se abre en un modal lateral para no salir
+ * del contexto del dashboard.
+ *
  * [Por qué lo hemos hecho así]
- * 1. Modularidad Interna: El detalle de cada ticket se maneja mediante una función 
- *    de renderizado dedicada para evitar saturar el componente principal.
- * 2. Datos Limpios: Utilizamos `formatDescription` para separar los metadatos técnicos 
- *    del mensaje real del usuario, mejorando la legibilidad.
- * 3. UX Premium: Utilizamos animaciones de Framer Motion para las transiciones de estados.
+ * Usamos una función `formatDescription` para separar los metadatos técnicos del
+ * mensaje real del usuario, haciendo la información más legible y limpia.
  */
+'use client';
 
 import React, { useState } from 'react';
 import styles from './SupportDashboard.module.css';
@@ -35,6 +31,11 @@ export default function SupportDashboard({ initialTickets = [], orders = [], ini
   const [showWizard, setShowWizard] = useState(!!initialOrderId);
   const [tickets, setTickets] = useState(initialTickets);
   const [selectedTicket, setSelectedTicket] = useState(null);
+
+  const handleNewTicket = (newTicket) => {
+    // Insertamos el nuevo ticket al principio de la lista de forma optimista (AJAX)
+    setTickets(prev => [newTicket, ...prev]);
+  };
 
   const getStatusLabel = (status) => {
     switch (status) {
@@ -145,6 +146,7 @@ export default function SupportDashboard({ initialTickets = [], orders = [], ini
             orders={orders} 
             initialOrderId={initialOrderId}
             onClose={() => setShowWizard(false)} 
+            onSuccess={handleNewTicket}
           />
         )}
       </AnimatePresence>
