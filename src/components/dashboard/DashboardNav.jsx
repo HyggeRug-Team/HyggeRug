@@ -67,8 +67,12 @@ export function DashboardNav({ user }) {
   const pathname = usePathname();
   const isAdmin = user?.rol === 'admin';
 
-  const isActive = (path) =>
-    pathname.startsWith(path) ? styles.active : "";
+  const isActive = (path) => {
+    if (path === '/dashboard/admin') {
+      return pathname === path ? styles.active : "";
+    }
+    return pathname.startsWith(path) ? styles.active : "";
+  };
 
   // Aquí ocurre la magia: si el usuario es admin, le cambiamos el menú por completo.
   // Así no tiene que ver cosas de cliente que no le sirven.
