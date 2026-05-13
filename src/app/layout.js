@@ -62,8 +62,8 @@ export const metadata = {
   description: 'Taller de alfombras artesanales en Madrid. Especialistas en tufting hand-made, diseños personalizados y creación con IA. Arte textil urbano para tu hogar.',
   keywords: ['tufting', 'alfombras personalizadas', 'Madrid', 'artesanía', 'decoración urbana', 'Hygge Rug', 'regalos originales', 'arte textil'],
   icons: {
-    icon: '/HeadIcon.ico', 
-    apple: '/HeadIcon.ico',
+    icon: '/Hygge_logo.png', 
+    apple: '/Hygge_logo.png',
   },
   openGraph: {
     title: 'Hygge Rug | Alfombras Artesanales',
