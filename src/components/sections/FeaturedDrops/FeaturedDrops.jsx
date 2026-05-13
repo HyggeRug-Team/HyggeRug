@@ -1,4 +1,17 @@
-// Server Component — los datos se obtienen directamente de la BD en el servidor
+/**
+ * @file FeaturedDrops.jsx
+ * @description Módulo de escaparate comercial para mostrar los diseños más recientes en la Home.
+ * 
+ * [Nuestro enfoque]
+ * Hemos diseñado este componente para que actúe como una ventana directa a la 
+ * actividad de nuestro taller. Obtenemos los productos dinámicamente desde el 
+ * servidor para que la sección siempre refleje las últimas creaciones de la comunidad.
+ * 
+ * [Por qué lo hemos hecho así]
+ * Queremos que el usuario sienta que la web está "viva". Al integrar datos reales 
+ * y enlaces sociales centralizados, garantizamos que el flujo desde el interés visual 
+ * hasta la compra o el seguimiento en redes sea lo más fluido posible.
+ */
 import React from 'react';
 import styles from './FeaturedDrops.module.css';
 import SecondaryButton from '@/components/ui/Buttons/SecondaryButton/SecondaryButton';
@@ -7,29 +20,21 @@ import { HiOutlinePlus } from 'react-icons/hi';
 import { getProducts } from '@/lib/db/products';
 import { getWishlist } from '@/lib/db/wishlist';
 import { getSession } from '@/lib/auth';
-
-/**
- * @file FeaturedDrops.jsx
- * @description Módulo de escaparate comercial para mostrar productos de catálogo en la Home.
- *
- * [Nuestro enfoque]
- * Despliega un grid (cuadrícula) estructurada con los productos activos extraídos de la
- * base de datos. Controla de forma nativa visuales como "SIN STOCK"
- * dependiente de la disponibilidad de materiales.
- *
- * [Por qué lo hemos hecho así]
- * La home page necesita trasladar al usuario al "modo compra" justo tras el impacto visual
- * del HeroSection. Mostrar el catálogo tempranamente agiliza la conversión en e-commerce.
- * El enlace a IG anclado al header mantiene la percepción comunitaria del proyecto.
- */
+import { getConfigValues } from '@/lib/db/config';
 export default async function FeaturedDrops() {
     const session = await getSession();
     let drops = [];
     let wishlistIds = new Set();
+    let socialLinks = { social_instagram: "https://instagram.com/hygge_rug" };
 
     try {
-        const products = await getProducts();
+        const [products, config] = await Promise.all([
+            getProducts(),
+            getConfigValues(['social_instagram'])
+        ]);
+        
         drops = products.slice(0, 4);
+        if (config.social_instagram) socialLinks.social_instagram = config.social_instagram;
 
         if (session) {
             const wishlist = await getWishlist(session.userId);
@@ -80,7 +85,9 @@ export default async function FeaturedDrops() {
                 </div>
 
                 <div className={styles.footerActions}>
-                    <a href="https://instagram.com/hygge_rug" className={styles.instaStroke}>IG/@HYGGE_RUG</a>
+                    <a href={socialLinks.social_instagram} target="_blank" rel="noopener noreferrer" className={styles.instaStroke}>
+                        IG/@HYGGE_RUG
+                    </a>
                 </div>
 
             </div>
