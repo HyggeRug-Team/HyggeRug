@@ -1,15 +1,17 @@
 /**
  * @file Footer.jsx
- * @description Pie de página informativo y responsive.
+ * @description Pie de página informativo y totalmente adaptable.
  *
  * [Nuestro enfoque]
- * Hemos diseñado este pie de página como el “mapa” de nuestra web. Para que no sea una lista
- * aburrida, lo adaptamos a cada dispositivo: en móvil usamos menús desplegables y en escritorio
- * mostramos columnas claras para que todo esté a la vista.
+ * Hemos diseñado este pie de página para que funcione como el “mapa” definitivo de nuestra web. 
+ * No queremos que sea una simple lista, por lo que hemos adaptado su comportamiento: 
+ * en móviles usamos desplegables intuitivos y en escritorio mostramos columnas claras 
+ * para facilitar la navegación.
  *
  * [Por qué lo hemos hecho así]
- * Hemos aplicado DRY y hemos centralizado los enlaces en `SECCIONES_FOOTER` para que cambiar
- * un enlace sea siempre un único trabajo (mantenibilidad y menos errores).
+ * Aplicamos principios de mantenibilidad centralizando todos los enlaces. Así, 
+ * cuando necesitamos actualizar una sección, lo hacemos en un solo punto, 
+ * minimizando errores y asegurando la consistencia en toda la plataforma.
  */
 "use client";
 
@@ -20,7 +22,10 @@ import Logo from "@/components/ui/Logo/Logo";
 import { AiFillInstagram } from "react-icons/ai";
 import { FaTiktok } from "react-icons/fa";
 
-function Footer() {
+function Footer({ socialLinks }) {
+  const instagramUrl = socialLinks?.social_instagram || "https://www.instagram.com/hygge_rug/";
+  const tiktokUrl = socialLinks?.social_tiktok || "https://www.tiktok.com/@hygge_rug";
+
   const SECCIONES_FOOTER = [
     {
       titulo: "Diseños de la comunidad",
@@ -76,10 +81,10 @@ function Footer() {
               </p>
             </div>
             <div className={styles.socialMedias}>
-              <a href="https://www.instagram.com/hygge_rug/" target="_blank" rel="noopener noreferrer">
+              <a href={instagramUrl} target="_blank" rel="noopener noreferrer">
                 <AiFillInstagram />
               </a>
-              <a href="https://www.tiktok.com/@hygge_rug" target="_blank" rel="noopener noreferrer">
+              <a href={tiktokUrl} target="_blank" rel="noopener noreferrer">
                 <FaTiktok />
               </a>
             </div>

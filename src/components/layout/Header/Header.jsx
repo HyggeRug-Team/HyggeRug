@@ -3,17 +3,14 @@
  * @description Cabecera principal de la aplicación. Controla la navegación y la identidad visual.
  *
  * [Nuestro enfoque]
- * Hemos creado esta cabecera como el “centro de mandos” de nuestra web. 
- * Si el usuario está en la pantalla de acceso (Login/Registro), escondemos la navegación para
- * que se centre en entrar a su cuenta sin distracciones.
- *
- * En móvil mostramos el menú hamburguesa y en escritorio dejamos la navegación visible.
- * Hemos integrado el buscador global (SearchOverlay) desde aquí para que esté disponible
- * tanto en el header de escritorio como en el menú móvil.
+ * Hemos diseñado esta cabecera para que actúe como el auténtico centro de mandos de Hygge Rug. 
+ * Nuestra prioridad es la claridad, por lo que si el usuario está en procesos críticos 
+ * (como autenticación), simplificamos la interfaz para eliminar distracciones.
  *
  * [Por qué lo hemos hecho así]
- * Hemos elegido estas reglas para mejorar la experiencia de usuario y evitar que el panel de
- * acceso se sienta “mezclado” con el contenido comercial.
+ * Implementamos un sistema adaptativo: mostramos un menú hamburguesa en dispositivos móviles 
+ * y una navegación expandida en escritorio. Además, hemos integrado el buscador y el carrito 
+ * de forma que siempre estén a mano, mejorando la conversión y la fluidez de navegación.
  */
 'use client';
 import React, { useState, useEffect } from 'react';
@@ -35,7 +32,7 @@ import {
   FaXmark,
 } from "react-icons/fa6";
 
-function Header() {
+function Header({ socialLinks }) {
   const { cartCount } = useCart();
   const [isMenuOpen, setIsOpenMenu] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
@@ -128,6 +125,7 @@ function Header() {
               setIsOpenMenu(false);
               setIsSearchOpen(true);
             }}
+            socialLinks={socialLinks}
           />
 
           <SearchOverlay 

@@ -1,14 +1,16 @@
 /**
  * @file MobileMenu.jsx
- * @description Menú lateral desplegable optimizado exclusivamente para móviles.
+ * @description Menú lateral desplegable optimizado exclusivamente para dispositivos móviles.
  *
  * [Nuestro enfoque]
- * Hemos dedicado este componente a la navegación móvil. Es el menú que “nace” desde el lateral
- * cuando pulsamos el botón de tres rayas, con enlaces muy visuales y consistentes.
+ * Hemos dedicado este componente a perfeccionar la navegación táctil. Es el menú que 
+ * se despliega suavemente desde el lateral, ofreciendo enlaces visuales y una 
+ * jerarquía clara que facilita la exploración de la web con una sola mano.
  *
  * [Por qué lo hemos hecho así]
- * Hemos usado una transición suave para que se sienta rápido y “tipo app”, evitando que el
- * menú parezca un elemento suelto dentro de la página.
+ * Implementamos transiciones fluidas para que la experiencia se sienta rápida y 
+ * cercana a una aplicación nativa, integrando además los enlaces sociales dinámicos 
+ * para mantener la conectividad de marca en todo momento.
  */
 'use client';
 import React from 'react';
@@ -18,7 +20,10 @@ import CuteMessage from "@/components/ui/CuteMessage/CuteMessage";
 import { AiFillInstagram } from "react-icons/ai";
 import { FaTiktok, FaRegHeart } from "react-icons/fa";
 
-export default function MobileMenu({ isOpen, menuItems, onClose, onSearchClick }) {
+export default function MobileMenu({ isOpen, menuItems, onClose, onSearchClick, socialLinks }) {
+  const instagramUrl = socialLinks?.social_instagram || "https://www.instagram.com/hygge_rug/";
+  const tiktokUrl = socialLinks?.social_tiktok || "https://www.tiktok.com/@hygge_rug";
+
   return (
     <div className={`${styles.mobileMenu} ${isOpen ? styles.mobileMenuActive : ""}`}>
       
@@ -68,8 +73,8 @@ export default function MobileMenu({ isOpen, menuItems, onClose, onSearchClick }
         </div>
 
         <div className={styles.socialMedias}>
-          <a href="https://www.instagram.com/hygge_rug/" target="_blank" rel="noopener noreferrer"><AiFillInstagram /></a>
-          <a href="https://www.tiktok.com/@hygge_rug" target="_blank" rel="noopener noreferrer"><FaTiktok /></a>
+          <a href={instagramUrl} target="_blank" rel="noopener noreferrer"><AiFillInstagram /></a>
+          <a href={tiktokUrl} target="_blank" rel="noopener noreferrer"><FaTiktok /></a>
         </div>
       </div>
     </div>

@@ -27,7 +27,8 @@ import {
   FaBell,
   FaQuestion,
   FaArrowRightFromBracket,
-  FaGear
+  FaGear,
+  FaStar
 } from "react-icons/fa6";
 import Logo from "@/components/ui/Logo/Logo";
 import LogoutButton from "@/components/ui/Buttons/LogoutButton/LogoutButton";
@@ -79,19 +80,25 @@ export function DashboardNav({ user }) {
   const filteredGroups = isAdmin 
     ? [
         {
-          title: "Administración",
+          title: "Ventas",
           links: [
-            { href: "/dashboard/admin",      icon: <FaBookOpen size={18} />,        label: "Panel General" },
-            { href: "/dashboard/admin/pedidos", icon: <FaBagShopping size={18} />,     label: "Gestionar Pedidos" },
-            { href: "/dashboard/admin/usuarios", icon: <FaUser size={18} />,           label: "Control de Usuarios" },
+            { href: "/dashboard/admin", icon: <FaBookOpen size={18} />, label: "Panel General" },
+            { href: "/dashboard/admin/pedidos", icon: <FaBagShopping size={18} />, label: "Gestionar Pedidos" },
+            { href: "/dashboard/admin/devoluciones", icon: <FaArrowRotateLeft size={18} />, label: "Devoluciones" },
           ]
         },
         {
-          title: "Configuración",
+          title: "Comunidad",
           links: [
-            // Reemplazamos FaLocationDot por FaGear para "Ajustes de Tienda"
-            { href: "/dashboard/admin/ajustes",  icon: <FaGear size={18} />,     label: "Ajustes de Tienda" },
-            { href: "/dashboard/admin/soporte", icon: <FaQuestion size={18} />,        label: "Tickets Soporte" },
+            { href: "/dashboard/admin/usuarios", icon: <FaUser size={18} />, label: "Control de Usuarios" },
+            { href: "/dashboard/admin/soporte", icon: <FaQuestion size={18} />, label: "Tickets Soporte" },
+            { href: "/dashboard/admin/valoraciones", icon: <FaStar size={18} />, label: "Valoraciones" },
+          ]
+        },
+        {
+          title: "Sistema",
+          links: [
+            { href: "/dashboard/admin/ajustes", icon: <FaGear size={18} />, label: "Ajustes de Tienda" },
           ]
         }
       ]
