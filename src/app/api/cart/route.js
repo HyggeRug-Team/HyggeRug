@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server';
+export const dynamic = 'force-dynamic';
 import { getSession } from '@/lib/auth';
 import { db } from '@/lib/db';
 

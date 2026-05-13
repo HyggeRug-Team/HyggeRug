@@ -5,10 +5,12 @@ import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import { FaXmark, FaCartShopping, FaPlus, FaMinus } from 'react-icons/fa6';
 import styles from './CartSidebar.module.css';
+import { useCart } from '@/context/CartContext';
 
 export default function CartSidebar({ isOpen, onClose, pendingItem }) {
     const [items, setItems] = useState([]);
     const [loading, setLoading] = useState(false);
+    const { refreshCartCount } = useCart();
     const router = useRouter();
 
     // Muestra el item recién añadido de forma inmediata mientras llega el fetch
@@ -59,6 +61,8 @@ export default function CartSidebar({ isOpen, onClose, pendingItem }) {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ orderProductId, quantity: newQuantity }),
         });
+
+        refreshCartCount();
     }
 
     // Elimina un item y lo quita del estado local
@@ -70,6 +74,8 @@ export default function CartSidebar({ isOpen, onClose, pendingItem }) {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ orderProductId }),
         });
+
+        refreshCartCount();
     }
 
     const total = items.reduce((sum, item) => sum + item.unit_price * item.quantity, 0);

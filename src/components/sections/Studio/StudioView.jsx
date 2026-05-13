@@ -1,9 +1,26 @@
+/**
+ * @file StudioView.jsx
+ * @description Interfaz del Laboratorio IA para crear diseños personalizados de alfombras.
+ *
+ * [Nuestro enfoque]
+ * Hemos construido esta herramienta para que cualquiera pueda diseñar su propia alfombra.
+ * Dividimos el proceso en pasos claros (Medidas → Imagen → Estilo) para no agobiar al usuario
+ * y cuidamos cada estado de carga para que la experiencia sea fluida.
+ *
+ * [Por qué lo hemos hecho así]
+ * Gestionamos la cuota de generación semanal de forma visible para que el usuario sepa
+ * siempre cuántos intentos le quedan, y el flujo termina enviando el diseño directamente
+ * al carrito para cerrar el ciclo de compra sin interrupciones.
+ */
 "use client";
 import React, { useState, useEffect, useRef } from 'react';
 import styles from '@/app/crear-diseno/Studio.module.css';
 import { FaSync, FaArrowLeft, FaUpload, FaTimes, FaChevronLeft, FaMagic, FaChevronDown, FaBars } from 'react-icons/fa';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useCart } from '@/context/CartContext';
+import FeedbackModal from '@/components/ui/Feedback/FeedbackModal';
 
 // Medidas estándar de teclado hardcodeadas
 const KEYBOARD_PRESETS = [
@@ -22,6 +39,10 @@ export default function DesignStudioAI() {
     const [attempts, setAttempts] = useState(null);
     const [weeklyLimit, setWeeklyLimit] = useState(null);
     const [nextReset, setNextReset] = useState(null);
+    const [notification, setNotification] = useState({ isOpen: false, type: 'success', title: '', message: '' });
+
+    const router = useRouter();
+    const { refreshCartCount } = useCart();
 
     const [uploadedImage, setUploadedImage] = useState(null);
     const [imagePreviewUrl, setImagePreviewUrl] = useState(null);
@@ -186,14 +207,25 @@ export default function DesignStudioAI() {
 
             if (!res.ok) {
                 const data = await res.json();
-                alert(data.error ?? 'Error al guardar el diseño');
+                setNotification({
+                    isOpen: true,
+                    type: 'error',
+                    title: 'Error al guardar',
+                    message: data.error ?? 'No hemos podido enviar tu diseño al carrito.'
+                });
                 return;
             }
 
-            window.location.href = '/carrito';
+            refreshCartCount();
+            router.push('/carrito');
         } catch (err) {
             console.error('handleBuy error:', err);
-            alert('Error al procesar el diseño');
+            setNotification({
+                isOpen: true,
+                type: 'error',
+                title: 'Error de proceso',
+                message: 'Ha ocurrido un fallo al preparar tu diseño. Inténtalo de nuevo.'
+            });
         }
     };
 
@@ -495,6 +527,14 @@ export default function DesignStudioAI() {
                     </button>
                 </div>
             </main>
+
+            <FeedbackModal 
+                isOpen={notification.isOpen}
+                type={notification.type}
+                title={notification.title}
+                message={notification.message}
+                onClose={() => setNotification({ ...notification, isOpen: false })}
+            />
         </div>
     );
 }

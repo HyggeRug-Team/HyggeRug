@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import SecondaryButton from '@/components/ui/Buttons/SecondaryButton/SecondaryButton';
 import styles from './product.module.css';
+import { useCart } from '@/context/CartContext';
 
 /**
  * Controles de cantidad y botón de añadir a la cesta.
@@ -14,6 +15,7 @@ import styles from './product.module.css';
  */
 export default function ProductBuyActions({ productId, productName, productImage, selectedSize, basePrice, quantity, setQuantity, onAddSuccess }) {
     const [status, setStatus] = useState('idle'); // 'idle' | 'loading' | 'success' | 'error' | 'no-size'
+    const { refreshCartCount } = useCart();
     const router = useRouter();
 
     async function handleAdd() {
@@ -55,16 +57,17 @@ export default function ProductBuyActions({ productId, productName, productImage
 
             // Abre el sidebar DESPUÉS de que el item ya está guardado en BD
             // y pasa los datos del item para mostrarlo inmediatamente
-            onAddSuccess?.({
-                order_product_id: `pending-${Date.now()}`,
-                name: productName,
-                image_url: productImage,
-                size_label: selectedSize.label ?? null,
-                unit_price: finalPrice,
-                quantity: Number(quantity),
-            });
-
-            router.refresh();
+                            onAddSuccess?.({
+                                order_product_id: `pending-${Date.now()}`,
+                                name: productName,
+                                image_url: productImage,
+                                size_label: selectedSize.label ?? null,
+                                unit_price: finalPrice,
+                                quantity: Number(quantity),
+                            });
+                
+                            refreshCartCount();
+                            router.refresh();
         } catch {
             setStatus('error');
         } finally {
