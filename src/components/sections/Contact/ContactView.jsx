@@ -1,14 +1,16 @@
 /**
  * @file ContactView.jsx
- * @description Vista interactiva de contacto con formulario exclusivo.
+ * @description Vista interactiva de contacto con formulario especializado.
  *
  * [Nuestro enfoque]
- * Hemos encapsulado el formulario y la interactividad en este componente cliente. 
- * Reutilizamos los componentes de entrada del sistema de diseño (FloatingLabelInput).
+ * Hemos diseñado este componente de cliente para gestionar toda la lógica interactiva 
+ * del formulario. Reutilizamos piezas clave de nuestro sistema de diseño, como 
+ * los FloatingLabelInput, para asegurar una experiencia de usuario fluida y coherente.
  *
  * [Por qué lo hemos hecho así]
- * Para separar los estados del formulario y las animaciones de la definición de metadatos SEO 
- * que residirá en la página principal.
+ * Esta separación nos permite mantener la interactividad pesada en el lado del cliente 
+ * mientras la página padre gestiona la metadata SEO, optimizando tanto el rendimiento 
+ * como la visibilidad en buscadores.
  */
 
 "use client";
@@ -22,13 +24,17 @@ import CustomSelect from '@/components/ui/Inputs/CustomSelect/CustomSelect';
 import FeedbackModal from '@/components/ui/Feedback/FeedbackModal';
 import { FaEnvelope, FaMapMarkerAlt, FaClock, FaInstagram, FaTiktok, FaChevronRight } from 'react-icons/fa';
 
-export default function ContactView() {
+export default function ContactView({ socialLinks }) {
+    const instagramUrl = socialLinks?.social_instagram || "https://instagram.com/hygge_rug";
+    const tiktokUrl = socialLinks?.social_tiktok || "https://tiktok.com/@hygge_rug";
+
     const [formData, setFormData] = useState({
         name: '',
         email: '',
         subject: '',
         message: ''
     });
+
     const [isLoading, setIsLoading] = useState(false);
     const [notification, setNotification] = useState({ isOpen: false, type: 'success', title: '', message: '' });
 
@@ -194,7 +200,7 @@ export default function ContactView() {
                                 <FaInstagram />
                                 <span>INSTAGRAM</span>
                             </div>
-                            <a href="https://instagram.com/hygge_rug" target="_blank" className={styles.socialBtn}>
+                            <a href={instagramUrl} target="_blank" rel="noopener noreferrer" className={styles.socialBtn}>
                                 SEGUIR <FaChevronRight />
                             </a>
                         </div>
@@ -203,7 +209,7 @@ export default function ContactView() {
                                 <FaTiktok />
                                 <span>TIKTOK</span>
                             </div>
-                            <a href="https://tiktok.com/@hygge_rug" target="_blank" className={styles.socialBtn}>
+                            <a href={tiktokUrl} target="_blank" rel="noopener noreferrer" className={styles.socialBtn}>
                                 SEGUIR <FaChevronRight />
                             </a>
                         </div>

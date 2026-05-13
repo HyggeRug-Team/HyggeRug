@@ -1,5 +1,4 @@
-/* --- URBAN POP GRUNGE BALANCED --- */
-
+/* ── CONTENEDOR DE LA SECCIÓN INFORMATIVA ── */
 .infoWrapper {
     width: 100%;
     background: transparent;
@@ -16,7 +15,7 @@
     padding: 0 40px;
 }
 
-/* 1. INTRO BLOCK */
+/* ── BLOQUE DE INTRODUCCIÓN ── */
 .introBlock {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -59,7 +58,7 @@
     position: relative;
 }
 
-/* --- TIKTOK PHONE MOCKUP --- */
+/* ── MOCKUP DE TIKTOK (PHONE) ── */
 .phoneMockup {
     width: 280px;
     height: 580px;
@@ -155,7 +154,7 @@
     text-transform: uppercase;
 }
 
-/* 2. THE PROCESS */
+/* ── BLOQUE DEL PROCESO ARTESANAL ── */
 .processSection {
     margin-bottom: 120px;
 }
@@ -172,7 +171,7 @@
     gap: 30px;
 }
 
-/* 3. AI BANNER */
+/* ── BANNER DE INTELIGENCIA ARTIFICIAL ── */
 .aiBanner {
     background: #0a0a0a;
     border: 3px solid var(--accent-purple);
@@ -211,7 +210,7 @@
 
 .aiBannerAction { flex: 1; display: flex; justify-content: center; }
 
-/* 4. HYGGE GANG */
+/* ── BLOQUE DE OPINIONES (GANG SECTION) ── */
 .gangSection { margin-bottom: 120px; }
 .sectionHeaderCenter { text-align: center; margin-bottom: 50px; }
 .gangTitle {
@@ -222,12 +221,19 @@
 }
 
 .gangGrid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
     gap: 40px;
 }
 
-/* RESPONSIVE REFINEMENT */
+.gangGrid > * {
+    flex: 1;
+    min-width: 300px;
+    max-width: 360px;
+}
+
+/* ── ADAPTABILIDAD (MEDIA QUERIES) ── */
 @media (max-width: 1024px) {
     .introBlock { grid-template-columns: 1fr; gap: 60px; text-align: center; }
     .introLeft { order: 2; display: flex; flex-direction: column; align-items: center; }
@@ -246,7 +252,6 @@
     .aiBanner { padding: 30px 20px; }
 }
 
-/* VERTICAL RESPONSIVENESS */
 @media (max-height: 750px) {
     .infoWrapper { padding: 40px 0; }
     .introBlock { margin-bottom: 60px; }

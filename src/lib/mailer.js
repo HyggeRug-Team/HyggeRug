@@ -1,5 +1,15 @@
+/**
+ * @file mailer.js
+ * @description Gestión de comunicaciones automáticas por correo electrónico.
+ * 
+ * [Nuestro enfoque]
+ * Hemos configurado este módulo para que todos los correos que enviamos 
+ * mantengan la estética visual de la marca y proporcionen información 
+ * dinámica y relevante al usuario.
+ */
 import nodemailer from "nodemailer";
 import { getProducts } from "./db/products";
+import { getConfigValues } from "./db/config";
 
 const transporter = nodemailer.createTransport({
   service: "gmail",
@@ -9,6 +19,12 @@ const transporter = nodemailer.createTransport({
   },
 });
 
+/**
+ * ENVÍA EL EMAIL DE BIENVENIDA
+ * Hemos diseñado este correo para que el nuevo usuario se sienta parte 
+ * de la familia desde el primer segundo, inyectando productos destacados 
+ * y enlaces actualizados a nuestras redes.
+ */
 export async function sendWelcomeEmail(toEmail, nickname) {
   const brand = {
     url: "https://hyggerug.vercel.app",
@@ -22,15 +38,28 @@ export async function sendWelcomeEmail(toEmail, nickname) {
     bgLight: "#F7F7F7",
   };
 
-  // 1. OBTENER PRODUCTOS DE LA BASE DE DATOS
+  // 1. OBTENCIÓN DE DATOS DINÁMICOS
+  // Recuperamos los productos más recientes y los enlaces de redes configurados
   let featuredProducts = [];
+  let socialLinks = {
+    instagram: "https://instagram.com/hygge_rug",
+    tiktok: "https://www.tiktok.com/@hygge_rug"
+  };
+
   try {
-    const products = await getProducts();
+    const [products, config] = await Promise.all([
+      getProducts(),
+      getConfigValues(['social_instagram', 'social_tiktok'])
+    ]);
+    
     featuredProducts = products.slice(0, 2);
+    if (config.social_instagram) socialLinks.instagram = config.social_instagram;
+    if (config.social_tiktok) socialLinks.tiktok = config.social_tiktok;
   } catch (error) {
-    console.error("Error fetching products for email:", error);
+    console.error("Error fetching data for email:", error);
   }
 
+  // Fallback por si la base de datos no responde con productos
   if (featuredProducts.length === 0) {
     featuredProducts = [
       {
@@ -46,7 +75,7 @@ export async function sendWelcomeEmail(toEmail, nickname) {
     ];
   }
 
-  // 2. HTML DE PRODUCTOS
+  // 2. GENERACIÓN DEL HTML DE PRODUCTOS
   const productsHtml = featuredProducts
     .map(
       (product) => `
@@ -75,7 +104,7 @@ export async function sendWelcomeEmail(toEmail, nickname) {
     )
     .join("");
 
-  // 3. HTML DEL EMAIL
+  // 3. ESTRUCTURA COMPLETA DEL EMAIL
   const html = `
 <!DOCTYPE html>
 <html lang="es">
@@ -95,7 +124,7 @@ export async function sendWelcomeEmail(toEmail, nickname) {
         <table width="600" border="0" cellspacing="0" cellpadding="0"
           style="background-color: #FFFFFF; border-radius: 16px; overflow: hidden; border: 1px solid #DDDDDD; max-width: 600px;">
 
-          <!-- ── CABECERA / LOGO ── -->
+          <!-- CABECERA / LOGO -->
           <tr>
             <td align="center" style="background-color: ${brand.pink}; padding: 36px 40px;">
               <table border="0" cellspacing="0" cellpadding="0">
@@ -110,7 +139,7 @@ export async function sendWelcomeEmail(toEmail, nickname) {
             </td>
           </tr>
 
-          <!-- ── HERO ── -->
+          <!-- HERO SECTION -->
           <tr>
             <td style="padding: 48px 48px 32px 48px; text-align: center;">
               <h1 style="margin: 0; font-size: 30px; font-weight: 900; line-height: 1.25; color: #111111;">
@@ -124,7 +153,7 @@ export async function sendWelcomeEmail(toEmail, nickname) {
             </td>
           </tr>
 
-          <!-- ── BANNER VENTAJA ── -->
+          <!-- BANNER DE BIENVENIDA -->
           <tr>
             <td style="padding: 0 48px 40px 48px;">
               <table width="100%" border="0" cellspacing="0" cellpadding="0"
@@ -141,7 +170,7 @@ export async function sendWelcomeEmail(toEmail, nickname) {
             </td>
           </tr>
 
-          <!-- ── PRODUCTOS ── -->
+          <!-- ESCAPARATE DE PRODUCTOS -->
           <tr>
             <td style="background-color: #F7F7F7; border-top: 1px solid #EEEEEE; border-bottom: 1px solid #EEEEEE; padding: 36px 32px 40px 32px;">
               <p style="margin: 0 0 24px 0; text-align: center; font-size: 11px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: ${brand.pink};">
@@ -161,7 +190,7 @@ export async function sendWelcomeEmail(toEmail, nickname) {
             </td>
           </tr>
 
-          <!-- ── PANEL ── -->
+          <!-- ACCESO AL PANEL -->
           <tr>
             <td style="padding: 44px 48px; text-align: center; border-bottom: 1px solid #EEEEEE;">
               <h2 style="margin: 0; font-size: 22px; font-weight: 900; color: #111111;">Toma las riendas</h2>
@@ -175,21 +204,21 @@ export async function sendWelcomeEmail(toEmail, nickname) {
             </td>
           </tr>
 
-          <!-- ── REDES SOCIALES ── -->
+          <!-- REDES SOCIALES DINÁMICAS -->
           <tr>
             <td align="center" style="padding: 32px 48px;">
-              <a href="https://instagram.com/hygge_rug"
+              <a href="${socialLinks.instagram}"
                 style="text-decoration: none; color: #111111; font-weight: 700; font-size: 13px; letter-spacing: 1px; margin: 0 14px; text-transform: uppercase;">
                 Instagram
               </a>
-              <a href="https://www.tiktok.com/@hygge_rug"
+              <a href="${socialLinks.tiktok}"
                 style="text-decoration: none; color: #111111; font-weight: 700; font-size: 13px; letter-spacing: 1px; margin: 0 14px; text-transform: uppercase;">
                 TikTok
               </a>
             </td>
           </tr>
 
-          <!-- ── FOOTER ── -->
+          <!-- FOOTER LEGAL -->
           <tr>
             <td style="background-color: #F7F7F7; border-top: 1px solid #EEEEEE; padding: 32px 48px; text-align: center;">
               <p style="margin: 0; font-size: 13px; font-weight: 900; letter-spacing: 5px; text-transform: uppercase; color: #111111;">HYGGE RUG</p>
@@ -203,12 +232,10 @@ export async function sendWelcomeEmail(toEmail, nickname) {
           </tr>
 
         </table>
-        <!-- /CONTENEDOR PRINCIPAL -->
 
       </td>
     </tr>
   </table>
-  <!-- /WRAPPER EXTERIOR -->
 
 </body>
 </html>
@@ -226,7 +253,7 @@ export async function sendWelcomeEmail(toEmail, nickname) {
 
 /**
  * ENVÍA UN EMAIL DE CONTACTO AL TALLER
- * Hemos creado este helper para que el equipo reciba las dudas de los clientes
+ * Hemos creado este helper para que el equipo reciba las dudas de los clientes 
  * directamente en el correo corporativo con un formato limpio y ordenado.
  */
 export async function sendContactEmail({ name, email, subject, message }) {
@@ -246,11 +273,11 @@ export async function sendContactEmail({ name, email, subject, message }) {
 
   const mailOptions = {
     from: `"Web Contact" <${process.env.EMAIL_USER}>`,
-    to: process.env.EMAIL_USER, // Se envía al taller
+    to: process.env.EMAIL_USER, 
     replyTo: email,
     subject: `[CONTACTO] ${subject} - ${name}`,
     html,
   };
 
   return transporter.sendMail(mailOptions);
-}
+}

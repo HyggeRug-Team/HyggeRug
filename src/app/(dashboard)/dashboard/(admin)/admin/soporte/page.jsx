@@ -50,5 +50,5 @@ export default async function AdminSoportePage() {
 
   const tickets = await getAdminTickets();
 
-  return <AdminSupportClient initialTickets={tickets} />;
+  return <AdminSupportClient initialTickets={tickets} session={session} />;
 }

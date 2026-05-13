@@ -1,14 +1,18 @@
 /**
  * @file AdminOrdersClient.jsx
- * @description Componente cliente para la gestión de pedidos en el panel de admin.
+ * @description Componente cliente para la gestión integral de pedidos en el taller.
  *
- * [Estructura]
- * Un acordeón por cada estado del pedido (excluido 'en_carrito').
- * - 'recibido' aparece al final, cerrado por defecto, con estética de "archivado".
- * - El resto de grupos están abiertos al cargar la página.
- * - Cada tarjeta permite avanzar/retroceder el estado con actualización optimista:
- *   la tarjeta se mueve de grupo al instante y revierte si la API falla.
- * - Los pedidos dentro de cada grupo siguen orden FIFO (más antiguos primero).
+ * [Nuestro enfoque]
+ * Hemos estructurado el panel de pedidos como una línea de producción visual. 
+ * Nuestra prioridad es que el administrador pueda mover pedidos entre estados 
+ * (desde el diseño hasta la entrega) con un solo clic, utilizando actualizaciones 
+ * optimistas para que la interfaz se sienta instantánea y fluida.
+ *
+ * [Por qué lo hemos hecho así]
+ * Agrupamos los pedidos por su estado actual en secciones desplegables, 
+ * manteniendo los pedidos terminados ("Recibido") archivados por defecto 
+ * para no saturar la vista operativa. Este diseño nos permite centrarnos 
+ * en lo que realmente requiere atención en cada momento.
  */
 
 'use client';
@@ -17,6 +21,8 @@ import React, { useState, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Link from 'next/link';
 import styles from './AdminOrdersClient.module.css';
+
+
 
 import {
   FaPalette,
@@ -31,8 +37,10 @@ import {
   FaArrowUpRightFromSquare,
   FaCircleExclamation,
   FaCircleUser,
+  FaArrowRotateLeft,
 } from 'react-icons/fa6';
 import { MdOutlinePayments } from 'react-icons/md';
+import DashboardHeader from '@/components/dashboard/DashboardHeader/DashboardHeader';
 
 /* ─────────────────────────────────────────────────────────────────
    CONFIGURACIÓN DE ESTADOS
@@ -96,7 +104,7 @@ const STATUS_CONFIG = {
    COMPONENTE PRINCIPAL — AdminOrdersClient
    ───────────────────────────────────────────────────────────────── */
 
-export default function AdminOrdersClient({ initialOrders }) {
+export default function AdminOrdersClient({ initialOrders, session }) {
   // Estado mutable de pedidos para permitir actualizaciones optimistas
   const [orders, setOrders] = useState(initialOrders);
 
@@ -167,17 +175,12 @@ export default function AdminOrdersClient({ initialOrders }) {
 
   return (
     <div className={styles.container}>
-
-      {/* CABECERA DE LA PÁGINA */}
-      <div className={styles.pageHeader}>
-        <div className={styles.pageHeaderLeft}>
-          <h1 className={styles.pageTitle}>Pedidos</h1>
-          <span className={styles.activeBadge}>{activeCount} en curso</span>
-        </div>
-        <p className={styles.pageSubtitle}>
-          Gestiona y avanza el estado de cada pedido desde aquí.
-        </p>
-      </div>
+      <DashboardHeader 
+        session={session} 
+        isAdmin={true} 
+        title="Gestión de Pedidos"
+        description={`Control de producción y envíos. Tienes ${activeCount} pedidos en curso.`}
+      />
 
       {/* LISTA DE ACORDEONES — uno por cada estado */}
       <div className={styles.accordionList}>
@@ -335,6 +338,13 @@ function AdminOrderCard({ order, config, isCompleted, isLoading, onStatusChange 
             <div className={`${styles.metaItem} ${styles.noteTag}`}>
               <FaCircleExclamation />
               <span>Con nota</span>
+            </div>
+          )}
+          {/* Indicador de devolución solicitada */}
+          {order.return_status && (
+            <div className={`${styles.metaItem} ${styles.returnTag} ${styles['return' + order.return_status]}`}>
+              <FaArrowRotateLeft />
+              <span>Devolución: {order.return_status.toUpperCase()}</span>
             </div>
           )}
         </div>

@@ -1,14 +1,17 @@
 /**
  * @file InfoSection.jsx
- * @description Sección informativa sobre el proceso artesanal del taller y las reseñas.
+ * @description Sección informativa sobre el proceso artesanal del taller y las opiniones de clientes.
  *
  * [Nuestro enfoque]
- * Hemos dividido la información en bloques visuales: una introducción directa,
- * tarjetas de proceso (ProcessCard), el banner de IA y las reseñas de clientes.
+ * Hemos organizado esta sección en bloques visuales de alto impacto: desde nuestra 
+ * filosofía artesanal y el despliegue del proceso ("Cómo funciona el rollo"), 
+ * hasta la integración de tecnología con el Laboratorio IA y la prueba social 
+ * con las reseñas de nuestra comunidad.
  *
  * [Por qué lo hemos hecho así]
- * Queremos explicar nuestro proceso sin aburrir al visitante con mucho texto.
- * La síntesis y el diseño visual hacen que sea más fácil generar confianza rápido.
+ * Buscamos transmitir la esencia de Hygge Rug sin saturar al usuario con texto. 
+ * Combinamos elementos multimedia (TikTok) con tarjetas interactivas para que la 
+ * propuesta de valor y la calidad del taller se sientan tangibles desde el primer scroll.
  */
 "use client";
 import React, { useState, useRef } from "react";
@@ -19,7 +22,7 @@ import SecondaryButton from "@/components/ui/Buttons/SecondaryButton/SecondaryBu
 import ProcessCard from "@/components/ui/Cards/ProcessCard/ProcessCard";
 import ReviewSticker from "@/components/ui/Cards/ReviewSticker/ReviewSticker";
 
-function InfoSection() {
+function InfoSection({ testimonials: initialTestimonials, videoUrl, tiktokHandle, tiktokUrl }) {
   const [isMuted, setIsMuted] = useState(true);
   const videoRef = useRef(null);
 
@@ -53,7 +56,7 @@ function InfoSection() {
     }
   ];
 
-  const testimonials = [
+  const fallbackTestimonials = [
     {
       text: "Le di un diseño loquísimo y lo clavaron. Los bordes en 3D le dan mil vueltas a las alfombras comerciales.",
       author: "DANI R., Cliente Verificado",
@@ -76,6 +79,10 @@ function InfoSection() {
       variant: "secondary"
     }
   ];
+
+  const testimonials = initialTestimonials && initialTestimonials.length > 0 
+    ? initialTestimonials 
+    : fallbackTestimonials;
 
   return (
     <section className={styles.infoWrapper}>
@@ -107,6 +114,7 @@ function InfoSection() {
                 <div className={styles.phoneMockup}>
                     <div className={styles.phoneNotch}></div>
                     <video 
+                        key={videoUrl} // Forzamos recarga si el video cambia
                         ref={videoRef}
                         className={styles.phoneVideo}
                         autoPlay 
@@ -115,7 +123,7 @@ function InfoSection() {
                         playsInline
                         poster="/rug-gorillaz.png"
                     >
-                        <source src="/uploads/videos/tiktok_index.mp4" type="video/mp4" />
+                        <source src={videoUrl || "/uploads/videos/tiktok_index.mp4"} type="video/mp4" />
                     </video>
                     
                     {/* Botón de Sonido */}
@@ -124,8 +132,8 @@ function InfoSection() {
                     </button>
 
                     <div className={styles.tiktokOverlay}>
-                        <a href="https://www.tiktok.com/@hygge_rug" target="_blank" rel="noopener noreferrer" className={styles.tiktokBadge}>
-                            @HYGGE_RUG en TikTok
+                        <a href={tiktokUrl || "https://www.tiktok.com/@hygge_rug"} target="_blank" rel="noopener noreferrer" className={styles.tiktokBadge}>
+                            {tiktokHandle || "@HYGGE_RUG"} en TikTok
                         </a>
                     </div>
                 </div>
@@ -164,8 +172,8 @@ function InfoSection() {
         {/* 4. HYGGE GANG (Reseñas) */}
         <section className={styles.gangSection}>
           <div className={styles.sectionHeaderCenter}>
-            <h3 className={styles.gangTitle}>HYGGE GANG</h3>
-            <p>La gente de la calle ya tiene la suya.</p>
+            <h3 className={styles.gangTitle}>OPINIONES DE NUESTROS CLIENTES</h3>
+            <p>Descubre la experiencia de quienes ya tienen su tufting rug artesanal.</p>
           </div>
           <div className={styles.gangGrid}>
             {testimonials.map((testimonial, index) => (

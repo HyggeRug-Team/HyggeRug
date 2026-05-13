@@ -32,6 +32,7 @@ async function getAdminOrders() {
       u.nickname,
       u.email,
       u.profile_image,
+      (SELECT status FROM order_returns WHERE order_id = o.order_id ORDER BY creation_date DESC LIMIT 1) as return_status,
       COALESCE(
         JSON_ARRAYAGG(
           CASE WHEN op.order_product_id IS NOT NULL
@@ -78,5 +79,5 @@ export default async function AdminPedidosPage() {
 
   const orders = await getAdminOrders();
 
-  return <AdminOrdersClient initialOrders={orders} />;
+  return <AdminOrdersClient initialOrders={orders} session={session} />;
 }

@@ -21,6 +21,7 @@ import React, { useState, useCallback, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import styles from './page.module.css';
 import { useIsTouchDevice } from '@/hooks/useIsTouchDevice';
+import DashboardHeader from '@/components/dashboard/DashboardHeader/DashboardHeader';
 
 import {
   FaUser,
@@ -162,17 +163,11 @@ export default function AdminUsuariosPage() {
     <div className={styles.container}>
 
       {/* ── CABECERA ── */}
-      <div className={styles.pageHeader}>
-        <div className={styles.pageHeaderLeft}>
-          <h1 className={styles.pageTitle}>Usuarios</h1>
-          {!isTouch && <span className={styles.totalBadge}>{users.length} registrados</span>}
-        </div>
-        {!isTouch && (
-          <p className={styles.pageSubtitle}>
-            Gestiona cuentas, revisa pedidos e inicia chats con clientes.
-          </p>
-        )}
-      </div>
+      <DashboardHeader 
+        isAdmin={true} 
+        title="Gestión de Usuarios" 
+        description={`Administra la comunidad de Hygge Rug. Tienes ${users.length} usuarios registrados.`}
+      />
 
       {/* ── BARRA DE BÚSQUEDA Y FILTROS ── */}
       <div className={styles.toolbar}>

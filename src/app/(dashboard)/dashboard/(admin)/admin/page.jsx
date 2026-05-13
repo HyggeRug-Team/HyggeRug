@@ -18,8 +18,9 @@ import { redirect } from "next/navigation";
 import { getUserById } from "@/lib/db/users";
 import styles from "./admin.module.css";
 import StatsCards from "@/components/ui/Cards/StatsCard/StatsCard";
-import WeatherWidget from "@/components/ui/WeatherWidget/WeatherWidget";
-import { FaCubes, FaStar, FaHeart, FaPalette } from "react-icons/fa6";
+import DashboardHeader from "@/components/dashboard/DashboardHeader/DashboardHeader";
+import { FaCubes, FaStar, FaHeart, FaPalette, FaArrowRotateLeft, FaUsers } from "react-icons/fa6";
+import { db } from "@/lib/db";
 
 export const metadata = {
   title: "Admin Dashboard | Hygge Rug",
@@ -40,41 +41,41 @@ export default async function AdminDashboardPage() {
     redirect("/dashboard/resumen");
   }
 
+  // Obtenemos métricas reales para que el panel sea "funcional"
+  const [orderCount, userCount, returnCount] = await Promise.all([
+    db.query('SELECT COUNT(*) as total FROM orders WHERE order_status != "en_carrito"').then(([r]) => r[0].total),
+    db.query('SELECT COUNT(*) as total FROM users').then(([r]) => r[0].total),
+    db.query('SELECT COUNT(*) as total FROM order_returns WHERE status = "pendiente"').then(([r]) => r[0].total)
+  ]);
+
   return (
     <div className={styles.dashboardContainer}>
-      <header className={styles.headerSection}>
-        <div className={styles.greeting}>
-          <h1>
-            Hola, {user?.nickname || session.nickname || "Amigo"}{" "}
-            <span className={styles.adminBadge}>ADMIN</span>
-          </h1>
-          <p>Panel de administración y gestión global.</p>
-        </div>
-
-        <div className={styles.headerWidgets}>
-          <WeatherWidget />
-        </div>
-      </header>
+      <DashboardHeader 
+        user={user} 
+        session={session} 
+        isAdmin={true} 
+        description="Panel de administración y gestión global del negocio."
+      />
 
       <div className={styles.adminDashboardContainer}>
         <div className={styles.statsGrid}>
           <StatsCards
-            bigText="--"
-            smallText="Ventas Totales"
+            bigText={orderCount}
+            smallText="Pedidos Totales"
             color="var(--button-before-hover)"
             Icon={FaCubes}
           />
           <StatsCards
-            bigText="--"
-            smallText="Usuarios Activos"
+            bigText={userCount}
+            smallText="Usuarios"
             color="var(--highlight-text)"
-            Icon={FaStar}
+            Icon={FaUsers}
           />
           <StatsCards
-            bigText="--"
-            smallText="Tickets Soporte"
-            color="var(--hover-text)"
-            Icon={FaHeart}
+            bigText={returnCount}
+            smallText="Devoluciones Pendientes"
+            color="orange"
+            Icon={FaArrowRotateLeft}
           />
         </div>
 
