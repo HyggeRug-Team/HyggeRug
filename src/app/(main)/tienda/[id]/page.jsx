@@ -28,6 +28,7 @@ export async function generateMetadata({ params }) {
 import React from 'react';
 import { notFound } from 'next/navigation';
 import { getProductWithSizes } from '@/lib/db/products';
+import { getReviewsByProduct } from '@/lib/db/reviews';
 import ProductDetailClient from '../../../../components/store/ProductDetail/ProductDetailClient';
 
 export default async function ProductPage({ params }) {
@@ -35,10 +36,14 @@ export default async function ProductPage({ params }) {
     
     // 1. Obtención de datos profundos
     let product = null;
+    let reviews = [];
     try {
-        product = await getProductWithSizes(id);
+        [product, reviews] = await Promise.all([
+            getProductWithSizes(id),
+            getReviewsByProduct(id)
+        ]);
     } catch (error) {
-        console.error('Error cargando producto:', error);
+        console.error('Error cargando producto o reseñas:', error);
     }
 
     if (!product) {
@@ -59,7 +64,8 @@ export default async function ProductPage({ params }) {
             label: s.size_label,
             price: s.price,
             stock: s.stock_available
-        }))
+        })),
+        reviews: reviews
     };
 
     return <ProductDetailClient product={normalizedProduct} />;

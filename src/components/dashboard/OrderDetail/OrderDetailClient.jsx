@@ -41,13 +41,17 @@ import ReturnRequestModal from "./ReturnRequestModal";
 import OrderChatModal from "./OrderChatModal";
 import { FaComment } from "react-icons/fa6";
 import PrimaryButton from "@/components/ui/Buttons/PrimaryButton/PrimaryButton";
+import ProductReviewModal from "./ProductReviewModal";
+import SectionHeader from "@/components/ui/SectionHeader/SectionHeader";
+import DashboardHeader from "@/components/dashboard/DashboardHeader/DashboardHeader";
 
-export default function OrderDetailClient({ order, config }) {
+export default function OrderDetailClient({ order, config, session }) {
   // Detectamos si es un dispositivo táctil para cambiar el layout por completo
   const isTouch = useIsTouchDevice();
   const searchParams = useSearchParams();
   const [showReturnModal, setShowReturnModal] = useState(false);
   const [showChatModal, setShowChatModal] = useState(false);
+  const [reviewProduct, setReviewProduct] = useState(null);
 
   // Abrir chat automáticamente si viene por parámetro (ej: desde notificación)
   useEffect(() => {
@@ -104,16 +108,14 @@ export default function OrderDetailClient({ order, config }) {
     return (
       <div className={styles.touchDetailContainer}>
         {/* Cabecera compacta con el número de pedido resaltado */}
-        <header className={styles.touchHeader}>
-          <Link href="/dashboard/pedidos" className={styles.touchBackButton}>
-            <FaChevronLeft /> VOLVER AL HISTORIAL
-          </Link>
-          <div className={styles.touchHeaderInfo}>
-            <h1 className={styles.touchTitle}>
-              Pedido <span className={styles.touchOrderID}>#{order.order_id}</span>
-            </h1>
-          </div>
-        </header>
+        <DashboardHeader 
+          session={session} 
+          title={`Pedido #${order.order_id}`}
+          description={`Realizado el ${orderDate}`}
+        />
+        <Link href="/dashboard/pedidos" className={styles.touchBackButton} style={{marginTop: '-20px', marginBottom: '20px', display: 'block'}}>
+          <FaChevronLeft /> VOLVER AL HISTORIAL
+        </Link>
 
         <main>
           {/* Listado de artículos: Lo primero que el usuario quiere ver */}
@@ -137,6 +139,20 @@ export default function OrderDetailClient({ order, config }) {
                   <div className={styles.touchItemTotal}>
                     {(parseFloat(item.price || 0) * item.quantity).toFixed(2)}€
                   </div>
+                  {order.order_status.toLowerCase() === 'recibido' && (
+                    item.is_rated ? (
+                      <span className={styles.ratedBadge}>
+                        <FaCircleCheck size={10} /> YA VALORADO
+                      </span>
+                    ) : (
+                      <button 
+                        className={styles.touchReviewBtn}
+                        onClick={() => setReviewProduct(item)}
+                      >
+                        VALORAR
+                      </button>
+                    )
+                  )}
                 </div>
               ))}
             </div>
@@ -199,14 +215,20 @@ export default function OrderDetailClient({ order, config }) {
               <FaCalendarDays /> Pedido realizado el {orderDate}
             </div>
 
-            {/* BOTÓN DE DEVOLUCIÓN (Solo si está entregado) */}
+            {/* BOTÓN O ESTADO DE DEVOLUCIÓN (Touch) */}
             {order.order_status.toLowerCase() === 'recibido' && (
-              <button 
-                className={styles.touchReturnButton}
-                onClick={() => setShowReturnModal(true)}
-              >
-                <FaArrowRotateLeft /> SOLICITAR DEVOLUCIÓN
-              </button>
+              !order.return_status ? (
+                <button 
+                  className={styles.touchReturnButton}
+                  onClick={() => setShowReturnModal(true)}
+                >
+                  <FaArrowRotateLeft /> SOLICITAR DEVOLUCIÓN
+                </button>
+              ) : (
+                <div className={`${styles.touchReturnBadge} ${styles['return' + order.return_status]}`}>
+                  <FaArrowRotateLeft /> DEVOLUCIÓN {order.return_status.toUpperCase()}
+                </div>
+              )
             )}
 
             {/* BOTÓN DE CHAT (Móvil) */}
@@ -297,16 +319,20 @@ export default function OrderDetailClient({ order, config }) {
      ───────────────────────────────────────────────────────────────────────────── */
   return (
     <div className={styles.detailContainer}>
-      {/* Cabecera: Botón de volver a la izquierda y estado a la derecha */}
+      {/* Cabecera personalizada: Botón atrás, Título centrado y Estado a la derecha */}
       <header className={styles.header}>
         <div className={styles.headerLeft}>
           <Link href="/dashboard/pedidos" className={styles.backButton}>
             <FaChevronLeft /> VOLVER AL HISTORIAL
           </Link>
-          <h1>Pedido #{order.order_id}</h1>
         </div>
-        <div className={`${styles.statusBadge} ${statusInfo.class}`}>
-          {statusInfo.icon} {statusInfo.text}
+        
+        <h1 className={styles.desktopTitle}>Pedido #{order.order_id}</h1>
+
+        <div className={styles.headerRight}>
+          <div className={`${styles.statusBadge} ${statusInfo.class}`}>
+            {statusInfo.icon} {statusInfo.text}
+          </div>
         </div>
       </header>
 
@@ -364,7 +390,7 @@ export default function OrderDetailClient({ order, config }) {
       )}
 
       {/* 3. GRID DE CONTENIDO: Artículos a la izquierda, Info de envío a la derecha */}
-      <main className={styles.grid}>
+      <main className={styles.mainContent}>
         <section className={styles.itemsSection}>
           <h2 className={styles.sectionTitle}>Artículos en este pedido</h2>
           <div className={styles.itemsList}>
@@ -383,6 +409,20 @@ export default function OrderDetailClient({ order, config }) {
                 <div className={styles.itemTotal}>
                   {(parseFloat(item.price || 0) * item.quantity).toFixed(2)}€
                 </div>
+                {order.order_status.toLowerCase() === 'recibido' && (
+                  item.is_rated ? (
+                    <span className={styles.ratedBadge}>
+                      <FaCircleCheck size={10} /> YA VALORADO
+                    </span>
+                  ) : (
+                    <button 
+                      className={styles.reviewBtn}
+                      onClick={() => setReviewProduct(item)}
+                    >
+                      Valorar
+                    </button>
+                  )
+                )}
               </div>
             ))}
           </div>
@@ -432,14 +472,20 @@ export default function OrderDetailClient({ order, config }) {
             <FaCalendarDays /> Pedido realizado el {orderDate}
           </div>
 
-          {/* BOTÓN DE DEVOLUCIÓN (Escritorio) */}
+          {/* BOTÓN O ESTADO DE DEVOLUCIÓN (Escritorio) */}
           {order.order_status.toLowerCase() === 'recibido' && (
-            <button 
-              className={styles.returnButton}
-              onClick={() => setShowReturnModal(true)}
-            >
-              <FaArrowRotateLeft /> SOLICITAR DEVOLUCIÓN
-            </button>
+            !order.return_status ? (
+              <button 
+                className={styles.returnButton}
+                onClick={() => setShowReturnModal(true)}
+              >
+                <FaArrowRotateLeft /> SOLICITAR DEVOLUCIÓN
+              </button>
+            ) : (
+              <div className={`${styles.returnStatusBadge} ${styles['return' + order.return_status]}`}>
+                <FaArrowRotateLeft /> DEVOLUCIÓN {order.return_status.toUpperCase()}
+              </div>
+            )
           )}
 
           {/* BOTÓN DE CHAT (Escritorio) */}
@@ -470,6 +516,17 @@ export default function OrderDetailClient({ order, config }) {
           <OrderChatModal 
             orderId={order.order_id} 
             onClose={() => setShowChatModal(false)} 
+          />
+        )}
+      </AnimatePresence>
+
+      {/* MODAL DE VALORACIÓN */}
+      <AnimatePresence>
+        {reviewProduct && (
+          <ProductReviewModal 
+            product={reviewProduct} 
+            orderId={order.order_id}
+            onClose={() => setReviewProduct(null)} 
           />
         )}
       </AnimatePresence>

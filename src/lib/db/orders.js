@@ -144,7 +144,9 @@ export async function getOrderById(orderId) {
                 oi.quantity,
                 oi.unit_price,
                 p.name as product_name,
-                p.image_url
+                p.image_url,
+                (SELECT status FROM order_returns WHERE order_id = o.order_id ORDER BY creation_date DESC LIMIT 1) as return_status,
+                (SELECT review_id FROM product_reviews WHERE order_id = o.order_id AND product_id = oi.product_id LIMIT 1) as review_id
             FROM orders o
             LEFT JOIN userAddresses ua ON ua.address_id = o.address_id
             LEFT JOIN order_product oi ON oi.order_id = o.order_id
@@ -218,6 +220,7 @@ function groupOrderRows(rows) {
                     pais:               row.pais,
                     phone_number:       row.phone_number,
                 } : null,
+                return_status: row.return_status,
                 items: [], // Inicialmente sin items
             });
         }
@@ -229,7 +232,8 @@ function groupOrderRows(rows) {
                 price:        row.unit_price,
                 quantity:     row.quantity,
                 product_name: row.product_name,
-                image_url:    row.image_url
+                image_url:    row.image_url,
+                is_rated:     !!row.review_id
             });
         }
     }

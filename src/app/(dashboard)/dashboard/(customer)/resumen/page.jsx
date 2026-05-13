@@ -21,7 +21,7 @@ import { getUserById } from "@/lib/db/users";
 import styles from "./resumen.module.css";
 import Link from "next/link";
 import StatsCards from "@/components/ui/Cards/StatsCard/StatsCard";
-import WeatherWidget from "@/components/ui/WeatherWidget/WeatherWidget";
+import DashboardHeader from "@/components/dashboard/DashboardHeader/DashboardHeader";
 import { 
   FaCubes, 
   FaHeart, 
@@ -76,19 +76,12 @@ export default async function ResumenPage() {
 
   return (
     <div className={styles.dashboardContainer}>
-      <header className={styles.headerSection}>
-        <div className={styles.greeting}>
-          <h1>Hola, {user?.nickname || session.nickname || 'Amigo'}</h1>
-          <p>Bienvenido de nuevo a tu panel de control.</p>
-        </div>
-        
-        <div className={styles.headerWidgets}>
-          <Link href="/tienda" className={styles.viewAllLink}>
-            <FaStore style={{marginRight: '8px'}} /> Diseños de la comunidad
-          </Link>
-          <WeatherWidget />
-        </div>
-      </header>
+      <DashboardHeader 
+        user={user} 
+        session={session} 
+        description="Este es el resumen de tu actividad en Hygge Rug."
+        showCommunity={true}
+      />
 
       <section className={styles.statsGrid}>
         <StatsCards

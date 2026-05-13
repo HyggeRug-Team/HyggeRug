@@ -9,6 +9,7 @@ import ProductPrice from '@/components/store/ProductDetail/ProductPrice';
 import ProductSizeSelector from '@/components/store/ProductDetail/ProductSizeSelector';
 import ProductBuyActions from '@/components/store/ProductDetail/ProductBuyActions';
 import CartSidebar from '@/components/store/cart/CartSidebar/CartSidebar';
+import ProductReviews from '@/components/store/ProductDetail/ProductReviews';
 
 export default function ProductDetailClient({ product }) {
     const [selectedSize, setSelectedSize] = useState(product.sizes?.[0] || null);
@@ -73,6 +74,9 @@ export default function ProductDetailClient({ product }) {
                 <div className={styles.descriptionSection}>
                     <ProductDescription description={product.description} />
                 </div>
+
+                {/* FILA EXTRA: VALORACIONES */}
+                <ProductReviews reviews={product.reviews} />
             </div>
         </main>
     );

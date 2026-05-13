@@ -177,9 +177,9 @@
 }
 
 .productDescription {
-    margin-top: 20px;
+    margin-top: 10px;
     border-top: 1px solid rgba(255, 255, 255, 0.05);
-    padding-top: 30px;
+    padding-top: 15px;
 }
 
 .productDescription h3 {
@@ -632,4 +632,239 @@
     .currentPrice {
         font-size: 2.5rem;
     }
+}
+
+/* ── SECCIÓN DE RESEÑAS MINIMALISTA ── */
+.reviewsSection {
+  padding: 20px 0;
+  max-width: 1200px;
+  margin: 20px auto;
+}
+
+.reviewsHeaderMinimal {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+  padding-bottom: 15px;
+  border-bottom: 2px solid rgba(255, 255, 255, 0.05);
+}
+
+.headerTitleGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.miniBadge {
+  font-size: 0.65rem;
+  font-weight: 900;
+  color: var(--highlight-text);
+  letter-spacing: 3px;
+}
+
+.minimalTitle {
+  font-family: var(--font-titles);
+  font-size: 2.2rem;
+  color: var(--white);
+  margin: 0;
+  text-shadow: 2px 2px 0px rgba(0, 0, 0, 0.5);
+}
+
+.ratingSummaryMini {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  background: rgba(255, 255, 255, 0.03);
+  padding: 10px 20px;
+  border-radius: 100px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.ratingScore {
+  font-size: 1.4rem;
+  font-weight: 900;
+  color: var(--white);
+  font-family: var(--font-titles);
+}
+
+.ratingStarsMini {
+  display: flex;
+  gap: 3px;
+  color: var(--grey-700);
+}
+
+.totalReviews {
+  font-size: 0.8rem;
+  color: var(--grey-500);
+  font-weight: 700;
+}
+
+/* Grid de reseñas */
+.reviewsGridMinimal {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 20px;
+}
+
+.reviewCardMinimal {
+  background: transparent;
+  border-left: 2px solid rgba(255, 255, 255, 0.05);
+  padding: 10px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  transition: all 0.3s ease;
+}
+
+.reviewCardMinimal:hover {
+  border-left-color: var(--highlight-text);
+  background: rgba(255, 255, 255, 0.01);
+}
+
+.reviewTopMinimal {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.userMinimal {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.avatarMini {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: var(--highlight-text);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.75rem;
+  font-weight: 900;
+  color: var(--white);
+  overflow: hidden;
+}
+
+.avatarMini img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.userMetaMini {
+  display: flex;
+  flex-direction: column;
+}
+
+.nameMini {
+  font-size: 0.85rem;
+  font-weight: 800;
+  color: var(--white);
+}
+
+.dateMini {
+  font-size: 0.7rem;
+  color: var(--grey-600);
+}
+
+.starsMini {
+  display: flex;
+  gap: 2px;
+}
+
+.commentMinimal {
+  font-size: 0.9rem;
+  color: var(--grey-400);
+  line-height: 1.5;
+  margin: 0;
+  font-weight: 300;
+  letter-spacing: 0.2px;
+}
+
+.starActive { color: var(--hover-text); }
+.starEmpty { color: rgba(255, 255, 255, 0.05); }
+
+@media (max-width: 768px) {
+  .reviewsHeaderMinimal {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 20px;
+  }
+  
+  .minimalTitle {
+    font-size: 1.8rem;
+  }
+  
+  .reviewsGridMinimal {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* PAGINACIÓN */
+.pagination {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+  margin-top: 40px;
+}
+
+.pageBtn {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: var(--white);
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.pageBtn:hover:not(:disabled) {
+  background: var(--highlight-text);
+  border-color: var(--highlight-text);
+  color: black;
+}
+
+.pageBtn:disabled {
+  opacity: 0.2;
+  cursor: not-allowed;
+}
+
+.pageNumbers {
+  display: flex;
+  gap: 8px;
+}
+
+.pageNumber {
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  color: var(--grey-500);
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.pageNumber:hover {
+  border-color: rgba(255, 255, 255, 0.2);
+  color: var(--white);
+}
+
+.pageActive {
+  background: rgba(255, 255, 255, 0.05);
+  border-color: var(--highlight-text);
+  color: var(--highlight-text);
 }

@@ -21,6 +21,7 @@ import { getSession } from './auth';
 import { put } from '@vercel/blob';
 import { createTicket } from './db/support';
 import { createReturn } from './db/returns';
+import { createReview } from './db/reviews';
 
 /* ─── Soporte y Atención al Cliente ─── */
 /**
@@ -74,6 +75,28 @@ export async function requestReturnAction(returnData) {
 
     } catch (error) {
         console.error("[ACTION] Error solicitando devolución:", error);
+        return { success: false, error: error.message };
+    }
+}
+
+/**
+ * CREA UNA RESEÑA DE UN PRODUCTO
+ */
+export async function createReviewAction(reviewData) {
+    try {
+        const session = await getSession();
+        if (!session) return { success: false, error: "Sesión no válida" };
+
+        const userId = session.userId || session.user_id || session.id;
+
+        const reviewId = await createReview({
+            ...reviewData,
+            userId
+        });
+
+        return { success: true, reviewId };
+    } catch (error) {
+        console.error("[ACTION] Error creando reseña:", error);
         return { success: false, error: error.message };
     }
 }
@@ -207,5 +230,42 @@ export async function updateUserData(field, value) {
         return { success: false };
     } catch (error) {
         return { success: false };
+    }
+}
+
+/**
+ * SUBE UN ACTIVO DE TIENDA (VIDEO, BANNER) A VERCEL BLOB
+ * Exclusivo para administradores.
+ */
+export async function uploadStoreAsset(formData) {
+    try {
+        const session = await getSession();
+        if (!session || session.role !== 'admin') {
+            return { success: false, error: "No autorizado" };
+        }
+
+        const file = formData.get('file');
+        const folder = formData.get('folder') || 'assets';
+        if (!file) return { success: false, error: "No se ha subido ningún archivo" };
+
+        // Límite más alto para videos (20MB)
+        const MAX_SIZE = 20 * 1024 * 1024; 
+        if (file.size > MAX_SIZE) {
+            return { 
+                success: false, 
+                error: "El archivo es demasiado pesado (Max 20MB)." 
+            };
+        }
+
+        const fileName = `${folder}/${Date.now()}_${file.name.replace(/\s+/g, '_')}`;
+
+        const blob = await put(fileName, file, {
+            access: 'public',
+        });
+
+        return { success: true, url: blob.url };
+    } catch (error) {
+        console.error("[ACTION] Error subiendo activo:", error);
+        return { success: false, error: error.message };
     }
 }

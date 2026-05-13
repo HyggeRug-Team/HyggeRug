@@ -19,8 +19,8 @@ import { redirect } from "next/navigation";
 import { getOrdersByUser } from "@/lib/db/orders";
 import styles from "./pedidos.module.css";
 import React from 'react';
-import WeatherWidget from "@/components/ui/WeatherWidget/WeatherWidget";
 import OrdersHistory from "@/components/dashboard/OrdersHistory/OrdersHistory";
+import DashboardHeader from "@/components/dashboard/DashboardHeader/DashboardHeader";
 
 export const metadata = {
   title: "Mis Pedidos | Hygge Rug",
@@ -47,15 +47,11 @@ export default async function PedidosPage() {
 
   return (
     <div className={styles.dashboardContainer}>
-      <header className={styles.headerSection}>
-        <div className={styles.greeting}>
-            <h1>Tus Pedidos</h1>
-            <p>Rastrea tus creaciones desde el taller hasta tu setup.</p>
-        </div>
-        <div className={styles.headerWidgets}>
-          <WeatherWidget />
-        </div>
-      </header>
+      <DashboardHeader 
+        session={session} 
+        title="Mis Pedidos"
+        description="Rastrea y gestiona tus pedidos activos e históricos."
+      />
       
       <main className={styles.mainContent}>
         <OrdersHistory initialOrders={orders} />

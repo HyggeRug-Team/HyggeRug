@@ -127,16 +127,21 @@ export default function OrdersHistory({ initialOrders }) {
                   transition={{ duration: 0.2 }}
                   className={styles.orderCard}
                 >
-                  <div className={styles.cardHeader}>
-                    <div className={styles.orderIdGroup}>
-                       <span className={styles.orderLabel}>ORDEN</span>
-                       <span className={styles.orderNumber}>#{order.order_id}</span>
+                    <div className={styles.cardHeader}>
+                      <div className={styles.orderIdGroup}>
+                         <span className={styles.orderLabel}>ORDEN</span>
+                         <span className={styles.orderNumber}>#{order.order_id}</span>
+                         {order.return_status && (
+                           <span className={`${styles.returnTag} ${styles['return' + order.return_status]}`}>
+                             DEVOLUCIÓN {order.return_status.toUpperCase()}
+                           </span>
+                         )}
+                      </div>
+                      <div className={`${styles.statusBadge} ${statusInfo.class}`}>
+                         {statusInfo.icon}
+                         <span>{statusInfo.text}</span>
+                      </div>
                     </div>
-                    <div className={`${styles.statusBadge} ${statusInfo.class}`}>
-                       {statusInfo.icon}
-                       <span>{statusInfo.text}</span>
-                    </div>
-                  </div>
 
                   <div className={styles.cardBody}>
                     <div className={styles.orderMainInfo}>

@@ -58,3 +58,36 @@ export async function createReturn(returnData) {
         throw new Error(`createReturn: error al crear devolución – ${error.message}`);
     }
 }
+
+/**
+ * OBTIENE TODAS LAS DEVOLUCIONES (ADMIN)
+ */
+export async function getAllReturns() {
+    try {
+        const [rows] = await db.query(`
+            SELECT 
+                r.*, 
+                u.nickname as user_name,
+                o.creation_date as order_date
+            FROM order_returns r
+            JOIN users u ON u.user_id = r.user_id
+            JOIN orders o ON o.order_id = r.order_id
+            ORDER BY r.creation_date DESC
+        `);
+        return rows;
+    } catch (error) {
+        if (error.message.includes("doesn't exist")) return [];
+        return [];
+    }
+}
+
+/**
+ * ACTUALIZA EL ESTADO DE UNA DEVOLUCIÓN (ADMIN)
+ */
+export async function updateReturnStatus(returnId, status) {
+    try {
+        await db.query(`UPDATE order_returns SET status = ? WHERE return_id = ?`, [status, returnId]);
+    } catch (error) {
+        throw new Error(`updateReturnStatus: error – ${error.message}`);
+    }
+}

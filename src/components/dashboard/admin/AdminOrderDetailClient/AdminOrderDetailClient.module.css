@@ -27,8 +27,10 @@
 
 .headerLeft {
   display: flex;
-  align-items: center;
-  gap: 24px;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 15px;
+  flex: 1;
 }
 
 .backBtn {
@@ -48,17 +50,6 @@
   transform: translateX(-4px);
 }
 
-.title {
-  font-family: var(--font-titles);
-  font-size: 2.8rem;
-  margin: 0;
-  line-height: 1;
-  text-shadow: 4px 4px 0px var(--highlight-text);
-}
-
-.title span {
-  color: var(--white);
-}
 
 /* Controles de estado en el header */
 .headerActions {

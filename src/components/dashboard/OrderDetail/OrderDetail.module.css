@@ -27,12 +27,15 @@
 */
 
 .detailContainer {
-  max-width: 1200px;
+  max-width: 1250px;
   margin: 0 auto;
-  padding: 40px 20px;
-  display: flex;
-  flex-direction: column;
-  gap: 30px;
+  padding: 40px 40px 100px;
+}
+
+@media (max-width: 1024px) {
+  .detailContainer {
+    padding: 20px 20px 100px;
+  }
 }
 
 /* ── Cabecera: El punto de partida ── */
@@ -45,9 +48,23 @@
 }
 
 .headerLeft {
+  flex: 1;
+}
+
+.headerRight {
+  flex: 1;
   display: flex;
-  align-items: center;
-  gap: 30px;
+  justify-content: flex-end;
+}
+
+.desktopTitle {
+  font-family: var(--font-titles);
+  font-size: 2.2rem;
+  color: var(--white);
+  margin: 0;
+  text-align: center;
+  flex: 2;
+  text-shadow: 0 0 20px rgba(255, 0, 85, 0.3);
 }
 
 .backButton {
@@ -66,11 +83,6 @@
   transform: translateX(-5px); /* Pequeño guiño visual al usuario */
 }
 
-.headerLeft h1 {
-  font-size: 2.5rem;
-  margin: 0;
-  text-shadow: 4px 4px 0px var(--highlight-text); /* El sello de Hygge Rug */
-}
 
 /* ── Badges de Estado: Claridad visual inmediata ── */
 .statusBadge {
@@ -109,6 +121,22 @@
   border-radius: 24px;
   padding: 30px;
   margin-bottom: 10px;
+  overflow-x: auto;
+  scrollbar-width: none; /* Firefox */
+}
+
+.desktopTrackerCard::-webkit-scrollbar {
+  display: none; /* Chrome/Safari */
+}
+
+@media (max-width: 768px) {
+  .desktopTrackerCard {
+    padding: 20px 0;
+    border-radius: 16px;
+    margin: 0 -10px 20px;
+    border-left: none;
+    border-right: none;
+  }
 }
 
 .desktopTrackerWrapper {
@@ -117,11 +145,18 @@
   align-items: center;
   position: relative;
   padding: 0 40px;
+  width: 100%;
+}
+
+@media (max-width: 768px) {
+  .desktopTrackerWrapper {
+    padding: 0 30px;
+  }
 }
 
 .desktopTrackerLine {
   position: absolute;
-  top: 25px;
+  top: 25px; /* Restaurado el centro original para puntos de 50px */
   left: 60px;
   right: 60px;
   height: 2px;
@@ -160,6 +195,18 @@
   transition: all 0.3s;
 }
 
+@media (max-width: 768px) {
+  .desktopStepDot {
+    width: 24px; /* Un poco más pequeño aún */
+    height: 24px;
+    font-size: 0.7rem;
+  }
+  
+  .desktopTrackerLine {
+    top: 12px; /* Ajustado al nuevo radio de 24px */
+  }
+}
+
 .desktopStepActive .desktopStepDot {
   border-color: var(--highlight-text);
   color: var(--highlight-text);
@@ -175,17 +222,25 @@
   letter-spacing: 1px;
 }
 
+@media (max-width: 768px) {
+  .desktopStepLabel {
+    font-size: 0.6rem;
+    letter-spacing: 0.5px;
+  }
+}
+
 .desktopStepActive .desktopStepLabel {
   color: var(--white);
 }
 
 /* ── Grid Layout (Desktop): Organización y jerarquía ── */
-.grid {
+.mainContent {
   display: grid;
   grid-template-columns: 1fr 350px;
-  gap: 30px;
-  align-items: start;
+  gap: 40px;
+  align-items: flex-start;
 }
+
 
 .sectionTitle {
   font-family: var(--font-body);
@@ -243,6 +298,58 @@
   font-family: var(--font-titles);
   font-size: 1.4rem;
   color: var(--white);
+}
+
+.reviewBtn {
+  background: transparent;
+  border: 1px solid var(--accent-pink);
+  color: var(--accent-pink);
+  padding: 6px 12px;
+  border-radius: 8px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.reviewBtn:hover {
+  background: var(--accent-pink);
+  color: white;
+  transform: translateY(-2px);
+}
+
+.ratedBadge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  background: rgba(0, 255, 128, 0.08);
+  color: #00ff80;
+  border: 1.5px solid rgba(0, 255, 128, 0.3);
+  padding: 4px 14px;
+  border-radius: 20px;
+  font-size: 0.7rem;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  white-space: nowrap;
+  line-height: 1.2;
+  transition: all 0.3s ease;
+}
+
+.ratedBadge svg {
+  filter: drop-shadow(0 0 5px rgba(0, 255, 128, 0.5));
+}
+
+.ratedBadgeMinimal {
+  font-size: 0.65rem;
+  font-weight: 900;
+  color: #00ff80;
+  letter-spacing: 1px;
+  background: rgba(0, 255, 128, 0.05);
+  padding: 4px 8px;
+  border-radius: 4px;
 }
 
 /* ── Sidebar: Detalles informativos ── */
@@ -307,6 +414,23 @@
   color: var(--white);
   font-weight: 800;
   font-size: 1.3rem;
+}
+
+.paymentMethod {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 15px;
+  color: var(--grey-500);
+  font-size: 0.85rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.paymentMethod svg {
+  color: var(--grey-600);
+  font-size: 1.1rem;
 }
 
 .orderMeta {
@@ -410,16 +534,6 @@
   letter-spacing: 2px;
 }
 
-.touchTitle {
-  font-size: 2.4rem;
-  margin: 0;
-  line-height: 1;
-  text-shadow: 4px 4px 0px var(--highlight-text);
-}
-
-.touchOrderID {
-  color: var(--white);
-}
 
 .touchItemsSection {
   margin-top: -40px;
@@ -435,11 +549,20 @@
 .touchItemCard {
   display: flex;
   align-items: center;
-  gap: 18px;
+  gap: 15px;
   background: rgba(255, 255, 255, 0.03);
-  padding: 14px;
+  padding: 12px;
   border-radius: 20px;
-  border: 2px dashed rgba(255, 255, 255, 0.1);
+  border: 1px dashed rgba(255, 255, 255, 0.1);
+  position: relative;
+  flex-wrap: wrap;
+}
+
+@media (max-width: 480px) {
+  .touchItemCard {
+    gap: 10px;
+    padding: 10px;
+  }
 }
 
 .touchItemImage {
@@ -457,24 +580,52 @@
   object-fit: cover;
 }
 
+.touchItemDetails {
+  flex: 1;
+  min-width: 120px;
+}
+
 .touchItemDetails h3 {
-  font-size: 1rem;
+  font-size: 0.95rem;
   margin: 0;
   color: var(--white);
   font-weight: 800;
+  line-height: 1.2;
 }
 
 .touchItemMeta {
-  font-size: 0.8rem;
+  font-size: 0.75rem;
   color: var(--grey-500);
   margin-top: 4px;
 }
 
 .touchItemTotal {
   font-weight: 900;
-  font-size: 1.1rem;
+  font-size: 1rem;
   color: var(--white);
   font-family: var(--font-titles);
+  margin-left: auto;
+}
+
+@media (max-width: 400px) {
+  .touchItemTotal {
+    width: 100%;
+    margin-top: 5px;
+    padding-top: 5px;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    text-align: right;
+  }
+}
+
+.touchReviewBtn {
+  background: var(--highlight-text);
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 8px;
+  font-size: 0.7rem;
+  font-weight: 800;
+  text-transform: uppercase;
 }
 
 .touchSidebar {
@@ -786,4 +937,62 @@
   background: #000;
   box-shadow: 0 0 12px rgba(255, 0, 85, 0.5);
   transform: scale(1.1);
+}
+
+/* ESTADOS DE DEVOLUCIÓN */
+.returnStatusBadge, .touchReturnBadge {
+  width: 100%;
+  margin-top: 20px;
+  background: rgba(0, 0, 0, 0.3);
+  border: 2px solid orange;
+  color: orange;
+  padding: 16px;
+  border-radius: 16px;
+  font-weight: 800;
+  font-size: 0.8rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.returnaprobada {
+  border-color: #00ff80;
+  color: #00ff80;
+  background: rgba(0, 255, 128, 0.05);
+}
+
+.returnrechazada {
+  border-color: #ff4d4d;
+  color: #ff4d4d;
+  background: rgba(255, 77, 77, 0.05);
+}
+
+.returncompletada {
+  border-color: #00ccff;
+  color: #00ccff;
+  background: rgba(0, 204, 255, 0.05);
+}
+
+/* ESTADOS DE DEVOLUCIÓN */
+.returnStatusBadge, .touchReturnBadge {
+  width: 100%;
+  margin-top: 20px;
+  background: rgba(255, 165, 0, 0.1);
+  border: 1px solid orange;
+  color: orange;
+  padding: 14px;
+  border-radius: 12px;
+  font-weight: 800;
+  font-size: 0.85rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
 }

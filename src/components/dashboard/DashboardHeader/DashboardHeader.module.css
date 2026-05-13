@@ -1,0 +1,87 @@
+.headerSection {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  padding-bottom: 30px;
+  border-bottom: 3px solid rgba(255, 255, 255, 0.1);
+  position: relative;
+  margin-bottom: 40px;
+}
+
+.greeting h1 {
+  font-family: var(--font-titles);
+  /* Tamaño fluido pero contenido */
+  font-size: clamp(2.5rem, 5vw, 4rem);
+  margin: 0;
+  line-height: 0.9;
+  color: var(--white);
+  /* Sombra sólida idéntica al Hero */
+  text-shadow: 4px 4px 0px var(--highlight-text); 
+  display: flex;
+  align-items: center;
+}
+
+.greeting p {
+  color: var(--grey-400);
+  font-size: 1.1rem;
+  margin-top: 10px;
+  font-weight: 300;
+  letter-spacing: 0.5px;
+}
+
+.adminBadge {
+  font-size: 0.7rem; /* Un poco más pequeño para integrarse mejor */
+  background: var(--highlight-text);
+  color: black;
+  padding: 0px 8px;
+  border-radius: 4px;
+  margin-left: 5px; /* Reducimos el espacio */
+  vertical-align: middle;
+  font-family: var(--font-body);
+  font-weight: 900;
+  text-transform: uppercase;
+  /* Eliminamos la sombra para que el badge "flote" limpio sobre la sombra del texto principal */
+  text-shadow: none; 
+  height: 24px;
+  display: flex;
+  align-items: center;
+}
+
+.headerWidgets {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.viewAllLink {
+  background: var(--white);
+  color: var(--black);
+  text-decoration: none;
+  font-weight: 900;
+  padding: 12px 24px;
+  border-radius: 12px;
+  border: 2px solid var(--black);
+  /* Sombra dura característica */
+  box-shadow: 4px 4px 0px var(--highlight-text);
+  transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  text-transform: uppercase;
+  font-size: 0.9rem;
+  letter-spacing: 1px;
+}
+
+.viewAllLink:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 6px 6px 0px var(--highlight-text);
+  background: #fff;
+}
+
+@media (max-width: 900px) {
+    .headerSection {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 25px;
+    }
+}

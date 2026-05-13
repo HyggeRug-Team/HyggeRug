@@ -26,10 +26,11 @@ import {
   FaChevronRight,
   FaHeadset
 } from 'react-icons/fa6';
+import DashboardHeader from '@/components/dashboard/DashboardHeader/DashboardHeader';
 import CustomSelect from '@/components/ui/Inputs/CustomSelect/CustomSelect';
 import FeedbackModal from '@/components/ui/Feedback/FeedbackModal';
 
-export default function AdminSupportClient({ initialTickets }) {
+export default function AdminSupportClient({ initialTickets, session }) {
   const [tickets, setTickets] = useState(initialTickets);
   const [search, setSearch] = useState('');
   const [statusFilter, setStatusFilter] = useState('todos');
@@ -125,13 +126,12 @@ export default function AdminSupportClient({ initialTickets }) {
 
   return (
     <div className={styles.container}>
-      {/* HEADER */}
-      <header className={styles.header}>
-        <div className={styles.headerInfo}>
-          <h1>Gestión de Tickets</h1>
-          <p>Soporte, incidencias y devoluciones de usuarios.</p>
-        </div>
-      </header>
+      <DashboardHeader 
+        session={session} 
+        isAdmin={true} 
+        title="Centro de Soporte"
+        description={`Gestiona incidencias y tickets. Tienes ${tickets.filter(t => t.status !== 'resuelto').length} casos pendientes.`}
+      />
 
       {/* TOOLBAR */}
       <div className={styles.toolbar}>

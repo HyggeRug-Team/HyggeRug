@@ -67,7 +67,7 @@ export default async function OrderDetailPage({ params }) {
   // Delegamos el renderizado al componente de cliente para manejar la vista táctil
   return (
     <Suspense fallback={<div>Cargando detalles...</div>}>
-      <OrderDetailClient order={order} config={config} />
+      <OrderDetailClient order={order} config={config} session={session} />
     </Suspense>
   );
 }

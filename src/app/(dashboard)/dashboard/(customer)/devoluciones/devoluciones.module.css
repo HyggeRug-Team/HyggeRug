@@ -1,174 +1,194 @@
 .dashboardContainer {
-    max-width: 1400px;
-    margin: 0 auto;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    padding: 20px 20px 40px;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 40px 20px;
 }
 
-.headerSection {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-end;
-    padding-bottom: 10px;
-    border-bottom: 3px solid rgba(255, 255, 255, 0.1);
+.mainContent {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
 }
 
-.greeting h1 {
-    font-family: var(--font-titles);
-    font-size: clamp(2rem, 5vw, 3rem);
-    margin: 0;
-    line-height: 0.9;
-    color: var(--white);
-    text-shadow: 3px 3px 0px var(--highlight-text); 
-}
-
-.greeting p {
-    color: var(--grey-400);
-    font-size: 1rem;
-    margin-top: 8px;
-    font-weight: 300;
-}
-
-.infoBox {
-    background: rgba(255, 215, 1, 0.05);
-    border: 1px dashed var(--hover-text);
-    padding: 20px 25px;
-    border-radius: 12px;
-    display: flex;
-    align-items: center;
-    gap: 20px;
-    margin-bottom: 40px;
+.infoBanner {
+  background: rgba(255, 215, 1, 0.04);
+  border: 1px dashed rgba(255, 215, 1, 0.3);
+  padding: 18px 25px;
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  gap: 20px;
 }
 
 .infoIcon {
-    font-size: 1.5rem;
-    color: var(--hover-text);
-    flex-shrink: 0;
+  font-size: 1.4rem;
+  color: var(--hover-text);
+  flex-shrink: 0;
 }
 
-.infoBox p {
-    color: var(--grey-300);
-    font-size: 0.95rem;
-    margin: 0;
-    line-height: 1.5;
+.infoBanner p {
+  color: var(--grey-400);
+  font-size: 0.9rem;
+  margin: 0;
+  line-height: 1.5;
 }
 
 .returnsList {
-    display: flex;
-    flex-direction: column;
-    gap: 25px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
 }
 
 .returnCard {
-    background: var(--grey-900);
-    border: 2px dashed rgba(255, 255, 255, 0.1);
-    border-radius: 20px;
-    overflow: hidden;
-    transition: all 0.3s ease;
+  background: rgba(255, 255, 255, 0.02);
+  border: 2px dashed rgba(255, 255, 255, 0.1);
+  border-radius: 20px;
+  overflow: hidden;
+  transition: all 0.3s ease;
 }
 
 .returnCard:hover {
-    border-color: var(--highlight-text);
-    background: rgba(255,255,255,0.02);
+  border-color: var(--highlight-text);
+  background: rgba(255, 255, 255, 0.04);
 }
 
 .cardHeader {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 15px 25px;
-    background: rgba(255, 255, 255, 0.03);
-    border-bottom: 2px dashed rgba(255, 255, 255, 0.1);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 25px;
+  background: rgba(255, 255, 255, 0.02);
+  border-bottom: 1px dashed rgba(255, 255, 255, 0.08);
 }
 
-.returnIdGroup {
-    display: flex;
-    align-items: center;
-    gap: 12px;
+.idGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
 }
 
-.returnLabel {
-    font-size: 0.7rem;
-    font-weight: 800;
-    color: var(--grey-500);
-    letter-spacing: 1px;
+.idLabel {
+  font-size: 0.6rem;
+  font-weight: 700;
+  color: var(--grey-600);
+  letter-spacing: 2px;
 }
 
-.returnNumber {
-    font-family: var(--font-titles);
-    font-size: 1.2rem;
-    color: var(--white);
+.idValue {
+  font-family: var(--font-titles);
+  font-size: 1.2rem;
+  color: var(--white);
 }
 
 .statusBadge {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    background: var(--black);
-    padding: 6px 14px;
-    border-radius: 8px;
-    font-size: 0.75rem;
-    font-weight: 800;
-    letter-spacing: 1px;
-    border: 1px solid rgba(255,255,255,0.2);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 14px;
+  border-radius: 8px;
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 1px;
+  border: 1px dashed;
 }
 
-.pendiente { border-color: var(--hover-text); color: var(--hover-text); }
-.aprobada { border-color: #00ff80; color: #00ff80; }
-.rechazada { border-color: #ff4d4d; color: #ff4d4d; }
+.pendiente { color: var(--hover-text); border-color: var(--hover-text); }
+.aprobada { color: #00ff80; border-color: #00ff80; }
+.rechazada { color: #ff4d4d; border-color: #ff4d4d; }
+.completada { color: var(--accent-cyan); border-color: var(--accent-cyan); }
 
 .cardBody {
-    padding: 25px;
+  padding: 25px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
 }
 
-.orderRef {
-    color: var(--white);
-    margin-bottom: 10px;
-    font-size: 1rem;
+.metaInfo {
+  display: flex;
+  gap: 30px;
+  font-size: 0.9rem;
+  color: var(--grey-500);
 }
 
-.reasonText {
-    color: var(--grey-400);
-    font-style: italic;
-    margin-bottom: 20px;
+.metaInfo strong {
+  color: var(--white);
 }
 
-.dateText {
-    font-size: 0.8rem;
-    color: var(--grey-500);
-    text-transform: uppercase;
-    font-weight: 700;
+.reasonBox {
+  background: rgba(0, 0, 0, 0.2);
+  padding: 15px 20px;
+  border-radius: 12px;
+  border-left: 3px solid var(--highlight-text);
 }
 
-.emptyStateCard {
-    background: rgba(255, 255, 255, 0.02);
-    border: 3px dashed rgba(255,255,255,0.05);
-    border-radius: 30px;
-    padding: 100px 20px;
-    text-align: center;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 20px;
+.reasonBox p {
+  font-size: 0.95rem;
+  color: var(--grey-400);
+  font-style: italic;
+  margin: 0;
 }
 
-.emptyTitle {
-    font-family: var(--font-titles);
-    color: var(--white);
-    font-size: 1.8rem;
-    margin: 0;
+.emptyState {
+  padding: 80px 20px;
+  text-align: center;
+  background: rgba(255, 255, 255, 0.01);
+  border: 2px dashed rgba(255, 255, 255, 0.05);
+  border-radius: 30px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
 }
 
-.ordersLink {
-    color: var(--highlight-text);
-    text-decoration: underline;
-    font-weight: 700;
-    font-size: 0.9rem;
-    margin-top: 10px;
+.emptyIconWrapper {
+  width: 80px;
+  height: 80px;
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--grey-700);
+  margin-bottom: 10px;
+}
+
+.emptyState h3 {
+  font-family: var(--font-titles);
+  font-size: 1.8rem;
+  color: var(--white);
+  margin: 0;
+}
+
+.emptyState p {
+  color: var(--grey-500);
+  max-width: 400px;
+  font-size: 0.95rem;
+  margin: 0 0 10px 0;
+}
+
+.primaryLink {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: var(--white);
+  color: var(--black);
+  padding: 12px 25px;
+  border-radius: 12px;
+  font-weight: 900;
+  font-size: 0.8rem;
+  text-decoration: none;
+  box-shadow: 4px 4px 0px var(--highlight-text);
+  transition: all 0.2s;
+}
+
+.primaryLink:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 6px 6px 0px var(--highlight-text);
 }
 
 @media (max-width: 768px) {
-    .headerSection { flex-direction: column; align-items: flex-start; gap: 20px; }
+  .metaInfo { flex-direction: column; gap: 10px; }
+  .cardHeader { flex-direction: column; align-items: flex-start; gap: 15px; }
 }
