@@ -41,6 +41,7 @@ import CartSummary from '@/components/store/cart/CartSummary/CartSummary';
 import AddressSection from '@/components/store/cart/AddressSection/AddressSection';
 import DiscountSection from '@/components/store/cart/DiscountSection/DiscountSection';
 import CartModal from '@/components/store/cart/CartModal/CartModal';
+import FeedbackModal from '@/components/ui/Feedback/FeedbackModal';
 
 export default function CartPage() {
     /* ── HOOKS & CONTEXTO ── */
@@ -67,6 +68,7 @@ export default function CartPage() {
     const [showNewAddressForm, setShowNewAddressForm] = useState(false); // Formulario de nueva dirección
     const [showModal, setShowModal]   = useState(false);             // Modal de confirmación final
     const [confirming, setConfirming] = useState(false);             // Procesando el pedido
+    const [notification, setNotification] = useState({ isOpen: false, type: 'success', title: '', message: '' });
 
     /* ── ESTADO PARA NUEVA DIRECCIÓN ── */
     const [newAddress, setNewAddress] = useState({
@@ -194,14 +196,24 @@ export default function CartPage() {
 
             if (!res.ok) {
                 const data = await res.json();
-                alert(data.error);
+                setNotification({
+                    isOpen: true,
+                    type: 'error',
+                    title: 'Error en pedido',
+                    message: data.error || 'No hemos podido procesar tu compra.'
+                });
                 return;
             }
 
             setShowModal(false);
             router.push('/dashboard/pedidos');
         } catch {
-            alert('Error al confirmar el pedido. Inténtalo de nuevo.');
+            setNotification({
+                isOpen: true,
+                type: 'error',
+                title: 'Fallo Crítico',
+                message: 'Error al confirmar el pedido. Por favor, revisa tu conexión.'
+            });
         } finally {
             setConfirming(false);
         }
@@ -245,7 +257,12 @@ export default function CartPage() {
             setShowAddressList(false);
             setFormErrors({});
         } catch (err) {
-            alert(err.message);
+            setNotification({
+                isOpen: true,
+                type: 'error',
+                title: 'Error de dirección',
+                message: err.message || 'No se ha podido guardar la nueva dirección.'
+            });
         } finally {
             setAddressLoading(false);
         }
@@ -417,7 +434,7 @@ export default function CartPage() {
                     <motion.div 
                         initial={{ y: 150 }}
                         animate={{ y: 0 }}
-                        className={styles.premiumStickyBar}
+                        className={styles.stickyBar}
                     >
                         <div className={styles.stickyMain}>
                             <div className={styles.stickyPriceGroup}>
@@ -428,7 +445,7 @@ export default function CartPage() {
                                 text={confirming ? '...' : 'CONFIRMAR PEDIDO'}
                                 onClick={() => setShowModal(true)}
                                 disabled={!selectedAddress}
-                                className={styles.premiumConfirmBtn}
+                                className={styles.confirmBtn}
                             />
                         </div>
                         <div className={styles.stickyDisclaimer}>
@@ -447,6 +464,14 @@ export default function CartPage() {
                     confirming={confirming}
                     onCancel={() => setShowModal(false)}
                     onConfirm={handleConfirm}
+                />
+
+                <FeedbackModal 
+                    isOpen={notification.isOpen}
+                    type={notification.type}
+                    title={notification.title}
+                    message={notification.message}
+                    onClose={() => setNotification({ ...notification, isOpen: false })}
                 />
             </main>
         );
@@ -559,6 +584,14 @@ export default function CartPage() {
                 confirming={confirming}
                 onCancel={() => setShowModal(false)}
                 onConfirm={handleConfirm}
+            />
+
+            <FeedbackModal 
+                isOpen={notification.isOpen}
+                type={notification.type}
+                title={notification.title}
+                message={notification.message}
+                onClose={() => setNotification({ ...notification, isOpen: false })}
             />
         </main>
     );

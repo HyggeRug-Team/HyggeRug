@@ -4,11 +4,12 @@
  *
  * [Nuestro enfoque]
  * Hemos creado esta cabecera como el “centro de mandos” de nuestra web. 
- * Si el usuario está en la pantalla de acceso (Login/Registro), escondemos navegación para
+ * Si el usuario está en la pantalla de acceso (Login/Registro), escondemos la navegación para
  * que se centre en entrar a su cuenta sin distracciones.
  *
- * Además, adaptamos el comportamiento al tamaño de pantalla: en móvil mostramos menú tipo
- * “hamburguesa” y en escritorio dejamos la navegación visible.
+ * En móvil mostramos el menú hamburguesa y en escritorio dejamos la navegación visible.
+ * Hemos integrado el buscador global (SearchOverlay) desde aquí para que esté disponible
+ * tanto en el header de escritorio como en el menú móvil.
  *
  * [Por qué lo hemos hecho así]
  * Hemos elegido estas reglas para mejorar la experiencia de usuario y evitar que el panel de
@@ -21,6 +22,7 @@ import Logo from "@/components/ui/Logo/Logo";
 import styles from "./Header.module.css";
 import Link from 'next/link';
 import MobileMenu from '@/components/layout/MobileMenu/MobileMenu';
+import SearchOverlay from './SearchOverlay/SearchOverlay';
 import { useCart } from '@/context/CartContext';
 import {
   FaHouse,
@@ -36,6 +38,7 @@ import {
 function Header() {
   const { cartCount } = useCart();
   const [isMenuOpen, setIsOpenMenu] = useState(false);
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
   const pathname = usePathname();
   // Comprobamos si estamos en la página de autenticación para simplificar la interfaz
   const isAuthPage = pathname === '/auth';
@@ -60,7 +63,7 @@ function Header() {
 
   const MENU_ITEMS = [
     { id: 1, label: "Inicio", url: "/", icon: FaHouse },
-    { id: 2, label: "Diseñar", url: "/crear-diseno", icon: FaPaintbrush },
+    { id: 2, label: "Personalizar", url: "/personalizar", icon: FaPaintbrush },
     { id: 3, label: "Comunidad", url: "/tienda", icon: FaImages },
     { id: 6, label: "Buscar", url: "/buscar", icon: FaMagnifyingGlass },
     { id: 5, label: "Carrito", url: "/carrito", icon: FaCartShopping },
@@ -76,8 +79,8 @@ function Header() {
       {!isAuthPage && (
         <>
           <nav className={styles.nav}>
-            <Link href='/tienda' className={styles.navLink}>Diseños de la comunidad</Link>
-            <Link href='/crear-diseno' className={styles.navLink}>Personalizar</Link>
+            <Link href='/tienda' className={styles.navLink}>Comunidad</Link>
+            <Link href='/personalizar' className={styles.navLink}>Personalizar</Link>
             <Link href='/sobre-nosotros' className={styles.navLink}>Sobre Nosotros</Link>
           </nav>
 
@@ -85,6 +88,21 @@ function Header() {
             {/* Filtramos los iconos que queremos mostrar en la barra persistente */}
             {MENU_ITEMS.filter(item => [4, 5, 6].includes(item.id)).map((item) => {
               const Icono = item.icon;
+              
+              // Si es el buscador, abrimos el overlay en lugar de navegar
+              if (item.id === 6) {
+                return (
+                  <button 
+                    key={item.id} 
+                    className={styles.iconBtn} 
+                    onClick={() => setIsSearchOpen(true)}
+                    title={item.label}
+                  >
+                    <Icono size={22} />
+                  </button>
+                );
+              }
+
               return (
                 <Link href={item.url} key={item.id} title={item.label}>
                   <button className={styles.iconBtn}>
@@ -106,6 +124,15 @@ function Header() {
             isOpen={isMenuOpen}
             menuItems={MENU_ITEMS}
             onClose={() => setIsOpenMenu(false)}
+            onSearchClick={() => {
+              setIsOpenMenu(false);
+              setIsSearchOpen(true);
+            }}
+          />
+
+          <SearchOverlay 
+            isOpen={isSearchOpen} 
+            onClose={() => setIsSearchOpen(false)} 
           />
         </>
       )}

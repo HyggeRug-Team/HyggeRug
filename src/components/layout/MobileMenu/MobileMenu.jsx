@@ -6,9 +6,6 @@
  * Hemos dedicado este componente a la navegación móvil. Es el menú que “nace” desde el lateral
  * cuando pulsamos el botón de tres rayas, con enlaces muy visuales y consistentes.
  *
- * También incluimos un mensaje de marca y accesos rápidos a nuestras redes sociales para
- * reforzar el estilo de Hygge Rug.
- *
  * [Por qué lo hemos hecho así]
  * Hemos usado una transición suave para que se sienta rápido y “tipo app”, evitando que el
  * menú parezca un elemento suelto dentro de la página.
@@ -21,7 +18,7 @@ import CuteMessage from "@/components/ui/CuteMessage/CuteMessage";
 import { AiFillInstagram } from "react-icons/ai";
 import { FaTiktok, FaRegHeart } from "react-icons/fa";
 
-export default function MobileMenu({ isOpen, menuItems, onClose }) {
+export default function MobileMenu({ isOpen, menuItems, onClose, onSearchClick }) {
   return (
     <div className={`${styles.mobileMenu} ${isOpen ? styles.mobileMenuActive : ""}`}>
       
@@ -33,6 +30,22 @@ export default function MobileMenu({ isOpen, menuItems, onClose }) {
       <div className={styles.buttonMobileMenu}>
         {menuItems.map((item) => {
           const IconoMovil = item.icon; 
+
+          if (item.id === 6) {
+            return (
+              <button
+                key={item.id}
+                className={styles.menuButton}
+                onClick={onSearchClick}
+              >
+                <div className={styles.iconMobilMenu}>
+                  <IconoMovil size={24} />
+                </div>
+                <span>{item.label}</span>
+              </button>
+            );
+          }
+
           return (
             <Link
               key={item.id}

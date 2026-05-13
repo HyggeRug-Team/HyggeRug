@@ -1,4 +1,4 @@
-/* ── CARRITO PAGE STYLES ── */
+/* --- PÁGINA DEL CARRITO --- */
 
 .cartPage {
     min-height: 100vh;
@@ -403,7 +403,7 @@
 .touchNoteInput:focus { outline: none; }
 
 /* 5. BARRA DE ACCIÓN FLOTANTE */
-.premiumStickyBar {
+.stickyBar {
     position: fixed;
     bottom: 0;
     left: 0;
@@ -445,7 +445,7 @@
     text-shadow: 2px 2px 0px rgba(0,0,0,0.5);
 }
 
-.premiumConfirmBtn {
+.confirmBtn {
     flex: 1;
 }
 
