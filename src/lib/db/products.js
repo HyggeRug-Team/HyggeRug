@@ -74,6 +74,129 @@ export async function getRandomProducts(limit = 7) {
   }
 }
 
+/* ─── FUNCIONES ADMIN ─────────────────────────────────────────────────────── */
+
+export async function getAdminProducts() {
+  const [rows] = await db.query(`
+    SELECT
+      p.product_id,
+      p.name,
+      p.description,
+      p.image_url,
+      p.base_price,
+      p.public,
+      p.community,
+      p.category_id,
+      c.name AS category,
+      COUNT(ps.product_size_id) AS total_sizes,
+      SUM(ps.active = 1)        AS active_sizes
+    FROM products p
+    LEFT JOIN categories c  ON c.category_id = p.category_id
+    LEFT JOIN product_sizes ps ON ps.product_id = p.product_id
+    GROUP BY p.product_id, p.name, p.description, p.image_url,
+             p.base_price, p.public, p.community, p.category_id, c.name
+    ORDER BY p.product_id DESC
+  `);
+  return rows;
+}
+
+export async function getAdminProductById(productId) {
+  const [rows] = await db.query(`
+    SELECT
+      p.product_id, p.name, p.description, p.image_url,
+      p.base_price, p.public, p.community, p.category_id,
+      c.name AS category,
+      ps.product_size_id AS size_id,
+      ps.size AS size_label,
+      ps.price AS size_price,
+      ps.active AS size_active
+    FROM products p
+    LEFT JOIN categories c  ON c.category_id = p.category_id
+    LEFT JOIN product_sizes ps ON ps.product_id = p.product_id
+    WHERE p.product_id = ?
+    ORDER BY ps.price ASC
+  `, [productId]);
+
+  if (!rows.length) return null;
+
+  const product = {
+    product_id: rows[0].product_id,
+    name: rows[0].name,
+    description: rows[0].description,
+    image_url: rows[0].image_url,
+    base_price: rows[0].base_price,
+    public: rows[0].public,
+    community: rows[0].community,
+    category_id: rows[0].category_id,
+    category: rows[0].category,
+    sizes: [],
+  };
+
+  const seen = new Set();
+  for (const row of rows) {
+    if (row.size_id && !seen.has(row.size_id)) {
+      seen.add(row.size_id);
+      product.sizes.push({
+        size_id: row.size_id,
+        size_label: row.size_label,
+        price: row.size_price,
+        active: row.size_active,
+      });
+    }
+  }
+  return product;
+}
+
+export async function createProduct({ name, description, image_url, base_price, category_id, isPublic, community }) {
+  const [result] = await db.query(
+    `INSERT INTO products (name, description, image_url, base_price, category_id, public, community)
+     VALUES (?, ?, ?, ?, ?, ?, ?)`,
+    [name, description || null, image_url || null, base_price, category_id || null, isPublic ? 1 : 0, community ? 1 : 0]
+  );
+  return result.insertId;
+}
+
+export async function updateProduct(productId, { name, description, image_url, base_price, category_id, isPublic, community }) {
+  await db.query(
+    `UPDATE products SET name=?, description=?, image_url=?, base_price=?, category_id=?, public=?, community=?
+     WHERE product_id=?`,
+    [name, description || null, image_url || null, base_price, category_id || null, isPublic ? 1 : 0, community ? 1 : 0, productId]
+  );
+}
+
+export async function deleteProduct(productId) {
+  await db.query(`DELETE FROM products WHERE product_id = ?`, [productId]);
+}
+
+export async function addProductSize(productId, { size, price }) {
+  const [result] = await db.query(
+    `INSERT INTO product_sizes (product_id, size, price, active) VALUES (?, ?, ?, 1)`,
+    [productId, size, price]
+  );
+  return result.insertId;
+}
+
+export async function updateProductSize(sizeId, { size, price }) {
+  await db.query(
+    `UPDATE product_sizes SET size=?, price=? WHERE product_size_id=?`,
+    [size, price, sizeId]
+  );
+}
+
+export async function toggleProductSizeActive(sizeId) {
+  await db.query(
+    `UPDATE product_sizes SET active = 1 - active WHERE product_size_id=?`,
+    [sizeId]
+  );
+}
+
+export async function getCategories() {
+  const [rows] = await db.query(`SELECT category_id, name FROM categories ORDER BY name`);
+  return rows;
+}
+
+/* ─── FUNCIONES PÚBLICAS ──────────────────────────────────────────────────── */
+
 /**
  * FUNCIÓN PARA OBTENER EL DEEP-DIVE DE UN PRODUCTO (Su foto, y tamaños)
  * Ideal para el panel de "Crear-Diseño" o la página de producto

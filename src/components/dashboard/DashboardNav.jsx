@@ -28,7 +28,8 @@ import {
   FaQuestion,
   FaArrowRightFromBracket,
   FaGear,
-  FaStar
+  FaStar,
+  FaStore 
 } from "react-icons/fa6";
 import Logo from "@/components/ui/Logo/Logo";
 import LogoutButton from "@/components/ui/Buttons/LogoutButton/LogoutButton";
@@ -84,6 +85,7 @@ export function DashboardNav({ user }) {
           links: [
             { href: "/dashboard/admin", icon: <FaBookOpen size={18} />, label: "Panel General" },
             { href: "/dashboard/admin/pedidos", icon: <FaBagShopping size={18} />, label: "Gestionar Pedidos" },
+            { href: "/dashboard/admin/productos", icon: <FaStore size={18} />, label: "Diseños" },
             { href: "/dashboard/admin/devoluciones", icon: <FaArrowRotateLeft size={18} />, label: "Devoluciones" },
           ]
         },

@@ -176,11 +176,8 @@ export default function AdminOrderDetailClient({ order: initialOrder }) {
           <Link href="/dashboard/admin/pedidos" className={styles.backBtn}>
             <FaChevronLeft /> VOLVER AL LISTADO
           </Link>
-          <SectionHeader 
-            badge={`PEDIDO #${order.order_id}`}
-            title="Gestión de Pedido"
-            description={`Creado el ${orderDate}`}
-          />
+          <h1 className={styles.title}>Pedido <span>#{order.order_id}</span></h1>
+          
         </div>
         <div className={styles.headerActions}>
           {prevStatus && (
