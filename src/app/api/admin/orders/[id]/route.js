@@ -8,6 +8,7 @@
 import { NextResponse } from 'next/server';
 import { getSession } from '@/lib/auth';
 import { db } from '@/lib/db';
+import { getConfigValue } from '@/lib/db/config';
 
 const VALID_STATUSES = [
   'diseñando',
@@ -133,6 +134,18 @@ export async function PUT(request, { params }) {
         return NextResponse.json({ error: 'Estado inválido' }, { status: 400 });
       }
 
+      // Leer estado y total actuales antes de actualizar
+      const [orderRows] = await db.query(
+        'SELECT order_status, total_amount, user_id FROM orders WHERE order_id = ? AND order_status != ?',
+        [id, 'en_carrito']
+      );
+
+      if (!orderRows.length) {
+        return NextResponse.json({ error: 'Pedido no encontrado' }, { status: 404 });
+      }
+
+      const { order_status: prevStatus, total_amount, user_id } = orderRows[0];
+
       const [result] = await db.query(
         'UPDATE orders SET order_status = ? WHERE order_id = ? AND order_status != ?',
         [status, id, 'en_carrito']
@@ -140,6 +153,23 @@ export async function PUT(request, { params }) {
 
       if (result.affectedRows === 0) {
         return NextResponse.json({ error: 'Pedido no encontrado' }, { status: 404 });
+      }
+
+      // Hygge points: N puntos por euro (configurable en tabla config) al pasar a tejiendo; se revierten al volver a comprobando pago
+      const pointsPerEuro = parseFloat(await getConfigValue('hyggepoint_per_euro')) || 0;
+      const points = Math.floor((parseFloat(total_amount) || 0) * pointsPerEuro);
+      if (points > 0) {
+        if (prevStatus === 'comprobando pago' && status === 'tejiendo') {
+          await db.query(
+            'UPDATE users SET hygge_points = hygge_points + ? WHERE user_id = ?',
+            [points, user_id]
+          );
+        } else if (prevStatus === 'tejiendo' && status === 'comprobando pago') {
+          await db.query(
+            'UPDATE users SET hygge_points = GREATEST(0, hygge_points - ?) WHERE user_id = ?',
+            [points, user_id]
+          );
+        }
       }
 
       return NextResponse.json({ success: true, updated: 'status', newStatus: status });
