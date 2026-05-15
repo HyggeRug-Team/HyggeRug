@@ -39,12 +39,13 @@ export async function POST(req) {
 
         // Confirmar el pedido: cambiar estado y guardar datos finales
         await db.query(
-            `UPDATE orders 
+            `UPDATE orders
              SET order_status = 'pendiente de aprobaci\u00F3n',
                  address_id = ?,
                  customer_note = ?,
                  code_id = ?,
-                 total_amount = ?
+                 total_amount = ?,
+                 creation_date = NOW()
              WHERE order_id = ?`,
             [addressId, customerNote || null, codeId || null, totalAmount, orderId]
         );
