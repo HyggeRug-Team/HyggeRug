@@ -23,8 +23,9 @@ export default function ConfirmDeleteModal({ onConfirm, onCancel }) {
         <FaTrash className={styles.confirmIcon} />
         <h3 className={styles.confirmTitle}>¿Eliminar este diseño?</h3>
         <p className={styles.confirmText}>
-          Esta acción es permanente. Se borrarán también todos sus tamaños.
-          Los pedidos históricos que lo referencian conservarán sus datos.
+          Esta acción es permanente. Se borrarán también todos sus tamaños
+          y se eliminará de cualquier carrito activo.
+          Si el producto está en pedidos confirmados, el borrado será rechazado.
         </p>
         <div className={styles.confirmActions}>
           <button className={styles.cancelBtn} onClick={onCancel}>Cancelar</button>

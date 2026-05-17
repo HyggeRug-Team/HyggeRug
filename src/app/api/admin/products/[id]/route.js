@@ -44,6 +44,9 @@ export async function DELETE(req, { params }) {
     await deleteProduct(Number(id));
     return NextResponse.json({ success: true });
   } catch (err) {
+    if (err.code === 'PRODUCT_IN_USE') {
+      return NextResponse.json({ error: err.message }, { status: 409 });
+    }
     console.error('[API /admin/products/[id] DELETE]', err);
     return NextResponse.json({ error: 'Error interno' }, { status: 500 });
   }
