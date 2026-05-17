@@ -22,7 +22,7 @@ export async function GET(request, { params }) {
 
     // Datos del usuario
     const [[user]] = await db.query(
-      `SELECT user_id, nickname, email, profile_image, hygge_points, creation_date, rol
+      `SELECT user_id, nickname, email, profile_image, hygge_points, creation_date, rol, active
        FROM users WHERE user_id = ?`,
       [id]
     );
@@ -75,6 +75,59 @@ export async function GET(request, { params }) {
     return NextResponse.json({ user, orders });
   } catch (err) {
     console.error('[API /admin/users/[id]] Error:', err);
+    return NextResponse.json({ error: 'Error interno' }, { status: 500 });
+  }
+}
+
+export async function PUT(request, { params }) {
+  try {
+    const session = await getSession();
+    if (!session || session.role !== 'admin') {
+      return NextResponse.json({ error: 'No autorizado' }, { status: 401 });
+    }
+
+    const { id } = await params;
+    const body = await request.json();
+    const { active, rol } = body;
+
+    // Evitar que el administrador se bloquee a sí mismo o se quite el rol de administrador
+    if (parseInt(id) === session.userId) {
+      return NextResponse.json(
+        { error: 'No puedes bloquearte a ti mismo ni revocar tus propios permisos de administrador.' },
+        { status: 400 }
+      );
+    }
+
+    // Construimos los campos a actualizar
+    const updateFields = [];
+    const queryParams = [];
+
+    if (active !== undefined) {
+      updateFields.push('active = ?');
+      queryParams.push(active ? 1 : 0);
+    }
+
+    if (rol !== undefined) {
+      if (rol !== 'admin' && rol !== 'customer') {
+        return NextResponse.json({ error: 'Rol no válido' }, { status: 400 });
+      }
+      updateFields.push('rol = ?');
+      queryParams.push(rol);
+    }
+
+    if (updateFields.length === 0) {
+      return NextResponse.json({ error: 'No hay campos para actualizar' }, { status: 400 });
+    }
+
+    queryParams.push(id);
+    await db.query(
+      `UPDATE users SET ${updateFields.join(', ')} WHERE user_id = ?`,
+      queryParams
+    );
+
+    return NextResponse.json({ success: true });
+  } catch (err) {
+    console.error('[API /admin/users/[id] PUT] Error:', err);
     return NextResponse.json({ error: 'Error interno' }, { status: 500 });
   }
 }

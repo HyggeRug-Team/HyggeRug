@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import { db } from '@/lib/db';
-import { createSession } from '@/lib/auth';
+import { createSession, buildSessionPayload } from '@/lib/auth';
 import bcrypt from 'bcryptjs';
 import { cookies } from 'next/headers';
 
@@ -26,7 +26,15 @@ export async function POST(request) {
       return NextResponse.json({ error: 'Contraseña incorrecta.' }, { status: 401 });
     }
 
-    // 4. ¡ÉXITO! Creamos el Token (Payload)
+    // 4. ¿El usuario está activo?
+    if (user.active === 0 || user.active === false) {
+      return NextResponse.json(
+        { error: 'Tu cuenta ha sido bloqueada. Ponte en contacto con hyggerug@gmail.com' },
+        { status: 403 }
+      );
+    }
+
+    // 5. ¡ÉXITO! Creamos el Token (Payload)
     const token = await createSession(buildSessionPayload(user));
 
     // 5. Guardamos el token en una COOKIE

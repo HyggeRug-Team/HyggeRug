@@ -85,3 +85,127 @@
   .authForm h1 { font-size: 1.8rem; margin-bottom: 1.2rem; }
   .googleButton { margin-bottom: 1.5rem; }
 }
+
+.authFormBlocked {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  width: 100%;
+}
+
+.blockedIconWrapper {
+  width: 72px;
+  height: 72px;
+  background: rgba(255, 0, 85, 0.08);
+  border: 1px dashed var(--highlight-text);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 25px;
+  color: var(--highlight-text);
+  box-shadow: 0 0 30px rgba(255, 0, 85, 0.15);
+  animation: pulseGlow 3s infinite ease-in-out;
+}
+
+@keyframes pulseGlow {
+  0%, 100% {
+    transform: scale(1);
+    box-shadow: 0 0 20px rgba(255, 0, 85, 0.15);
+    border-color: var(--highlight-text);
+  }
+  50% {
+    transform: scale(1.05);
+    box-shadow: 0 0 35px rgba(255, 0, 85, 0.3);
+    border-color: #ff3366;
+  }
+}
+
+.blockedIcon {
+  font-size: 2rem;
+  color: var(--highlight-text);
+}
+
+.blockedTitle {
+  font-family: var(--font-sans), sans-serif;
+  font-size: 1.8rem;
+  font-weight: 800;
+  margin: 0 0 10px 0;
+  color: var(--highlight-text);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.blockedDivider {
+  width: 60px;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--highlight-text), transparent);
+  margin-bottom: 20px;
+}
+
+.blockedDescription {
+  color: var(--grey-300);
+  font-size: 0.95rem;
+  line-height: 1.6;
+  margin: 0 0 25px 0;
+  max-width: 360px;
+}
+
+.blockedDescription strong {
+  color: var(--white);
+  font-weight: 800;
+}
+
+.supportTicket {
+  width: 100%;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px dashed rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+  padding: 20px;
+  margin-bottom: 30px;
+  text-align: center;
+  box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.2);
+}
+
+.ticketLabel {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  font-weight: 900;
+  letter-spacing: 1px;
+  color: var(--grey-500);
+  display: block;
+  margin-bottom: 8px;
+}
+
+.ticketText {
+  color: var(--grey-400);
+  font-size: 0.85rem;
+  line-height: 1.5;
+  margin: 0 0 15px 0;
+}
+
+.ticketEmail {
+  display: inline-block;
+  color: var(--white);
+  font-weight: 900;
+  text-decoration: none;
+  font-size: 1.15rem;
+  letter-spacing: 0.5px;
+  border-bottom: 1.5px dashed var(--highlight-text);
+  padding-bottom: 2px;
+  transition: all 0.3s ease;
+}
+
+.ticketEmail:hover {
+  color: var(--highlight-text);
+  border-bottom-style: solid;
+  text-shadow: 0 0 10px rgba(255, 0, 85, 0.3);
+}
+
+.blockedFooterBtn {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+

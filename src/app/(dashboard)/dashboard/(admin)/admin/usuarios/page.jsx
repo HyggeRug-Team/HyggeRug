@@ -42,6 +42,7 @@ import {
   FaTruckFast,
   FaCircleCheck,
   FaArrowUpRightFromSquare,
+  FaBan,
 } from 'react-icons/fa6';
 import { MdOutlinePayments } from 'react-icons/md';
 
@@ -117,6 +118,11 @@ export default function AdminUsuariosPage() {
     const matchSearch =
       u.nickname?.toLowerCase().includes(search.toLowerCase()) ||
       u.email?.toLowerCase().includes(search.toLowerCase());
+
+    if (roleFilter === 'blocked') {
+      return matchSearch && (u.active === 0 || u.active === false);
+    }
+
     const matchRole = roleFilter === 'all' || u.rol === roleFilter;
     return matchSearch && matchRole;
   });
@@ -137,6 +143,34 @@ export default function AdminUsuariosPage() {
       setLoadingDetail(false);
     }
   }, []);
+
+  /* ── Acción de actualización de campos del usuario (Bloqueo / Rol) ── */
+  const handleUpdateUser = useCallback(async (userId, fields) => {
+    try {
+      const res = await fetch(`/api/admin/users/${userId}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(fields),
+      });
+
+      if (!res.ok) {
+        const data = await res.json();
+        alert(data.error || 'Error al actualizar el usuario');
+        return;
+      }
+
+      // Recargar el detalle para que la UI se refresque instantáneamente
+      loadUserDetail(userId);
+
+      // Actualizar la lista local de usuarios en memoria
+      setUsers(prevUsers =>
+        prevUsers.map(u => u.user_id === userId ? { ...u, ...fields } : u)
+      );
+    } catch (err) {
+      console.error('[AdminUsers] Error al actualizar usuario:', err);
+      alert('Error de conexión al actualizar usuario.');
+    }
+  }, [loadUserDetail]);
 
   /* ── Al seleccionar un usuario ── */
   const handleSelectUser = (user) => {
@@ -189,13 +223,19 @@ export default function AdminUsuariosPage() {
 
         <div className={styles.filterGroup}>
           {!isTouch && <FaFilter className={styles.filterIcon} />}
-          {['all', 'customer', 'admin'].map(role => (
+          {['all', 'customer', 'admin', 'blocked'].map(role => (
             <button
               key={role}
               className={`${styles.filterBtn} ${roleFilter === role ? styles.filterActive : ''}`}
               onClick={() => setRoleFilter(role)}
             >
-              {role === 'all' ? 'Todos' : role === 'customer' ? 'Clientes' : 'Admins'}
+              {role === 'all'
+                ? 'Todos'
+                : role === 'customer'
+                ? 'Clientes'
+                : role === 'admin'
+                ? 'Admins'
+                : 'Bloqueados'}
             </button>
           ))}
         </div>
@@ -262,6 +302,7 @@ export default function AdminUsuariosPage() {
                   onOpenChat={setChatOrder}
                   onBack={handleBackToList}
                   isTouch={isTouch}
+                  onUpdateUser={handleUpdateUser}
                 />
               </motion.div>
             ) : null}
@@ -291,17 +332,18 @@ export default function AdminUsuariosPage() {
 function UserListItem({ user, isSelected, onSelect, isTouch }) {
   const roleConfig = ROLE_LABELS[user.rol] || ROLE_LABELS.customer;
   const hasPending = String(user.order_statuses || '').includes('pendiente de aprobación');
+  const isBlocked = user.active === 0 || user.active === false;
 
   return (
     <motion.button
       layout
-      className={`${styles.userItem} ${isSelected ? styles.userItemSelected : ''} ${isTouch ? styles.userItemTouch : ''}`}
+      className={`${styles.userItem} ${isSelected ? styles.userItemSelected : ''} ${isTouch ? styles.userItemTouch : ''} ${isBlocked ? styles.userItemBlocked : ''}`}
       onClick={onSelect}
       whileTap={isTouch ? { scale: 0.98 } : {}}
     >
       <div className={styles.userAvatar}>
         {user.profile_image ? (
-          <img src={user.profile_image} alt={user.nickname} />
+          <img src={user.profile_image} alt={user.nickname} className={isBlocked ? styles.avatarBlocked : ''} />
         ) : (
           <FaCircleUser className={styles.userAvatarFallback} />
         )}
@@ -309,9 +351,11 @@ function UserListItem({ user, isSelected, onSelect, isTouch }) {
       </div>
       <div className={styles.userItemInfo}>
         <div className={styles.userItemTop}>
-          <span className={styles.userItemName}>{user.nickname || '—'}</span>
-          <span className={styles.roleBadge} style={{ '--role-color': roleConfig.color }}>
-            {roleConfig.label}
+          <span className={styles.userItemName}>
+            {user.nickname || '—'}
+          </span>
+          <span className={styles.roleBadge} style={{ '--role-color': isBlocked ? '#ff3366' : roleConfig.color }}>
+            {isBlocked ? 'Bloqueado' : roleConfig.label}
           </span>
         </div>
         <span className={styles.userItemEmail}>{user.email}</span>
@@ -328,8 +372,9 @@ function UserListItem({ user, isSelected, onSelect, isTouch }) {
  * Panel de detalle del usuario
  * Muestra el perfil, estadísticas y el historial de pedidos con scroll independiente.
  */
-function UserDetailPanel({ user, orders, onOpenChat, onBack, isTouch }) {
+function UserDetailPanel({ user, orders, onOpenChat, onBack, isTouch, onUpdateUser }) {
   const roleConfig = ROLE_LABELS[user.rol] || ROLE_LABELS.customer;
+  const isBlocked = user.active === 0 || user.active === false;
 
   return (
     <div className={`${styles.detailWrapper} ${isTouch ? styles.detailWrapperTouch : ''}`}>
@@ -342,16 +387,18 @@ function UserDetailPanel({ user, orders, onOpenChat, onBack, isTouch }) {
         <div className={styles.profileTop}>
           <div className={styles.profileAvatarWrapper}>
             {user.profile_image ? (
-              <img src={user.profile_image} alt={user.nickname} className={styles.profileAvatar} />
+              <img src={user.profile_image} alt={user.nickname} className={`${styles.profileAvatar} ${isBlocked ? styles.avatarBlocked : ''}`} />
             ) : (
               <FaCircleUser className={styles.profileAvatarFallback} />
             )}
           </div>
           <div className={styles.profileInfo}>
             <div className={styles.profileNameRow}>
-              <h2 className={styles.profileName}>{user.nickname}</h2>
-              <span className={styles.profileRoleBadge} style={{ '--role-color': roleConfig.color }}>
-                {roleConfig.label}
+              <h2 className={styles.profileName}>
+                {user.nickname}
+              </h2>
+              <span className={styles.profileRoleBadge} style={{ '--role-color': isBlocked ? '#ff3366' : roleConfig.color }}>
+                {isBlocked ? 'Bloqueado' : roleConfig.label}
               </span>
             </div>
             <div className={styles.profileMeta}>
@@ -377,6 +424,39 @@ function UserDetailPanel({ user, orders, onOpenChat, onBack, isTouch }) {
             <span className={styles.profileStatValue}>{user.hygge_points ?? 0}</span>
             <span className={styles.profileStatLabel}>Points</span>
           </div>
+        </div>
+
+        {/* Botones de acción de administración (Bloqueo / Rol) */}
+        <div className={styles.adminActionsRow}>
+          <button
+            className={`${styles.actionBtn} ${isBlocked ? styles.btnUnlock : styles.btnBlock}`}
+            onClick={() => onUpdateUser(user.user_id, { active: isBlocked ? 1 : 0 })}
+          >
+            {isBlocked ? (
+              <>
+                <FaCircleCheck /> DESBLOQUEAR
+              </>
+            ) : (
+              <>
+                <FaBan /> BLOQUEAR
+              </>
+            )}
+          </button>
+
+          <button
+            className={`${styles.actionBtn} ${user.rol === 'admin' ? styles.btnRevokeAdmin : styles.btnMakeAdmin}`}
+            onClick={() => onUpdateUser(user.user_id, { rol: user.rol === 'admin' ? 'customer' : 'admin' })}
+          >
+            {user.rol === 'admin' ? (
+              <>
+                <FaShield /> QUITAR ADMIN
+              </>
+            ) : (
+              <>
+                <FaShield /> HACER ADMIN
+              </>
+            )}
+          </button>
         </div>
       </div>
 

@@ -1126,3 +1126,75 @@
     max-height: none;
   }
 }
+
+/* ── ESTILOS DE ACCIÓN DEL ADMINISTRADOR Y BLOQUEO ── */
+.adminActionsRow {
+  display: flex;
+  gap: 15px;
+  margin-top: 25px;
+  width: 100%;
+}
+
+.actionBtn {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 12px 18px;
+  border-radius: 12px;
+  font-weight: 900;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border: none;
+  box-shadow: 4px 4px 0 #000;
+}
+
+.actionBtn:hover {
+  transform: translate(-3px, -3px);
+  box-shadow: 7px 7px 0 #000;
+}
+
+.btnBlock {
+  background: #ff3366;
+  color: var(--white);
+}
+
+.btnUnlock {
+  background: #00ff80;
+  color: #000;
+}
+
+.btnMakeAdmin {
+  background: var(--highlight-text);
+  color: var(--white);
+}
+
+.btnRevokeAdmin {
+  background: #ffffff;
+  color: #000;
+}
+
+.userItemBlocked {
+  opacity: 0.55;
+}
+
+.avatarBlocked {
+  filter: grayscale(1) contrast(1.1);
+}
+
+.blockedTextTag {
+  color: #ff3366;
+  font-size: 0.8rem;
+  font-weight: 500;
+}
+
+@media (max-width: 600px) {
+  .adminActionsRow {
+    flex-direction: column;
+    gap: 10px;
+  }
+}

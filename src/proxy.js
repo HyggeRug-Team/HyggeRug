@@ -6,6 +6,7 @@ export async function proxy(request) {
   const token = request.cookies.get('session_token')?.value;
   // 2. Guardamos si la sesion es correcta
   let okToken = false;
+  let isBlocked = false;
 
   // Comprobamos si el token es valido si existe
   if (token) {
@@ -19,8 +20,28 @@ export async function proxy(request) {
         console.error("Error: La variable JWT_SECRET no está definida en el entorno.");
       } else {
         const secret = new TextEncoder().encode(secretKey);
-        await jwtVerify(token, secret);
-        okToken = true;
+        const { payload } = await jwtVerify(token, secret);
+        
+        // Verificamos si el usuario está activo en la base de datos a través de una API interna
+        try {
+          const origin = request.nextUrl.origin;
+          const checkRes = await fetch(`${origin}/api/auth/check-active?userId=${payload.userId}`);
+          if (checkRes.ok) {
+            const data = await checkRes.json();
+            if (data.active) {
+              okToken = true;
+            } else {
+              console.log(`Usuario ${payload.userId} bloqueado detectado por el Proxy.`);
+              okToken = false;
+              isBlocked = true;
+            }
+          } else {
+            okToken = true;
+          }
+        } catch (fetchErr) {
+          console.error("Error al verificar estado activo en el proxy:", fetchErr);
+          okToken = true;
+        }
       }
       // -----------------------
 
@@ -37,7 +58,10 @@ export async function proxy(request) {
   // Si quiere entrar en alguna carpeta de protectedRoutes
   if (protectedRoutes && !okToken) {
     // Guardo la respuesta de redirigir a auth (ruta unificada)
-    const response = NextResponse.redirect(new URL('/auth', request.url));
+    const redirectUrl = isBlocked 
+      ? new URL('/auth?error=blocked', request.url)
+      : new URL('/auth', request.url);
+    const response = NextResponse.redirect(redirectUrl);
     // Si el token existe, es decir que es un token invalido se añade a la respuesta borrar la cookie
     if (token) response.cookies.delete('session_token'); 
     return response;

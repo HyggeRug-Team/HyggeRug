@@ -28,6 +28,7 @@ export async function GET() {
         u.hygge_points,
         u.creation_date,
         u.rol,
+        u.active,
         COUNT(DISTINCT o.order_id)              AS total_orders,
         COALESCE(SUM(o.total_amount), 0)        AS total_spent,
         MAX(o.creation_date)                     AS last_order_date,
@@ -39,7 +40,7 @@ export async function GET() {
       GROUP BY
         u.user_id, u.nickname, u.email,
         u.profile_image, u.hygge_points,
-        u.creation_date, u.rol
+        u.creation_date, u.rol, u.active
       ORDER BY u.creation_date DESC
     `);
 

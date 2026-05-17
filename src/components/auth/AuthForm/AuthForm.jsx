@@ -22,9 +22,9 @@
  *    que guardamos bajo llave en una cookie invisible para los hackers.
  */
 'use client';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import styles from './AuthForm.module.css';
 
@@ -35,7 +35,7 @@ import FloatingLabelInput from '@/components/ui/Inputs/FloatingLabelInput/Floati
 import SubmitButton from '@/components/ui/Buttons/SubmitButton/SubmitButton';
 import StatusMessage from '@/components/ui/Feedback/StatusMessage/StatusMessage';
 
-import { FaGoogle } from 'react-icons/fa';
+import { FaGoogle, FaLock } from 'react-icons/fa';
 import { IoPersonAddOutline } from 'react-icons/io5';
 
 /**
@@ -90,9 +90,14 @@ export default function AuthForm() {
    * tras la resolución de llamadas POST sin recargar el DOM (Single Page Application).
    */
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const isBlockedUrl = searchParams ? searchParams.get('error') === 'blocked' : false;
 
   // Aquí controlamos si el usuario quiere entrar o crearse una cuenta nueva
   const [isLogin, setIsLogin] = useState(true);
+  const [isBlockedAccountState, setIsBlockedAccountState] = useState(false);
+
+  const isBlockedAccount = isBlockedAccountState || isBlockedUrl;
 
   // Aquí guardamos los datos del formulario para mandarlos luego a la base de datos
   const [formData, setFormData] = useState({
@@ -104,6 +109,19 @@ export default function AuthForm() {
 
   // Esto se encarga de avisar al usuario si todo ha ido bien o si ha habido algún fallo
   const [mensaje, setMensaje] = useState({ texto: '', tipo: '' });
+
+  // Comprobamos si el usuario viene redirigido por estar bloqueado en el Proxy
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const params = new URLSearchParams(window.location.search);
+      if (params.get('error') === 'blocked') {
+        setMensaje({
+          texto: 'Tu cuenta ha sido bloqueada y no puedes acceder a ella. Si tienes alguna duda, por favor ponte en contacto con nosotros a través de nuestro correo: hyggerug@gmail.com',
+          tipo: 'error'
+        });
+      }
+    }
+  }, []);
   const [isLoading, setIsLoading] = useState(false);
 
   // Aquí vamos actualizando los datos conforme el usuario va escribiendo en cada casilla
@@ -175,7 +193,11 @@ export default function AuthForm() {
         }, 1000);
       } else {
         // Si algo ha salido mal, aquí le explicamos qué ha pasado
-        setMensaje({ texto: data.error, tipo: 'error' });
+        if (response.status === 403) {
+          setIsBlockedAccountState(true);
+        } else {
+          setMensaje({ texto: data.error, tipo: 'error' });
+        }
       }
     } catch (err) {
       setMensaje({ texto: 'Error de conexión.', tipo: 'error' });
@@ -183,6 +205,45 @@ export default function AuthForm() {
       setIsLoading(false);
     }
   };
+
+  if (isBlockedAccount) {
+    return (
+      <div className={styles.authFormBlocked}>
+        <motion.div 
+          initial={{ scale: 0.8, opacity: 0 }}
+          animate={{ scale: 1, opacity: 1 }}
+          transition={{ type: "spring", stiffness: 100 }}
+          className={styles.blockedIconWrapper}
+        >
+          <FaLock className={styles.blockedIcon} />
+        </motion.div>
+        
+        <h2 className={styles.blockedTitle}>ACCESO DENEGADO</h2>
+        <div className={styles.blockedDivider} />
+        
+        <p className={styles.blockedDescription}>
+          Tu cuenta de usuario ha sido <strong>desactivada o bloqueada</strong> por el equipo de administración debido a una infracción de los términos o actividad inusual.
+        </p>
+        
+        <div className={styles.supportTicket}>
+          <span className={styles.ticketLabel}>¿Tienes alguna duda o reclamación?</span>
+          <p className={styles.ticketText}>
+            Ponte en contacto directo con nuestro taller a través de nuestro correo electrónico para revisar tu caso de forma personalizada:
+          </p>
+          <a href="mailto:hyggerug@gmail.com" className={styles.ticketEmail}>
+            hyggerug@gmail.com
+          </a>
+        </div>
+        
+        <div className={styles.blockedFooterBtn}>
+          <PrimaryButton
+            text="VOLVER AL TALLER"
+            url="/"
+          />
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className={styles.authForm}>

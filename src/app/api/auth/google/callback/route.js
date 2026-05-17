@@ -118,6 +118,11 @@ export async function GET(request) {
       const [updatedRows] = await db.query('SELECT * FROM users WHERE user_id = ?', [user.user_id]);
       user = updatedRows[0];
 
+      // ¿El usuario está activo?
+      if (user.active === 0 || user.active === false) {
+        return NextResponse.redirect(new URL('/auth?error=blocked', request.url));
+      }
+
       console.log("✅ Usuario actualizado con éxito");
     }
 
