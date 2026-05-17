@@ -1,61 +1,83 @@
 /**
  * @file route.js (api/orders/custom)
- * @description API para recibir y guardar solicitudes de alfombras personalizadas.
- *
- * [Nuestro enfoque]
- * Hemos dividido el proceso en dos pasos: primero creamos el pedido principal con estado
- * "pendiente de aprobación", y luego guardamos los detalles técnicos del diseño.
- *
- * [Por qué lo hemos hecho así]
- * Este flujo nos permite revisar cada encargo antes de comprometer al taller, evitando
- * fabricar algo que luego no coincida con lo que esperaba el cliente.
+ * @description API para recibir solicitudes de alfombras personalizadas y añadirlas al carrito.
  */
 import { NextResponse } from 'next/server';
+import { put } from '@vercel/blob';
 import { getSession } from '@/lib/auth';
 import { db } from '@/lib/db';
+
 export async function POST(req) {
+    const session = await getSession();
+    if (!session?.userId) {
+        return NextResponse.json({ success: false, error: 'Sesión no válida' }, { status: 401 });
+    }
+
+    const form = await req.formData();
+    const title       = form.get('title')?.trim();
+    const description = form.get('description')?.trim();
+    const size        = form.get('size')?.trim();
+    const comments    = form.get('comments')?.trim() || null;
+    const imageFile   = form.get('image');
+
+    if (!title || !description || !size) {
+        return NextResponse.json({ success: false, error: 'Faltan campos obligatorios' }, { status: 400 });
+    }
+
     try {
-        const session = await getSession();
-        if (!session) {
-            return NextResponse.json({ success: false, error: 'Sesión no válida' }, { status: 401 });
+        // Subir imagen a Vercel Blob si se ha proporcionado
+        let imageUrl = null;
+        if (imageFile && imageFile.size > 0) {
+            const ext = imageFile.name.split('.').pop() ?? 'jpg';
+            const blob = await put(
+                `personalizar/${session.userId}-${Date.now()}.${ext}`,
+                imageFile,
+                { access: 'public' }
+            );
+            imageUrl = blob.url;
         }
 
-        const data = await req.json();
-        const { title, description, size, comments, image, userId } = data;
+        // Crear un producto específico para este encargo personalizado
+        const [productResult] = await db.query(
+            `INSERT INTO products (name, description, image_url, base_price, community, public) VALUES (?, ?, ?, 0, 0, 0)`,
+            [title, description, imageUrl]
+        );
+        const productId = productResult.insertId;
 
-        // Creamos el pedido principal con estado pendiente para que el taller lo revise
-        const [orderResult] = await db.query(`
-            INSERT INTO orders 
-                (user_id, total_amount, order_status, payment_method) 
-            VALUES (?, ?, ?, ?)
-        `, [
-            userId, 
-            0, 
-            'pendiente de aprobación', 
-            'presupuesto'
-        ]);
+        // Crear la talla asociada al producto
+        const [sizeResult] = await db.query(
+            `INSERT INTO product_sizes (product_id, size, price, active) VALUES (?, ?, 0, 1)`,
+            [productId, size]
+        );
+        const sizeId = sizeResult.insertId;
 
-        const orderId = orderResult.insertId;
+        // Buscar el carrito activo del usuario o crear uno nuevo
+        const [existingOrders] = await db.query(
+            `SELECT order_id FROM orders WHERE user_id = ? AND order_status = 'en_carrito' LIMIT 1`,
+            [session.userId]
+        );
 
-        // Guardamos los detalles técnicos del encargo en el campo de diseño final
-        const technicalDetails = `Tamaño: ${size}\nComentarios: ${comments}\nDescripción: ${description}`;
+        let orderId;
+        if (existingOrders.length > 0) {
+            orderId = existingOrders[0].order_id;
+        } else {
+            const [orderResult] = await db.query(
+                `INSERT INTO orders (user_id, order_status) VALUES (?, 'en_carrito')`,
+                [session.userId]
+            );
+            orderId = orderResult.insertId;
+        }
 
-        await db.query(`
-            INSERT INTO order_product 
-                (order_id, product_id, price, quantity, user_image, final_design) 
-            VALUES (?, ?, ?, ?, ?, ?)
-        `, [
-            orderId, 
-            1, // ID genérico para alfombra personalizada
-            0, 
-            1, 
-            image, // Imagen de referencia
-            technicalDetails // Detalles técnicos del pedido
-        ]);
+        // Añadir el producto al carrito
+        await db.query(
+            `INSERT INTO order_product (order_id, product_id, product_size_id, quantity, unit_price, user_image, customer_note)
+             VALUES (?, ?, ?, 1, 0, ?, ?)`,
+            [orderId, productId, sizeId, imageUrl, comments]
+        );
 
         return NextResponse.json({ success: true, orderId });
     } catch (error) {
-        console.error('Error creating custom order:', error);
+        console.error('[orders/custom]', error);
         return NextResponse.json({ success: false, error: 'Error interno del servidor' }, { status: 500 });
     }
 }

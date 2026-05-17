@@ -14,21 +14,21 @@
 'use client';
 
 import React, { useState, useRef } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { FaCloudUploadAlt, FaMagic, FaRulerCombined, FaCommentDots, FaCheckCircle, FaTimes } from 'react-icons/fa';
+import { motion } from 'framer-motion';
+import { FaCloudUploadAlt, FaCheckCircle, FaTimes, FaMagic } from 'react-icons/fa';
 import { FaPalette } from 'react-icons/fa6';
 import styles from './CustomOrder.module.css';
 import FeedbackModal from '@/components/ui/Feedback/FeedbackModal';
 import FloatingLabelInput from '@/components/ui/Inputs/FloatingLabelInput/FloatingLabelInput';
-import CustomSelect from '@/components/ui/Inputs/CustomSelect/CustomSelect';
 
 export default function CustomOrderClient({ user }) {
     const [loading, setLoading] = useState(false);
+    const [imageFile, setImageFile]       = useState(null);
     const [imagePreview, setImagePreview] = useState(null);
     const [formData, setFormData] = useState({
         title: '',
         description: '',
-        size: '100x100',
+        size: '',
         comments: ''
     });
     const [notification, setNotification] = useState({
@@ -40,31 +40,17 @@ export default function CustomOrderClient({ user }) {
 
     const fileInputRef = useRef(null);
 
-    const sizeOptions = [
-        { value: '60x60', label: 'Pequeña (60x60)' },
-        { value: '100x100', label: 'Mediana (100x100)' },
-        { value: '150x150', label: 'Grande (150x150)' },
-        { value: 'Custom', label: 'A medida (Especificar)' },
-    ];
-
     const handleImageChange = (e) => {
         const file = e.target.files[0];
         if (file) {
-            const reader = new FileReader();
-            reader.onloadend = () => {
-                setImagePreview(reader.result);
-            };
-            reader.readAsDataURL(file);
+            setImageFile(file);
+            setImagePreview(URL.createObjectURL(file));
         }
     };
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
         setFormData(prev => ({ ...prev, [name]: value }));
-    };
-
-    const handleSizeChange = (val) => {
-        setFormData(prev => ({ ...prev, size: val }));
     };
 
     const handleSubmit = async (e) => {
@@ -82,26 +68,25 @@ export default function CustomOrderClient({ user }) {
         setLoading(true);
 
         try {
-            const response = await fetch('/api/orders/custom', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    ...formData,
-                    image: imagePreview,
-                    userId: user.userId
-                })
-            });
+            const form = new FormData();
+            form.append('title',       formData.title);
+            form.append('description', formData.description);
+            form.append('size',        formData.size);
+            form.append('comments',    formData.comments);
+            if (imageFile) form.append('image', imageFile);
 
-            const data = await response.json();
+            const response = await fetch('/api/orders/custom', { method: 'POST', body: form });
+            const data     = await response.json();
 
             if (data.success) {
                 setNotification({
                     isOpen: true,
                     type: 'success',
                     title: '¡Diseño Enviado!',
-                    message: 'Hemos recibido vuestro diseño. Nuestro equipo lo revisará y os contactaremos pronto con un presupuesto.'
+                    message: 'Tu diseño se ha añadido al carrito. Completa el pedido cuando estés listo.'
                 });
-                setFormData({ title: '', description: '', size: '100x100', comments: '' });
+                setFormData({ title: '', description: '', size: '', comments: '' });
+                setImageFile(null);
                 setImagePreview(null);
             } else {
                 throw new Error(data.error || 'Error al enviar el pedido');
@@ -174,11 +159,12 @@ export default function CustomOrderClient({ user }) {
                                     {imagePreview ? (
                                         <div style={{ position: 'relative' }}>
                                             <img src={imagePreview} alt="Preview" className={styles.previewImage} />
-                                            <button 
-                                                type="button" 
+                                            <button
+                                                type="button"
                                                 className={styles.removeImage}
                                                 onClick={(e) => {
                                                     e.stopPropagation();
+                                                    setImageFile(null);
                                                     setImagePreview(null);
                                                 }}
                                             >
