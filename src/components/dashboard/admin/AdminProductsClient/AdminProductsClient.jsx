@@ -8,6 +8,7 @@ import { FaStore } from 'react-icons/fa6';
 import DashboardHeader from '@/components/dashboard/DashboardHeader/DashboardHeader';
 import ProductsToolbar from '@/components/dashboard/admin/productComponents/ProductsToolbar';
 import ProductCard from '@/components/dashboard/admin/productComponents/ProductCard';
+import FeedbackModal from '@/components/ui/Feedback/FeedbackModal';
 import styles from './AdminProductsClient.module.css';
 
 /* Los modales se cargan solo cuando el usuario los abre — fuera del bundle inicial */
@@ -29,6 +30,7 @@ export default function AdminProductsClient({ initialProducts, initialCategories
   const [modalOpen, setModalOpen]         = useState(false);
   const [editProduct, setEditProduct]     = useState(null);
   const [confirmDelete, setConfirmDelete] = useState(null);
+  const [notification, setNotification]   = useState({ isOpen: false, type: 'error', title: '', message: '' });
 
   const refreshProducts = useCallback(async () => {
     const res = await fetch('/api/admin/products');
@@ -43,8 +45,8 @@ export default function AdminProductsClient({ initialProducts, initialCategories
     return products.filter(p => {
       if (search && !p.name.toLowerCase().includes(lc)) return false;
       if (catFilter !== 'all' && String(p.category_id) !== catFilter) return false;
-      if (visFilter === 'public'  && !p.public) return false;
-      if (visFilter === 'private' &&  p.public) return false;
+      if (visFilter === 'community0' &&  p.community) return false;
+      if (visFilter === 'community1' && !p.community) return false;
       return true;
     });
   }, [products, search, catFilter, visFilter]);
@@ -56,8 +58,13 @@ export default function AdminProductsClient({ initialProducts, initialCategories
 
   const handleDeleteConfirm = async () => {
     if (!confirmDelete) return;
-    await fetch(`/api/admin/products/${confirmDelete}`, { method: 'DELETE' });
+    const res = await fetch(`/api/admin/products/${confirmDelete}`, { method: 'DELETE' });
     setConfirmDelete(null);
+    if (!res.ok) {
+      const data = await res.json();
+      setNotification({ isOpen: true, type: 'error', title: 'No se puede eliminar', message: data.error });
+      return;
+    }
     refreshProducts();
   };
 
@@ -115,6 +122,14 @@ export default function AdminProductsClient({ initialProducts, initialCategories
           />
         )}
       </AnimatePresence>
+
+      <FeedbackModal
+        isOpen={notification.isOpen}
+        type={notification.type}
+        title={notification.title}
+        message={notification.message}
+        onClose={() => setNotification(prev => ({ ...prev, isOpen: false }))}
+      />
     </div>
   );
 }

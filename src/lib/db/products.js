@@ -169,6 +169,27 @@ export async function updateProduct(productId, { name, description, image_url, b
 }
 
 export async function deleteProduct(productId) {
+  const [orderRefs] = await db.query(
+    `SELECT op.order_product_id FROM order_product op
+     JOIN orders o ON op.order_id = o.order_id
+     WHERE op.product_id = ? AND o.order_status != 'en_carrito'
+     LIMIT 1`,
+    [productId]
+  );
+
+  if (orderRefs.length > 0) {
+    const err = new Error('El producto está asociado a pedidos existentes y no puede eliminarse.');
+    err.code = 'PRODUCT_IN_USE';
+    throw err;
+  }
+
+  await db.query(
+    `DELETE op FROM order_product op
+     JOIN orders o ON op.order_id = o.order_id
+     WHERE op.product_id = ? AND o.order_status = 'en_carrito'`,
+    [productId]
+  );
+  await db.query(`DELETE FROM product_sizes WHERE product_id = ?`, [productId]);
   await db.query(`DELETE FROM products WHERE product_id = ?`, [productId]);
 }
 
