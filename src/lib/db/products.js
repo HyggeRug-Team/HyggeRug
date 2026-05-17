@@ -29,6 +29,7 @@ export async function getProducts() {
                 p.base_price,
                 p.image_url AS main_image,
                 c.name AS category,
+                u.nickname AS requested_by,
                 COALESCE((
                     SELECT MIN(price)
                     FROM product_sizes ps
@@ -36,6 +37,7 @@ export async function getProducts() {
                 ), p.base_price) AS min_price
             FROM products p
             LEFT JOIN categories c ON p.category_id = c.category_id
+            LEFT JOIN users u ON u.user_id = p.creator_id
             WHERE p.public = 1 AND p.community = 1
         `);
     return rows;
@@ -87,6 +89,7 @@ export async function getAdminProducts() {
       p.public,
       p.community,
       p.category_id,
+      p.creator_id,
       c.name AS category,
       COUNT(ps.product_size_id) AS total_sizes,
       SUM(ps.active = 1)        AS active_sizes
@@ -94,7 +97,7 @@ export async function getAdminProducts() {
     LEFT JOIN categories c  ON c.category_id = p.category_id
     LEFT JOIN product_sizes ps ON ps.product_id = p.product_id
     GROUP BY p.product_id, p.name, p.description, p.image_url,
-             p.base_price, p.public, p.community, p.category_id, c.name
+             p.base_price, p.public, p.community, p.category_id, p.creator_id, c.name
     ORDER BY p.product_id DESC
   `);
   return rows;
@@ -104,7 +107,7 @@ export async function getAdminProductById(productId) {
   const [rows] = await db.query(`
     SELECT
       p.product_id, p.name, p.description, p.image_url,
-      p.base_price, p.public, p.community, p.category_id,
+      p.base_price, p.public, p.community, p.category_id, p.creator_id,
       c.name AS category,
       ps.product_size_id AS size_id,
       ps.size AS size_label,
@@ -129,6 +132,7 @@ export async function getAdminProductById(productId) {
     community: rows[0].community,
     category_id: rows[0].category_id,
     category: rows[0].category,
+    creator_id: rows[0].creator_id,
     sizes: [],
   };
 
@@ -147,20 +151,20 @@ export async function getAdminProductById(productId) {
   return product;
 }
 
-export async function createProduct({ name, description, image_url, base_price, category_id, isPublic, community }) {
+export async function createProduct({ name, description, image_url, base_price, category_id, isPublic, community, creator_id }) {
   const [result] = await db.query(
-    `INSERT INTO products (name, description, image_url, base_price, category_id, public, community)
-     VALUES (?, ?, ?, ?, ?, ?, ?)`,
-    [name, description || null, image_url || null, base_price, category_id || null, isPublic ? 1 : 0, community ? 1 : 0]
+    `INSERT INTO products (name, description, image_url, base_price, category_id, public, community, creator_id)
+     VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
+    [name, description || null, image_url || null, base_price, category_id || null, isPublic ? 1 : 0, community ? 1 : 0, creator_id || null]
   );
   return result.insertId;
 }
 
-export async function updateProduct(productId, { name, description, image_url, base_price, category_id, isPublic, community }) {
+export async function updateProduct(productId, { name, description, image_url, base_price, category_id, isPublic, community, creator_id }) {
   await db.query(
-    `UPDATE products SET name=?, description=?, image_url=?, base_price=?, category_id=?, public=?, community=?
+    `UPDATE products SET name=?, description=?, image_url=?, base_price=?, category_id=?, public=?, community=?, creator_id=?
      WHERE product_id=?`,
-    [name, description || null, image_url || null, base_price, category_id || null, isPublic ? 1 : 0, community ? 1 : 0, productId]
+    [name, description || null, image_url || null, base_price, category_id || null, isPublic ? 1 : 0, community ? 1 : 0, creator_id || null, productId]
   );
 }
 
@@ -234,11 +238,13 @@ export async function getProductWithSizes(productId) {
                 p.base_price,
                 p.image_url,
                 c.name AS category,
+                u.nickname AS requested_by,
                 ps.product_size_id AS size_id,
                 ps.size AS size_label,
                 ps.price
             FROM products p
             LEFT JOIN categories c ON p.category_id = c.category_id
+            LEFT JOIN users u ON u.user_id = p.creator_id
             LEFT JOIN product_sizes ps ON ps.product_id = p.product_id AND ps.active = 1
             WHERE p.product_id = ?
             ORDER BY ps.price ASC
@@ -255,6 +261,7 @@ export async function getProductWithSizes(productId) {
       base_price: rows[0].base_price,
       image_url: rows[0].image_url,
       category: rows[0].category,
+      requested_by: rows[0].requested_by,
       sizes: [],
     };
 

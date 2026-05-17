@@ -38,7 +38,10 @@ export default function CartSummary({
     appliedDiscount, 
     formatPrice, 
     onConfirmOrder,
-    isConfirmDisabled
+    isConfirmDisabled,
+    publicChecked,
+    setPublicChecked,
+    showPublicError
 }) {
     return (
         <section className={styles.card}>
@@ -74,6 +77,26 @@ export default function CartSummary({
                 <p className={styles.totalNote}>
                     *Este es un <strong>presupuesto estimado</strong>. Debido a la naturaleza artesanal del tufting, los costes finales de materiales y manufactura pueden variar ligeramente. El precio definitivo se confirmará en el siguiente proceso.
                 </p>
+
+                <div className={`${styles.publicWarningBox} ${showPublicError ? styles.publicWarningError : ''}`}>
+                    <p className={styles.publicWarningText}>
+                        Al confirmar el pedido, aceptas que tu diseño personalizado pueda ser publicado y formar parte de nuestra galería de la comunidad.
+                    </p>
+                    <label className={styles.publicWarningLabel}>
+                        <input 
+                            type="checkbox" 
+                            checked={publicChecked} 
+                            onChange={(e) => setPublicChecked(e.target.checked)} 
+                            className={styles.publicCheckbox}
+                        />
+                        <span>He leído y acepto que el diseño puede ser público.</span>
+                    </label>
+                    {showPublicError && (
+                        <p className={styles.errorMessageInline}>
+                            Debes aceptar que tu diseño sea público para continuar con el pedido.
+                        </p>
+                    )}
+                </div>
             </div>
 
             {/* Botón de Acción Principal (Desktop) */}

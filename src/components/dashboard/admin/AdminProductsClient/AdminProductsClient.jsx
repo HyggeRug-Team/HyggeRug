@@ -22,7 +22,7 @@ const ConfirmDeleteModal = dynamic(
   { ssr: false }
 );
 
-export default function AdminProductsClient({ initialProducts, initialCategories }) {
+export default function AdminProductsClient({ initialProducts, initialCategories, initialUsers }) {
   const [products, setProducts]           = useState(initialProducts);
   const [search, setSearch]               = useState('');
   const [catFilter, setCatFilter]         = useState('all');
@@ -107,6 +107,7 @@ export default function AdminProductsClient({ initialProducts, initialCategories
           <ProductModal
             product={editProduct}
             categories={initialCategories}
+            users={initialUsers}
             onClose={handleCloseModal}
             onSaved={handleSaved}
           />

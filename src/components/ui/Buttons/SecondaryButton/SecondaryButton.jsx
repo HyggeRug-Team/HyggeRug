@@ -20,7 +20,7 @@ import styles from './SecondaryButton.module.css'
 import { sanitizeHref } from '@/lib/url';
 import Link from 'next/link';
 
-function SecondaryButton({ text, url, Icon, onClick, className, variant }) {
+function SecondaryButton({ text, url, Icon, onClick, className, variant, disabled }) {
     const combinedClassName = `${styles.secondaryBtn} ${variant ? styles[variant] : ''} ${className || ''}`;
 
     if (url) {
@@ -34,7 +34,7 @@ function SecondaryButton({ text, url, Icon, onClick, className, variant }) {
     }
 
     return (
-        <button type="button" className={combinedClassName} onClick={onClick}>
+        <button type="button" className={combinedClassName} onClick={onClick} disabled={disabled}>
             <span>{text}</span>
             {Icon && <Icon size={18} />}
         </button>

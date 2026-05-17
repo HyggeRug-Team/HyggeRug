@@ -108,3 +108,15 @@
     bottom: calc(100% + 15px);
     top: auto !important;
 }
+
+.fullWidth {
+    width: 100%;
+}
+
+.fullWidthDrop {
+    width: 100% !important;
+    left: 0 !important;
+    right: 0 !important;
+    max-height: 250px;
+    overflow-y: auto;
+}
