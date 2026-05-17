@@ -3,7 +3,7 @@
 import { FaMagnifyingGlass, FaXmark, FaPlus } from 'react-icons/fa6';
 import styles from '../AdminProductsClient/AdminProductsClient.module.css';
 
-const VIS_LABELS = { all: 'Todos', public: 'Públicos', private: 'Privados' };
+const VIS_LABELS = { all: 'Todos', community0: 'Sin comunidad', community1: 'Comunidad' };
 
 export default function ProductsToolbar({
   search, onSearch,

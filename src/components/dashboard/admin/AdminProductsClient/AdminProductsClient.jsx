@@ -45,8 +45,8 @@ export default function AdminProductsClient({ initialProducts, initialCategories
     return products.filter(p => {
       if (search && !p.name.toLowerCase().includes(lc)) return false;
       if (catFilter !== 'all' && String(p.category_id) !== catFilter) return false;
-      if (visFilter === 'public'  && !p.public) return false;
-      if (visFilter === 'private' &&  p.public) return false;
+      if (visFilter === 'community0' &&  p.community) return false;
+      if (visFilter === 'community1' && !p.community) return false;
       return true;
     });
   }, [products, search, catFilter, visFilter]);
