@@ -25,13 +25,13 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { FaChevronDown } from 'react-icons/fa6';
 import styles from './CustomSelect.module.css';
 
-const CustomSelect = ({ value, options, onChange, placeholder = "Seleccionar...", minimal = false, direction = "down" }) => {
+const CustomSelect = ({ value, options, onChange, placeholder = "Seleccionar...", minimal = false, direction = "down", fullWidth = false }) => {
     const [isOpen, setIsOpen] = useState(false);
 
     const selectedOption = options.find(opt => opt.value === value);
 
     return (
-        <div className={`${styles.customSelectWrapper} ${minimal ? styles.minimal : ''}`}>
+        <div className={`${styles.customSelectWrapper} ${minimal ? styles.minimal : ''} ${fullWidth ? styles.fullWidth : ''}`}>
             <button 
                 className={styles.customSelectBtn} 
                 onClick={() => setIsOpen(!isOpen)}
@@ -43,7 +43,7 @@ const CustomSelect = ({ value, options, onChange, placeholder = "Seleccionar..."
             <AnimatePresence>
                 {isOpen && (
                     <motion.div 
-                        className={`${styles.customSelectDropdown} ${direction === 'up' ? styles.dropUp : ''}`}
+                        className={`${styles.customSelectDropdown} ${direction === 'up' ? styles.dropUp : ''} ${fullWidth ? styles.fullWidthDrop : ''}`}
                         initial={{ opacity: 0, y: direction === 'up' ? -10 : 10, scale: 0.95 }}
                         animate={{ opacity: 1, y: 0, scale: 1 }}
                         exit={{ opacity: 0, y: direction === 'up' ? -10 : 10, scale: 0.95 }}

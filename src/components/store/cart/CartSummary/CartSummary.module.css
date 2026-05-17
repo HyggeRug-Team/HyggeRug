@@ -81,6 +81,58 @@
     line-height: 1.5;
 }
 
+.publicWarningBox {
+    margin-top: 16px;
+    padding: 12px;
+    background: rgba(255, 0, 136, 0.05);
+    border: 1px dashed rgba(255, 0, 136, 0.2);
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.publicWarningText {
+    font-size: 0.75rem;
+    color: var(--grey-400);
+    line-height: 1.4;
+}
+
+.publicWarningLabel {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    font-size: 0.8rem;
+    color: var(--grey-300);
+    cursor: pointer;
+}
+
+.publicCheckbox {
+    margin-top: 2px;
+    accent-color: var(--highlight-text);
+    cursor: pointer;
+}
+
+.publicWarningError {
+    border-color: var(--highlight-text);
+    background: rgba(255, 0, 85, 0.08);
+    box-shadow: 0 0 10px rgba(255, 0, 85, 0.15);
+    animation: shakeWarning 0.4s ease-in-out;
+}
+
+.errorMessageInline {
+    color: var(--highlight-text);
+    font-size: 0.72rem;
+    font-weight: 700;
+    margin: 0;
+}
+
+@keyframes shakeWarning {
+    0%, 100% { transform: translateX(0); }
+    20%, 60% { transform: translateX(-4px); }
+    40%, 80% { transform: translateX(4px); }
+}
+
 .trustBadges {
     margin-top: 35px;
     display: grid;

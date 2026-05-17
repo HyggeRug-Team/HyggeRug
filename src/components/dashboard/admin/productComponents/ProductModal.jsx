@@ -6,9 +6,10 @@ import {
   FaXmark, FaCheck, FaSpinner, FaImage, FaEye, FaUsers, FaToggleOn, FaToggleOff,
 } from 'react-icons/fa6';
 import SizesManager from './SizesManager';
+import CustomSelect from '@/components/ui/Inputs/CustomSelect/CustomSelect';
 import styles from '../AdminProductsClient/AdminProductsClient.module.css';
 
-export default function ProductModal({ product, categories, onClose, onSaved }) {
+export default function ProductModal({ product, categories, users, onClose, onSaved }) {
   const isEdit = !!product;
   const fileRef = useRef(null);
 
@@ -24,6 +25,7 @@ export default function ProductModal({ product, categories, onClose, onSaved }) 
   const [categoryId, setCategoryId] = useState(product?.category_id  ? String(product.category_id) : '');
   const [isPublic, setIsPublic]     = useState(!!product?.public);
   const [community, setCommunity]   = useState(!!product?.community);
+  const [creatorId, setCreatorId]   = useState(product?.creator_id ? String(product.creator_id) : '');
 
   const handleImageUpload = async (e) => {
     const file = e.target.files?.[0];
@@ -57,6 +59,7 @@ export default function ProductModal({ product, categories, onClose, onSaved }) 
         category_id: categoryId ? Number(categoryId) : null,
         isPublic,
         community,
+        creator_id: creatorId ? Number(creatorId) : null,
       };
       const res = isEdit
         ? await fetch(`/api/admin/products/${product.product_id}`, {
@@ -80,6 +83,16 @@ export default function ProductModal({ product, categories, onClose, onSaved }) 
       setSaving(false);
     }
   };
+
+  const categoryOptions = [
+    { value: '', label: 'Sin categoría' },
+    ...categories.map(c => ({ value: String(c.category_id), label: c.name }))
+  ];
+
+  const userOptions = [
+    { value: '', label: 'Ninguno (Admin)' },
+    ...(users || []).map(u => ({ value: String(u.user_id), label: `${u.nickname} (ID: ${u.user_id})` }))
+  ];
 
   return (
     <motion.div
@@ -179,18 +192,25 @@ export default function ProductModal({ product, categories, onClose, onSaved }) 
                     placeholder="0.00"
                   />
                 </div>
-                <div className={styles.formGroup}>
+                 <div className={styles.formGroup}>
                   <label className={styles.label}>Categoría</label>
-                  <select
-                    className={styles.select}
+                  <CustomSelect
                     value={categoryId}
-                    onChange={e => setCategoryId(e.target.value)}
-                  >
-                    <option value="">Sin categoría</option>
-                    {categories.map(c => (
-                      <option key={c.category_id} value={String(c.category_id)}>{c.name}</option>
-                    ))}
-                  </select>
+                    options={categoryOptions}
+                    onChange={setCategoryId}
+                    placeholder="Sin categoría"
+                    fullWidth
+                  />
+                </div>
+                <div className={styles.formGroup}>
+                  <label className={styles.label}>ID Creador (Opcional)</label>
+                  <CustomSelect
+                    value={creatorId}
+                    options={userOptions}
+                    onChange={setCreatorId}
+                    placeholder="Ninguno (Admin)"
+                    fullWidth
+                  />
                 </div>
               </div>
 

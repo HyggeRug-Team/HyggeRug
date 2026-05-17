@@ -468,6 +468,46 @@
     font-weight: 800;
 }
 
+.mobilePublicWarning {
+    margin-top: 5px;
+    padding: 8px 12px;
+    background: rgba(255, 0, 136, 0.05);
+    border: 1px dashed rgba(255, 0, 136, 0.2);
+    border-radius: 12px;
+}
+
+.mobilePublicLabel {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+}
+
+.mobilePublicCheckbox {
+    margin-top: 2px;
+    accent-color: var(--highlight-text);
+}
+
+.mobilePublicWarningError {
+    border-color: var(--highlight-text);
+    background: rgba(255, 0, 85, 0.08);
+    box-shadow: 0 0 8px rgba(255, 0, 85, 0.15);
+    animation: shakeWarningTouch 0.4s ease-in-out;
+}
+
+.errorMessageInlineTouch {
+    color: var(--highlight-text);
+    font-size: 0.68rem;
+    font-weight: 700;
+    margin-top: 4px;
+    display: block;
+}
+
+@keyframes shakeWarningTouch {
+    0%, 100% { transform: translateX(0); }
+    20%, 60% { transform: translateX(-4px); }
+    40%, 80% { transform: translateX(4px); }
+}
+
 /* 6. EMPTY STATE */
 .emptyCartTouch {
     padding: 120px 30px;

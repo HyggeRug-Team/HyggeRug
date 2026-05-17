@@ -69,6 +69,15 @@ export default function CartPage() {
     const [showModal, setShowModal]   = useState(false);             // Modal de confirmación final
     const [confirming, setConfirming] = useState(false);             // Procesando el pedido
     const [notification, setNotification] = useState({ isOpen: false, type: 'success', title: '', message: '' });
+    const [publicChecked, setPublicChecked] = useState(false);       // Checkbox de diseño público
+    const [showPublicError, setShowPublicError] = useState(false);   // Error por no marcar checkbox público
+
+    const handlePublicCheckedChange = (val) => {
+        setPublicChecked(val);
+        if (val) {
+            setShowPublicError(false);
+        }
+    };
 
     /* ── ESTADO PARA NUEVA DIRECCIÓN ── */
     const [newAddress, setNewAddress] = useState({
@@ -443,13 +452,37 @@ export default function CartPage() {
                             </div>
                             <SecondaryButton 
                                 text={confirming ? '...' : 'CONFIRMAR PEDIDO'}
-                                onClick={() => setShowModal(true)}
+                                onClick={() => {
+                                    if (!publicChecked) {
+                                        setShowPublicError(true);
+                                        return;
+                                    }
+                                    setShowModal(true);
+                                }}
                                 disabled={!selectedAddress}
                                 className={styles.confirmBtn}
                             />
                         </div>
                         <div className={styles.stickyDisclaimer}>
                             *Presupuesto estimado. Los costes de tufting pueden variar.
+                        </div>
+                        <div className={`${styles.mobilePublicWarning} ${showPublicError ? styles.mobilePublicWarningError : ''}`}>
+                            <label className={styles.mobilePublicLabel}>
+                                <input 
+                                    type="checkbox" 
+                                    checked={publicChecked} 
+                                    onChange={(e) => handlePublicCheckedChange(e.target.checked)} 
+                                    className={styles.mobilePublicCheckbox}
+                                />
+                                <span style={{ fontSize: '0.75rem', color: 'var(--grey-300)' }}>
+                                    Acepto que mi diseño pueda ser publicado en la comunidad.
+                                </span>
+                            </label>
+                            {showPublicError && (
+                                <span className={styles.errorMessageInlineTouch}>
+                                    Debes aceptar este aviso para continuar.
+                                </span>
+                            )}
                         </div>
                         {appliedDiscount && (
                             <div className={styles.stickySavingBanner}>
@@ -538,7 +571,6 @@ export default function CartPage() {
                                 setAppliedDiscount={setAppliedDiscount}
                                 discountError={discountError}
                                 setDiscountError={setDiscountError}
-                                discountLoading={discountLoading}
                                 onApplyDiscount={handleApplyDiscount}
                                 formatPrice={formatPrice}
                             />
@@ -552,8 +584,17 @@ export default function CartPage() {
                                 total={total}
                                 appliedDiscount={appliedDiscount}
                                 formatPrice={formatPrice}
-                                onConfirmOrder={() => setShowModal(true)}
+                                onConfirmOrder={() => {
+                                    if (!publicChecked) {
+                                        setShowPublicError(true);
+                                        return;
+                                    }
+                                    setShowModal(true);
+                                }}
                                 isConfirmDisabled={!selectedAddress || items.length === 0}
+                                publicChecked={publicChecked}
+                                setPublicChecked={handlePublicCheckedChange}
+                                showPublicError={showPublicError}
                             />
 
                             <AddressSection 
