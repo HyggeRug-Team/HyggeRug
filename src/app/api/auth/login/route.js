@@ -3,6 +3,7 @@ import { db } from '@/lib/db';
 import { createSession, buildSessionPayload } from '@/lib/auth';
 import bcrypt from 'bcryptjs';
 import { cookies } from 'next/headers';
+import { getConfigValue } from '@/lib/db/config';
 
 export async function POST(request) {
   try {
@@ -28,8 +29,9 @@ export async function POST(request) {
 
     // 4. ¿El usuario está activo?
     if (user.active === 0 || user.active === false) {
+      const contactEmail = await getConfigValue('contact_email').catch(() => null) || 'contacto@hyggerug.com';
       return NextResponse.json(
-        { error: 'Tu cuenta ha sido bloqueada. Ponte en contacto con hyggerug@gmail.com' },
+        { error: `Tu cuenta ha sido bloqueada. Ponte en contacto con ${contactEmail}` },
         { status: 403 }
       );
     }

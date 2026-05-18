@@ -24,6 +24,6 @@ export const metadata = {
 };
 
 export default async function ContactoPage() {
-    const config = await getConfigValues(['social_instagram', 'social_tiktok']);
+    const config = await getConfigValues(['social_instagram', 'social_tiktok', 'contact_email']);
     return <ContactView socialLinks={config} />;
 }

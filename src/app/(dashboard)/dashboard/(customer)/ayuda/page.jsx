@@ -18,6 +18,7 @@ import { verifySession } from "@/lib/auth";
 import { redirect } from "next/navigation";
 import { getTicketsByUser } from "@/lib/db/support";
 import { getOrdersByUser } from "@/lib/db/orders";
+import { getConfigValue } from "@/lib/db/config";
 import styles from "./ayuda.module.css";
 import React from 'react';
 import Link from 'next/link';
@@ -48,13 +49,18 @@ export default async function AyudaPage({ searchParams }) {
 
   const { order: initialOrderId } = await searchParams;
   const userId = session.userId || session.user_id || session.id;
-  
+
+  let contactEmail = 'contacto@hyggerug.com';
   let tickets = [];
   let orders = [];
 
   try {
-      tickets = await getTicketsByUser(userId);
-      orders = await getOrdersByUser(userId);
+      [tickets, orders] = await Promise.all([
+          getTicketsByUser(userId),
+          getOrdersByUser(userId),
+      ]);
+      const emailFromConfig = await getConfigValue('contact_email');
+      if (emailFromConfig) contactEmail = emailFromConfig;
   } catch (err) {
       console.error("Error cargando soporte:", err);
   }
@@ -112,8 +118,8 @@ export default async function AyudaPage({ searchParams }) {
               <h3>Contacto Directo</h3>
               <p>Nuestro equipo responde en menos de 24h laborables.</p>
               <div className={styles.contactLinks}>
-                 <a href="mailto:hyggerug@gmail.com" className={styles.contactItem}>
-                    <FaCreditCard /> hyggerug@gmail.com
+                 <a href={`mailto:${contactEmail}`} className={styles.contactItem}>
+                     <FaCreditCard /> {contactEmail}
                  </a>
                  <div className={styles.workHours}>
                     <FaClock /> Lunes a Viernes: 09:00 - 18:00

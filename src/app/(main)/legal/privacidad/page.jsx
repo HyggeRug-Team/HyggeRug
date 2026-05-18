@@ -20,8 +20,11 @@ export const metadata = {
 import React from 'react';
 import LegalPageWrapper from '@/components/ui/Legal/LegalPageWrapper';
 import styles from '@/components/ui/Legal/LegalPageWrapper.module.css';
+import { getConfigValue } from '@/lib/db/config';
 
-export default function PrivacidadPage() {
+export default async function PrivacidadPage() {
+    const contactEmail = await getConfigValue('contact_email') || 'contacto@hyggerug.com';
+
     const navItems = [
         { id: 'responsable', label: 'Responsable' },
         { id: 'finalidad', label: 'Finalidad' },
@@ -42,7 +45,7 @@ export default function PrivacidadPage() {
                     Tus datos son gestionados directamente por el equipo de <strong>Hygge Rug</strong>, con sede en Madrid, España. Nos tomamos tu privacidad tan en serio como la calidad de nuestras alfombras.
                 </p>
                 <ul>
-                    <li><strong>Email Directo:</strong> hyggerug@gmail.com</li>
+                    <li><strong>Email Directo:</strong> {contactEmail}</li>
                     <li><strong>Normativa:</strong> RGPD (UE) 2016/679</li>
                 </ul>
             </section>
@@ -73,7 +76,7 @@ export default function PrivacidadPage() {
                     Tienes derecho a obtener confirmación sobre si en Hygge Rug estamos tratando tus datos personales. Puedes acceder, rectificar, suprimir u oponerte al tratamiento.
                 </p>
                 <div className={styles.highlightBox}>
-                    <p>Escríbenos a <strong>hyggerug@gmail.com</strong> indicando el derecho que deseas ejercer. Te responderemos en el plazo legal de un mes.</p>
+                    <p>Escríbenos a <strong>{contactEmail}</strong> indicando el derecho que deseas ejercer. Te responderemos en el plazo legal de un mes.</p>
                 </div>
             </section>
         </LegalPageWrapper>

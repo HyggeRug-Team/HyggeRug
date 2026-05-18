@@ -27,6 +27,7 @@ import { FaEnvelope, FaMapMarkerAlt, FaClock, FaInstagram, FaTiktok, FaChevronRi
 export default function ContactView({ socialLinks }) {
     const instagramUrl = socialLinks?.social_instagram || "https://instagram.com/hygge_rug";
     const tiktokUrl = socialLinks?.social_tiktok || "https://tiktok.com/@hygge_rug";
+    const contactEmail = socialLinks?.contact_email || "contacto@hyggerug.com";
 
     const [formData, setFormData] = useState({
         name: '',
@@ -107,7 +108,7 @@ export default function ContactView({ socialLinks }) {
                                 <FaEnvelope className={styles.infoIcon} />
                                 <div className={styles.infoText}>
                                     <h4>EMAIL DIRECTO</h4>
-                                    <p>hyggerug@gmail.com</p>
+                                    <p>{contactEmail}</p>
                                 </div>
                             </div>
                             <div className={styles.infoCard}>

@@ -1,5 +1,6 @@
 import { Suspense } from 'react';
 import AuthForm from '@/components/auth/AuthForm/AuthForm';
+import { getConfigValue } from '@/lib/db/config';
 
 export const metadata = {
   title: 'Acceso | Hygge Rug - Únete a la Comunidad',
@@ -23,10 +24,11 @@ export const metadata = {
  * Next.js exige envolver en <Suspense> cualquier componente que llame a useSearchParams()
  * durante el prerendering estático (build). Sin este wrapper el build falla.
  */
-export default function AuthPage() {
+export default async function AuthPage() {
+  const contactEmail = await getConfigValue('contact_email').catch(() => null) || 'contacto@hyggerug.com';
   return (
     <Suspense>
-      <AuthForm />
+      <AuthForm contactEmail={contactEmail} />
     </Suspense>
   );
 }
