@@ -230,7 +230,7 @@ export async function sendWelcomeEmail(toEmail, nickname) {
   `;
 
   const mailOptions = {
-    from: `"HYGGE RUG" <${process.env.EMAIL_USER}>`,
+    from: `"HYGGE RUG" <${process.env.EMAIL_FROM}>`,
     to: toEmail,
     subject: `¡Tus suelos nos han pedido tu número, ${nickname}!`,
     html,
@@ -261,7 +261,7 @@ export async function sendContactEmail({ name, email, subject, message }) {
 
   const mailOptions = {
     from: `"Web Contact" <${process.env.EMAIL_USER}>`,
-    to: process.env.EMAIL_USER,
+    to: process.env.EMAIL_USER, 
     replyTo: email,
     subject: `[CONTACTO] ${subject} - ${name}`,
     html,
