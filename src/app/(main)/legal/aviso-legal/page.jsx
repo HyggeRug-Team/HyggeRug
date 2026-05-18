@@ -20,8 +20,11 @@ export const metadata = {
 import React from 'react';
 import LegalPageWrapper from '@/components/ui/Legal/LegalPageWrapper';
 import styles from '@/components/ui/Legal/LegalPageWrapper.module.css';
+import { getConfigValue } from '@/lib/db/config';
 
-export default function AvisoLegalPage() {
+export default async function AvisoLegalPage() {
+    const contactEmail = await getConfigValue('contact_email') || 'contacto@hyggerug.com';
+
     const navItems = [
         { id: 'identificacion', label: 'Identificación' },
         { id: 'objeto', label: 'Objeto' },
@@ -47,7 +50,7 @@ export default function AvisoLegalPage() {
                     <li><strong>Responsable:</strong> [TU NOMBRE O NOMBRE EMPRESA]</li>
                     <li><strong>NIF/CIF:</strong> [TU NIF/CIF]</li>
                     <li><strong>Domicilio:</strong> Madrid, España.</li>
-                    <li><strong>Email:</strong> hyggerug@gmail.com</li>
+                    <li><strong>Email:</strong> {contactEmail}</li>
                 </ul>
             </section>
 

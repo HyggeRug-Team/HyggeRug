@@ -83,7 +83,7 @@ const handleGoogleLogin = () => {
   // 4. ¡Redirigimos!
     window.location.href = `${rootUrl}?${qs}`;
 };
-export default function AuthForm() {
+export default function AuthForm({ contactEmail = 'contacto@hyggerug.com' }) {
   /**
    * Router para navegación programática (para poder movernos por la web como si fuera un menú).
    * Next.js /navigation permite re-direcciones en Client Components 
@@ -116,7 +116,7 @@ export default function AuthForm() {
       const params = new URLSearchParams(window.location.search);
       if (params.get('error') === 'blocked') {
         setMensaje({
-          texto: 'Tu cuenta ha sido bloqueada y no puedes acceder a ella. Si tienes alguna duda, por favor ponte en contacto con nosotros a través de nuestro correo: hyggerug@gmail.com',
+          texto: `Tu cuenta ha sido bloqueada y no puedes acceder a ella. Si tienes alguna duda, por favor ponte en contacto con nosotros a través de nuestro correo: ${contactEmail}`,
           tipo: 'error'
         });
       }
@@ -230,8 +230,8 @@ export default function AuthForm() {
           <p className={styles.ticketText}>
             Ponte en contacto directo con nuestro taller a través de nuestro correo electrónico para revisar tu caso de forma personalizada:
           </p>
-          <a href="mailto:hyggerug@gmail.com" className={styles.ticketEmail}>
-            hyggerug@gmail.com
+          <a href={`mailto:${contactEmail}`} className={styles.ticketEmail}>
+            {contactEmail}
           </a>
         </div>
         

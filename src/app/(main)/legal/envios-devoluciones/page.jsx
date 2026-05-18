@@ -20,8 +20,10 @@ export const metadata = {
 import React from 'react';
 import LegalPageWrapper from '@/components/ui/Legal/LegalPageWrapper';
 import styles from '@/components/ui/Legal/LegalPageWrapper.module.css';
+import { getConfigValue } from '@/lib/db/config';
 
-export default function EnviosDevolucionesPage() {
+export default async function EnviosDevolucionesPage() {
+    const contactEmail = await getConfigValue('contact_email') || 'contacto@hyggerug.com';
     const navItems = [
         { id: 'envios', label: 'Envíos' },
         { id: 'tarifas', label: 'Tarifas' },
@@ -78,7 +80,7 @@ export default function EnviosDevolucionesPage() {
                 </p>
                 <ul>
                     <li>Haz una foto del paquete antes de abrirlo.</li>
-                    <li>Escríbenos a <strong>hyggerug@gmail.com</strong> en un plazo máximo de 24h.</li>
+                    <li>Escríbenos a <strong>{contactEmail}</strong> en un plazo máximo de 24h.</li>
                     <li>Nosotros nos encargaremos de recogerla y enviarte una nueva unidad sin coste.</li>
                 </ul>
             </section>

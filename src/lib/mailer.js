@@ -1,10 +1,10 @@
 /**
  * @file mailer.js
  * @description Gestión de comunicaciones automáticas por correo electrónico.
- * 
+ *
  * [Nuestro enfoque]
- * Hemos configurado este módulo para que todos los correos que enviamos 
- * mantengan la estética visual de la marca y proporcionen información 
+ * Hemos configurado este módulo para que todos los correos que enviamos
+ * mantengan la estética visual de la marca y proporcionen información
  * dinámica y relevante al usuario.
  */
 import nodemailer from "nodemailer";
@@ -21,13 +21,13 @@ const transporter = nodemailer.createTransport({
 
 /**
  * ENVÍA EL EMAIL DE BIENVENIDA
- * Hemos diseñado este correo para que el nuevo usuario se sienta parte 
- * de la familia desde el primer segundo, inyectando productos destacados 
+ * Hemos diseñado este correo para que el nuevo usuario se sienta parte
+ * de la familia desde el primer segundo, inyectando productos destacados
  * y enlaces actualizados a nuestras redes.
  */
 export async function sendWelcomeEmail(toEmail, nickname) {
   const brand = {
-    url: "https://hyggerug.vercel.app",
+    url: "https://hyggerug.com",
     pink: "#FF0055",
     yellow: "#FFD701",
     white: "#FFFFFF",
@@ -41,39 +41,27 @@ export async function sendWelcomeEmail(toEmail, nickname) {
   // 1. OBTENCIÓN DE DATOS DINÁMICOS
   // Recuperamos los productos más recientes y los enlaces de redes configurados
   let featuredProducts = [];
+  let contactEmail = "contacto@hyggerug.com";
   let socialLinks = {
     instagram: "https://instagram.com/hygge_rug",
-    tiktok: "https://www.tiktok.com/@hygge_rug"
+    tiktok: "https://www.tiktok.com/@hygge_rug",
   };
 
   try {
     const [products, config] = await Promise.all([
       getProducts(),
-      getConfigValues(['social_instagram', 'social_tiktok'])
+      getConfigValues(["social_instagram", "social_tiktok", "contact_email"]),
     ]);
-    
+
     featuredProducts = products.slice(0, 2);
-    if (config.social_instagram) socialLinks.instagram = config.social_instagram;
+    if (config.social_instagram)
+      socialLinks.instagram = config.social_instagram;
     if (config.social_tiktok) socialLinks.tiktok = config.social_tiktok;
+    if (config.contact_email) contactEmail = config.contact_email;
   } catch (error) {
     console.error("Error fetching data for email:", error);
   }
 
-  // Fallback por si la base de datos no responde con productos
-  if (featuredProducts.length === 0) {
-    featuredProducts = [
-      {
-        name: "Classic Mario Rug",
-        main_image: "/rug-mario.png",
-        description: "Nuestra pieza más icónica con relieves 3D.",
-      },
-      {
-        name: "Gorillaz Edition",
-        main_image: "/rug-gorillaz.png",
-        description: "Lana técnica de alta calidad sobre lienzo artesanal.",
-      },
-    ];
-  }
 
   // 2. GENERACIÓN DEL HTML DE PRODUCTOS
   const productsHtml = featuredProducts
@@ -100,7 +88,7 @@ export async function sendWelcomeEmail(toEmail, nickname) {
           </tr>
         </table>
       </td>
-    `
+    `,
     )
     .join("");
 
@@ -253,7 +241,7 @@ export async function sendWelcomeEmail(toEmail, nickname) {
 
 /**
  * ENVÍA UN EMAIL DE CONTACTO AL TALLER
- * Hemos creado este helper para que el equipo reciba las dudas de los clientes 
+ * Hemos creado este helper para que el equipo reciba las dudas de los clientes
  * directamente en el correo corporativo con un formato limpio y ordenado.
  */
 export async function sendContactEmail({ name, email, subject, message }) {
@@ -266,14 +254,14 @@ export async function sendContactEmail({ name, email, subject, message }) {
       <hr style="border: 0; border-top: 1px solid #eee; margin: 20px 0;">
       <p><strong>Mensaje:</strong></p>
       <div style="background: #f9f9f9; padding: 15px; border-radius: 8px; border-left: 4px solid #FF0055;">
-        ${message.replace(/\n/g, '<br>')}
+        ${message.replace(/\n/g, "<br>")}
       </div>
     </div>
   `;
 
   const mailOptions = {
-    from: `"Web Contact" <${process.env.EMAIL_FROM}>`,
-    to: process.env.EMAIL_FROM, 
+    from: `"Web Contact" <${process.env.EMAIL_USER}>`,
+    to: process.env.EMAIL_USER, 
     replyTo: email,
     subject: `[CONTACTO] ${subject} - ${name}`,
     html,
