@@ -1,3 +1,4 @@
+import { Suspense } from 'react';
 import AuthForm from '@/components/auth/AuthForm/AuthForm';
 
 export const metadata = {
@@ -16,8 +17,16 @@ export const metadata = {
  *
  * [Por qué lo hemos hecho así]
  * Así evitamos duplicar lógica de autenticación y logramos una separación clara:
- * “la página” solo coordina, “el componente” hace el trabajo.
+ * "la página" solo coordina, "el componente" hace el trabajo.
+ *
+ * [Suspense boundary]
+ * Next.js exige envolver en <Suspense> cualquier componente que llame a useSearchParams()
+ * durante el prerendering estático (build). Sin este wrapper el build falla.
  */
 export default function AuthPage() {
-  return <AuthForm />;
+  return (
+    <Suspense>
+      <AuthForm />
+    </Suspense>
+  );
 }
