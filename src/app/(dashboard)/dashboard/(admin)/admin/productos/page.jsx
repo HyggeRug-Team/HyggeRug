@@ -1,3 +1,7 @@
+/**
+ * @file admin/productos/page.jsx
+ * @description Página de administración para la gestión del catálogo de diseños.
+ */
 import { cookies } from 'next/headers';
 import { verifySession } from '@/lib/auth';
 import { redirect } from 'next/navigation';

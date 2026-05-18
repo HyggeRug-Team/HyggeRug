@@ -1,3 +1,7 @@
+/**
+ * @file ProductCard.jsx
+ * @description Tarjeta compacta para mostrar un producto en el panel de administración con acciones rápidas de edición y borrado.
+ */
 'use client';
 
 import { memo } from 'react';

@@ -1,3 +1,4 @@
+// ENDPOINT DE ADMINISTRACIÓN — Añade una nueva talla con su precio a un producto del catálogo.
 import { NextResponse } from 'next/server';
 import { getSession } from '@/lib/auth';
 import { addProductSize } from '@/lib/db/products';

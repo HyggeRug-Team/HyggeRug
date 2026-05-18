@@ -1,3 +1,4 @@
+// ENDPOINT PARA ELIMINAR DEL CARRITO — Borra un artículo concreto de la cesta del usuario.
 import { NextResponse } from 'next/server';
 import { getSession } from '@/lib/auth';
 import { db } from '@/lib/db';

@@ -1,5 +1,5 @@
-// Archivo de ejemplo para entender como funciona la conexión, esto es hecho por IA comentado por mi
-// JWT es una forma de verificar sesiones usando algo parecido a la criptografia asimetrica, es decir una clave en cliente y otra en servidor
+// Gestión de sesiones con JWT: crea tokens firmados, los verifica y los extrae de las cookies del navegador.
+// JWT funciona como un sello digital: el servidor lo firma con una clave secreta y el cliente lo presenta en cada petición.
 import { SignJWT, jwtVerify } from 'jose'; // Importamos las herramientas para firmar y leer tokens
 import { cookies } from 'next/headers';    // Importamos la herramienta de Next para manejar cookies
 

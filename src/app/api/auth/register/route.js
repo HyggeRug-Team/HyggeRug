@@ -1,3 +1,4 @@
+// ENDPOINT DE REGISTRO — Crea la cuenta del usuario, cifra la contraseña y envía el correo de bienvenida.
 import { NextResponse } from 'next/server';
 import { db } from '@/lib/db'; // Tu conexión a MySQL
 import bcrypt from 'bcryptjs';

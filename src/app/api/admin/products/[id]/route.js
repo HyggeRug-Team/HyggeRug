@@ -1,3 +1,4 @@
+// ENDPOINT DE ADMINISTRACIÓN — Obtiene, actualiza o elimina un producto concreto del catálogo.
 import { NextResponse } from 'next/server';
 import { getSession } from '@/lib/auth';
 import { getAdminProductById, updateProduct, deleteProduct } from '@/lib/db/products';

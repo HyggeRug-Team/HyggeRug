@@ -1,3 +1,7 @@
+/**
+ * @file AdminProductsClient.jsx
+ * @description Panel principal para la gestión del catálogo de diseños desde la administración.
+ */
 'use client';
 
 import { useState, useCallback, useMemo } from 'react';

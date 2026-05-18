@@ -1,3 +1,4 @@
+// ENDPOINT DE ADMINISTRACIÓN — Edita los datos de una talla o la activa/desactiva del catálogo.
 import { NextResponse } from 'next/server';
 import { getSession } from '@/lib/auth';
 import { updateProductSize, toggleProductSizeActive } from '@/lib/db/products';

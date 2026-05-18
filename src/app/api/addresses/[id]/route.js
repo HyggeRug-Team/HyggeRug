@@ -1,3 +1,4 @@
+// ENDPOINT DE DIRECCIÓN INDIVIDUAL — Elimina una dirección o la marca como predeterminada.
 import { getSession } from "@/lib/auth";
 import { deleteAddress, setDefaultAddress } from "@/lib/db/addresses";
 import { NextResponse } from "next/server";

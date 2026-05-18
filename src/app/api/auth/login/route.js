@@ -1,3 +1,4 @@
+// ENDPOINT DE INICIO DE SESIÓN — Verifica las credenciales del usuario, genera el token JWT y abre su sesión.
 import { NextResponse } from 'next/server';
 import { db } from '@/lib/db';
 import { createSession, buildSessionPayload } from '@/lib/auth';

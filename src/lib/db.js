@@ -1,3 +1,7 @@
+/**
+ * @file db.js
+ * @description Crea y exporta el pool de conexiones a la base de datos MySQL (TiDB).
+ */
 import mysql from 'mysql2/promise';
 
 export const db = mysql.createPool({

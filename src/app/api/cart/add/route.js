@@ -1,5 +1,6 @@
+// ENDPOINT PARA AÑADIR AL CARRITO — Guarda un producto con su talla seleccionada en la cesta del usuario.
 import { NextResponse } from 'next/server';
-import { getSession } from '@/lib/auth'; 
+import { getSession } from '@/lib/auth';
 import { db } from '@/lib/db';
 
 export async function POST(req) {

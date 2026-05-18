@@ -1,3 +1,7 @@
+/**
+ * @file AddressList.jsx
+ * @description Muestra y gestiona la lista completa de direcciones guardadas del usuario, con opción de añadir nuevas.
+ */
 "use client";
 
 import { useState } from "react";

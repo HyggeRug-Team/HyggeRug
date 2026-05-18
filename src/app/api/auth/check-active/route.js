@@ -1,3 +1,4 @@
+// ENDPOINT DE VERIFICACIÓN DE ESTADO — Comprueba si la cuenta del usuario sigue activa en la base de datos.
 import { NextResponse } from 'next/server';
 import { db } from '@/lib/db';
 

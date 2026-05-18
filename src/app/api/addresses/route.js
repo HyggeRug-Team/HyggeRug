@@ -1,3 +1,4 @@
+// ENDPOINT DE DIRECCIONES — Lista las direcciones guardadas del usuario y permite añadir nuevas.
 import { getSession } from "@/lib/auth";
 import { getAddressesByUser, createAddress } from "@/lib/db/addresses";
 import { db } from "@/lib/db";

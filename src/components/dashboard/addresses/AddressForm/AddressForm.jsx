@@ -1,3 +1,7 @@
+/**
+ * @file AddressForm.jsx
+ * @description Formulario para añadir o editar una dirección postal del usuario.
+ */
 "use client";
 
 import { useState } from "react";

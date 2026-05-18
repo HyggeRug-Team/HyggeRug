@@ -1,3 +1,7 @@
+/**
+ * @file SizesManager.jsx
+ * @description Gestor de tallas y precios de un producto desde el panel de administración.
+ */
 'use client';
 
 import { useState, useCallback, useEffect } from 'react';

@@ -1,3 +1,4 @@
+// ENDPOINT DE ADMINISTRACIÓN — Lista todos los diseños del catálogo y permite crear nuevos productos.
 import { NextResponse } from 'next/server';
 import { getSession } from '@/lib/auth';
 import { getAdminProducts, createProduct } from '@/lib/db/products';

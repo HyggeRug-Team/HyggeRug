@@ -1,3 +1,7 @@
+/**
+ * @file ProductsToolbar.jsx
+ * @description Barra de herramientas con buscador y botón de creación para gestionar el catálogo.
+ */
 'use client';
 
 import { FaMagnifyingGlass, FaXmark, FaPlus } from 'react-icons/fa6';

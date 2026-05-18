@@ -1,3 +1,4 @@
+// ENDPOINT DE CONFIGURACIÓN DEL LABORATORIO — Devuelve los ajustes del estudio de diseño (límites, mensajes, etc.).
 import { NextResponse } from 'next/server';
 import { db } from '@/lib/db';
 

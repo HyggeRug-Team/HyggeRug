@@ -1,3 +1,7 @@
+/**
+ * @file ProductModal.jsx
+ * @description Modal para crear o editar un producto del catálogo desde el panel de administración.
+ */
 'use client';
 
 import { useState, useRef } from 'react';

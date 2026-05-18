@@ -1,3 +1,7 @@
+/**
+ * @file GlobalBackgroundText.jsx
+ * @description Capa decorativa con palabras flotantes en el fondo que refuerzan la identidad visual de la marca.
+ */
 import React from 'react';
 import styles from './GlobalBackgroundText.module.css';
 

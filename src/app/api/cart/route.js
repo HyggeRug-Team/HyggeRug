@@ -1,3 +1,4 @@
+// ENDPOINT DEL CARRITO — Devuelve el contenido actual de la cesta con todos sus productos y cantidades.
 import { NextResponse } from 'next/server';
 export const dynamic = 'force-dynamic';
 import { getSession } from '@/lib/auth';

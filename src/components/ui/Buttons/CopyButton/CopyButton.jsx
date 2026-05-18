@@ -1,5 +1,7 @@
-// components/CopyConceptButton.jsx
-// components/CopyButton.jsx
+/**
+ * @file CopyButton.jsx
+ * @description Botón para copiar un texto al portapapeles con confirmación visual breve.
+ */
 'use client';
 
 import { useState } from 'react';

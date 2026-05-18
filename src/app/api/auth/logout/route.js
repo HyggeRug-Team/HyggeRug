@@ -1,3 +1,4 @@
+// ENDPOINT DE CIERRE DE SESIÓN — Elimina la cookie de sesión del navegador y desconecta al usuario.
 import { NextResponse } from 'next/server';
 
 export async function POST() {

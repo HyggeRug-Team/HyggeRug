@@ -1,3 +1,4 @@
+// ENDPOINT DE CONFIRMACIÓN DE PEDIDO — Transforma la cesta activa en un pedido real y libera el carrito.
 import { NextResponse } from 'next/server';
 import { getSession } from '@/lib/auth';
 import { db } from '@/lib/db';

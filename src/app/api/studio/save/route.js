@@ -1,3 +1,4 @@
+// ENDPOINT PARA GUARDAR DISEÑOS DEL LABORATORIO — Sube la imagen a Vercel Blob y la registra en la base de datos.
 import { NextResponse } from 'next/server';
 import { put } from '@vercel/blob';
 import { getSession } from '@/lib/auth';

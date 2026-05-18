@@ -1,3 +1,4 @@
+// ENDPOINT DE DEVOLUCIONES — Gestiona la creación, consulta y actualización de estado de solicitudes de devolución.
 import { NextResponse } from 'next/server';
 import { getSession } from '@/lib/auth';
 import { createReturn, getAllReturns, updateReturnStatus } from '@/lib/db/returns';

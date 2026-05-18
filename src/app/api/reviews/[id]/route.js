@@ -1,3 +1,4 @@
+// ENDPOINT DE VALORACIÓN INDIVIDUAL — Elimina una reseña concreta por su ID (solo el autor o un admin).
 import { NextResponse } from 'next/server';
 import { getSession } from '@/lib/auth';
 import { deleteReview } from '@/lib/db/reviews';

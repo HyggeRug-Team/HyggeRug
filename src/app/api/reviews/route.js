@@ -1,3 +1,4 @@
+// ENDPOINT DE VALORACIONES — Consulta todas las reseñas de un producto y permite publicar nuevas.
 import { NextResponse } from 'next/server';
 import { getSession } from '@/lib/auth';
 import { createReview, getAllReviews } from '@/lib/db/reviews';

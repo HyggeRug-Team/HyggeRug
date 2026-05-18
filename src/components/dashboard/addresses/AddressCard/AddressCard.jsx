@@ -1,3 +1,7 @@
+/**
+ * @file AddressCard.jsx
+ * @description Tarjeta que muestra los datos de una dirección de envío con opciones para borrarla o marcarla como predeterminada.
+ */
 "use client";
 
 import { useState } from "react";

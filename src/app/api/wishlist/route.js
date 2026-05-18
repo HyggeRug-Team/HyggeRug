@@ -1,3 +1,4 @@
+// ENDPOINT DE LISTA DE DESEOS — Consulta, añade y elimina productos guardados del usuario.
 import { NextResponse } from 'next/server';
 import { getSession } from '@/lib/auth';
 import { addToWishlist, removeFromWishlist, getWishlist } from '@/lib/db/wishlist';

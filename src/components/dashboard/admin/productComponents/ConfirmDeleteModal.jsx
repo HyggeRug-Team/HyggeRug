@@ -1,3 +1,7 @@
+/**
+ * @file ConfirmDeleteModal.jsx
+ * @description Modal de confirmación para evitar borrados accidentales de productos del catálogo.
+ */
 'use client';
 
 import { motion } from 'framer-motion';

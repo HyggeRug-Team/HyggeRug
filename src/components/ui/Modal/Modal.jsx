@@ -1,3 +1,7 @@
+/**
+ * @file Modal.jsx
+ * @description Modal genérico reutilizable que se pinta fuera del flujo normal de la página para evitar problemas de capas.
+ */
 "use client";
 
 import { useEffect } from "react";

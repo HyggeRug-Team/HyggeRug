@@ -1,3 +1,7 @@
+/**
+ * @file proxy.js
+ * @description Guarda de acceso que verifica el token JWT en cada petición y protege las rutas privadas del dashboard.
+ */
 import { NextResponse } from 'next/server';
 import { jwtVerify } from 'jose';
 

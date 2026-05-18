@@ -1,3 +1,7 @@
+/**
+ * @file direcciones/page.jsx
+ * @description Página del dashboard para gestionar las direcciones de envío del cliente.
+ */
 import { getSession } from "@/lib/auth";
 import { redirect } from "next/navigation";
 import { getAddressesByUser } from "@/lib/db/addresses";

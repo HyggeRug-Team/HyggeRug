@@ -1,3 +1,4 @@
+// ENDPOINT PARA ACTUALIZAR EL CARRITO — Cambia la cantidad de un artículo ya existente en la cesta.
 import { NextResponse } from 'next/server';
 import { getSession } from '@/lib/auth';
 import { db } from '@/lib/db';
