@@ -19,6 +19,7 @@ export const metadata = {
 
 import React from 'react';
 import LegalPageWrapper from '@/components/ui/Legal/LegalPageWrapper';
+import GestionarCookiesBtn from '@/components/ui/Legal/GestionarCookiesBtn';
 import styles from '@/components/ui/Legal/LegalPageWrapper.module.css';
 
 export default function CookiesPage() {
@@ -58,9 +59,13 @@ export default function CookiesPage() {
 
             <section className={styles.legalSection} id="desactivacion">
                 <div className={styles.sectionBadge}>CONTROL</div>
-                <h2>03. Desactivación de Cookies</h2>
+                <h2>03. Gestión y Desactivación de Cookies</h2>
                 <p>
-                    Puedes permitir, bloquear o eliminar las cookies instaladas en tu equipo mediante la configuración de las opciones del navegador instalado en su ordenador.
+                    Puedes cambiar tus preferencias de cookies en cualquier momento directamente desde nuestra web:
+                </p>
+                <GestionarCookiesBtn />
+                <p style={{ marginTop: '24px' }}>
+                    También puedes bloquear o eliminar cookies desde la configuración de tu navegador:
                 </p>
                 <ul>
                     <li><a href="https://support.google.com/chrome/answer/95647" target="_blank" rel="noopener noreferrer">Configurar Google Chrome</a></li>

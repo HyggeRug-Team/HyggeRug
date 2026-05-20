@@ -1,0 +1,291 @@
+/* ─── Contenedor fijo centrado en la parte inferior ─── */
+.wrapper {
+  position: fixed;
+  bottom: 24px;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  padding: 0 16px;
+  z-index: 9000;
+  pointer-events: none;
+}
+
+/* ─── Tarjeta principal ─── */
+.banner {
+  pointer-events: all;
+  width: 100%;
+  max-width: 560px;
+  background: #0e0e0e;
+  border: 2px solid rgba(255, 255, 255, 0.07);
+  border-top: 3px solid var(--highlight-text);
+  border-radius: 20px;
+  padding: 22px 26px;
+  box-shadow: 8px 8px 0px #000, 0 24px 64px rgba(0, 0, 0, 0.85);
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+/* ─── Cabecera con icono ─── */
+.header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.cookieIcon {
+  font-size: 2.2rem;
+  color: var(--highlight-text);
+  line-height: 1;
+  flex-shrink: 0;
+  filter: drop-shadow(0 0 8px rgba(255, 0, 85, 0.4));
+}
+
+.title {
+  font-family: var(--font-titles);
+  font-size: 1.25rem;
+  color: var(--primary-text);
+  margin: 0;
+  line-height: 1.2;
+  text-shadow: 2px 2px 0 rgba(0, 0, 0, 0.6);
+}
+
+.subtitle {
+  font-size: 0.78rem;
+  color: var(--grey-500);
+  margin: 3px 0 0;
+  font-family: var(--font-body);
+}
+
+/* ─── Descripción ─── */
+.description {
+  font-family: var(--font-body);
+  font-size: 0.85rem;
+  color: var(--grey-300);
+  line-height: 1.65;
+  margin: 0;
+}
+
+.description strong {
+  color: var(--primary-text);
+  font-weight: 600;
+}
+
+.link {
+  color: var(--hover-text);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  transition: opacity 0.15s;
+}
+
+.link:hover {
+  opacity: 0.8;
+}
+
+/* ─── Panel de preferencias expandible ─── */
+.preferences {
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.toggleRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 13px 15px;
+  background: rgba(255, 255, 255, 0.025);
+}
+
+.toggleRow:not(:last-child) {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.toggleInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  flex: 1;
+  min-width: 0;
+}
+
+.toggleLabel {
+  font-family: var(--font-body);
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--primary-text);
+}
+
+.toggleDesc {
+  font-family: var(--font-body);
+  font-size: 0.775rem;
+  color: var(--grey-500);
+  line-height: 1.45;
+}
+
+.alwaysOn {
+  display: inline-block;
+  margin-top: 4px;
+  font-family: var(--font-body);
+  font-size: 0.68rem;
+  color: var(--grey-600);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+/* ─── Toggle switch ─── */
+.toggle {
+  width: 44px;
+  height: 24px;
+  background: var(--grey-700);
+  border: none;
+  border-radius: 12px;
+  position: relative;
+  cursor: pointer;
+  flex-shrink: 0;
+  padding: 0;
+  transition: background 0.2s ease;
+}
+
+.toggle::after {
+  content: '';
+  position: absolute;
+  width: 18px;
+  height: 18px;
+  background: white;
+  border-radius: 50%;
+  top: 3px;
+  left: 3px;
+  transition: transform 0.2s ease;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+}
+
+.toggleOn {
+  background: var(--highlight-text);
+  box-shadow: 0 0 8px rgba(255, 0, 85, 0.35);
+}
+
+.toggleOn::after {
+  transform: translateX(20px);
+}
+
+.toggleDisabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+/* ─── Barra de acciones ─── */
+.actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.manageBtn {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  background: transparent;
+  border: none;
+  color: var(--grey-500);
+  font-family: var(--font-body);
+  font-size: 0.78rem;
+  cursor: pointer;
+  padding: 4px 0;
+  transition: color 0.2s;
+  flex-shrink: 0;
+}
+
+.manageBtn:hover {
+  color: var(--secondary-text);
+}
+
+.mainActions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.rejectBtn {
+  background: transparent;
+  border: 2px solid rgba(255, 255, 255, 0.18);
+  border-radius: 50px;
+  color: var(--secondary-text);
+  font-family: var(--font-body);
+  font-size: 0.8rem;
+  font-weight: 600;
+  padding: 8px 16px;
+  cursor: pointer;
+  transition: border-color 0.2s, color 0.2s;
+  white-space: nowrap;
+}
+
+.rejectBtn:hover {
+  border-color: rgba(255, 255, 255, 0.5);
+  color: white;
+}
+
+.acceptBtn {
+  background: var(--highlight-text);
+  border: 2px solid #000;
+  border-radius: 50px;
+  color: white;
+  font-family: var(--font-body);
+  font-size: 0.8rem;
+  font-weight: 700;
+  padding: 8px 18px;
+  cursor: pointer;
+  box-shadow: 4px 4px 0px #000;
+  transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  white-space: nowrap;
+}
+
+.acceptBtn:hover {
+  background: var(--hover-text);
+  color: #000;
+  transform: translate(-2px, -2px);
+  box-shadow: 6px 6px 0px #000;
+}
+
+/* ─── Responsive ─── */
+@media (max-width: 480px) {
+  .wrapper {
+    bottom: 10px;
+    padding: 0 10px;
+  }
+
+  .banner {
+    padding: 18px 16px;
+    gap: 12px;
+  }
+
+  .title {
+    font-size: 1.1rem;
+  }
+
+  .actions {
+    flex-direction: column-reverse;
+    align-items: stretch;
+  }
+
+  .mainActions {
+    flex-direction: column;
+  }
+
+  .rejectBtn,
+  .acceptBtn {
+    width: 100%;
+    text-align: center;
+    justify-content: center;
+  }
+
+  .manageBtn {
+    justify-content: center;
+    width: 100%;
+  }
+}

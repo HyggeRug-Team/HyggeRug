@@ -76,35 +76,41 @@ export const metadata = {
 };
 
 import { CartProvider } from '@/context/CartContext';
+import { CookiesProvider } from '@/context/CookiesContext';
 import NotificationListener from '@/components/dashboard/NotificationListener/NotificationListener';
+import CookiesBanner from '@/components/ui/Banners/CookiesBanner/CookiesBanner';
 
 export default function RootLayout({ children }) {
   return (
-    <html 
+    <html
       lang="es"
       data-scroll-behavior="smooth"
       className={`${plusJakartaSans.variable} ${rubik.variable} ${rubikBubbles.variable}`}
     >
       <body>
-        {/* Fondo global persistente y Textos flotantes globales fijos */}
-        <SilkBackground />
-        <GlobalBackgroundText />
-            
-        <main style={{ 
-          position: 'relative', 
-          zIndex: 1, 
-          width: '100%', 
-          display: 'flex',     
-          flexDirection: 'column',
-          minHeight: '100vh',
-          overflowX: 'hidden'
-        }}>
-          <CartProvider>
-            <NotificationListener />
-            {children}
-          </CartProvider>
-          <SpeedInsights/>
-        </main>
+        <CookiesProvider>
+          {/* Fondo global persistente y Textos flotantes globales fijos */}
+          <SilkBackground />
+          <GlobalBackgroundText />
+
+          <main style={{
+            position: 'relative',
+            zIndex: 1,
+            width: '100%',
+            display: 'flex',
+            flexDirection: 'column',
+            minHeight: '100vh',
+            overflowX: 'hidden'
+          }}>
+            <CartProvider>
+              <NotificationListener />
+              {children}
+            </CartProvider>
+            <SpeedInsights/>
+          </main>
+
+          <CookiesBanner />
+        </CookiesProvider>
       </body>
     </html>
   );
