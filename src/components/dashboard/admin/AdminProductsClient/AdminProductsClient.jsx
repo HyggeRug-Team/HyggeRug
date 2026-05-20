@@ -26,15 +26,22 @@ const ConfirmDeleteModal = dynamic(
   { ssr: false }
 );
 
+const CategoryModal = dynamic(
+  () => import('@/components/dashboard/admin/productComponents/CategoryModal'),
+  { ssr: false }
+);
+
 export default function AdminProductsClient({ initialProducts, initialCategories, initialUsers }) {
-  const [products, setProducts]           = useState(initialProducts);
-  const [search, setSearch]               = useState('');
-  const [catFilter, setCatFilter]         = useState('all');
-  const [visFilter, setVisFilter]         = useState('all');
-  const [modalOpen, setModalOpen]         = useState(false);
-  const [editProduct, setEditProduct]     = useState(null);
-  const [confirmDelete, setConfirmDelete] = useState(null);
-  const [notification, setNotification]   = useState({ isOpen: false, type: 'error', title: '', message: '' });
+  const [products, setProducts]             = useState(initialProducts);
+  const [categories, setCategories]         = useState(initialCategories);
+  const [search, setSearch]                 = useState('');
+  const [catFilter, setCatFilter]           = useState('all');
+  const [visFilter, setVisFilter]           = useState('all');
+  const [modalOpen, setModalOpen]           = useState(false);
+  const [editProduct, setEditProduct]       = useState(null);
+  const [confirmDelete, setConfirmDelete]   = useState(null);
+  const [categoryModalOpen, setCategoryModalOpen] = useState(false);
+  const [notification, setNotification]     = useState({ isOpen: false, type: 'error', title: '', message: '' });
 
   const refreshProducts = useCallback(async () => {
     const res = await fetch('/api/admin/products');
@@ -60,6 +67,12 @@ export default function AdminProductsClient({ initialProducts, initialCategories
   const handleCloseModal = ()   => { setModalOpen(false); setEditProduct(null); };
   const handleSaved      = ()   => { handleCloseModal(); refreshProducts(); };
 
+  const handleCategorySaved = (newCat) => {
+    setCategories(prev => [...prev, newCat].sort((a, b) => a.name.localeCompare(b.name)));
+    setCategoryModalOpen(false);
+    setNotification({ isOpen: true, type: 'success', title: 'Categoría creada', message: `"${newCat.name}" ya está disponible al crear productos.` });
+  };
+
   const handleDeleteConfirm = async () => {
     if (!confirmDelete) return;
     const res = await fetch(`/api/admin/products/${confirmDelete}`, { method: 'DELETE' });
@@ -84,8 +97,9 @@ export default function AdminProductsClient({ initialProducts, initialCategories
         search={search}           onSearch={setSearch}
         catFilter={catFilter}     onCatFilter={setCatFilter}
         visFilter={visFilter}     onVisFilter={setVisFilter}
-        categories={initialCategories}
+        categories={categories}
         onNew={handleOpenCreate}
+        onNewCategory={() => setCategoryModalOpen(true)}
       />
 
       {filtered.length === 0 ? (
@@ -110,7 +124,7 @@ export default function AdminProductsClient({ initialProducts, initialCategories
         {modalOpen && (
           <ProductModal
             product={editProduct}
-            categories={initialCategories}
+            categories={categories}
             users={initialUsers}
             onClose={handleCloseModal}
             onSaved={handleSaved}
@@ -123,6 +137,15 @@ export default function AdminProductsClient({ initialProducts, initialCategories
           <ConfirmDeleteModal
             onConfirm={handleDeleteConfirm}
             onCancel={() => setConfirmDelete(null)}
+          />
+        )}
+      </AnimatePresence>
+
+      <AnimatePresence>
+        {categoryModalOpen && (
+          <CategoryModal
+            onClose={() => setCategoryModalOpen(false)}
+            onSaved={handleCategorySaved}
           />
         )}
       </AnimatePresence>

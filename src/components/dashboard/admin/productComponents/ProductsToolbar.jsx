@@ -4,7 +4,7 @@
  */
 'use client';
 
-import { FaMagnifyingGlass, FaXmark, FaPlus } from 'react-icons/fa6';
+import { FaMagnifyingGlass, FaXmark, FaPlus, FaTag } from 'react-icons/fa6';
 import styles from '../AdminProductsClient/AdminProductsClient.module.css';
 
 const VIS_LABELS = { all: 'Todos', community0: 'Sin comunidad', community1: 'Comunidad' };
@@ -15,6 +15,7 @@ export default function ProductsToolbar({
   visFilter, onVisFilter,
   categories,
   onNew,
+  onNewCategory,
 }) {
   return (
     <div className={styles.toolbar}>
@@ -55,6 +56,10 @@ export default function ProductsToolbar({
           </button>
         ))}
       </div>
+
+      <button className={styles.catBtn} onClick={onNewCategory}>
+        <FaTag /> Nueva categoría
+      </button>
 
       <button className={styles.newBtn} onClick={onNew}>
         <FaPlus /> Nuevo diseño
