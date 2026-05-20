@@ -18,7 +18,7 @@ export async function createSession(payload) {
   return await new SignJWT(payload)
     .setProtectedHeader({ alg: 'HS256' })  // Elegimos el algoritmo de seguridad, este es el estandar para seguridad y velocidad
     .setIssuedAt()                         // Anotamos cuándo se creó el carnet, para identificar el tiempo que tiene
-    .setExpirationTime('7d')               // Decimos que el carnet caduca en una semana
+    .setExpirationTime('15d')              // Decimos que el carnet caduca en 15 días
     .sign(SECRET_KEY);                     // Lo cerramos herméticamente con tu llave secreta del servidor
 }
 

@@ -56,7 +56,7 @@ export async function POST(request) {
     const secret = new TextEncoder().encode(process.env.JWT_SECRET);
     const token = await new SignJWT({ userId: userId, email, nickname })
       .setProtectedHeader({ alg: 'HS256' })
-      .setExpirationTime('2h') // Duración de la sesión
+      .setExpirationTime('15d') // Duración de la sesión
       .sign(secret);
 
     // B. Creamos la respuesta de éxito
@@ -71,7 +71,7 @@ export async function POST(request) {
       secure: process.env.NODE_ENV === 'production', // Solo HTTPS en producción
       sameSite: 'lax',
       path: '/',
-      maxAge: 7200, // 2 horas en segundos
+      maxAge: 60 * 60 * 24 * 15, // 15 días
     });
 
     return response;
