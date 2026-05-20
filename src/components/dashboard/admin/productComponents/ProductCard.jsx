@@ -9,7 +9,7 @@ import { FaImage, FaEyeSlash, FaUsers, FaPen, FaTrash, FaRuler } from 'react-ico
 import styles from '../AdminProductsClient/AdminProductsClient.module.css';
 
 function formatPrice(v) {
-  return parseFloat(v || 0).toFixed(2) + ' €';
+  return parseFloat(v || 0).toFixed(2).replace('.', ',') + ' €';
 }
 
 const ProductCard = memo(function ProductCard({ product, onEdit, onDelete }) {

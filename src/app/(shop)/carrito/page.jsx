@@ -281,7 +281,7 @@ export default function CartPage() {
     const subtotal       = items.reduce((sum, i) => sum + i.unit_price * i.quantity, 0);
     const discountAmount = appliedDiscount?.discount_amount ?? 0;
     const total          = Math.max(0, subtotal - discountAmount);
-    const formatPrice    = (n) => `${parseFloat(n).toFixed(2)}€`;
+    const formatPrice    = (n) => `${parseFloat(n).toFixed(2).replace('.', ',')}€`;
     const activeAddress  = addresses.find(a => a.address_id === selectedAddress) ?? null;
 
     if (loading) {

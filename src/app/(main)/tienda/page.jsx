@@ -44,7 +44,7 @@ export default async function TiendaPage() {
         id:                 p.product_id,
         title:              p.name,
         description:        p.description,
-        price:              `${parseFloat(p.min_price || p.base_price).toFixed(2)}€ +`,
+        price:              `${parseFloat(p.min_price || p.base_price).toFixed(2).replace('.', ',')}€ +`,
         image:              p.main_image ?? '/rug-mario.png',
         category:           p.category ?? 'ALFOMBRA',
         requestedBy:        p.requested_by ?? null,

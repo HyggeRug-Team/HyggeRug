@@ -71,7 +71,7 @@ export default async function FeaturedDrops() {
                                 id={drop.product_id}
                                 title={drop.name}
                                 description={drop.description}
-                                price={`${parseFloat(drop.base_price).toFixed(2)}€`}
+                                price={`${parseFloat(drop.base_price).toFixed(2).replace('.', ',')}€`}
                                 image={drop.main_image ?? '/rug-mario.png'}
                                 category={drop.category}
                                 initialIsFavorite={wishlistIds.has(drop.product_id)}

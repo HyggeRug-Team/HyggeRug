@@ -9,7 +9,7 @@ import { FaPlus, FaPen, FaCheck, FaXmark, FaSpinner, FaToggleOn, FaToggleOff } f
 import styles from '../AdminProductsClient/AdminProductsClient.module.css';
 
 function formatPrice(v) {
-  return parseFloat(v || 0).toFixed(2) + ' €';
+  return parseFloat(v || 0).toFixed(2).replace('.', ',') + ' €';
 }
 
 export default function SizesManager({ productId }) {

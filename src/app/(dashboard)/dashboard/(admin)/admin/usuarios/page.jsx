@@ -76,7 +76,7 @@ function formatDate(dateStr) {
 }
 
 function formatCurrency(amount) {
-  return parseFloat(amount || 0).toFixed(2) + '€';
+  return parseFloat(amount || 0).toFixed(2).replace('.', ',') + '€';
 }
 
 /* ─────────────────────────────────────────────────────────────────

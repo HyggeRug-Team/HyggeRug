@@ -331,7 +331,7 @@ function AdminOrderCard({ order, config, isCompleted, isLoading, onStatusChange 
           </div>
           <div className={styles.metaItem}>
             <FaFileInvoiceDollar />
-            <span>{parseFloat(order.total_amount || 0).toFixed(2)}€</span>
+            <span>{parseFloat(order.total_amount || 0).toFixed(2).replace('.', ',')}€</span>
           </div>
           {/* Indicador visual si el pedido tiene nota del cliente */}
           {order.customer_note && (

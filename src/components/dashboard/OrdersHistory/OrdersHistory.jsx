@@ -152,7 +152,7 @@ export default function OrdersHistory({ initialOrders }) {
                         </div>
                         <div className={styles.metaItem}>
                           <FaFileInvoiceDollar />
-                          <span>{parseFloat(order.total_amount || 0).toFixed(2)}€</span>
+                          <span>{parseFloat(order.total_amount || 0).toFixed(2).replace('.', ',')}€</span>
                         </div>
                       </div>
 

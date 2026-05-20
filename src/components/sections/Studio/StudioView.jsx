@@ -177,8 +177,8 @@ export default function DesignStudioAI() {
     const isOverLimit = parsedWidth > config.maxWidth || parsedHeight > config.maxHeight;
 
     const displayPrice = parsedWidth > 0 && parsedHeight > 0 && !isOverLimit
-        ? (parsedWidth * parsedHeight * config.pricePerCm2).toFixed(2)
-        : '0.00';
+        ? (parsedWidth * parsedHeight * config.pricePerCm2).toFixed(2).replace('.', ',')
+        : '0,00';
 
     const displayLabel = parsedWidth > 0 && parsedHeight > 0
         ? `${parsedWidth} x ${parsedHeight} cm`
@@ -360,7 +360,7 @@ export default function DesignStudioAI() {
                                                 <span className={styles.presetLabel}>{preset.label}</span>
                                                 <span className={styles.presetDims}>{preset.width}×{preset.height}</span>
                                                 <span className={styles.presetPrice}>
-                                                    {(preset.width * preset.height * config.pricePerCm2).toFixed(2)}€
+                                                    {(preset.width * preset.height * config.pricePerCm2).toFixed(2).replace('.', ',')}€
                                                 </span>
                                             </button>
                                         ))}

@@ -32,7 +32,7 @@ export async function POST(req) {
         // Comprobar pedido mínimo
         if (subtotal < parseFloat(discount.min_order_amount)) {
             return NextResponse.json({
-                error: `Pedido mínimo de ${parseFloat(discount.min_order_amount).toFixed(2)}€ para este código`
+                error: `Pedido mínimo de ${parseFloat(discount.min_order_amount).toFixed(2).replace('.', ',')}€ para este código`
             }, { status: 400 });
         }
 

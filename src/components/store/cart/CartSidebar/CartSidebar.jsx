@@ -172,7 +172,7 @@ export default function CartSidebar({ isOpen, onClose, pendingItem }) {
                                         </button>
                                     </div>
                                     <span className={styles.itemPrice}>
-                                        {(item.unit_price * item.quantity).toFixed(2)}€
+                                        {(item.unit_price * item.quantity).toFixed(2).replace('.', ',')}€
                                     </span>
                                 </div>
                             </div>
@@ -185,7 +185,7 @@ export default function CartSidebar({ isOpen, onClose, pendingItem }) {
                     <div className={styles.footer}>
                         <div className={styles.totalRow}>
                             <span className={styles.totalLabel}>TOTAL</span>
-                            <span className={styles.totalAmount}>{total.toFixed(2)}€</span>
+                            <span className={styles.totalAmount}>{total.toFixed(2).replace('.', ',')}€</span>
                         </div>
                         <button className={styles.goToCartBtn} onClick={handleGoToCart}>
                             IR AL CARRITO

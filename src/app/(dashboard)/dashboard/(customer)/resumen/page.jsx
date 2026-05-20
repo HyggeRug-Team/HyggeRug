@@ -151,7 +151,7 @@ export default async function ResumenPage() {
                         <div className={styles.orderStatus}>
                           <span className={styles.statusBadge}>{statusInfo.icon} {statusInfo.label}</span>
                           <div className={styles.orderMetaInfo}>
-                            <span className={styles.orderAmount}>{parseFloat(order.total_amount || 0).toFixed(2)}€</span>
+                            <span className={styles.orderAmount}>{parseFloat(order.total_amount || 0).toFixed(2).replace('.', ',')}€</span>
                             <span className={styles.orderDate}>{new Date(order.creation_date).toLocaleDateString('es-ES', { day: '2-digit', month: 'short' })}</span>
                           </div>
                         </div>

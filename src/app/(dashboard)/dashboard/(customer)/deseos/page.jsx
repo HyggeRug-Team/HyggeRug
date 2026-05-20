@@ -107,7 +107,7 @@ export default function DeseosPage() {
                     id={product.product_id}
                     title={product.name}
                     description={product.description}
-                    price={`${parseFloat(product.base_price).toFixed(2)}€`}
+                    price={`${parseFloat(product.base_price).toFixed(2).replace('.', ',')}€`}
                     image={product.main_image}
                     category={product.category}
                     initialIsFavorite={true}

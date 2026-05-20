@@ -351,11 +351,11 @@ function OrderItemCard({ item, isReviewing, onOpenImage, onAdjustedImageUpdate }
           <div className={styles.itemMeta}>
             {item.size && <span className={styles.itemMetaChip}>{item.size}</span>}
             <span className={styles.itemMetaChip}>x{item.quantity}</span>
-            <span className={styles.itemMetaChip}>{parseFloat(item.unit_price || 0).toFixed(2)}€/ud</span>
+            <span className={styles.itemMetaChip}>{parseFloat(item.unit_price || 0).toFixed(2).replace('.', ',')}€/ud</span>
           </div>
         </div>
         <span className={styles.itemTotal}>
-          {(parseFloat(item.unit_price || 0) * item.quantity).toFixed(2)}€
+          {(parseFloat(item.unit_price || 0) * item.quantity).toFixed(2).replace('.', ',')}€
         </span>
       </div>
 
@@ -460,8 +460,8 @@ function PriceCard({ orderId, totalAmount, isPendingApproval, discountCode, disc
   const discountDisplay = discountCode
     ? discountType === 'percentage'
       ? `-${parseFloat(discountValue).toFixed(0)}%`
-      : `-${parseFloat(discountValue).toFixed(2)}€`
-    : '0.00€';
+      : `-${parseFloat(discountValue).toFixed(2).replace('.', ',')}€`
+    : '0,00€';
 
   return (
     <div className={`${styles.card} ${isPendingApproval ? styles.cardHighlight : ''}`}>
@@ -486,7 +486,7 @@ function PriceCard({ orderId, totalAmount, isPendingApproval, discountCode, disc
         </div>
       ) : (
         <div className={styles.priceDisplay}>
-          <span className={styles.priceAmount}>{parseFloat(totalAmount || 0).toFixed(2)}€</span>
+          <span className={styles.priceAmount}>{parseFloat(totalAmount || 0).toFixed(2).replace('.', ',')}€</span>
           {isPendingApproval && (
             <button className={styles.priceEditBtn} onClick={handleEdit}><FaPenToSquare /> Editar precio</button>
           )}
@@ -515,7 +515,7 @@ function PriceCard({ orderId, totalAmount, isPendingApproval, discountCode, disc
 
         <div className={`${styles.priceSummaryRow} ${styles.priceTotalRow}`}>
           <span>Total</span>
-          <span>{parseFloat(totalAmount || 0).toFixed(2)}€</span>
+          <span>{parseFloat(totalAmount || 0).toFixed(2).replace('.', ',')}€</span>
         </div>
       </div>
     </div>

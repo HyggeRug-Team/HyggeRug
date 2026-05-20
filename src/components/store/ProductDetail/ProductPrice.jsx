@@ -14,7 +14,7 @@ import React from 'react';
 import styles from './product.module.css';
 
 export default function ProductPrice({ basePrice, selectedSizePrice }) {
-    const formatPrice = (p) => `${parseFloat(p).toFixed(2)}€`;
+    const formatPrice = (p) => `${parseFloat(p).toFixed(2).replace('.', ',')}€`;
     
     return (
         <div className={styles.priceSection}>

@@ -133,11 +133,11 @@ export default function OrderDetailClient({ order, config, session }) {
                   <div className={styles.touchItemDetails}>
                     <h3>{item.product_name || 'Alfombra Custom'}</h3>
                     <div className={styles.touchItemMeta}>
-                      <span>x{item.quantity} • {parseFloat(item.price || 0).toFixed(2)}€</span>
+                      <span>x{item.quantity} • {parseFloat(item.price || 0).toFixed(2).replace('.', ',')}€</span>
                     </div>
                   </div>
                   <div className={styles.touchItemTotal}>
-                    {(parseFloat(item.price || 0) * item.quantity).toFixed(2)}€
+                    {(parseFloat(item.price || 0) * item.quantity).toFixed(2).replace('.', ',')}€
                   </div>
                   {order.order_status.toLowerCase() === 'recibido' && (
                     item.is_rated ? (
@@ -199,7 +199,7 @@ export default function OrderDetailClient({ order, config, session }) {
               <h3 className={styles.touchCardTitle}><FaFileInvoiceDollar /> Resumen del Pago</h3>
               <div className={styles.touchSummaryRow}>
                 <span>Subtotal</span>
-                <span>{parseFloat(order.total_amount || 0).toFixed(2)}€</span>
+                <span>{parseFloat(order.total_amount || 0).toFixed(2).replace('.', ',')}€</span>
               </div>
               <div className={styles.touchSummaryRow}>
                 <span>Envío</span>
@@ -207,7 +207,7 @@ export default function OrderDetailClient({ order, config, session }) {
               </div>
               <div className={`${styles.touchSummaryRow} ${styles.touchTotalRow}`}>
                 <span>Total</span>
-                <span>{parseFloat(order.total_amount || 0).toFixed(2)}€</span>
+                <span>{parseFloat(order.total_amount || 0).toFixed(2).replace('.', ',')}€</span>
               </div>
             </div>
 
@@ -403,11 +403,11 @@ export default function OrderDetailClient({ order, config, session }) {
                   <h3>{item.product_name || 'Alfombra Custom'}</h3>
                   <div className={styles.itemMeta}>
                     <span>Cantidad: {item.quantity}</span>
-                    <span>Precio unitario: {parseFloat(item.price || 0).toFixed(2)}€</span>
+                    <span>Precio unitario: {parseFloat(item.price || 0).toFixed(2).replace('.', ',')}€</span>
                   </div>
                 </div>
                 <div className={styles.itemTotal}>
-                  {(parseFloat(item.price || 0) * item.quantity).toFixed(2)}€
+                  {(parseFloat(item.price || 0) * item.quantity).toFixed(2).replace('.', ',')}€
                 </div>
                 {order.order_status.toLowerCase() === 'recibido' && (
                   item.is_rated ? (
@@ -452,7 +452,7 @@ export default function OrderDetailClient({ order, config, session }) {
             <div className={styles.paymentSummary}>
               <div className={styles.summaryRow}>
                 <span>Subtotal</span>
-                <span>{parseFloat(order.total_amount || 0).toFixed(2)}€</span>
+                <span>{parseFloat(order.total_amount || 0).toFixed(2).replace('.', ',')}€</span>
               </div>
               <div className={styles.summaryRow}>
                 <span>Envío</span>
@@ -460,7 +460,7 @@ export default function OrderDetailClient({ order, config, session }) {
               </div>
               <div className={`${styles.summaryRow} ${styles.totalRow}`}>
                 <span>Total</span>
-                <span>{parseFloat(order.total_amount || 0).toFixed(2)}€</span>
+                <span>{parseFloat(order.total_amount || 0).toFixed(2).replace('.', ',')}€</span>
               </div>
               <div className={styles.paymentMethod}>
                 <FaCreditCard /> {order.payment_method || 'Tarjeta bancaria'}

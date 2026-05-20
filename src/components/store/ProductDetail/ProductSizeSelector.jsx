@@ -32,7 +32,7 @@ export default function ProductSizeSelector({ sizes, selectedSize, setSelectedSi
     const [customMeasure, setCustomMeasure] = useState('');
     const [measureError, setMeasureError] = useState('');
 
-    const formatPrice = (p) => `${parseFloat(p).toFixed(2)}€`;
+    const formatPrice = (p) => `${parseFloat(p).toFixed(2).replace('.', ',')}€`;
 
     /**
      * Separa las variantes en dos grupos:
