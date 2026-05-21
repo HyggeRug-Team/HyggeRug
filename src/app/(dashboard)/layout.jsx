@@ -4,6 +4,7 @@ import { DashboardNav, DashboardLogout } from '@/components/dashboard/DashboardN
 import { getSession } from '@/lib/auth';
 import { redirect } from 'next/navigation';
 import { getUserById } from '@/lib/db/users';
+import DashboardScrollArea from '@/components/dashboard/DashboardScrollArea/DashboardScrollArea';
 
 /**
  * @file layout.jsx (Grupo Dashboard)
@@ -39,9 +40,9 @@ export default async function DashboardLayout({ children }) {
         <DashboardNav user={user} />
       </Sidebar>
 
-      <main>
+      <DashboardScrollArea>
         {children}
-      </main>
+      </DashboardScrollArea>
     </div>
   );
 }
