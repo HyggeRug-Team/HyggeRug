@@ -1,0 +1,25 @@
+# ── Base de datos ──────────────────────────────────────────────────
+DB_HOST=          # Dirección del servidor de base de datos (TiDB Cloud)
+DB_USER=          # Usuario de la base de datos
+DB_PASSWORD=      # Contraseña de la base de datos
+DB_NAME=          # Nombre de la base de datos
+
+# ── Autenticación ──────────────────────────────────────────────────
+JWT_SECRET=       # Clave secreta para firmar y verificar los tokens JWT de sesión
+
+# ── Google OAuth ───────────────────────────────────────────────────
+NEXT_PUBLIC_GOOGLE_CLIENT_ID=       # ID de la app en Google Cloud (público, necesario en el cliente)
+GOOGLE_CLIENT_SECRET=               # Clave secreta de la app en Google Cloud (solo servidor)
+NEXT_PUBLIC_GOOGLE_REDIRECT_URI=    # URL a la que Google redirige tras el login
+
+# ── Almacenamiento de archivos ─────────────────────────────────────
+BLOB_READ_WRITE_TOKEN=    # Token de acceso a Vercel Blob para subir y leer imágenes
+
+# ── Correo electrónico ─────────────────────────────────────────────
+EMAIL_USER=       # Usuario de la cuenta de correo que envía los emails
+EMAIL_FROM=       # Dirección que aparece como remitente en los emails
+EMAIL_PASS=       # Contraseña o app password de la cuenta de correo
+
+# ── Inteligencia artificial ────────────────────────────────────────
+GOOGLE_API_KEY=       # Clave de acceso a la API de Google Gemini
+AI_WEEKLY_LIMIT=5     # Número máximo de generaciones de IA permitidas por usuario a la semana
