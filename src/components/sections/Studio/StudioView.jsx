@@ -15,7 +15,8 @@
 "use client";
 import React, { useState, useEffect, useRef } from 'react';
 import styles from '@/app/crear-diseno/Studio.module.css';
-import { FaSync, FaArrowLeft, FaUpload, FaTimes, FaChevronLeft, FaMagic, FaChevronDown, FaBars } from 'react-icons/fa';
+import { FaSync, FaArrowLeft, FaUpload, FaTimes, FaChevronLeft, FaMagic, FaChevronDown, FaBars, FaArrowRight, FaPencilAlt } from 'react-icons/fa';
+import { AiOutlineThunderbolt } from 'react-icons/ai';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -419,7 +420,7 @@ export default function DesignStudioAI() {
                         {/* CRÉDITOS Y BOTÓN GENERAR */}
                         <div className={styles.actionGroup}>
                             <div className={styles.creditsWrapper}>
-                                <span className={styles.creditIcon}>⚡</span> CRÉDITOS RESTANTES:{' '}
+                                <AiOutlineThunderbolt className={styles.creditIcon} /> CRÉDITOS RESTANTES:{' '}
                                 <strong>{attempts === null ? '...' : attempts}</strong>
                                 <span style={{ opacity: 0.4, fontSize: '0.8rem' }}> / {weeklyLimit ?? '...'}</span>
                                 {nextReset && (
@@ -438,6 +439,16 @@ export default function DesignStudioAI() {
                                 {isGenerating ? <FaSync className={styles.spin} /> : 'GENERAR BOCETO'}
                             </button>
                         </div>
+
+                        {/* ALTERNATIVA: PEDIR A UN DISEÑADOR */}
+                        <Link href="/personalizar" className={styles.designerBanner}>
+                            <FaPencilAlt size={16} className={styles.designerBannerIcon} />
+                            <div className={styles.designerBannerText}>
+                                <span className={styles.designerBannerTitle}>¿PREFIERES UN DISEÑADOR?</span>
+                                <span className={styles.designerBannerSub}>Cuéntanos tu idea y lo hacemos por ti</span>
+                            </div>
+                            <FaArrowRight size={11} className={styles.designerBannerArrow} />
+                        </Link>
                     </div>
 
                     {/* Flecha indicadora de más contenido */}

@@ -61,7 +61,7 @@ export default async function TiendaPage() {
                 description="Este no es un catálogo convencional. Cada pieza nació de la imaginación de un cliente. Si te gusta una idea ajena, puedes pedirla. O mejor aún, cuéntanos la tuya."
                 primaryAction={{
                     label: "PERSONALIZAR LA MÍA",
-                    link: "/studio"
+                    link: "/crear-diseno"
                 }}
             />
             <StoreSection products={normalizedProducts} />
