@@ -170,7 +170,7 @@ export default function SupportDashboard({ initialTickets = [], orders = [], ini
                  <button className={styles.closeModal} onClick={() => setSelectedTicket(null)}><FaXmark /></button>
               </div>
               
-              <div className={styles.modalScroll}>
+              <div className={styles.modalScroll} data-lenis-prevent>
                  <div className={styles.detailGroup}>
                     <label>Asunto / Motivo</label>
                     <p className={styles.detailReason}>{selectedTicket.reason}</p>

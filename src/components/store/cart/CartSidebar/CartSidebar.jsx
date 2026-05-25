@@ -106,7 +106,7 @@ export default function CartSidebar({ isOpen, onClose, pendingItem }) {
                 </div>
 
                 {/* LISTA DE ITEMS */}
-                <div className={styles.body}>
+                <div className={styles.body} data-lenis-prevent>
                     {loading && (
                         <div className={styles.emptyState}>Cargando...</div>
                     )}

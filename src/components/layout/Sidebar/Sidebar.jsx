@@ -99,6 +99,7 @@ function Sidebar({ children, footer }) {
           <div
             className={styles.topSection}
             ref={topSectionRef}
+            data-lenis-prevent
           >
             {children}
           </div>

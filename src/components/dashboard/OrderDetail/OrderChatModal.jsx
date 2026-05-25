@@ -115,7 +115,7 @@ export default function OrderChatModal({ orderId, onClose }) {
           </button>
         </header>
 
-        <div className={styles.messagesContainer}>
+        <div className={styles.messagesContainer} data-lenis-prevent>
           {loading ? (
             <div className={styles.loading}>
               <FaSpinner className={styles.spin} />

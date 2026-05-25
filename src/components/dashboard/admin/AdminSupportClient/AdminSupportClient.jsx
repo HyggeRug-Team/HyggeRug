@@ -225,7 +225,7 @@ export default function AdminSupportClient({ initialTickets, session }) {
                  <button className={styles.closeModal} onClick={closeTicket}><FaXmark /></button>
               </div>
               
-              <div className={styles.modalScroll}>
+              <div className={styles.modalScroll} data-lenis-prevent>
                  
                  <div className={styles.userInfoBox}>
                     <img src={selectedTicket.user_image || '/profile-default.png'} alt="avatar" />

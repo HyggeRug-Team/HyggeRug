@@ -114,9 +114,10 @@ function Carousel({
           →
         </motion.button>
 
-        <div 
+        <div
           ref={carouselRef}
           className={styles.carousel}
+          data-lenis-prevent
           onMouseDown={handleMouseDown}
           onMouseMove={handleMouseMove}
           onMouseUp={handleMouseUp}
