@@ -29,7 +29,7 @@
 
 /* --- Área de Contenido Principal --- */
 .dashboardLayout main {
-  overflow: hidden;
+  overflow-y: auto;
   background: transparent;
   position: relative;
   z-index: 1;
