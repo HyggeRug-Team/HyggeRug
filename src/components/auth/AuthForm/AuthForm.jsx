@@ -357,7 +357,7 @@ export default function AuthForm({ contactEmail = 'contacto@hyggerug.com' }) {
               <div className={styles.checkboxWrapper}>
                 <input type="checkbox" id="terms" required />
                 <label htmlFor="terms">
-                  Acepto los <Link href="/terms">términos y condiciones</Link>
+                  Acepto los <Link href="@terminos">términos y condiciones</Link>
                 </label>
               </div>
             </motion.div>
