@@ -35,14 +35,15 @@ import {
   FaFilm,
   FaShareNodes,
   FaInstagram,
-  FaTiktok
+  FaTiktok,
+  FaBrain,
 } from 'react-icons/fa6';
 
 export default function StoreSettingsPage() {
   const [configs, setConfigs] = useState([]);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState('');
-  const [activeTab, setActiveTab] = useState('multimedia');
+  const [activeTab, setActiveTab] = useState('general');
   
   // Estados para el control de los modales y el formulario
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -50,6 +51,7 @@ export default function StoreSettingsPage() {
   const [formData, setFormData] = useState({ config_key: '', config_value: '', config_description: '' });
   const [saving, setSaving] = useState(false);
   const [uploading, setUploading] = useState(false);
+  const [togglingIa, setTogglingIa] = useState(false);
   const [feedback, setFeedback] = useState({ isOpen: false, type: 'success', title: '', message: '' });
 
   // 1. CARGA DE CONFIGURACIONES
@@ -67,11 +69,17 @@ export default function StoreSettingsPage() {
 
   useEffect(() => { fetchConfigs(); }, []);
 
+  // Clave controlada por toggle dedicado — no aparece en la lista genérica
+  const DEDICATED_KEYS = ['ia_diseno_activo'];
+  const iaConfig  = configs.find(c => c.config_key === 'ia_diseno_activo');
+  const iaEnabled = iaConfig?.config_value !== 'false';
+
   // 2. LÓGICA DE CATEGORIZACIÓN
   // Clasificamos las claves según su nombre para que la interfaz sea más intuitiva
   const categorizedConfigs = useMemo(() => {
     const groups = { multimedia: [], logistica: [], redes: [], general: [] };
     configs.forEach(c => {
+      if (DEDICATED_KEYS.includes(c.config_key)) return;
       const key = c.config_key.toLowerCase();
       if (key.startsWith('social_')) {
         groups.redes.push(c);
@@ -84,6 +92,7 @@ export default function StoreSettingsPage() {
       }
     });
     return groups;
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [configs]);
 
   // Filtramos por búsqueda y por la pestaña activa
@@ -97,6 +106,29 @@ export default function StoreSettingsPage() {
   }, [categorizedConfigs, activeTab, search]);
 
   const showFeedback = (type, title, message) => setFeedback({ isOpen: true, type, title, message });
+
+  const handleIaToggle = async () => {
+    setTogglingIa(true);
+    const newValue = iaEnabled ? 'false' : 'true';
+    try {
+      const res = await fetch('/api/admin/config', {
+        method: iaConfig ? 'PUT' : 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(
+          iaConfig
+            ? { id: iaConfig.id, config_key: 'ia_diseno_activo', config_value: newValue, config_description: iaConfig.config_description || 'Habilita el laboratorio de creación con IA para los usuarios.' }
+            : { config_key: 'ia_diseno_activo', config_value: newValue, config_description: 'Habilita el laboratorio de creación con IA para los usuarios.' }
+        ),
+      });
+      if (!res.ok) throw new Error();
+      await fetchConfigs();
+      showFeedback('success', 'Ajuste Guardado', `Laboratorio IA ${newValue === 'true' ? 'activado' : 'pausado'} correctamente.`);
+    } catch {
+      showFeedback('error', 'Error', 'No se pudo actualizar el ajuste.');
+    } finally {
+      setTogglingIa(false);
+    }
+  };
 
   // Helpers para identificar el tipo de contenido multimedia
   const isVideo = (v) => (v || '').toLowerCase().match(/\.(mp4|webm|mov)$/) || (v || '').includes('blob.vercel-storage.com');
@@ -162,6 +194,9 @@ export default function StoreSettingsPage() {
       {/* TOOLBAR Y NAVEGACIÓN */}
       <div className={styles.headerActions}>
         <div className={styles.tabs}>
+          <button className={`${styles.tab} ${activeTab === 'general' ? styles.activeTab : ''}`} onClick={() => setActiveTab('general')}>
+            <FaGear /> General
+          </button>
           <button className={`${styles.tab} ${activeTab === 'multimedia' ? styles.activeTab : ''}`} onClick={() => setActiveTab('multimedia')}>
             <FaFilm /> Multimedia
           </button>
@@ -170,9 +205,6 @@ export default function StoreSettingsPage() {
           </button>
           <button className={`${styles.tab} ${activeTab === 'logistica' ? styles.activeTab : ''}`} onClick={() => setActiveTab('logistica')}>
             <FaTruckFast /> Logística
-          </button>
-          <button className={`${styles.tab} ${activeTab === 'general' ? styles.activeTab : ''}`} onClick={() => setActiveTab('general')}>
-            <FaGear /> General
           </button>
         </div>
 
@@ -190,6 +222,43 @@ export default function StoreSettingsPage() {
           </button>
         </div>
       </div>
+
+      {/* TOGGLE DEDICADO: LABORATORIO IA — solo visible en la pestaña General */}
+      {activeTab === 'general' && (
+        <div className={`${styles.iaToggleCard} ${iaEnabled ? styles.iaToggleActive : styles.iaToggleOff}`}>
+          <div className={styles.iaToggleLeft}>
+            <div className={styles.iaIconBox}>
+              <FaBrain />
+            </div>
+            <div className={styles.iaToggleText}>
+              <h3 className={styles.iaToggleTitle}>Laboratorio de Creación con IA</h3>
+              <p className={styles.iaToggleDesc}>
+                Permite a los usuarios generar diseños de alfombra con inteligencia artificial en{' '}
+                <strong>/crear-diseño</strong>. Si lo pausas, verán un mensaje alternativo con un enlace al formulario de diseño personalizado.
+              </p>
+            </div>
+          </div>
+          <button
+            className={styles.iaToggleBtn}
+            onClick={handleIaToggle}
+            disabled={togglingIa}
+            aria-label={iaEnabled ? 'Pausar IA' : 'Activar IA'}
+          >
+            {togglingIa ? (
+              <FaSpinner className={styles.spinIcon} />
+            ) : (
+              <>
+                <span className={`${styles.toggleTrack} ${iaEnabled ? styles.toggleTrackOn : ''}`}>
+                  <span className={styles.toggleKnob} />
+                </span>
+                <span className={styles.toggleLabel}>
+                  {iaEnabled ? 'Activo' : 'Pausado'}
+                </span>
+              </>
+            )}
+          </button>
+        </div>
+      )}
 
       {/* LISTADO DE CONFIGURACIONES */}
       <div className={styles.configList}>
