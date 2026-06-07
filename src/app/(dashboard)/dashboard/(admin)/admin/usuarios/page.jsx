@@ -256,7 +256,7 @@ export default function AdminUsuariosPage() {
               <p>No se encontraron usuarios</p>
             </div>
           ) : (
-            <div className={styles.listScroll} data-lenis-prevent>
+            <div className={styles.listScroll}>
               {filteredUsers.map(user => (
                 <UserListItem
                   key={user.user_id}
@@ -577,7 +577,7 @@ function ChatModal({ order, user, onClose }) {
           </div>
           <button className={styles.chatCloseBtn} onClick={onClose}><FaXmark /></button>
         </div>
-        <div className={styles.chatMessages} data-lenis-prevent>
+        <div className={styles.chatMessages}>
           {messages.map(msg => (
             <div key={msg.message_id} className={`${styles.chatBubble} ${msg.sender_role === 'admin' ? styles.chatBubbleAdmin : styles.chatBubbleClient}`}>
               <p>{msg.message}</p>

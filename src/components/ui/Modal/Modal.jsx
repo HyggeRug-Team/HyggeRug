@@ -46,7 +46,7 @@ export default function Modal({ isOpen, onClose, title, children }) {
           </button>
         </div>
 
-        <div className={styles.modalBody} data-lenis-prevent>
+        <div className={styles.modalBody}>
           {children}
         </div>
 

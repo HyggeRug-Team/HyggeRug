@@ -79,7 +79,6 @@ import { CartProvider } from '@/context/CartContext';
 import { CookiesProvider } from '@/context/CookiesContext';
 import NotificationListener from '@/components/dashboard/NotificationListener/NotificationListener';
 import CookiesBanner from '@/components/ui/Banners/CookiesBanner/CookiesBanner';
-import LenisProvider from '@/components/layout/LenisProvider/LenisProvider';
 
 export default function RootLayout({ children }) {
   return (
@@ -89,7 +88,6 @@ export default function RootLayout({ children }) {
     >
       <body>
         <CookiesProvider>
-          <LenisProvider>
           {/* Fondo global persistente y Textos flotantes globales fijos */}
           <SilkBackground />
           <GlobalBackgroundText />
@@ -111,7 +109,6 @@ export default function RootLayout({ children }) {
           </main>
 
           <CookiesBanner />
-          </LenisProvider>
         </CookiesProvider>
       </body>
     </html>

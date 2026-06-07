@@ -35,7 +35,7 @@ function SidebarContent({ categories, filter, setFilter, isDesktop, setIsFilterO
                     <FaXmark />
                 </button>
             </div>
-            <div className={styles.sidebarContent} data-lenis-prevent>
+            <div className={styles.sidebarContent}>
                 <div className={styles.sidebarSection}>
                     <div className={styles.sidebarSectionTitle}>Categorías</div>
                     <div className={styles.sidebarGrid}>
