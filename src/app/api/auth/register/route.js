@@ -1,21 +1,37 @@
 // ENDPOINT DE REGISTRO — Crea la cuenta del usuario, cifra la contraseña y envía el correo de bienvenida.
 import { NextResponse } from 'next/server';
-import { db } from '@/lib/db'; // Tu conexión a MySQL
+import { db } from '@/lib/db';
 import bcrypt from 'bcryptjs';
-import { SignJWT } from 'jose'; // Para crear el token
+import { SignJWT } from 'jose';
 import { sendWelcomeEmail } from '@/lib/mailer';
+import { headers } from 'next/headers';
+import { checkRateLimit } from '@/lib/rateLimit';
 
 export async function POST(request) {
   try {
-    // 1. Extraemos los datos que vienen del formulario
+    // Rate limiting: máximo 5 registros por IP en 1 hora
+    const headersList = await headers();
+    const ip = headersList.get('x-forwarded-for')?.split(',')[0]?.trim() || 'unknown';
+    if (!checkRateLimit(`register:${ip}`, { max: 5, windowMs: 60 * 60 * 1000 })) {
+      return NextResponse.json(
+        { error: 'Demasiados intentos de registro. Inténtalo más tarde.' },
+        { status: 429 }
+      );
+    }
+
     const { nickname, email, password } = await request.json();
 
-    // 2. Validación rápida: ¿Vienen todos los datos?
     if (!nickname || !email || !password) {
       return NextResponse.json(
         { error: 'Por favor, rellena todos los campos.' },
         { status: 400 }
       );
+    }
+
+    // Validar formato de email
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      return NextResponse.json({ error: 'El formato del email no es válido.' }, { status: 400 });
     }
 
     // 3. Comprobamos si el usuario ya existe en MySQL
@@ -31,8 +47,8 @@ export async function POST(request) {
       );
     }
 
-    // 4. SEGURIDAD: Encriptamos la contraseña
-    const salt = await bcrypt.genSalt(10);
+    // 4. SEGURIDAD: Encriptamos la contraseña (12 rondas es el estándar actual)
+    const salt = await bcrypt.genSalt(12);
     const hashedPassword = await bcrypt.hash(password, salt);
 
     // 5. INSERTAMOS en la base de datos

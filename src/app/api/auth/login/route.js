@@ -3,32 +3,39 @@ import { NextResponse } from 'next/server';
 import { db } from '@/lib/db';
 import { createSession, buildSessionPayload } from '@/lib/auth';
 import bcrypt from 'bcryptjs';
-import { cookies } from 'next/headers';
+import { cookies, headers } from 'next/headers';
 import { getConfigValue } from '@/lib/db/config';
+import { checkRateLimit } from '@/lib/rateLimit';
 
 export async function POST(request) {
   try {
+    // Rate limiting: máximo 10 intentos por IP en 15 minutos
+    const headersList = await headers();
+    const ip = headersList.get('x-forwarded-for')?.split(',')[0]?.trim() || 'unknown';
+    if (!checkRateLimit(`login:${ip}`, { max: 10, windowMs: 15 * 60 * 1000 })) {
+      return NextResponse.json(
+        { error: 'Demasiados intentos. Espera unos minutos antes de volver a intentarlo.' },
+        { status: 429 }
+      );
+    }
+
     const { email, password } = await request.json();
 
-    // 1. Buscamos al usuario por su email
     const [rows] = await db.query('SELECT * FROM users WHERE email = ?', [email]);
-    // Se coge el 0 porque la segunda son metadatos de la consulta que no sirven para nada
     const user = rows[0];
 
-    // 2. ¿El usuario existe?
-    if (!user) {
-      return NextResponse.json({ error: 'El usuario no existe.' }, { status: 401 });
-    }
+    // Mensaje genérico para no revelar si el email existe
+    const credentialsError = NextResponse.json(
+      { error: 'Email o contraseña incorrectos.' },
+      { status: 401 }
+    );
 
-    // 3. ¿La contraseña es correcta? 
-    // Comparamos la que escribió el usuario con la encriptada de la DB
+    if (!user) return credentialsError;
+
     const isPasswordValid = await bcrypt.compare(password, user.password_hash);
+    if (!isPasswordValid) return credentialsError;
 
-    if (!isPasswordValid) {
-      return NextResponse.json({ error: 'Contraseña incorrecta.' }, { status: 401 });
-    }
-
-    // 4. ¿El usuario está activo?
+    // ¿El usuario está activo?
     if (user.active === 0 || user.active === false) {
       const contactEmail = await getConfigValue('contact_email').catch(() => null) || 'contacto@hyggerug.com';
       return NextResponse.json(

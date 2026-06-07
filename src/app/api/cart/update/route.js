@@ -9,7 +9,7 @@ export async function PATCH(req) {
 
     const { orderProductId, quantity } = await req.json();
 
-    if (!orderProductId || quantity < 1) {
+    if (!Number.isInteger(orderProductId) || !Number.isInteger(quantity) || quantity < 1 || quantity > 999) {
         return NextResponse.json({ error: 'Invalid data' }, { status: 400 });
     }
 

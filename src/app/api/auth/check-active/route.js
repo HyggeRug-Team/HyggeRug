@@ -4,6 +4,12 @@ import { db } from '@/lib/db';
 
 export async function GET(request) {
   try {
+    // Solo el middleware interno puede llamar a este endpoint
+    const internalKey = request.headers.get('x-internal-key');
+    if (!internalKey || internalKey !== process.env.JWT_SECRET) {
+      return NextResponse.json({ active: false }, { status: 401 });
+    }
+
     const { searchParams } = new URL(request.url);
     const userId = searchParams.get('userId');
     if (!userId) {
