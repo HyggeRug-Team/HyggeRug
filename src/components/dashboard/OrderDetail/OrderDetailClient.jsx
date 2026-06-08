@@ -17,6 +17,7 @@
 "use client";
 
 import React, { useState, useEffect, Suspense } from "react";
+import { createPortal } from "react-dom";
 import { useSearchParams } from "next/navigation";
 import { useIsTouchDevice } from "@/hooks/useIsTouchDevice";
 import { AnimatePresence } from "framer-motion";
@@ -256,19 +257,15 @@ export default function OrderDetailClient({ order, config, session }) {
         {/* MODAL DE CHAT */}
         <AnimatePresence>
           {showChatModal && (
-            <OrderChatModal 
-              orderId={order.order_id} 
-              onClose={() => setShowChatModal(false)} 
+            <OrderChatModal
+              orderId={order.order_id}
+              onClose={() => setShowChatModal(false)}
             />
           )}
         </AnimatePresence>
 
-        {/* 
-            BARRA DE ESTADO INFERIOR (Floating Status)
-            Para que el usuario no tenga que buscar el estado, lo fijamos abajo.
-            Es interactivo y visualmente muy potente.
-        */}
-        <div className={styles.bottomStatusBar}>
+        {/* BARRA DE ESTADO INFERIOR (Floating Status) — portal para escapar del overflow del dashboard */}
+        {createPortal(<div className={styles.bottomStatusBar}>
           <div className={styles.bottomStatusHeader}>
             <div className={styles.bottomStatusInfo}>
               <div className={styles.bottomStatusIcon}>
@@ -284,31 +281,30 @@ export default function OrderDetailClient({ order, config, session }) {
             </div>
           </div>
 
-          {/* Tracker horizontal compacto dentro de la barra flotante */}
           <div className={styles.horizontalTracker}>
             <div className={styles.horizontalLine}>
-              <div 
-                className={styles.horizontalProgress} 
+              <div
+                className={styles.horizontalProgress}
                 style={{ width: `${((statusInfo.step - 1) / (steps.length - 1)) * 100}%` }}
               />
             </div>
             {steps.map((step) => (
-              <div 
-                key={step.id} 
+              <div
+                key={step.id}
                 className={`${styles.miniStepWrapper} ${statusInfo.step >= step.id ? styles.miniStepActive : ''}`}
               >
                 <div className={styles.miniStepDot}>
-                  {statusInfo.step > step.id 
-                    ? <FaCircleCheck size={12} /> 
-                    : statusInfo.step === step.id 
-                      ? step.icon 
+                  {statusInfo.step > step.id
+                    ? <FaCircleCheck size={12} />
+                    : statusInfo.step === step.id
+                      ? step.icon
                       : step.id
                   }
                 </div>
               </div>
             ))}
           </div>
-        </div>
+        </div>, document.body)}
       </div>
     );
   }
@@ -523,10 +519,10 @@ export default function OrderDetailClient({ order, config, session }) {
       {/* MODAL DE VALORACIÓN */}
       <AnimatePresence>
         {reviewProduct && (
-          <ProductReviewModal 
-            product={reviewProduct} 
+          <ProductReviewModal
+            product={reviewProduct}
             orderId={order.order_id}
-            onClose={() => setReviewProduct(null)} 
+            onClose={() => setReviewProduct(null)}
           />
         )}
       </AnimatePresence>
