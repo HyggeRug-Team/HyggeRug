@@ -29,7 +29,8 @@ import {
   FaArrowRightFromBracket,
   FaGear,
   FaStar,
-  FaStore 
+  FaStore,
+  FaTag,
 } from "react-icons/fa6";
 import Logo from "@/components/ui/Logo/Logo";
 import LogoutButton from "@/components/ui/Buttons/LogoutButton/LogoutButton";
@@ -100,6 +101,7 @@ export function DashboardNav({ user }) {
         {
           title: "Sistema",
           links: [
+            { href: "/dashboard/admin/descuentos", icon: <FaTag size={18} />, label: "Códigos Descuento" },
             { href: "/dashboard/admin/ajustes", icon: <FaGear size={18} />, label: "Ajustes de Tienda" },
           ]
         }
