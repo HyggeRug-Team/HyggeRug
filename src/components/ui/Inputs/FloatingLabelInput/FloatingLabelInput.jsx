@@ -16,19 +16,31 @@
 import React from 'react';
 import styles from './FloatingLabelInput.module.css';
 
-const FloatingLabelInput = ({ type, id, name, value, onChange, placeholder, required, minLength, label }) => {
+const FloatingLabelInput = ({ type, id, name, value, onChange, placeholder, required, minLength, label, textarea, rows }) => {
   return (
     <div className={styles.inputGroup}>
-      <input
-        type={type}
-        id={id}
-        name={name}
-        value={value}
-        onChange={onChange}
-        placeholder={placeholder || " "}
-        required={required}
-        minLength={minLength}
-      />
+      {textarea ? (
+        <textarea
+          id={id}
+          name={name}
+          value={value}
+          onChange={onChange}
+          placeholder={placeholder || " "}
+          required={required}
+          rows={rows}
+        />
+      ) : (
+        <input
+          type={type}
+          id={id}
+          name={name}
+          value={value}
+          onChange={onChange}
+          placeholder={placeholder || " "}
+          required={required}
+          minLength={minLength}
+        />
+      )}
       <label htmlFor={id}>{label}</label>
     </div>
   );

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 258 100" width="258" height="100" role="img" aria-label="Hygge Rug">
+  <defs>
+    <style><![CDATA[
+      @import url('https://fonts.googleapis.com/css2?family=Rubik+Bubbles&family=Rubik:wght@900&display=swap');
+    ]]></style>
+  </defs>
+
+  <!-- Sombra desplazada estilo pop -->
+  <rect x="6" y="6" width="244" height="86" rx="4" fill="#FF0055"/>
+
+  <!-- Etiqueta de tela (fondo blanco) -->
+  <rect x="2" y="2" width="244" height="86" rx="4" fill="white" stroke="black" stroke-width="1"/>
+
+  <!-- Costura interior (efecto textil) -->
+  <rect x="4.5" y="4.5" width="239" height="81" rx="2.5" fill="none"
+        stroke="black" stroke-opacity="0.2" stroke-width="0.8" stroke-dasharray="4 3"/>
+
+  <!-- Texto principal HYGGE -->
+  <text x="124" y="51"
+        font-family="'Rubik Bubbles', cursive"
+        font-size="42"
+        text-anchor="middle"
+        fill="black">HYGGE</text>
+
+  <!-- Línea separadora -->
+  <line x1="18" y1="58" x2="230" y2="58" stroke="black" stroke-width="0.8"/>
+
+  <!-- Texto secundario RUG -->
+  <text x="121" y="73"
+        font-family="'Rubik', sans-serif"
+        font-weight="900"
+        font-size="13"
+        text-anchor="middle"
+        fill="#FF0055"
+        letter-spacing="5">RUG</text>
+
+  <!-- Hilo suelto decorativo (esquina superior derecha) -->
+  <path d="M 236 2 L 248 2 L 248 14"
+        fill="none"
+        stroke="#FF0055"
+        stroke-width="1.5"
+        stroke-opacity="0.6"
+        stroke-linecap="round"
+        stroke-linejoin="round"/>
+</svg>

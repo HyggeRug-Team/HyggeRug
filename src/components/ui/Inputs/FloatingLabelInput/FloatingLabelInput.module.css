@@ -7,16 +7,16 @@
   z-index: 0;
 }
 
-.inputGroup input {
+.inputGroup input,
+.inputGroup textarea {
   border: 2px dashed rgba(255, 255, 255, 0.1);
   background: rgba(44, 46, 51, 0.4);
   backdrop-filter: blur(5px);
-  height: 52px;                            
-  font-size: 1rem;                       
+  font-size: 1rem;
   padding: 0 16px;
   outline: none;
   width: 100%;
-  transition: 
+  transition:
     border-color 0.4s cubic-bezier(0.4, 0, 0.2, 1),
     background-color 0.4s cubic-bezier(0.4, 0, 0.2, 1),
     box-shadow 0.5s cubic-bezier(0.4, 0, 0.2, 1),
@@ -24,6 +24,18 @@
   z-index: 1;
   color: var(--primary-text);
   border-radius: 12px;
+  font-family: inherit;
+}
+
+.inputGroup input {
+  height: 52px;
+}
+
+.inputGroup textarea {
+  padding-top: 20px;
+  padding-bottom: 12px;
+  resize: vertical;
+  min-height: 120px;
 }
 
 .inputGroup label {
@@ -31,7 +43,7 @@
   left: 14px;
   top: 50%;
   transform: translateY(-50%);
-  transition: 
+  transition:
     top 0.4s cubic-bezier(0.4, 0, 0.2, 1),
     font-size 0.4s cubic-bezier(0.4, 0, 0.2, 1),
     color 0.4s cubic-bezier(0.4, 0, 0.2, 1),
@@ -39,16 +51,24 @@
     background-color 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   pointer-events: none;
   color: rgba(255, 255, 255, 0.5);
-  background-color: transparent; 
+  background-color: transparent;
   padding: 0 8px;
   z-index: 2;
   font-size: 0.95rem;
   border-radius: 4px;
 }
 
+/* En textarea el label arranca en la parte superior, no centrado */
+.inputGroup:has(textarea) label {
+  top: 18px;
+  transform: none;
+}
+
 /* EFECTO AVANZADO AL ENFOCAR */
 .inputGroup input:focus + label,
-.inputGroup input:not(:placeholder-shown) + label {
+.inputGroup input:not(:placeholder-shown) + label,
+.inputGroup textarea:focus + label,
+.inputGroup textarea:not(:placeholder-shown) + label {
   top: 0;
   font-size: 0.8rem;
   color: var(--hover-text);
@@ -58,8 +78,9 @@
   padding: 0 10px;
 }
 
-.inputGroup input:focus {
-  border-style: solid; 
+.inputGroup input:focus,
+.inputGroup textarea:focus {
+  border-style: solid;
   border-color: var(--hover-text);
   background: rgba(255, 255, 255, 0.08);
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
@@ -67,5 +88,6 @@
 }
 
 @media (max-width: 600px) {
-    .inputGroup input { height: 48px; font-size: 0.9rem; }
+  .inputGroup input { height: 48px; font-size: 0.9rem; }
+  .inputGroup textarea { font-size: 0.9rem; }
 }

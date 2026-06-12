@@ -107,7 +107,7 @@ export async function POST(req) {
             // Verificar points del usuario si el código los requiere
             if (code.hygge_points_cost) {
                 const [[userPoints]] = await conn.query(
-                    `SELECT hygge_points FROM users WHERE user_id = ?`,
+                    `SELECT hygge_points FROM users WHERE user_id = ? FOR UPDATE`,
                     [session.userId]
                 );
                 if (!userPoints || userPoints.hygge_points < code.hygge_points_cost) {

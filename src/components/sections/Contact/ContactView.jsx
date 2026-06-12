@@ -122,7 +122,7 @@ export default function ContactView({ socialLinks }) {
                                 <FaClock className={styles.infoIcon} />
                                 <div className={styles.infoText}>
                                     <h4>ATENCIÓN</h4>
-                                    <p>L-V: 09:00 - 18:00</p>
+                                    <p>Sin horario fijo, te respondemos lo antes posible</p>
                                 </div>
                             </div>
                         </div>

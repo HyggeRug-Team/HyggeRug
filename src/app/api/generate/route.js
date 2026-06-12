@@ -27,19 +27,22 @@ export async function POST(req) {
     // Revisamos si hay que resetear el ciclo semanal
     const resetAt = userData.ai_credits_reset_at ? new Date(userData.ai_credits_reset_at) : null;
     const oneWeekMs = 7 * 24 * 60 * 60 * 1000;
+    const needsReset = !resetAt || (now - resetAt) >= oneWeekMs;
 
-    if (!resetAt || (now - resetAt) >= oneWeekMs) {
-        await db.query(
-            'UPDATE users SET ai_credits_used = 0, ai_credits_reset_at = ? WHERE user_id = ?',
-            [now, user.userId]
-        );
-        userData.ai_credits_used = 0;
-    }
+    // Incremento atómico con condición: solo tiene éxito si el usuario tiene créditos disponibles.
+    // Esto elimina la race condition — no hay ventana entre "leer" e "incrementar".
+    const currentUsed = needsReset ? 0 : userData.ai_credits_used;
+    const [updateResult] = await db.query(
+        needsReset
+            ? 'UPDATE users SET ai_credits_used = 1, ai_credits_reset_at = ? WHERE user_id = ?'
+            : 'UPDATE users SET ai_credits_used = ai_credits_used + 1 WHERE user_id = ? AND ai_credits_used < ?',
+        needsReset ? [now, user.userId] : [user.userId, weeklyLimit]
+    );
 
-    // Bloqueamos si no le quedan créditos
-    if (userData.ai_credits_used >= weeklyLimit) {
+    if (updateResult.affectedRows === 0) {
         return NextResponse.json({ error: 'Weekly limit reached', success: false }, { status: 429 });
     }
+
     const data = await req.formData();
     const file = data.get("image");
     const userPrompt = data.get("prompt");
@@ -91,16 +94,17 @@ export async function POST(req) {
         if (!imagePart?.inlineData) {
             const textPart = parts.find((p) => p.text);
             console.warn("No image returned by Gemini:", textPart?.text);
+            // Gemini no devolvió imagen — devolvemos el crédito
+            await db.query(
+                'UPDATE users SET ai_credits_used = ai_credits_used - 1 WHERE user_id = ?',
+                [user.userId]
+            );
             return NextResponse.json(
                 { success: false, error: "Gemini did not return an image" },
                 { status: 500 }
             );
         }
-        // Añadimos un credito a la base de datos
-        await db.query(
-            'UPDATE users SET ai_credits_used = ai_credits_used + 1 WHERE user_id = ?',
-            [user.userId]
-        );
+
         return NextResponse.json({
             success: true,
             imageBase64: imagePart.inlineData.data,
@@ -109,6 +113,11 @@ export async function POST(req) {
 
     } catch (error) {
         console.error("Gemini error:", error.message);
+        // Error inesperado — devolvemos el crédito
+        await db.query(
+            'UPDATE users SET ai_credits_used = ai_credits_used - 1 WHERE user_id = ?',
+            [user.userId]
+        );
         return NextResponse.json(
             { success: false, error: error.message || "Generation failed" },
             { status: 500 }
