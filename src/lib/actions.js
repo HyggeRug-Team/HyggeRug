@@ -18,7 +18,7 @@
 import { db } from '@/lib/db'; 
 import { revalidatePath } from 'next/cache';
 import { getSession } from './auth';
-import { put } from '@vercel/blob';
+import { put, del } from '@vercel/blob';
 import { createTicket } from './db/support';
 import { createReturn } from './db/returns';
 import { createReview } from './db/reviews';
@@ -147,8 +147,15 @@ export async function uploadProfileImage(formData) {
             };
         }
 
+        // Leer la URL actual para borrarla de Blob después de subir la nueva
+        const [[currentUser]] = await db.query(
+            'SELECT profile_image FROM users WHERE user_id = ?', [userId]
+        );
+        const oldUrl = currentUser?.profile_image;
+
         // Nombre de archivo único usando ID de usuario y timestamp
-        const fileName = `avatars/user_${userId}_${Date.now()}_${file.name}`;
+        const ext = file.name.split('.').pop() || 'jpg';
+        const fileName = `avatars/user_${userId}_${Date.now()}.${ext}`;
 
         // Subimos directamente el archivo a Vercel Blob
         const blob = await put(fileName, file, {
@@ -160,6 +167,13 @@ export async function uploadProfileImage(formData) {
         // Guardamos en BBDD
         const query = 'UPDATE users SET profile_image = ? WHERE user_id = ?';
         await db.query(query, [publicUrl, userId]);
+
+        // Borrar el avatar anterior de Vercel Blob si era un archivo nuestro
+        if (oldUrl?.includes('vercel-storage.com')) {
+            await del(oldUrl).catch(err =>
+                console.warn('[uploadProfileImage] No se pudo borrar el avatar anterior:', err)
+            );
+        }
 
         revalidatePath('/dashboard', 'layout');
         return { success: true, url: publicUrl };
