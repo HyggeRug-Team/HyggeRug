@@ -4,6 +4,7 @@ import { NextResponse } from 'next/server';
 import { getSession } from '@/lib/auth';
 import { db } from '@/lib/db';
 import { getConfigValue } from '@/lib/db/config';
+import { sendNewOrderNotification } from '@/lib/mailer';
 
 export async function POST(req) {
     const session = await getSession();
@@ -150,6 +151,18 @@ export async function POST(req) {
         );
 
         await conn.commit();
+
+        // Notificación al taller — fuera de la transacción para no bloquearla
+        const [[customer]] = await db.query(
+            'SELECT nickname, email FROM users WHERE user_id = ?', [session.userId]
+        );
+        sendNewOrderNotification({
+            orderId,
+            totalAmount,
+            customerNickname: customer?.nickname || 'Cliente',
+            customerEmail:    customer?.email    || '',
+        }).catch(err => console.error('[confirm] Error enviando notificación de pedido:', err));
+
         return NextResponse.json({ success: true, orderId });
 
     } catch (error) {

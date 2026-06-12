@@ -240,6 +240,84 @@ export async function sendWelcomeEmail(toEmail, nickname) {
 }
 
 /**
+ * NOTIFICA AL TALLER DE UN NUEVO PEDIDO
+ */
+export async function sendNewOrderNotification({ orderId, totalAmount, customerNickname, customerEmail }) {
+  const adminEmail = process.env.EMAIL_USER;
+  const orderUrl = `https://hyggerug.com/dashboard/admin/pedidos/${orderId}`;
+
+  const html = `
+    <div style="font-family:'Helvetica Neue',Helvetica,Arial,sans-serif; background:#F0F0F0; padding:40px 10px;">
+      <table width="600" style="background:#FFFFFF; border-radius:16px; border:1px solid #DDDDDD; overflow:hidden; max-width:600px; margin:0 auto;">
+
+        <tr>
+          <td style="background:#FF0055; padding:28px 40px; text-align:center;">
+            <table border="0" cellspacing="0" cellpadding="0" style="margin:0 auto;">
+              <tr>
+                <td style="background:#FFFFFF; border-radius:10px; border:2px dashed #DDDDDD; padding:12px 28px;">
+                  <p style="margin:0; font-size:26px; font-weight:900; letter-spacing:2px; color:#111111; line-height:1;">HYGGE</p>
+                  <p style="margin:4px 0 0 0; font-size:11px; font-weight:700; letter-spacing:7px; color:#FF0055; border-top:2px solid #111111; padding-top:4px;">RUG</p>
+                </td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+
+        <tr>
+          <td style="padding:36px 48px 28px;">
+            <p style="margin:0 0 6px 0; font-size:11px; font-weight:700; letter-spacing:2px; text-transform:uppercase; color:#FF0055;">Nuevo pedido recibido</p>
+            <h1 style="margin:0; font-size:26px; font-weight:900; color:#111111;">Pedido #${orderId}</h1>
+          </td>
+        </tr>
+
+        <tr>
+          <td style="padding:0 48px 32px;">
+            <table width="100%" style="background:#F7F7F7; border-radius:12px; border:1px solid #EEEEEE;">
+              <tr>
+                <td style="padding:20px 24px; border-bottom:1px solid #EEEEEE;">
+                  <p style="margin:0; font-size:11px; text-transform:uppercase; letter-spacing:1.5px; color:#999999;">Cliente</p>
+                  <p style="margin:6px 0 0 0; font-size:15px; font-weight:700; color:#111111;">${customerNickname}</p>
+                  <p style="margin:2px 0 0 0; font-size:13px; color:#666666;">${customerEmail}</p>
+                </td>
+              </tr>
+              <tr>
+                <td style="padding:20px 24px;">
+                  <p style="margin:0; font-size:11px; text-transform:uppercase; letter-spacing:1.5px; color:#999999;">Total del pedido</p>
+                  <p style="margin:6px 0 0 0; font-size:24px; font-weight:900; color:#111111;">${parseFloat(totalAmount).toFixed(2).replace('.', ',')}€</p>
+                </td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+
+        <tr>
+          <td style="padding:0 48px 40px; text-align:center;">
+            <a href="${orderUrl}"
+              style="background:#111111; color:#FFFFFF; text-decoration:none; font-size:13px; font-weight:700; letter-spacing:1px; text-transform:uppercase; padding:14px 32px; border-radius:8px; display:inline-block;">
+              Ver pedido en el panel
+            </a>
+          </td>
+        </tr>
+
+        <tr>
+          <td style="background:#F7F7F7; border-top:1px solid #EEEEEE; padding:24px 48px; text-align:center;">
+            <p style="margin:0; font-size:12px; color:#999999;">Hygge Rug · Madrid, España</p>
+          </td>
+        </tr>
+
+      </table>
+    </div>
+  `;
+
+  return transporter.sendMail({
+    from: `"HYGGE RUG" <${adminEmail}>`,
+    to: adminEmail,
+    subject: `🧶 Nuevo pedido #${orderId} — ${parseFloat(totalAmount).toFixed(2).replace('.', ',')}€`,
+    html,
+  });
+}
+
+/**
  * ENVÍA UN EMAIL DE CONTACTO AL TALLER
  * Hemos creado este helper para que el equipo reciba las dudas de los clientes
  * directamente en el correo corporativo con un formato limpio y ordenado.
