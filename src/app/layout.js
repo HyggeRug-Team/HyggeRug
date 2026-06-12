@@ -21,6 +21,7 @@ import { Plus_Jakarta_Sans } from 'next/font/google';
 import localFont from 'next/font/local';
 import './globals.css';
 import { SpeedInsights } from "@vercel/speed-insights/next"
+import { Analytics } from "@vercel/analytics/next"
 
 import SilkBackground from '@/components/layout/SilkBackground/SilkBackgroundWrapper';
 import GlobalBackgroundText from '@/components/layout/GlobalBackgroundText/GlobalBackgroundText';
@@ -106,6 +107,7 @@ export default function RootLayout({ children }) {
               {children}
             </CartProvider>
             <SpeedInsights/>
+            <Analytics/>
           </main>
 
           <CookiesBanner />
